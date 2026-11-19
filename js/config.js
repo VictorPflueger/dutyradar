@@ -55,6 +55,20 @@ export const AGENT = {
   maxOutputTokens: 128000
 };
 
+// The run defaults of config/run.json (tests/unit.mjs checks that both agree); Assumptions & diagnostics
+// can change them for one session.
+export const RUN_DEFAULTS = Object.freeze({
+  max_model_calls: 40,
+  max_cost_eur: 3,
+  orchestrator_model: "claude-sonnet-5-5",
+  classifier_model: "claude-haiku-5-5",
+  drafting_model: "claude-sonnet-5-5",
+  orchestrator_effort: "medium",
+  classifier_effort: "low",
+  max_tokens_orchestrator: 16000,
+  max_tokens_subcall: 8000
+});
+
 // ECB reference rate on 12 Oct 2026, as in the sister apps (the specification's 0.92 is replaced by
 // the brief). Fixed for a stable cost meter; shown read-only in Assumptions & diagnostics.
 export const FX_USD_EUR = 0.894;

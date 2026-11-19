@@ -147,6 +147,16 @@
   "cluster": {
    "fallzahl": "Case number of the cluster",
    "ea_annual": "Annual compliance cost of the cluster"
+  },
+  "kpi": {
+   "duties_confirmed": "Duties inventoried (confirmed)",
+   "reporting_share": "Share of reporting duties removed in the slice",
+   "reporting_attainment": "Reporting duties in the slice against the −⅓ benchmark",
+   "documentation_share": "Share of documentation duties removed in the slice",
+   "documentation_attainment": "Documentation duties in the slice against the −½ benchmark",
+   "ea_addressed": "Compliance cost addressed by approved options",
+   "ea_pending": "Compliance cost in open proposals",
+   "clusters_found": "Clusters of duplicate data requests found"
   }
  },
  "sim": {
@@ -430,5 +440,49 @@
   "starting": "Starting the workspace…",
   "failed_module": "A program file failed to load. Check that the js/ folder was deployed completely.",
   "failed_data": "A data file failed to load. Check that the data/ and js/i18n/ folders were deployed completely."
+ },
+ "report": {
+  "inventory": "Duty Radar inventoried {duties} duties in this slice and found {clusters} clusters of duplicate data requests.",
+  "approved": "The reviewer approved relief of {ea} in compliance cost per year; in the slice this removes {reporting} of the reporting duties and {documentation} of the documentation duties.",
+  "none": "No relief option was approved in this run.",
+  "kept": "Kept duties are listed in the dossier with their justification.",
+  "capped_calls": "The run reached its limit of model calls; open items stay open.",
+  "capped_cost": "The run reached its cost limit; open items stay open.",
+  "close": "Nothing is sent."
+ },
+ "error": {
+  "decision": {
+   "unknown_option": "This option does not exist.",
+   "unknown_decision": "Unknown decision.",
+   "target_decided": "Target decided: an option for this target is already approved.",
+   "not_open": "This option is not open for a decision ({status}).",
+   "reason_required": "Please choose a reason code.",
+   "reason_not_allowed": "Code {reason_code} does not fit this decision; allowed: {allowed}.",
+   "comment_required": "Code {reason_code} needs a comment.",
+   "comment_too_long": "The comment has more than {max} characters.",
+   "unknown_cluster": "This cluster does not exist.",
+   "cluster_reviewed": "This cluster has already been reviewed.",
+   "split_members": "Please separate at least one member, but not all.",
+   "unknown_action": "Unknown action."
+  }
+ },
+ "notice": {
+  "cut_tool_call": "The response stopped in the middle of a tool call; it is discarded and retried with more room.",
+  "soft_limit": "The budget is nearly used: the agent requests the open decisions and wraps up.",
+  "refusal": "The model declined the request; the run ends.",
+  "context_full": "The conversation filled the model's context window; the run ends.",
+  "nudge": "The agent paused before finishing the plan; Duty Radar asked it to continue.",
+  "incomplete": "The agent stopped twice before the closing report; the run ends incomplete.",
+  "aborted": "Stopped by the user.",
+  "retry": "The API reported a transient problem; retrying in {seconds} s (attempt {attempt} of 2).",
+  "cap_calls": "The limit of model calls is reached; the run ends with the closing report.",
+  "cap_cost": "The cost limit is reached; the run ends with the closing report.",
+  "error": "The run stopped because of an unexpected error: {message}",
+  "key_rejected": "Key rejected: Anthropic rejected the API key (401). It has been removed from this tab.",
+  "spend_limit": "The API key has reached its spend limit or has no credit. The Simulation still runs offline.",
+  "model_unavailable": "This model is not available to the API key. Please choose another.",
+  "bad_request": "The API refused the request (400): {message}",
+  "network": "The API cannot be reached from this browser: {message}",
+  "busy": "The API is busy right now, even after two retries. Try again later or use the Simulation."
  }
 }

@@ -13,6 +13,7 @@ import { ROOT, loadBundled } from "./lib/data-node.mjs";
 const memoryStorage = () => { const m = new Map(); return { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k), clear: () => m.clear(), key: (i) => [...m.keys()][i] ?? null, get length() { return m.size; } }; };
 globalThis.sessionStorage = memoryStorage();
 globalThis.localStorage = memoryStorage();
+globalThis.location = { search: "" };
 
 const { loadI18n } = await import("../js/i18n.js");
 const { createRunState } = await import("../js/state.js");

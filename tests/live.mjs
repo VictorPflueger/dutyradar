@@ -22,6 +22,7 @@ const memoryStorage = () => {
 };
 globalThis.sessionStorage = memoryStorage();
 globalThis.localStorage = memoryStorage();
+globalThis.location = { search: "" };
 
 const { bus } = await import("../js/events.js");
 const { loadI18n } = await import("../js/i18n.js");
@@ -110,7 +111,7 @@ if (want("loop")) {
   begin();
   // A tool call cut off by max_tokens is discarded and retried once with half as much room again.
   const cut = await liveRun([
-    { blocks: [text("Ich liste."), toolUse("tu_1", "law_list", { slice_id: "slice-mini" })], stop: "max_tokens", cut: 1, discard: true },
+    { blocks: [text("Ich suche."), toolUse("tu_1", "law_search", { query: "zu melden oder anzuzeigen", limit: 5 })], stop: "max_tokens", cut: 1, discard: true },
     { blocks: [toolUse("tu_1b", "law_list", { slice_id: "slice-mini" })], stop: "tool_use", expect: (req, { check: c }) => c(req.max_tokens === 24000, `max_tokens ${req.max_tokens} after the retry`) },
     { blocks: [toolUse("tu_2", "ui_report", { text: "Done for {{cite:beispielg-p20}}." })], stop: "tool_use" },
     { blocks: [text("Ende.")], stop: "end_turn" }
