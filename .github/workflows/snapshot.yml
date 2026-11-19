@@ -34,11 +34,24 @@ jobs:
           node-version: 22
       - run: npm ci
 
+      - name: Reach the hosts (diagnostics only)
+        continue-on-error: true
+        run: |
+          getent ahosts www.gesetze-im-internet.de || true
+          for v in -4 -6; do
+            curl $v -sS -o /dev/null --connect-timeout 30 --max-time 90 -w "gesetze-im-internet.de $v: HTTP %{http_code}, %{remote_ip}, %{time_connect}s connect, %{size_download} bytes\n" https://www.gesetze-im-internet.de/gii-toc.xml || echo "gesetze-im-internet.de $v: failed"
+          done
+          curl -sS -o /dev/null --connect-timeout 30 --max-time 90 -w "http://www.gesetze-im-internet.de: HTTP %{http_code}, %{remote_ip}\n" http://www.gesetze-im-internet.de/gii-toc.xml || echo "http: failed"
+          curl -sS -o /dev/null --connect-timeout 30 --max-time 90 -w "www.destatis.de: HTTP %{http_code}, %{remote_ip}\n" "$GUIDE_URL" || echo "destatis: failed"
+          curl -sS -o /dev/null --connect-timeout 30 --max-time 90 -w "www.ondea.de: HTTP %{http_code}, %{remote_ip}\n" https://www.ondea.de/ || echo "ondea: failed"
+
       - name: Probe the sources (raw law texts, the cost guide, OnDEA)
         if: github.ref_name == 'snapshot/probe'
+        env:
+          NODE_OPTIONS: --dns-result-order=ipv4first
         run: |
-          node tools/snapshot-laws.mjs --raw-only --raw-out raw/laws
-          mkdir -p raw/sources
+          mkdir -p raw/laws raw/sources
+          node tools/snapshot-laws.mjs --raw-only --raw-out raw/laws || echo "The law download failed; see the log" > raw/laws/error.txt
           # The cost guide (Destatis, February 2026): its text for the wage and time tables.
           if curl -fsSL --max-time 120 -A "dutyradar-snapshot (GitHub Actions)" -o guide.pdf "$GUIDE_URL"; then
             sha256sum guide.pdf > raw/sources/leitfaden-2026.sha256
