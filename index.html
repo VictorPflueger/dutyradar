@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The browser enforces where this page may connect: its own files, the Claude API in Live mode and
+       a configured sovereign endpoint in Sovereign mode (set by tools/set-csp.mjs; TECH_NOTES §4).
+       Scripts, styles, fonts and images come from this site only. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.anthropic.com; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Duty Radar inventories the reporting and documentation duties in a slice of federal law, finds duties that ask for the same data, prices them with the federal compliance-cost method and drafts relief options that a person approves, measured against the PflichtenLichten benchmarks.">
+  <title>Duty Radar — Find, cluster and price duties</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- The look comes from Victor's design system Vici, copied unchanged into vici/ (vici/README.md).
+       It sits in cascade layers, so the app's own stylesheets below refine it without !important. -->
+  <link rel="stylesheet" href="vici/dist/vici.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/console.css">
+  <link rel="stylesheet" href="css/drawer.css">
+  <link rel="stylesheet" href="css/modals.css">
+  <link rel="stylesheet" href="css/app.css">
+
+  <!-- The theme before the page is drawn (light unless the visitor chose dark), then Vici's script. -->
+  <script src="js/theme.js"></script>
+  <script src="vici/dist/vici.js" defer></script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body class="app-shell">
+  <a class="vc-skip-link skip-link" href="#console" data-i18n="skip.console">Skip to the agent console</a>
+
+  <header class="app-header">
+    <div class="brand">
+      <span class="vc-cell vc-cell--lilac" aria-hidden="true"><span class="vc-icon vc-icon--filter"></span></span>
+      <div class="brand-text">
+        <span data-i18n="app.name" class="brand-name">Duty Radar</span>
+        <span class="brand-sub" data-i18n="app.subtitle">Find, cluster and price duties</span>
+      </div>
+    </div>
+
+    <div class="header-badges">
+      <span id="mode-badge" class="vc-tag mode-badge" data-mode="none" role="status" aria-live="polite" data-i18n="mode.none" data-i18n-attr="title:mode.hint" title="Choose a mode with Start agent.">No run active</span>
+      <span class="vc-tooltip-anchor">
+        <button type="button" id="btn-intro" class="vc-button vc-button--ghost about-btn" aria-labelledby="tip-intro"><span class="vc-icon vc-icon--help" aria-hidden="true"></span><span class="btn-text" data-i18n="intro.button">How it works</span></button>
+        <span class="vc-tooltip vc-tooltip--bottom" role="tooltip" id="tip-intro" data-i18n="intro.button">How it works</span>
+      </span>
+      <!-- Vici's theme toggle (vici.js switches the theme and remembers the choice). -->
+      <span class="vc-tooltip-anchor">
+        <button type="button" class="vc-icon-button theme-toggle" data-vc-theme-toggle aria-labelledby="tip-theme"><span class="vc-icon vc-icon--moon vc-when-light" aria-hidden="true"></span><span class="vc-icon vc-icon--sun vc-when-dark" aria-hidden="true"></span></button>
+        <span class="vc-tooltip vc-tooltip--bottom" role="tooltip" id="tip-theme" data-i18n="theme.toggle">Light or dark theme</span>
+      </span>
+      <!-- The language switch: English first, German one click away (js/i18n.js). -->
+      <span class="lang-switch" role="group" aria-label="Language" data-i18n-attr="aria-label:lang.label">
+        <button type="button" class="lang-option" data-lang="en" aria-pressed="true" lang="en" title="English">EN</button>
+        <button type="button" class="lang-option" data-lang="de" aria-pressed="false" lang="de" title="Deutsch">DE</button>
+      </span>
+    </div>
+
+    <!-- The two disclosure lines: the AI system, and that this is a prototype. -->
+    <div class="disclosure">
+      <span class="vc-tag vc-tag--feature ai-disclosure">
+        <span class="vc-icon vc-icon--sparkle" aria-hidden="true"></span>
+        <span data-i18n="disclosure.ai">You are interacting with an AI system.</span>
+      </span>
+      <span class="proto-disclosure" data-i18n="disclosure.proto">Prototype – not an official federal government service</span>
+    </div>
+
+    <div id="kpis" class="kpis" role="group" aria-label="Key figures of the run" data-i18n-attr="aria-label:kpis.label"></div>
+  </header>
+
+  <nav id="controls" class="controls" aria-label="Run controls" data-i18n-attr="aria-label:controls.label"></nav>
+
+  <main class="workspace">
+    <!-- The centrepiece: the start view, then the duty map and the duplicates board. -->
+    <section class="map-panel" aria-labelledby="centre-title">
+      <div id="centre" class="centre"></div>
+    </section>
+    <section id="console" class="console-panel" aria-label="Agent console" data-i18n-attr="aria-label:console.title" tabindex="-1"></section>
+  </main>
+
+  <section id="drawer" class="drawer" aria-label="Options, outbox and audit log"></section>
+
+  <div id="banners" class="banner-stack"></div>
+
+  <!-- Boot screen: removed by js/main.js once the workspace is running. Without JavaScript modules
+       (for example when opened from disk via file://) it stays and explains what to do. -->
+  <div id="boot" class="boot" data-state="loading">
+    <div class="boot-card">
+      <div class="boot-brand">
+        <span class="vc-cell vc-cell--lilac vc-cell--xl" aria-hidden="true"><span class="vc-icon vc-icon--filter"></span></span>
+        <span class="brand-name">Duty Radar</span>
+      </div>
+      <p class="boot-status" role="status" aria-live="polite"><span class="vc-spinner" aria-hidden="true"></span><span id="boot-status" data-i18n-attr="data-loading-data:boot.loading_data;data-starting:boot.starting;data-failed-module:boot.failed_module;data-failed-data:boot.failed_data" data-loading-strings="Loading the strings…" data-loading-data="Loading the law snapshot…" data-starting="Starting the workspace…" data-failed-module="A program file failed to load. Check that the js/ folder was deployed completely." data-failed-data="A data file failed to load. Check that the data/ and js/i18n/ folders were deployed completely.">Starting Duty Radar…</span></p>
+      <p id="boot-detail" class="vc-alert vc-alert--danger boot-detail" hidden></p>
+      <div class="boot-help">
+        <p>Still on this screen? Duty Radar has to be served over http or https. Browsers block its program modules and data files when <code>index.html</code> is opened straight from disk, at an address starting with <code>file://</code>.</p>
+        <p>To run it on your computer, open a terminal in this folder, run <code>npm run serve</code> (or <code>python -m http.server 8080</code>), then open <code>http://localhost:8080</code>. Published on GitHub Pages, it works as is. Use a current Chrome, Edge, Firefox or Safari.</p>
+      </div>
+      <noscript><p class="boot-detail">Duty Radar needs JavaScript. Allow it for this site and reload the page.</p></noscript>
+    </div>
+  </div>
+</body>
+</html>

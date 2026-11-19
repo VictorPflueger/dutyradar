@@ -1,0 +1,34 @@
+[
+ {
+  "duty_id": "D-milog-p16-1",
+  "user": "Prüfbehörde der Zollverwaltung (Beispiel)",
+  "user_en": "Customs inspection authority (example)",
+  "purpose": "Prüfplanung",
+  "purpose_en": "Inspection planning",
+  "synthetic": true
+ },
+ {
+  "duty_id": "D-kostrukstatg-p5-1",
+  "user": "Statistikamt (Beispiel)",
+  "user_en": "Statistics office (example)",
+  "purpose": "Kostenstrukturstatistik",
+  "purpose_en": "Cost structure statistics",
+  "synthetic": true
+ },
+ {
+  "duty_id": "D-verdstatg-p8-1",
+  "user": "Statistikamt (Beispiel)",
+  "user_en": "Statistics office (example)",
+  "purpose": "Verdienststatistik",
+  "purpose_en": "Earnings statistics",
+  "synthetic": true
+ },
+ {
+  "duty_id": "D-enstatg_2017-p10-1",
+  "user": "Statistikamt (Beispiel)",
+  "user_en": "Statistics office (example)",
+  "purpose": "Energiebilanzen",
+  "purpose_en": "Energy balances",
+  "synthetic": true
+ }
+]

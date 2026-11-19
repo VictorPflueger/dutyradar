@@ -1,0 +1,34 @@
+{
+  "note": "The specification's golden cases G1 to G8, copied unchanged; the parameters are illustrative test inputs, not official values. expect_en adds the English display strings of the brief (section 5.5), compared like the German ones after replacing non-breaking spaces with normal spaces.",
+  "golden_cases": [
+    { "id": "G1", "note": "Periodic business reporting duty", "kind": "duty", "addressee": "wirtschaft", "population_units": 10000, "frequency_per_year": 4, "minutes_per_case": 45, "wage_eur_per_hour": 40.0, "material_eur_per_case": 0.5,
+      "expect": { "fallzahl": 40000, "personnel_eur": 1200000, "material_eur": 20000, "ea_annual_eur": 1220000, "display_ea_annual_eur": "1.220.000 €" },
+      "expect_en": { "display_ea_annual_eur": "€1,220,000" } },
+    { "id": "G2", "note": "Event-driven business documentation duty", "kind": "duty", "addressee": "wirtschaft", "cases_per_year": 250000, "minutes_per_case": 6, "wage_eur_per_hour": 40.0, "material_eur_per_case": 0,
+      "expect": { "fallzahl": 250000, "personnel_eur": 1000000, "material_eur": 0, "ea_annual_eur": 1000000 } },
+    { "id": "G3", "note": "Merge two quarterly reports to the same businesses", "kind": "merge",
+      "duties": [
+        { "addressee": "wirtschaft", "population_units": 10000, "frequency_per_year": 4, "minutes_per_case": 45, "wage_eur_per_hour": 40.0, "material_eur_per_case": 0.5 },
+        { "addressee": "wirtschaft", "population_units": 10000, "frequency_per_year": 4, "minutes_per_case": 30, "wage_eur_per_hour": 40.0, "material_eur_per_case": 0.5, "overlap_share_with_lead": 0.6 }
+      ],
+      "expect": { "sum_before_eur": 2040000, "merged_minutes": 57, "ea_merged_eur": 1540000, "delta_eur": -500000, "duty_count_delta": -1, "display_delta_eur": "-500.000 €" },
+      "expect_en": { "display_delta_eur": "-€500,000" } },
+    { "id": "G4", "note": "Replace the G1 duty by a register retrieval", "kind": "register_retrieval",
+      "duty": { "addressee": "wirtschaft", "population_units": 10000, "frequency_per_year": 4, "minutes_per_case": 45, "wage_eur_per_hour": 40.0, "material_eur_per_case": 0.5 },
+      "admin_minutes_per_case": 2, "admin_wage_eur_per_hour": 45.0, "one_off_eur": 250000,
+      "expect": { "business_delta_eur": -1220000, "admin_annual_eur": 60000, "net_annual_delta_eur": -1160000, "one_off_eur": 250000, "duty_count_delta": -1 } },
+    { "id": "G5", "note": "Lower the second G3 duty from quarterly to yearly", "kind": "lower_frequency",
+      "duty": { "addressee": "wirtschaft", "population_units": 10000, "frequency_per_year": 4, "minutes_per_case": 30, "wage_eur_per_hour": 40.0, "material_eur_per_case": 0.5 },
+      "new_frequency_per_year": 1,
+      "expect": { "ea_before_eur": 820000, "ea_after_eur": 205000, "delta_eur": -615000, "duty_count_delta": 0 } },
+    { "id": "G6", "note": "Citizen duty: hours and material cost only", "kind": "duty", "addressee": "buerger", "cases_per_year": 50000, "minutes_per_case": 20, "material_eur_per_case": 2,
+      "expect": { "fallzahl": 50000, "hours": 16666.667, "material_eur": 100000, "display_hours": "16.667 Std." },
+      "expect_en": { "display_hours": "16,667 h" } },
+    { "id": "G7", "note": "Slice coverage after approvals", "kind": "coverage", "reporting_total": 30, "reporting_removed": 9, "documentation_total": 20, "documentation_removed": 8,
+      "expect": { "reporting_share": 0.3, "reporting_target_attainment": 0.9, "documentation_share": 0.4, "documentation_target_attainment": 0.8, "display_reporting_share": "30,0 %", "display_documentation_target_attainment": "80,0 %" },
+      "expect_en": { "display_reporting_share": "30.0%", "display_documentation_target_attainment": "80.0%" } },
+    { "id": "G8", "note": "Delete the second G3 duty", "kind": "delete",
+      "duty": { "addressee": "wirtschaft", "population_units": 10000, "frequency_per_year": 4, "minutes_per_case": 30, "wage_eur_per_hour": 40.0, "material_eur_per_case": 0.5 },
+      "expect": { "delta_eur": -820000, "duty_count_delta": -1 } }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "max_model_calls": 40,
+  "max_cost_eur": 3,
+  "orchestrator_model": "claude-sonnet-5-5",
+  "classifier_model": "claude-haiku-5-5",
+  "drafting_model": "claude-sonnet-5-5",
+  "orchestrator_effort": "medium",
+  "classifier_effort": "low",
+  "max_tokens_orchestrator": 16000,
+  "max_tokens_subcall": 8000
+}

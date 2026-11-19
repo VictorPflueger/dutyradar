@@ -1,0 +1,50 @@
+[
+ {
+  "id": "reg-unternehmensstammdaten",
+  "label": "Unternehmensstammdaten",
+  "label_en": "Company master data",
+  "items": [
+   "unternehmensstammdaten",
+   "beschaeftigte",
+   "umsatz",
+   "branche",
+   "steuernummer"
+  ],
+  "availability": "simuliert"
+ },
+ {
+  "id": "reg-beschaeftigung",
+  "label": "Beschäftigungsmeldungen",
+  "label_en": "Employment notifications",
+  "items": [
+   "arbeitnehmer_identitaet",
+   "beschaeftigungsort",
+   "beschaeftigungsdauer",
+   "unternehmensstammdaten"
+  ],
+  "availability": "simuliert"
+ },
+ {
+  "id": "reg-energieanlagen",
+  "label": "Energieanlagen",
+  "label_en": "Energy installations",
+  "items": [
+   "unternehmensstammdaten",
+   "energieerzeugung"
+  ],
+  "availability": "simuliert"
+ },
+ {
+  "id": "reg-herstellerregister",
+  "label": "Herstellerregister",
+  "label_en": "Producer register",
+  "items": [
+   "unternehmensstammdaten",
+   "registriernummer",
+   "verpackungsmengen",
+   "geraetemengen",
+   "batteriemengen"
+  ],
+  "availability": "simuliert"
+ }
+]

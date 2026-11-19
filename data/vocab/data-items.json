@@ -1,0 +1,219 @@
+{
+ "version": 1,
+ "items": [
+  {
+   "id": "unternehmensstammdaten",
+   "label": "Unternehmensstammdaten",
+   "label_en": "Company master data",
+   "synonyms": [
+    "Name und Anschrift des Unternehmens",
+    "Firma",
+    "Rechtsform",
+    "Sitz",
+    "Name und Anschrift der Erhebungseinheit",
+    "Name, Anschrift und Kontaktdaten des Herstellers",
+    "Familienname, Vorname oder Firma sowie Anschrift des Arbeitgebers"
+   ],
+   "core": true
+  },
+  {
+   "id": "beschaeftigte",
+   "label": "Zahl der Beschäftigten",
+   "label_en": "Number of persons employed",
+   "synonyms": [
+    "Beschäftigtenzahl",
+    "Zahl der Arbeitnehmer",
+    "tätige Personen",
+    "Zahl der tätigen Personen"
+   ],
+   "core": true
+  },
+  {
+   "id": "umsatz",
+   "label": "Umsatz",
+   "label_en": "Turnover",
+   "synonyms": [
+    "Umsatzerlöse",
+    "Umsatz aus Lieferungen und Leistungen"
+   ],
+   "core": true
+  },
+  {
+   "id": "energieverbrauch",
+   "label": "Energieverbrauch",
+   "label_en": "Energy consumption",
+   "synonyms": [
+    "Verbrauch an Energieträgern",
+    "Strom- und Gasverbrauch",
+    "energetische Verwendung der Energieträger"
+   ],
+   "core": true
+  },
+  {
+   "id": "arbeitszeit",
+   "label": "Arbeitszeiten",
+   "label_en": "Working time",
+   "synonyms": [
+    "Beginn, Ende und Dauer der täglichen Arbeitszeit",
+    "Arbeitszeitnachweis",
+    "über die werktägliche Arbeitszeit hinausgehende Arbeitszeit"
+   ],
+   "core": false
+  },
+  {
+   "id": "arbeitnehmer_identitaet",
+   "label": "Angaben zu den Arbeitnehmern",
+   "label_en": "Details of the employees",
+   "synonyms": [
+    "Familienname, Vorname und Geburtsdatum der Arbeitnehmer",
+    "Name, Vorname und Geburtsdatum"
+   ],
+   "core": false
+  },
+  {
+   "id": "beschaeftigungsort",
+   "label": "Ort der Beschäftigung",
+   "label_en": "Place of employment",
+   "synonyms": [
+    "Ort der Beschäftigung",
+    "Einsatzort",
+    "Baustelle"
+   ],
+   "core": false
+  },
+  {
+   "id": "beschaeftigungsdauer",
+   "label": "Beginn und Dauer der Beschäftigung",
+   "label_en": "Start and duration of employment",
+   "synonyms": [
+    "Beginn und voraussichtliche Dauer der Beschäftigung",
+    "Dauer der Werk- oder Dienstleistung"
+   ],
+   "core": false
+  },
+  {
+   "id": "branche",
+   "label": "Branche",
+   "label_en": "Sector",
+   "synonyms": [
+    "Branche",
+    "Wirtschaftszweig",
+    "Gegenstand des Gewerbes"
+   ],
+   "core": true
+  },
+  {
+   "id": "arbeitsentgelt",
+   "label": "Bruttolöhne und -gehälter",
+   "label_en": "Gross wages and salaries",
+   "synonyms": [
+    "Summe der Bruttolöhne und -gehälter",
+    "Lohn- und Gehaltssumme",
+    "Arbeitsverdienste"
+   ],
+   "core": true
+  },
+  {
+   "id": "arbeitsstunden",
+   "label": "Geleistete Arbeitsstunden",
+   "label_en": "Hours worked",
+   "synonyms": [
+    "Arbeitsstunden",
+    "bezahlte Arbeitsstunden"
+   ],
+   "core": false
+  },
+  {
+   "id": "investitionen",
+   "label": "Investitionen",
+   "label_en": "Investment",
+   "synonyms": [
+    "Bruttozugänge an Sachanlagen",
+    "Investitionen"
+   ],
+   "core": false
+  },
+  {
+   "id": "produktion",
+   "label": "Produktion",
+   "label_en": "Production",
+   "synonyms": [
+    "Menge und Wert der zum Absatz bestimmten Produktion",
+    "Produktionsmenge"
+   ],
+   "core": false
+  },
+  {
+   "id": "warenverkehr",
+   "label": "Angaben zum Warenverkehr",
+   "label_en": "Details of the movement of goods",
+   "synonyms": [
+    "Warennummer",
+    "Menge und Wert der Waren",
+    "Versendungs- und Bestimmungsmitgliedstaat"
+   ],
+   "core": false
+  },
+  {
+   "id": "energieerzeugung",
+   "label": "Energieerzeugung",
+   "label_en": "Energy generation",
+   "synonyms": [
+    "Menge der erzeugten Elektrizität",
+    "Nettonennleistung der Anlagen",
+    "erzeugte Wärme"
+   ],
+   "core": false
+  },
+  {
+   "id": "verpackungsmengen",
+   "label": "In Verkehr gebrachte Verpackungen",
+   "label_en": "Packaging placed on the market",
+   "synonyms": [
+    "Materialart und Masse der Verpackungen",
+    "Masse der Verpackungen"
+   ],
+   "core": false
+  },
+  {
+   "id": "geraetemengen",
+   "label": "In Verkehr gebrachte Geräte",
+   "label_en": "Equipment placed on the market",
+   "synonyms": [
+    "Menge der in Verkehr gebrachten Elektro- und Elektronikgeräte",
+    "Geräteart und Gewicht"
+   ],
+   "core": false
+  },
+  {
+   "id": "batteriemengen",
+   "label": "In Verkehr gebrachte Batterien",
+   "label_en": "Batteries placed on the market",
+   "synonyms": [
+    "Batteriekategorie und Masse der Batterien"
+   ],
+   "core": false
+  },
+  {
+   "id": "registriernummer",
+   "label": "Registrierungsnummer",
+   "label_en": "Registration number",
+   "synonyms": [
+    "Registrierungsnummer",
+    "nationale Kennnummer"
+   ],
+   "core": false
+  },
+  {
+   "id": "steuernummer",
+   "label": "Steuer- und Identifikationsnummern",
+   "label_en": "Tax and identification numbers",
+   "synonyms": [
+    "Umsatzsteuer-Identifikationsnummer",
+    "Wirtschaftsidentifikationsnummer",
+    "Steuernummer"
+   ],
+   "core": true
+  }
+ ]
+}

@@ -1,0 +1,453 @@
+{
+ "note": "The specification's cluster cases K1 to K9. Unless a case says otherwise, both duties are confirmed, come from different norms, share addressee and population, and have confidences 0.9 and 0.7; a third duty comes from a third norm with confidence 0.9. Items a and b are core vocabulary items; x, y and z are not. Overlaps and confidences are compared within ±0.005.",
+ "vocabulary": {
+  "core": [
+   "a",
+   "b"
+  ],
+  "items": [
+   "a",
+   "b",
+   "x",
+   "y",
+   "z"
+  ]
+ },
+ "cases": [
+  {
+   "id": "K1",
+   "duties": [
+    {
+     "id": "D-alpha-p1-1",
+     "norm_id": "alpha",
+     "paragraph_id": "alpha-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "b",
+      "x"
+     ],
+     "confidence": 0.9
+    },
+    {
+     "id": "D-beta-p1-1",
+     "norm_id": "beta",
+     "paragraph_id": "beta-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "b",
+      "y"
+     ],
+     "confidence": 0.7
+    }
+   ],
+   "expect": {
+    "links": [
+     {
+      "pair": [
+       "D-alpha-p1-1",
+       "D-beta-p1-1"
+      ],
+      "overlap": 0.5
+     }
+    ],
+    "clusters": [
+     {
+      "duty_ids": [
+       "D-alpha-p1-1",
+       "D-beta-p1-1"
+      ],
+      "shared_items": [
+       "a",
+       "b"
+      ],
+      "overlap": 0.5,
+      "confidence": 0.35
+     }
+    ]
+   },
+   "note": "Link and cluster; overlap 0.5; confidence 0.35"
+  },
+  {
+   "id": "K2",
+   "duties": [
+    {
+     "id": "D-alpha-p1-1",
+     "norm_id": "alpha",
+     "paragraph_id": "alpha-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "x"
+     ],
+     "confidence": 0.9
+    },
+    {
+     "id": "D-beta-p1-1",
+     "norm_id": "beta",
+     "paragraph_id": "beta-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "y"
+     ],
+     "confidence": 0.7
+    }
+   ],
+   "expect": {
+    "links": [
+     {
+      "pair": [
+       "D-alpha-p1-1",
+       "D-beta-p1-1"
+      ],
+      "overlap": 0.33
+     }
+    ],
+    "clusters": [
+     {
+      "duty_ids": [
+       "D-alpha-p1-1",
+       "D-beta-p1-1"
+      ],
+      "shared_items": [
+       "a"
+      ],
+      "overlap": 0.33,
+      "confidence": 0.23
+     }
+    ]
+   },
+   "note": "Link and cluster through core item a; overlap 0.33; confidence 0.23"
+  },
+  {
+   "id": "K3",
+   "duties": [
+    {
+     "id": "D-alpha-p1-1",
+     "norm_id": "alpha",
+     "paragraph_id": "alpha-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "x",
+      "y"
+     ],
+     "confidence": 0.9
+    },
+    {
+     "id": "D-beta-p1-1",
+     "norm_id": "beta",
+     "paragraph_id": "beta-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "x",
+      "z"
+     ],
+     "confidence": 0.7
+    }
+   ],
+   "expect": {
+    "links": [],
+    "clusters": []
+   },
+   "note": "No link: overlap 0.33 without a shared core item"
+  },
+  {
+   "id": "K4",
+   "duties": [
+    {
+     "id": "D-alpha-p1-1",
+     "norm_id": "alpha",
+     "paragraph_id": "alpha-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "x",
+      "y"
+     ],
+     "confidence": 0.9
+    },
+    {
+     "id": "D-beta-p1-1",
+     "norm_id": "beta",
+     "paragraph_id": "beta-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "z"
+     ],
+     "confidence": 0.7
+    }
+   ],
+   "expect": {
+    "links": [],
+    "clusters": []
+   },
+   "note": "No link: overlap 0.25 is below 0.3"
+  },
+  {
+   "id": "K5",
+   "duties": [
+    {
+     "id": "D-alpha-p1-1",
+     "norm_id": "alpha",
+     "paragraph_id": "alpha-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "b"
+     ],
+     "confidence": 0.9
+    },
+    {
+     "id": "D-beta-p1-1",
+     "norm_id": "beta",
+     "paragraph_id": "beta-p1",
+     "status": "confirmed",
+     "addressee": "verwaltung",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "b"
+     ],
+     "confidence": 0.7
+    }
+   ],
+   "expect": {
+    "links": [],
+    "clusters": []
+   },
+   "note": "No link: different addressees"
+  },
+  {
+   "id": "K6",
+   "duties": [
+    {
+     "id": "D-alpha-p1-1",
+     "norm_id": "alpha",
+     "paragraph_id": "alpha-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "b"
+     ],
+     "confidence": 0.9
+    },
+    {
+     "id": "D-alpha-p1-2",
+     "norm_id": "alpha",
+     "paragraph_id": "alpha-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "b"
+     ],
+     "confidence": 0.7
+    }
+   ],
+   "expect": {
+    "links": [],
+    "clusters": []
+   },
+   "note": "No link: same paragraph"
+  },
+  {
+   "id": "K7",
+   "duties": [
+    {
+     "id": "D-alpha-p1-1",
+     "norm_id": "alpha",
+     "paragraph_id": "alpha-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "other:Messwerte"
+     ],
+     "confidence": 0.9
+    },
+    {
+     "id": "D-beta-p1-1",
+     "norm_id": "beta",
+     "paragraph_id": "beta-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "b",
+      "other:Messwerte"
+     ],
+     "confidence": 0.7
+    }
+   ],
+   "expect": {
+    "links": [],
+    "clusters": []
+   },
+   "note": "No link: other: items never count as shared"
+  },
+  {
+   "id": "K8",
+   "duties": [
+    {
+     "id": "D-alpha-p1-1",
+     "norm_id": "alpha",
+     "paragraph_id": "alpha-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "b"
+     ],
+     "confidence": 0.9
+    },
+    {
+     "id": "D-alpha-p2-1",
+     "norm_id": "alpha",
+     "paragraph_id": "alpha-p2",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "b"
+     ],
+     "confidence": 0.7
+    }
+   ],
+   "expect": {
+    "links": [
+     {
+      "pair": [
+       "D-alpha-p1-1",
+       "D-alpha-p2-1"
+      ],
+      "overlap": 1.0
+     }
+    ],
+    "clusters": []
+   },
+   "note": "Link, but no cluster: a cluster needs two norms or two recipients"
+  },
+  {
+   "id": "K9",
+   "duties": [
+    {
+     "id": "D-alpha-p1-1",
+     "norm_id": "alpha",
+     "paragraph_id": "alpha-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "x"
+     ],
+     "confidence": 0.9
+    },
+    {
+     "id": "D-beta-p1-1",
+     "norm_id": "beta",
+     "paragraph_id": "beta-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "a",
+      "b"
+     ],
+     "confidence": 0.7
+    },
+    {
+     "id": "D-gamma-p1-1",
+     "norm_id": "gamma",
+     "paragraph_id": "gamma-p1",
+     "status": "confirmed",
+     "addressee": "wirtschaft",
+     "population_id": "pop-test",
+     "recipient": "Statistikamt",
+     "data_items": [
+      "b",
+      "y"
+     ],
+     "confidence": 0.9
+    }
+   ],
+   "expect": {
+    "links": [
+     {
+      "pair": [
+       "D-alpha-p1-1",
+       "D-beta-p1-1"
+      ],
+      "overlap": 0.33
+     },
+     {
+      "pair": [
+       "D-beta-p1-1",
+       "D-gamma-p1-1"
+      ],
+      "overlap": 0.33
+     }
+    ],
+    "clusters": [
+     {
+      "duty_ids": [
+       "D-alpha-p1-1",
+       "D-beta-p1-1"
+      ],
+      "shared_items": [
+       "a"
+      ],
+      "overlap": 0.33,
+      "confidence": 0.23
+     }
+    ]
+   },
+   "note": "Link and cluster of duties 1 and 2; overlap 0.33; confidence 0.23. Duty 3 links to duty 2 but stays alone, because it shares no item with duty 1"
+  }
+ ]
+}

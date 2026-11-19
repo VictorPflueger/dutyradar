@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 103.92">
+  <!-- Duty Radar's page icon: Vici's filter icon in a lilac hexagon cell, the same as its card on
+       Victor Pflüger's website (icon and kind: VictorPflueger/VIP, data/prototypes.js). Vici's
+       lilac 100 (#f2e9fd) and lilac 900 (#372544); the icon is drawn larger and bolder
+       than on the card so that it still reads at 16 px. -->
+  <polygon points="120,51.96 90,103.92 30,103.92 0,51.96 30,0 90,0" fill="#f2e9fd"/>
+  <g transform="translate(18 9.96) scale(3.5)" fill="none" stroke="#372544" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 5 H20 L14 12.5 V18.5 L10 20 V12.5 Z"/>
+  </g>
+</svg>

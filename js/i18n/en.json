@@ -1,0 +1,434 @@
+{
+ "app": {
+  "name": "Duty Radar",
+  "subtitle": "Find, cluster and price duties"
+ },
+ "disclosure": {
+  "ai": "You are interacting with an AI system.",
+  "proto": "Prototype – not an official federal government service"
+ },
+ "mode": {
+  "simulation": "SIMULATION",
+  "live": "LIVE",
+  "sovereign": "SOVEREIGN",
+  "none": "No run active",
+  "hint": "Choose a mode with Start agent."
+ },
+ "start": {
+  "question": "How many duties do we carry, and which ask twice?",
+  "button": "Start analysis",
+  "what_real": "What is real?",
+  "real": "Real: law texts and citations, the cost method, the engines' arithmetic and live model runs.",
+  "assumed": "Assumed or synthetic: case numbers and time values without an official source, complaints, register availability and the reviewer's role.",
+  "never": "Never: ministry systems, personal data, anything sent from the outbox.",
+  "benchmarks": "The PflichtenLichten benchmarks: reporting duties −⅓, documentation duties −½.",
+  "slice_title": "The slice",
+  "slice_meta": "{norms} norms, {paragraphs} paragraphs, {sentences} sentences; texts as of {date}",
+  "col_norm": "Norm",
+  "col_title": "Title",
+  "col_paragraphs": "Paragraphs",
+  "col_sentences": "Sentences",
+  "col_eu": "EU-related",
+  "table_caption": "The slice's norms by family"
+ },
+ "cite": {
+  "notice": "Consolidated text, not official. The Federal Law Gazette is authoritative."
+ },
+ "options": {
+  "keep": "Keep",
+  "approve": "Approve",
+  "reject": "Reject",
+  "info": "Ask for information",
+  "target_decided": "Target decided",
+  "empty": "No options yet. They appear when the agent needs your decision."
+ },
+ "audit": {
+  "blocked": "Unsourced figure blocked",
+  "manual": "Needs manual editing",
+  "text_blocked": "Text blocked",
+  "empty": "No events yet."
+ },
+ "outbox": {
+  "title": "Relief dossier (draft)",
+  "notice": "Nothing is sent.",
+  "empty": "The dossier is empty. Only your approvals fill it."
+ },
+ "badge": {
+  "assumption": "Assumption",
+  "synthetic": "synthetic",
+  "simulated": "simulated",
+  "eu": "EU-related",
+  "protected": "Protected standard"
+ },
+ "kpi": {
+  "estimate": "Estimate",
+  "slice_note": "Slice only, not the national target",
+  "duties": "Duties inventoried",
+  "reporting": "Reporting duties in the slice (benchmark −⅓)",
+  "documentation": "Documentation duties in the slice (benchmark −½)",
+  "cost": "Compliance cost addressed (estimate)",
+  "per_type": "Duties inventoried by type",
+  "of_benchmark": "{value} of the benchmark",
+  "pending": "pending: {value}"
+ },
+ "dossier": {
+  "kept": "Kept duties (with justification)",
+  "kept_short": "Kept duties"
+ },
+ "screen": {
+  "start": "Start",
+  "dutymap": "Duty map",
+  "duplicates": "Duplicates",
+  "options": "Options & review",
+  "outbox": "Outbox",
+  "diagnostics": "Assumptions & diagnostics"
+ },
+ "cluster": {
+  "confirm": "Confirm cluster",
+  "split": "Split"
+ },
+ "fact": {
+  "where": "Where does this figure come from?",
+  "retired": "no longer applies",
+  "option": {
+   "register_retrieval": {
+    "net_delta": "Change in compliance cost through register retrieval",
+    "wirtschaft_delta": "Relief for businesses through register retrieval",
+    "verwaltung_delta": "Cost for the administration through register retrieval",
+    "buerger_delta": "Relief for citizens in material cost through register retrieval",
+    "buerger_hours_delta": "Time saved by citizens through register retrieval",
+    "duty_count_delta": "Change in the number of duties through register retrieval",
+    "one_off": "One-off implementation cost through register retrieval"
+   },
+   "merge": {
+    "net_delta": "Change in compliance cost through merging",
+    "wirtschaft_delta": "Relief for businesses through merging",
+    "verwaltung_delta": "Cost for the administration through merging",
+    "buerger_delta": "Relief for citizens in material cost through merging",
+    "buerger_hours_delta": "Time saved by citizens through merging",
+    "duty_count_delta": "Change in the number of duties through merging",
+    "one_off": "One-off implementation cost through merging"
+   },
+   "lower_frequency": {
+    "net_delta": "Change in compliance cost through a lower frequency",
+    "wirtschaft_delta": "Relief for businesses through a lower frequency",
+    "verwaltung_delta": "Cost for the administration through a lower frequency",
+    "buerger_delta": "Relief for citizens in material cost through a lower frequency",
+    "buerger_hours_delta": "Time saved by citizens through a lower frequency",
+    "duty_count_delta": "Change in the number of duties through a lower frequency",
+    "one_off": "One-off implementation cost through a lower frequency"
+   },
+   "delete": {
+    "net_delta": "Change in compliance cost through deletion",
+    "wirtschaft_delta": "Relief for businesses through deletion",
+    "verwaltung_delta": "Cost for the administration through deletion",
+    "buerger_delta": "Relief for citizens in material cost through deletion",
+    "buerger_hours_delta": "Time saved by citizens through deletion",
+    "duty_count_delta": "Change in the number of duties through deletion",
+    "one_off": "One-off implementation cost through deletion"
+   },
+   "keep": {
+    "net_delta": "Change in compliance cost when kept",
+    "wirtschaft_delta": "Relief for businesses when kept",
+    "verwaltung_delta": "Cost for the administration when kept",
+    "buerger_delta": "Relief for citizens in material cost when kept",
+    "buerger_hours_delta": "Time saved by citizens when kept",
+    "duty_count_delta": "Change in the number of duties when kept",
+    "one_off": "One-off implementation cost when kept"
+   }
+  },
+  "duty": {
+   "fallzahl": "Case number of the duty",
+   "ea_annual": "Annual compliance cost of the duty",
+   "hours": "Citizens' time per year",
+   "buerokratiekosten": "Bureaucracy costs of the duty per year",
+   "one_off": "One-off compliance cost of the duty"
+  },
+  "cluster": {
+   "fallzahl": "Case number of the cluster",
+   "ea_annual": "Annual compliance cost of the cluster"
+  }
+ },
+ "sim": {
+  "preset": "Set by the simulation"
+ },
+ "selftest": {
+  "run": "Run all tests"
+ },
+ "key": {
+  "rejected": "Key rejected",
+  "forget": "Forget key"
+ },
+ "record": {
+  "run": "Record run"
+ },
+ "sovereign": {
+  "none": "No sovereign endpoint configured"
+ },
+ "slice": {
+  "provisional": "provisional"
+ },
+ "run": {
+  "handwritten": "hand-authored",
+  "R1": "R1 Pitch run",
+  "R2": "R2 Rejection path",
+  "R3": "R3 Single norm",
+  "R1_desc": "Full slice: inventory, clusters, options for the top cluster, one decision, dossier.",
+  "R2_desc": "A cluster is split, an unsourced figure blocked, a proposal rejected and the duty kept with its justification.",
+  "R3_desc": "One norm end to end, with the same tool sequence as a live run."
+ },
+ "reviewer": {
+  "role": "Desk officer (demo)"
+ },
+ "warning": {
+  "params_mismatch": "Classification and parameters disagree"
+ },
+ "assumption": {
+  "working_days": "Assumption: working days"
+ },
+ "note": {
+  "assumption_no_known_user": "Assumption: no known user"
+ },
+ "risk": {
+  "eu_frequency_check": "Check the frequency against the EU requirement",
+  "register_currency": "The register must hold the data as up to date as needed"
+ },
+ "reason": {
+  "no_register": "No register covers the data",
+  "no_cluster": "No cluster",
+  "members_differ": "Frequency or population differs",
+  "single_duties_only": "Single duties only",
+  "protected_standard": "Protected standards stay untouched",
+  "not_periodic": "Not periodic",
+  "less_than_quarterly": "Less often than quarterly",
+  "eu_related": "EU-related: only national additions can be deleted",
+  "data_use_known": "Data use known"
+ },
+ "code": {
+  "Z1": "Duplicate collection",
+  "Z2": "Register available",
+  "Z3": "No known use",
+  "Z4": "Frequency too high",
+  "Z5": "Other",
+  "A1": "Required by EU law",
+  "A2": "Higher-ranking law",
+  "A3": "Needed for the department's task",
+  "A4": "Data not in the register",
+  "A5": "Needs further review",
+  "A6": "Other",
+  "I1": "Question to the specialist unit"
+ },
+ "option_type": {
+  "delete": "Delete",
+  "merge": "Merge",
+  "register_retrieval": "Register retrieval",
+  "lower_frequency": "Lower frequency",
+  "keep": "Keep"
+ },
+ "option_status": {
+  "draft": "Draft",
+  "proposed": "Proposed",
+  "under_review": "Under review",
+  "approved": "Approved",
+  "rejected": "Rejected",
+  "needs_info": "Needs information"
+ },
+ "duty_status": {
+  "candidate": "Candidate",
+  "confirmed": "Confirmed",
+  "rejected": "Rejected",
+  "needs_review": "Needs review"
+ },
+ "cluster_status": {
+  "candidate": "Candidate",
+  "confirmed": "Confirmed",
+  "split": "Split"
+ },
+ "duty_type": {
+  "MELDEPFLICHT": "Reporting and notification duty",
+  "NACHWEISPFLICHT": "Proof duty",
+  "INFORMATIONSPFLICHT": "Information duty",
+  "DOKUMENTATIONSPFLICHT": "Documentation and retention duty",
+  "EVALUIERUNGSPFLICHT": "Evaluation and reporting duty",
+  "KONTROLLPFLICHT": "Control and inspection duty"
+ },
+ "duty_type_short": {
+  "MELDEPFLICHT": "Reporting",
+  "NACHWEISPFLICHT": "Proof",
+  "INFORMATIONSPFLICHT": "Information",
+  "DOKUMENTATIONSPFLICHT": "Documentation",
+  "EVALUIERUNGSPFLICHT": "Evaluation",
+  "KONTROLLPFLICHT": "Control"
+ },
+ "addressee": {
+  "buerger": "Citizens",
+  "wirtschaft": "Businesses",
+  "verwaltung": "Administration"
+ },
+ "trigger": {
+  "periodisch": "periodic",
+  "anlassbezogen": "event-driven",
+  "einmalig": "one-off"
+ },
+ "frequency": {
+  "täglich": "daily",
+  "wöchentlich": "weekly",
+  "monatlich": "monthly",
+  "vierteljährlich": "quarterly",
+  "halbjährlich": "half-yearly",
+  "jährlich": "yearly"
+ },
+ "certainty": {
+  "hoch": "high",
+  "mittel": "medium",
+  "niedrig": "low"
+ },
+ "protected": {
+  "menschenrechte": "human rights",
+  "buergerrechte": "civil rights",
+  "verbraucherrechte": "consumer rights",
+  "arbeitnehmerrechte": "workers' rights",
+  "steuerbetrug": "prevention of tax fraud"
+ },
+ "agent": {
+  "orchestrator": "Orchestrator",
+  "corpus": "Corpus agent",
+  "duty_extractor": "Duty extractor",
+  "once_matcher": "Once-only matcher",
+  "cost": "Cost agent",
+  "signal": "Signal agent",
+  "drafting": "Drafting agent",
+  "fact_auditor": "Fact auditor"
+ },
+ "complaint_category": {
+  "Verwaltung digital": "Digital administration",
+  "Anträge": "Applications",
+  "Servicequalität": "Service quality",
+  "Gesundheit & Soziales": "Health & social affairs",
+  "Einmal genügt": "Once-only",
+  "Betriebe": "Businesses",
+  "Steuern": "Taxes",
+  "Weniger Bürokratie": "Less bureaucracy"
+ },
+ "drawer": {
+  "built_by": "Built by",
+  "linkedin": "Victor Pflüger on LinkedIn (opens in a new tab)",
+  "website": "Victor Pflüger's website (opens in a new tab)",
+  "tab": {
+   "audit": "Audit"
+  },
+  "tablist": "Decision drawer",
+  "show": "Show",
+  "hide": "Hide",
+  "toggle": "Show or hide the drawer",
+  "note": "Nothing is sent."
+ },
+ "rail": {
+  "label": "The agent team's roles",
+  "decision": "Your decision",
+  "state": {
+   "idle": "not called yet",
+   "active": "working",
+   "done": "called before"
+  }
+ },
+ "state": {
+  "idle": "Ready",
+  "running": "Running",
+  "awaiting_decision": "Awaiting your decision",
+  "awaiting_review": "Awaiting your cluster review",
+  "done": "Done",
+  "stopped": "Stopped",
+  "aborted": "Aborted",
+  "error": "Error"
+ },
+ "handover": {
+  "awaiting_decision": "Awaiting your decision",
+  "awaiting_approval": "Awaiting your approval"
+ },
+ "dialog": {
+  "close": "Close dialog"
+ },
+ "skip": {
+  "console": "Skip to the agent console"
+ },
+ "lang": {
+  "label": "Language",
+  "en": "EN",
+  "de": "DE",
+  "en_name": "English",
+  "de_name": "Deutsch"
+ },
+ "theme": {
+  "toggle": "Light or dark theme"
+ },
+ "intro": {
+  "button": "How it works",
+  "title": "How Duty Radar works",
+  "step": {
+   "inventory": "Inventory: the agent reads the slice's norms and records reporting, proof, information, documentation, evaluation and control duties with their citation.",
+   "duplicates": "Duplicates: duties that ask the same businesses for the same data are clustered; a register could supply the data.",
+   "prices": "Prices: every duty and every option is priced with the compliance cost (Erfüllungsaufwand) method. Every figure has a source or carries the label Assumption.",
+   "decision": "Decision: you approve, reject or ask for information. Only your approval enters the dossier, and nothing is sent."
+  },
+  "close": "Got it"
+ },
+ "kpis": {
+  "label": "Key figures of the run"
+ },
+ "controls": {
+  "label": "Run controls",
+  "start": "Start agent",
+  "start_later": "The agent runs arrive with version 0.2.0.",
+  "run": "Run",
+  "slice": "Slice",
+  "model": "Model",
+  "speed": "Replay speed",
+  "speed_x": "Replay speed ×{n}",
+  "abort": "Abort",
+  "reset": "Reset"
+ },
+ "console": {
+  "title": "Agent console",
+  "larger": "Larger text",
+  "empty": "No run yet. The three runs:"
+ },
+ "view": {
+  "tabs": "Views"
+ },
+ "dutymap": {
+  "empty": "The map fills once the agent inventories the duties."
+ },
+ "duplicates": {
+  "empty": "Clusters appear once the matcher runs."
+ },
+ "diag": {
+  "snapshot": "Law snapshot",
+  "source": "Source",
+  "retrieved": "Retrieved",
+  "archive": "Through the daily archive",
+  "links": "Paragraph links",
+  "links_unchecked": "not checked",
+  "policy": "Network & security policy",
+  "policy_text": "The page loads only its own files. In Live mode it talks only to api.anthropic.com, in Sovereign mode only to the configured endpoint.",
+  "csp": "This page's policy",
+  "model": "Model & caps",
+  "caps": "At most {calls} model calls and {eur} per run",
+  "fx": "Exchange rate (assumption)",
+  "version": "Version",
+  "assumptions": "Assumptions",
+  "assumptions_text": "Cost parameters per addressee group; every value has a source or the label Assumption.",
+  "col_field": "Field",
+  "col_value": "Value",
+  "col_source": "Source"
+ },
+ "table": {
+  "show": "Figures as a table"
+ },
+ "boot": {
+  "loading_data": "Loading the law snapshot…",
+  "starting": "Starting the workspace…",
+  "failed_module": "A program file failed to load. Check that the js/ folder was deployed completely.",
+  "failed_data": "A data file failed to load. Check that the data/ and js/i18n/ folders were deployed completely."
+ }
+}

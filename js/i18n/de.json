@@ -1,0 +1,434 @@
+{
+ "app": {
+  "name": "Pflichten-Radar",
+  "subtitle": "Pflichten finden, bündeln, bepreisen"
+ },
+ "disclosure": {
+  "ai": "Sie interagieren mit einem KI-System.",
+  "proto": "Prototyp – kein offizielles Angebot der Bundesregierung"
+ },
+ "mode": {
+  "simulation": "SIMULATION",
+  "live": "LIVE",
+  "sovereign": "SOUVERÄN",
+  "none": "Kein Lauf aktiv",
+  "hint": "Den Modus wählen Sie mit „Agent starten“."
+ },
+ "start": {
+  "question": "Wie viele Pflichten tragen wir, und welche sind doppelt?",
+  "button": "Analyse starten",
+  "what_real": "Was ist echt?",
+  "real": "Echt: Gesetzestexte und Zitate, die Kostenmethode, die Rechnung der Engines und Live-Läufe des Modells.",
+  "assumed": "Angenommen oder synthetisch: Fallzahlen und Zeitwerte ohne amtliche Quelle, Beschwerden, die Verfügbarkeit von Registern und die Rolle der Prüferin.",
+  "never": "Nie: Systeme von Ministerien, personenbezogene Daten, ein Versand aus dem Ausgang.",
+  "benchmarks": "Die Richtwerte von PflichtenLichten: Meldepflichten −⅓, Dokumentationspflichten −½.",
+  "slice_title": "Der Ausschnitt",
+  "slice_meta": "{norms} Normen, {paragraphs} Paragrafen, {sentences} Sätze; Stand der Texte {date}",
+  "col_norm": "Norm",
+  "col_title": "Titel",
+  "col_paragraphs": "Paragrafen",
+  "col_sentences": "Sätze",
+  "col_eu": "EU-Bezug",
+  "table_caption": "Die Normen des Ausschnitts nach Familie"
+ },
+ "cite": {
+  "notice": "Konsolidierte Fassung, nicht amtlich. Maßgeblich ist das Bundesgesetzblatt."
+ },
+ "options": {
+  "keep": "Beibehalten",
+  "approve": "Freigeben",
+  "reject": "Ablehnen",
+  "info": "Rückfrage",
+  "target_decided": "Ziel entschieden",
+  "empty": "Noch keine Optionen. Sie erscheinen, wenn der Agent Ihre Entscheidung braucht."
+ },
+ "audit": {
+  "blocked": "Zahl ohne Beleg blockiert",
+  "manual": "manuelle Bearbeitung",
+  "text_blocked": "Text blockiert",
+  "empty": "Noch keine Ereignisse."
+ },
+ "outbox": {
+  "title": "Entlastungsdossier (Entwurf)",
+  "notice": "Nichts wird versendet.",
+  "empty": "Das Dossier ist leer. Nur Ihre Freigaben füllen es."
+ },
+ "badge": {
+  "assumption": "Annahme",
+  "synthetic": "synthetisch",
+  "simulated": "simuliert",
+  "eu": "EU-Bezug",
+  "protected": "Schutzstandard"
+ },
+ "kpi": {
+  "estimate": "Schätzung",
+  "slice_note": "Ausschnitt, nicht das bundesweite Ziel",
+  "duties": "Pflichten erfasst",
+  "reporting": "Meldepflichten im Ausschnitt (Richtwert −⅓)",
+  "documentation": "Dokumentationspflichten im Ausschnitt (Richtwert −½)",
+  "cost": "Erfüllungsaufwand adressiert (Schätzung)",
+  "per_type": "Erfasste Pflichten je Art",
+  "of_benchmark": "{value} des Richtwerts",
+  "pending": "offen: {value}"
+ },
+ "dossier": {
+  "kept": "Beibehaltene Pflichten (mit Begründung)",
+  "kept_short": "Beibehaltene Pflichten"
+ },
+ "screen": {
+  "start": "Start",
+  "dutymap": "Pflichten-Landkarte",
+  "duplicates": "Dubletten",
+  "options": "Optionen & Prüfung",
+  "outbox": "Ausgang",
+  "diagnostics": "Annahmen & Diagnose"
+ },
+ "cluster": {
+  "confirm": "Bündel bestätigen",
+  "split": "Aufteilen"
+ },
+ "fact": {
+  "where": "Woher kommt diese Zahl?",
+  "retired": "entfallen",
+  "option": {
+   "register_retrieval": {
+    "net_delta": "Änderung des Erfüllungsaufwands durch Registerabruf",
+    "wirtschaft_delta": "Entlastung der Wirtschaft durch Registerabruf",
+    "verwaltung_delta": "Aufwand der Verwaltung durch Registerabruf",
+    "buerger_delta": "Entlastung der Bürger bei den Sachkosten durch Registerabruf",
+    "buerger_hours_delta": "Zeitersparnis der Bürger durch Registerabruf",
+    "duty_count_delta": "Änderung der Zahl der Pflichten durch Registerabruf",
+    "one_off": "Einmaliger Umstellungsaufwand durch Registerabruf"
+   },
+   "merge": {
+    "net_delta": "Änderung des Erfüllungsaufwands durch Zusammenführen",
+    "wirtschaft_delta": "Entlastung der Wirtschaft durch Zusammenführen",
+    "verwaltung_delta": "Aufwand der Verwaltung durch Zusammenführen",
+    "buerger_delta": "Entlastung der Bürger bei den Sachkosten durch Zusammenführen",
+    "buerger_hours_delta": "Zeitersparnis der Bürger durch Zusammenführen",
+    "duty_count_delta": "Änderung der Zahl der Pflichten durch Zusammenführen",
+    "one_off": "Einmaliger Umstellungsaufwand durch Zusammenführen"
+   },
+   "lower_frequency": {
+    "net_delta": "Änderung des Erfüllungsaufwands durch Senken des Turnus",
+    "wirtschaft_delta": "Entlastung der Wirtschaft durch Senken des Turnus",
+    "verwaltung_delta": "Aufwand der Verwaltung durch Senken des Turnus",
+    "buerger_delta": "Entlastung der Bürger bei den Sachkosten durch Senken des Turnus",
+    "buerger_hours_delta": "Zeitersparnis der Bürger durch Senken des Turnus",
+    "duty_count_delta": "Änderung der Zahl der Pflichten durch Senken des Turnus",
+    "one_off": "Einmaliger Umstellungsaufwand durch Senken des Turnus"
+   },
+   "delete": {
+    "net_delta": "Änderung des Erfüllungsaufwands durch Streichen",
+    "wirtschaft_delta": "Entlastung der Wirtschaft durch Streichen",
+    "verwaltung_delta": "Aufwand der Verwaltung durch Streichen",
+    "buerger_delta": "Entlastung der Bürger bei den Sachkosten durch Streichen",
+    "buerger_hours_delta": "Zeitersparnis der Bürger durch Streichen",
+    "duty_count_delta": "Änderung der Zahl der Pflichten durch Streichen",
+    "one_off": "Einmaliger Umstellungsaufwand durch Streichen"
+   },
+   "keep": {
+    "net_delta": "Änderung des Erfüllungsaufwands beim Beibehalten",
+    "wirtschaft_delta": "Entlastung der Wirtschaft beim Beibehalten",
+    "verwaltung_delta": "Aufwand der Verwaltung beim Beibehalten",
+    "buerger_delta": "Entlastung der Bürger bei den Sachkosten beim Beibehalten",
+    "buerger_hours_delta": "Zeitersparnis der Bürger beim Beibehalten",
+    "duty_count_delta": "Änderung der Zahl der Pflichten beim Beibehalten",
+    "one_off": "Einmaliger Umstellungsaufwand beim Beibehalten"
+   }
+  },
+  "duty": {
+   "fallzahl": "Fallzahl der Pflicht",
+   "ea_annual": "Erfüllungsaufwand der Pflicht pro Jahr",
+   "hours": "Zeitaufwand der Bürger pro Jahr",
+   "buerokratiekosten": "Bürokratiekosten der Pflicht pro Jahr",
+   "one_off": "Einmaliger Erfüllungsaufwand der Pflicht"
+  },
+  "cluster": {
+   "fallzahl": "Fallzahl des Bündels",
+   "ea_annual": "Erfüllungsaufwand des Bündels pro Jahr"
+  }
+ },
+ "sim": {
+  "preset": "In der Simulation vorgegeben"
+ },
+ "selftest": {
+  "run": "Alle Tests ausführen"
+ },
+ "key": {
+  "rejected": "Schlüssel ungültig",
+  "forget": "Schlüssel löschen"
+ },
+ "record": {
+  "run": "Lauf aufzeichnen"
+ },
+ "sovereign": {
+  "none": "Kein souveräner Endpunkt konfiguriert"
+ },
+ "slice": {
+  "provisional": "vorläufig"
+ },
+ "run": {
+  "handwritten": "handgeschrieben",
+  "R1": "R1 Pitch-Lauf",
+  "R2": "R2 Ablehnungspfad",
+  "R3": "R3 Einzelne Norm",
+  "R1_desc": "Ganzer Ausschnitt: Inventar, Bündel, Optionen für das größte Bündel, eine Entscheidung, Dossier.",
+  "R2_desc": "Ein Bündel wird aufgeteilt, eine Zahl ohne Beleg blockiert, ein Vorschlag abgelehnt und die Pflicht mit Begründung beibehalten.",
+  "R3_desc": "Eine Norm von Anfang bis Ende, mit derselben Werkzeugfolge wie ein Live-Lauf."
+ },
+ "reviewer": {
+  "role": "Referentin (Demo)"
+ },
+ "warning": {
+  "params_mismatch": "Abweichung zwischen Klassifikation und Parametern"
+ },
+ "assumption": {
+  "working_days": "Annahme: Arbeitstage"
+ },
+ "note": {
+  "assumption_no_known_user": "Annahme: kein Nutzer bekannt"
+ },
+ "risk": {
+  "eu_frequency_check": "Turnus gegen EU-Vorgabe prüfen",
+  "register_currency": "Das Register muss die Daten in der benötigten Aktualität führen"
+ },
+ "reason": {
+  "no_register": "Kein Register deckt die Daten ab",
+  "no_cluster": "Kein Bündel",
+  "members_differ": "Turnus oder Population verschieden",
+  "single_duties_only": "Nur für einzelne Pflichten",
+  "protected_standard": "Schutzstandard bleibt unangetastet",
+  "not_periodic": "Nicht periodisch",
+  "less_than_quarterly": "Seltener als vierteljährlich",
+  "eu_related": "EU-Bezug: nur nationale Zusätze streichbar",
+  "data_use_known": "Datennutzung bekannt"
+ },
+ "code": {
+  "Z1": "Doppelerhebung",
+  "Z2": "Register verfügbar",
+  "Z3": "Kein erkennbarer Nutzen",
+  "Z4": "Turnus überhöht",
+  "Z5": "Sonstiges",
+  "A1": "EU-rechtlich vorgegeben",
+  "A2": "Höherrangiges Recht",
+  "A3": "Fachlich notwendig",
+  "A4": "Daten nicht im Register",
+  "A5": "Weitere Prüfung nötig",
+  "A6": "Sonstiges",
+  "I1": "Rückfrage an Fachreferat"
+ },
+ "option_type": {
+  "delete": "Streichen",
+  "merge": "Zusammenführen",
+  "register_retrieval": "Registerabruf",
+  "lower_frequency": "Turnus senken",
+  "keep": "Beibehalten"
+ },
+ "option_status": {
+  "draft": "Entwurf",
+  "proposed": "Vorgeschlagen",
+  "under_review": "In Prüfung",
+  "approved": "Freigegeben",
+  "rejected": "Abgelehnt",
+  "needs_info": "Rückfrage offen"
+ },
+ "duty_status": {
+  "candidate": "Kandidat",
+  "confirmed": "Bestätigt",
+  "rejected": "Verworfen",
+  "needs_review": "Zu prüfen"
+ },
+ "cluster_status": {
+  "candidate": "Kandidat",
+  "confirmed": "Bestätigt",
+  "split": "Aufgeteilt"
+ },
+ "duty_type": {
+  "MELDEPFLICHT": "Melde- und Anzeigepflicht",
+  "NACHWEISPFLICHT": "Nachweispflicht",
+  "INFORMATIONSPFLICHT": "Informations- und Auskunftspflicht",
+  "DOKUMENTATIONSPFLICHT": "Dokumentations-, Aufzeichnungs- und Aufbewahrungspflicht",
+  "EVALUIERUNGSPFLICHT": "Evaluierungs- und Berichtspflicht",
+  "KONTROLLPFLICHT": "Kontroll- und Prüfpflicht"
+ },
+ "duty_type_short": {
+  "MELDEPFLICHT": "Meldung",
+  "NACHWEISPFLICHT": "Nachweis",
+  "INFORMATIONSPFLICHT": "Information",
+  "DOKUMENTATIONSPFLICHT": "Dokumentation",
+  "EVALUIERUNGSPFLICHT": "Evaluierung",
+  "KONTROLLPFLICHT": "Kontrolle"
+ },
+ "addressee": {
+  "buerger": "Bürger",
+  "wirtschaft": "Wirtschaft",
+  "verwaltung": "Verwaltung"
+ },
+ "trigger": {
+  "periodisch": "periodisch",
+  "anlassbezogen": "anlassbezogen",
+  "einmalig": "einmalig"
+ },
+ "frequency": {
+  "täglich": "täglich",
+  "wöchentlich": "wöchentlich",
+  "monatlich": "monatlich",
+  "vierteljährlich": "vierteljährlich",
+  "halbjährlich": "halbjährlich",
+  "jährlich": "jährlich"
+ },
+ "certainty": {
+  "hoch": "hoch",
+  "mittel": "mittel",
+  "niedrig": "niedrig"
+ },
+ "protected": {
+  "menschenrechte": "Menschenrechte",
+  "buergerrechte": "Bürgerrechte",
+  "verbraucherrechte": "Verbraucherrechte",
+  "arbeitnehmerrechte": "Arbeitnehmerrechte",
+  "steuerbetrug": "Verhinderung von Steuerbetrug"
+ },
+ "agent": {
+  "orchestrator": "Orchestrator",
+  "corpus": "Korpus-Agent",
+  "duty_extractor": "Pflichten-Extraktor",
+  "once_matcher": "Once-Only-Abgleich",
+  "cost": "Kosten-Agent",
+  "signal": "Signal-Agent",
+  "drafting": "Entwurfs-Agent",
+  "fact_auditor": "Faktenprüfer"
+ },
+ "complaint_category": {
+  "Verwaltung digital": "Verwaltung digital",
+  "Anträge": "Anträge",
+  "Servicequalität": "Servicequalität",
+  "Gesundheit & Soziales": "Gesundheit & Soziales",
+  "Einmal genügt": "Einmal genügt",
+  "Betriebe": "Betriebe",
+  "Steuern": "Steuern",
+  "Weniger Bürokratie": "Weniger Bürokratie"
+ },
+ "drawer": {
+  "built_by": "Gebaut von",
+  "linkedin": "Victor Pflüger auf LinkedIn (öffnet in einem neuen Tab)",
+  "website": "Website von Victor Pflüger (öffnet in einem neuen Tab)",
+  "tab": {
+   "audit": "Protokoll"
+  },
+  "tablist": "Entscheidungsleiste",
+  "show": "Anzeigen",
+  "hide": "Ausblenden",
+  "toggle": "Leiste ein- oder ausblenden",
+  "note": "Nichts wird versendet."
+ },
+ "rail": {
+  "label": "Rollen des Agententeams",
+  "decision": "Ihre Entscheidung",
+  "state": {
+   "idle": "noch nicht aufgerufen",
+   "active": "arbeitet",
+   "done": "schon aufgerufen"
+  }
+ },
+ "state": {
+  "idle": "Bereit",
+  "running": "Läuft",
+  "awaiting_decision": "Wartet auf Ihre Entscheidung",
+  "awaiting_review": "Wartet auf Ihre Bündelprüfung",
+  "done": "Fertig",
+  "stopped": "Gestoppt",
+  "aborted": "Abgebrochen",
+  "error": "Fehler"
+ },
+ "handover": {
+  "awaiting_decision": "Wartet auf Ihre Entscheidung",
+  "awaiting_approval": "Wartet auf Ihre Freigabe"
+ },
+ "dialog": {
+  "close": "Dialog schließen"
+ },
+ "skip": {
+  "console": "Zur Agenten-Konsole springen"
+ },
+ "lang": {
+  "label": "Sprache",
+  "en": "EN",
+  "de": "DE",
+  "en_name": "English",
+  "de_name": "Deutsch"
+ },
+ "theme": {
+  "toggle": "Helles oder dunkles Design"
+ },
+ "intro": {
+  "button": "So funktioniert es",
+  "title": "So funktioniert der Pflichten-Radar",
+  "step": {
+   "inventory": "Inventar: Der Agent liest die Normen des Ausschnitts und erfasst Melde-, Nachweis-, Informations-, Dokumentations-, Evaluierungs- und Kontrollpflichten mit ihrem Zitat.",
+   "duplicates": "Dubletten: Pflichten, die dieselben Unternehmen nach denselben Daten fragen, werden gebündelt; ein Register könnte die Daten liefern.",
+   "prices": "Preise: Jede Pflicht und jede Option wird nach der Methode des Erfüllungsaufwands bepreist. Jede Zahl hat eine Quelle oder trägt das Etikett Annahme.",
+   "decision": "Entscheidung: Sie geben frei, lehnen ab oder stellen eine Rückfrage. Nur Ihre Freigabe kommt ins Dossier, und nichts wird versendet."
+  },
+  "close": "Verstanden"
+ },
+ "kpis": {
+  "label": "Kennzahlen des Laufs"
+ },
+ "controls": {
+  "label": "Laufsteuerung",
+  "start": "Agent starten",
+  "start_later": "Die Agentenläufe kommen mit Version 0.2.0.",
+  "run": "Lauf",
+  "slice": "Ausschnitt",
+  "model": "Modell",
+  "speed": "Wiedergabe",
+  "speed_x": "Wiedergabe ×{n}",
+  "abort": "Abbrechen",
+  "reset": "Zurücksetzen"
+ },
+ "console": {
+  "title": "Agenten-Konsole",
+  "larger": "Größere Schrift",
+  "empty": "Noch kein Lauf. Die drei Läufe:"
+ },
+ "view": {
+  "tabs": "Ansichten"
+ },
+ "dutymap": {
+  "empty": "Die Karte füllt sich, sobald der Agent die Pflichten erfasst."
+ },
+ "duplicates": {
+  "empty": "Bündel erscheinen, sobald der Abgleich läuft."
+ },
+ "diag": {
+  "snapshot": "Gesetzesstand",
+  "source": "Quelle",
+  "retrieved": "Abgerufen",
+  "archive": "Weg über das Tagesarchiv",
+  "links": "Paragrafen-Links",
+  "links_unchecked": "nicht geprüft",
+  "policy": "Netzwerk und Sicherheitsrichtlinie",
+  "policy_text": "Die Seite lädt nur ihre eigenen Dateien. Im Live-Modus spricht sie nur mit api.anthropic.com, im souveränen Modus nur mit dem konfigurierten Endpunkt.",
+  "csp": "Richtlinie dieser Seite",
+  "model": "Modell und Grenzen",
+  "caps": "Höchstens {calls} Modellaufrufe und {eur} je Lauf",
+  "fx": "Wechselkurs (Annahme)",
+  "version": "Version",
+  "assumptions": "Annahmen",
+  "assumptions_text": "Kostenparameter je Adressatengruppe; jeder Wert hat eine Quelle oder das Etikett Annahme.",
+  "col_field": "Feld",
+  "col_value": "Wert",
+  "col_source": "Quelle"
+ },
+ "table": {
+  "show": "Zahlen als Tabelle"
+ },
+ "boot": {
+  "loading_data": "Gesetzestexte werden geladen …",
+  "starting": "Arbeitsbereich wird gestartet …",
+  "failed_module": "Eine Programmdatei wurde nicht geladen. Prüfen Sie, ob der Ordner js/ vollständig bereitgestellt wurde.",
+  "failed_data": "Eine Datendatei wurde nicht geladen. Prüfen Sie, ob die Ordner data/ und js/i18n/ vollständig bereitgestellt wurden."
+ }
+}

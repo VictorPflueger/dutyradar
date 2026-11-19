@@ -1,0 +1,77 @@
+# Law snapshot: rebuilds data/corpus/ and SNAPSHOT.md for the slice in config/slice.json and pushes
+# them to a new branch snapshot/<UTC time> for review; nothing reaches main without a pull request.
+#
+# gesetze-im-internet.de does not answer GitHub's runners (TECH_NOTES.md §5), so the default source is
+# the public daily archive QuantLaw/gesetze-im-internet (branch data), which stores the host's table of
+# contents and each norm's unzipped XML unchanged. "direct" downloads from the host instead, for a
+# runner that can reach it.
+name: Law snapshot
+
+on:
+  workflow_dispatch:
+    inputs:
+      source:
+        description: "archive (default) or direct"
+        required: false
+        default: archive
+      archive_ref:
+        description: "Archive commit, day tag (YYYY-MM-DD) or branch"
+        required: false
+        default: data
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+
+      - name: Fetch the slice from the archive
+        if: ${{ inputs.source != 'direct' }}
+        env:
+          REF: ${{ inputs.archive_ref }}
+        run: |
+          set -euo pipefail
+          git init -q "$RUNNER_TEMP/gii"
+          cd "$RUNNER_TEMP/gii"
+          git remote add origin https://github.com/QuantLaw/gesetze-im-internet
+          git config remote.origin.promisor true
+          git config remote.origin.partialclonefilter blob:none
+          git config core.sparseCheckout true
+          {
+            echo /data/toc.xml; echo /data/log.md; echo /data/not_found.txt
+            node -e "for (const n of require(process.argv[1]).norms) console.log('/data/items/' + n.slug + '/*.xml')" "$GITHUB_WORKSPACE/config/slice.json"
+          } > .git/info/sparse-checkout
+          git fetch -q --depth 1 --filter=blob:none origin "$REF"
+          git checkout -q FETCH_HEAD
+          git log -1 --format='Archive commit %H, scraped %aI'
+
+      - name: Build the corpus
+        run: |
+          set -euo pipefail
+          if [ "${{ inputs.source }}" = "direct" ]; then
+            node tools/snapshot-laws.mjs
+          else
+            node tools/snapshot-laws.mjs --archive "$RUNNER_TEMP/gii"
+          fi
+          node tools/check-data.mjs corpus
+
+      - name: Push to a review branch
+        run: |
+          set -euo pipefail
+          branch="snapshot/$(date -u +%Y%m%dT%H%M%SZ)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add data/corpus SNAPSHOT.md
+          if git diff --cached --quiet; then echo "The corpus is unchanged."; exit 0; fi
+          git commit -q -m "Law snapshot $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push -q origin "$branch"
+          echo "Pushed $branch"

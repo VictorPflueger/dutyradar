@@ -1,0 +1,541 @@
+{
+ "version": 1,
+ "note": "Duty patterns: the specification's starter phrases (source \"specification\") and extensions found against the gold set or while reading the slice. Matching is case-insensitive with the u flag; every regex is wrapped in the boundaries (?<![\\p{L}\\p{N}]) and (?![\\p{L}\\p{N}]). A sentence becomes a candidate when it matches a pattern and has an obligation marker; a noun pattern counts half its weight; a self-marking pattern carries its own marker; an authority_present pattern counts as its own marker when an authority is named before it in the sentence. Discontinuous patterns allow up to 160 characters between their parts, because the middle field of a legal sentence is long.",
+ "markers": [
+  "hat",
+  "haben",
+  "ist",
+  "sind",
+  "muss",
+  "müssen",
+  "verpflichtet",
+  "obliegt"
+ ],
+ "authorities": "\\p{L}*behörden?|Bundesregierung|Landesregierung(?:en)?|\\p{L}*ministerium|Bundesamt(?:es)?|Bundesämter|Hauptzollamt|Umweltbundesamt|Landesamt|statistischen[ \\u00A0]+Ämter(?:n)?|Bundesanstalt|Bundesnetzagentur|Bundesbank|Zollverwaltung|\\p{L}*stellen?|\\p{L}*kammer(?:n)?|\\p{L}*kommission|Gerichte?|öffentliche[rn]?[ \\u00A0]+Auftraggeber|Beliehene",
+ "patterns": [
+  {
+   "id": "PM-01",
+   "type": "MELDEPFLICHT",
+   "kind": "verb",
+   "regex": "anzuzeigen",
+   "weight": 1,
+   "example": "Die Aufnahme des Betriebs ist der Behörde anzuzeigen.",
+   "source": "specification"
+  },
+  {
+   "id": "PM-02",
+   "type": "MELDEPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+melden",
+   "weight": 1,
+   "example": "Gewerbetreibende haben der zuständigen Stelle vierteljährlich die Zahl der Beschäftigten zu melden.",
+   "source": "specification"
+  },
+  {
+   "id": "PM-03",
+   "type": "MELDEPFLICHT",
+   "kind": "verb",
+   "regex": "mitzuteilen",
+   "weight": 1,
+   "example": "Änderungen sind der Registerbehörde unverzüglich mitzuteilen.",
+   "source": "specification"
+  },
+  {
+   "id": "PM-04",
+   "type": "MELDEPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+übermitteln",
+   "weight": 1,
+   "example": "Die Angaben sind dem Statistischen Bundesamt bis zum 15. des Folgemonats zu übermitteln.",
+   "source": "specification"
+  },
+  {
+   "id": "PM-05",
+   "type": "MELDEPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+berichten",
+   "weight": 1,
+   "example": "Die Organisation hat dem Umweltbundesamt jährlich zu berichten.",
+   "source": "specification"
+  },
+  {
+   "id": "PM-06",
+   "type": "MELDEPFLICHT",
+   "kind": "noun",
+   "regex": "Meldepflicht",
+   "weight": 1,
+   "example": "Für die Hersteller gilt die Meldepflicht nach Absatz 1.",
+   "source": "specification"
+  },
+  {
+   "id": "PM-07",
+   "type": "MELDEPFLICHT",
+   "kind": "noun",
+   "regex": "Anzeigepflicht",
+   "weight": 1,
+   "example": "Die Anzeigepflicht ist bei jeder Verlegung des Betriebs zu beachten.",
+   "source": "specification"
+  },
+  {
+   "id": "PM-08",
+   "type": "MELDEPFLICHT",
+   "kind": "phrase",
+   "regex": "meldepflichtig",
+   "weight": 1,
+   "example": "Wer Waren einführt, ist meldepflichtig.",
+   "source": "specification"
+  },
+  {
+   "id": "PM-09",
+   "type": "MELDEPFLICHT",
+   "kind": "verb",
+   "regex": "anzumelden",
+   "weight": 1,
+   "example": "Die Veredelung ist nach den Bestimmungen der §§ 4 und 6 anzumelden.",
+   "source": "gold set"
+  },
+  {
+   "id": "PM-10",
+   "type": "MELDEPFLICHT",
+   "kind": "verb",
+   "regex": "anzugeben",
+   "weight": 1,
+   "example": "In der Anmeldung ist das Ursprungsland anzugeben.",
+   "source": "gold set"
+  },
+  {
+   "id": "PM-11",
+   "type": "MELDEPFLICHT",
+   "kind": "verb",
+   "regex": "Angaben[\\s\\S]{0,160}?zu[ \\u00A0]+machen",
+   "weight": 1,
+   "example": "Im Fall der Bevollmächtigung sind die gleichen Angaben zum Bevollmächtigten zu machen.",
+   "source": "gold set"
+  },
+  {
+   "id": "PM-12",
+   "type": "MELDEPFLICHT",
+   "kind": "verb",
+   "regex": "zuzuleiten",
+   "weight": 1,
+   "example": "Die Anmeldung ist mittels der elektronischen Schnittstelle zuzuleiten.",
+   "source": "gold set"
+  },
+  {
+   "id": "PM-13",
+   "type": "MELDEPFLICHT",
+   "kind": "verb",
+   "regex": "übermittel(?:t|n)",
+   "weight": 1,
+   "example": "Die zuständigen Behörden übermitteln den statistischen Ämtern Namen und Anschriften der Betreiber.",
+   "source": "gold set",
+   "authority_present": true
+  },
+  {
+   "id": "PM-14",
+   "type": "MELDEPFLICHT",
+   "kind": "verb",
+   "regex": "teil(?:t|en)(?![\\p{L}\\p{N}])[\\s\\S]{0,200}?(?<![\\p{L}\\p{N}])mit(?=[ \\u00A0]*(?:[.;:,)]|$))",
+   "weight": 1,
+   "example": "Die Vollstreckungsbehörde teilt die Ablehnung unverzüglich der zentralen Behörde mit.",
+   "source": "gold set",
+   "authority_present": true
+  },
+  {
+   "id": "PM-15",
+   "type": "MELDEPFLICHT",
+   "kind": "verb",
+   "regex": "(?:Anmeldung|Meldung|Erklärung|Anzeige)[\\s\\S]{0,160}?abzugeben",
+   "weight": 1,
+   "example": "Hersteller haben darüber hinaus eine Erklärung abzugeben.",
+   "source": "slice"
+  },
+  {
+   "id": "PN-01",
+   "type": "NACHWEISPFLICHT",
+   "kind": "verb",
+   "regex": "nachzuweisen",
+   "weight": 1,
+   "example": "Die Sachkunde ist durch eine Prüfung nachzuweisen.",
+   "source": "specification"
+  },
+  {
+   "id": "PN-02",
+   "type": "NACHWEISPFLICHT",
+   "kind": "noun",
+   "regex": "Nachweis(?:e|es|en)?",
+   "weight": 1,
+   "example": "Der Antragsteller hat den Nachweis einer Haftpflichtversicherung zu erbringen.",
+   "source": "specification"
+  },
+  {
+   "id": "PN-03",
+   "type": "NACHWEISPFLICHT",
+   "kind": "verb",
+   "regex": "vorzulegen",
+   "weight": 1,
+   "example": "Die Unterlagen sind der Behörde auf Verlangen vorzulegen.",
+   "source": "specification"
+  },
+  {
+   "id": "PN-04",
+   "type": "NACHWEISPFLICHT",
+   "kind": "verb",
+   "regex": "glaubhaft[ \\u00A0]+zu[ \\u00A0]+machen",
+   "weight": 1,
+   "example": "Der Antragsteller hat die Voraussetzungen glaubhaft zu machen.",
+   "source": "specification"
+  },
+  {
+   "id": "PN-05",
+   "type": "NACHWEISPFLICHT",
+   "kind": "noun",
+   "regex": "Bescheinigung(?:en)?",
+   "weight": 1,
+   "example": "Wachpersonen müssen eine Bescheinigung der Industrie- und Handelskammer besitzen.",
+   "source": "specification"
+  },
+  {
+   "id": "PN-06",
+   "type": "NACHWEISPFLICHT",
+   "kind": "verb",
+   "regex": "beizufügen",
+   "weight": 1,
+   "example": "Dem Antrag ist eine Beschreibung des Geräts beizufügen.",
+   "source": "gold set"
+  },
+  {
+   "id": "PN-07",
+   "type": "NACHWEISPFLICHT",
+   "kind": "verb",
+   "regex": "zertifizieren[ \\u00A0]+zu[ \\u00A0]+lassen",
+   "weight": 1,
+   "example": "Der Betreiber ist verpflichtet, die Anlage jährlich zertifizieren zu lassen.",
+   "source": "gold set"
+  },
+  {
+   "id": "PI-01",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "Auskünfte?[\\s\\S]{0,160}?zu[ \\u00A0]+erteilen",
+   "weight": 1,
+   "example": "Die Inhaber haben der Behörde die erforderlichen Auskünfte zu erteilen.",
+   "source": "specification"
+  },
+  {
+   "id": "PI-02",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "noun",
+   "regex": "Auskunftspflicht",
+   "weight": 1,
+   "example": "Die Auskunftspflicht ist bei jeder Erhebung zu beachten.",
+   "source": "specification"
+  },
+  {
+   "id": "PI-03",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+informieren",
+   "weight": 1,
+   "example": "Der Gewerbetreibende hat den Anleger vor der Beratung zu informieren.",
+   "source": "specification"
+  },
+  {
+   "id": "PI-04",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+unterrichten",
+   "weight": 1,
+   "example": "Die zu Befragenden sind über den Zweck der Erhebung zu unterrichten.",
+   "source": "specification"
+  },
+  {
+   "id": "PI-05",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "bekannt[ \\u00A0]+zu[ \\u00A0]+geben|bekanntzugeben",
+   "weight": 1,
+   "example": "Die Ergebnisse sind öffentlich bekannt zu geben.",
+   "source": "specification"
+  },
+  {
+   "id": "PI-06",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+veröffentlichen",
+   "weight": 1,
+   "example": "Die Liste ist im Internet zu veröffentlichen.",
+   "source": "specification"
+  },
+  {
+   "id": "PI-07",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "phrase",
+   "regex": "auskunftspflichtig",
+   "weight": 1,
+   "example": "Die Leitung der Bundesnetzagentur ist insoweit auskunftspflichtig.",
+   "source": "gold set"
+  },
+  {
+   "id": "PI-08",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "phrase",
+   "regex": "(?:besteht|bestehen)[ \\u00A0]+(?:eine[ \\u00A0]+)?Auskunftspflicht",
+   "weight": 1,
+   "example": "Für die Erhebungen besteht Auskunftspflicht.",
+   "source": "gold set",
+   "self_marking": true
+  },
+  {
+   "id": "PI-09",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "unterricht(?:et|en)",
+   "weight": 1,
+   "example": "Die Behörden der Zollverwaltung unterrichten das Gewerbezentralregister über rechtskräftige Bußgeldentscheidungen.",
+   "source": "gold set",
+   "authority_present": true
+  },
+  {
+   "id": "PI-10",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "veröffentlich(?:t|en)",
+   "weight": 1,
+   "example": "Die zuständige Behörde veröffentlicht auf ihrer Internetseite die Abfallbewirtschafter.",
+   "source": "gold set",
+   "authority_present": true
+  },
+  {
+   "id": "PI-11",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "informier(?:t|en)",
+   "weight": 1,
+   "example": "Die Gemeinsame Stelle informiert die Endnutzer über deren Pflichten.",
+   "source": "slice",
+   "authority_present": true
+  },
+  {
+   "id": "PI-12",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "erteil(?:t|en)(?![\\p{L}\\p{N}])[\\s\\S]{0,160}?(?:\\p{L}*bestätigung|\\p{L}*bescheinigung|Auskunft|Auskünfte)",
+   "weight": 1,
+   "example": "Die zuständige Stelle erteilt innerhalb eines Monats eine Eingangsbestätigung.",
+   "source": "gold set",
+   "authority_present": true
+  },
+  {
+   "id": "PI-13",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "(?:Hinweise?|Informationen|Auskünfte?)[\\s\\S]{0,160}?zu[ \\u00A0]+geben",
+   "weight": 1,
+   "example": "Im Fernabsatz sind die Hinweise in den verwendeten Darstellungsmedien zu geben.",
+   "source": "gold set"
+  },
+  {
+   "id": "PI-14",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+belehren",
+   "weight": 1,
+   "example": "Erhebungsbeauftragte sind über ihre Rechte und Pflichten zu belehren.",
+   "source": "gold set"
+  },
+  {
+   "id": "PI-15",
+   "type": "INFORMATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "(?:zu[ \\u00A0]+)?(?:nennen|erläutern)|darzulegen",
+   "weight": 1,
+   "example": "Die Erklärung muss die erbrachte Beratung nennen und erläutern.",
+   "source": "gold set"
+  },
+  {
+   "id": "PD-01",
+   "type": "DOKUMENTATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+dokumentieren",
+   "weight": 1,
+   "example": "Die Ergebnisse der Prüfung sind zu dokumentieren.",
+   "source": "specification"
+  },
+  {
+   "id": "PD-02",
+   "type": "DOKUMENTATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "aufzuzeichnen",
+   "weight": 1,
+   "example": "Der Arbeitgeber ist verpflichtet, Beginn, Ende und Dauer der täglichen Arbeitszeit aufzuzeichnen.",
+   "source": "specification"
+  },
+  {
+   "id": "PD-03",
+   "type": "DOKUMENTATIONSPFLICHT",
+   "kind": "noun",
+   "regex": "Aufzeichnung(?:en)?",
+   "weight": 1,
+   "example": "Die Aufzeichnungen sind der Behörde zugänglich zu machen.",
+   "source": "specification"
+  },
+  {
+   "id": "PD-04",
+   "type": "DOKUMENTATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "aufzubewahren",
+   "weight": 1,
+   "example": "Die Nachweise sind mindestens zwei Jahre aufzubewahren.",
+   "source": "specification"
+  },
+  {
+   "id": "PD-05",
+   "type": "DOKUMENTATIONSPFLICHT",
+   "kind": "noun",
+   "regex": "Aufbewahrungsfrist",
+   "weight": 1,
+   "example": "Die Aufbewahrungsfrist beträgt nach Satz 1 ein Jahr.",
+   "source": "specification"
+  },
+  {
+   "id": "PD-06",
+   "type": "DOKUMENTATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+protokollieren",
+   "weight": 1,
+   "example": "Jeder Abruf ist zu protokollieren.",
+   "source": "specification"
+  },
+  {
+   "id": "PD-07",
+   "type": "DOKUMENTATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "(?:Buch|Bücher|Verzeichnis|Verzeichnisse|Register)[\\s\\S]{0,160}?zu[ \\u00A0]+führen",
+   "weight": 1,
+   "example": "Der Gewerbetreibende hat ein Verzeichnis der Aufträge zu führen.",
+   "source": "specification"
+  },
+  {
+   "id": "PD-08",
+   "type": "DOKUMENTATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "einzutragen",
+   "weight": 1,
+   "example": "In das Register sind die vollziehbaren Entscheidungen einzutragen.",
+   "source": "gold set"
+  },
+  {
+   "id": "PD-09",
+   "type": "DOKUMENTATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+speichern",
+   "weight": 1,
+   "example": "Die Protokolldaten sind für mindestens zwölf Monate zu speichern.",
+   "source": "gold set"
+  },
+  {
+   "id": "PD-10",
+   "type": "DOKUMENTATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "bereitzuhalten",
+   "weight": 1,
+   "example": "Die Unterlagen sind am Ort der Beschäftigung bereitzuhalten.",
+   "source": "gold set"
+  },
+  {
+   "id": "PD-11",
+   "type": "DOKUMENTATIONSPFLICHT",
+   "kind": "verb",
+   "regex": "aufzuzeigen|festzuhalten|zu[ \\u00A0]+vermerken",
+   "weight": 1,
+   "example": "Verstöße sind in dem Vermerk aufzuzeigen.",
+   "source": "gold set"
+  },
+  {
+   "id": "PE-01",
+   "type": "EVALUIERUNGSPFLICHT",
+   "kind": "verb",
+   "regex": "evaluiert",
+   "weight": 1,
+   "example": "Die Bundesregierung evaluiert die Wirkungen dieses Gesetzes.",
+   "source": "specification",
+   "authority_present": true
+  },
+  {
+   "id": "PE-02",
+   "type": "EVALUIERUNGSPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+evaluieren",
+   "weight": 1,
+   "example": "Das Gesetz ist nach fünf Jahren zu evaluieren.",
+   "source": "specification"
+  },
+  {
+   "id": "PE-03",
+   "type": "EVALUIERUNGSPFLICHT",
+   "kind": "verb",
+   "regex": "berichtet[\\s\\S]{0,160}?dem[ \\u00A0]+(?:Deutschen[ \\u00A0]+)?Bundestag|dem[ \\u00A0]+(?:Deutschen[ \\u00A0]+)?Bundestag[\\s\\S]{0,160}?berichtet",
+   "weight": 1,
+   "example": "Die Bundesregierung berichtet dem Bundestag über die Ergebnisse.",
+   "source": "specification",
+   "authority_present": true
+  },
+  {
+   "id": "PK-01",
+   "type": "KONTROLLPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+prüfen",
+   "weight": 1,
+   "example": "Die Behörde hat die Angaben zu prüfen.",
+   "source": "specification"
+  },
+  {
+   "id": "PK-02",
+   "type": "KONTROLLPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+überprüfen",
+   "weight": 1,
+   "example": "Die Angaben sind regelmäßig zu überprüfen.",
+   "source": "specification"
+  },
+  {
+   "id": "PK-03",
+   "type": "KONTROLLPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+kontrollieren",
+   "weight": 1,
+   "example": "Die Behörde hat die Einhaltung zu kontrollieren.",
+   "source": "specification"
+  },
+  {
+   "id": "PK-04",
+   "type": "KONTROLLPFLICHT",
+   "kind": "verb",
+   "regex": "zu[ \\u00A0]+überwachen",
+   "weight": 1,
+   "example": "Die Länder haben die Einhaltung zu überwachen.",
+   "source": "specification"
+  },
+  {
+   "id": "PK-05",
+   "type": "KONTROLLPFLICHT",
+   "kind": "verb",
+   "regex": "(?:prüft|prüfen|überprüft|überprüfen|kontrolliert|kontrollieren|überwacht|überwachen)",
+   "weight": 1,
+   "example": "Die Behörden der Zollverwaltung prüfen die Einhaltung der Pflichten.",
+   "source": "specification",
+   "authority_present": true
+  },
+  {
+   "id": "PK-06",
+   "type": "KONTROLLPFLICHT",
+   "kind": "verb",
+   "regex": "fordert(?![\\p{L}\\p{N}])[\\s\\S]{0,200}?(?:Auskunft|Auskünfte|Nachweise?|Unterlagen)[\\s\\S]{0,160}?(?<![\\p{L}\\p{N}])an(?![\\p{L}\\p{N}])|fordern(?![\\p{L}\\p{N}])[\\s\\S]{0,200}?(?:Auskunft|Auskünfte|Nachweise?|Unterlagen)[\\s\\S]{0,160}?(?<![\\p{L}\\p{N}])an(?![\\p{L}\\p{N}])",
+   "weight": 1,
+   "example": "Öffentliche Auftraggeber fordern beim Wettbewerbsregister Auskünfte über Bußgeldentscheidungen an.",
+   "source": "gold set",
+   "authority_present": true
+  }
+ ]
+}
