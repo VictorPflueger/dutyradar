@@ -424,5 +424,11 @@
  },
  "table": {
   "show": "Zahlen als Tabelle"
+ },
+ "boot": {
+  "loading_data": "Gesetzestexte werden geladen …",
+  "starting": "Arbeitsbereich wird gestartet …",
+  "failed_module": "Eine Programmdatei wurde nicht geladen. Prüfen Sie, ob der Ordner js/ vollständig bereitgestellt wurde.",
+  "failed_data": "Eine Datendatei wurde nicht geladen. Prüfen Sie, ob die Ordner data/ und js/i18n/ vollständig bereitgestellt wurden."
  }
 }

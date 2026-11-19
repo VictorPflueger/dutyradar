@@ -1,7 +1,8 @@
 // Language suite (browser): English on a first visit whatever the browser's language; the switch
 // changes every screen at once without a reload, updates <html lang> and is remembered; ?lang= wins and
 // becomes the stored choice; the static texts follow the language files; nothing is cut to an ellipsis
-// in German at 1280 × 720 (AC-25's first part, AC-38's checks that need no run).
+// in German at 1280 × 720; once the strings are loaded, a failed boot is reported in the chosen language
+// (AC-25's first part, AC-38's checks that need no run).
 // Usage: node tests/i18n.mjs
 import { readFileSync } from "node:fs";
 import path from "node:path";
@@ -63,6 +64,15 @@ try {
   check("German at 1280 × 720: no text cut to an ellipsis", cut.length === 0, cut.join("; "));
   check("German at 1280 × 720: no sideways scrolling", await c.page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   await c.ctx.close();
+
+  // Once the strings are loaded, the boot screen speaks the chosen language: a missing data file, in German.
+  server.blockLocal.add("/data/corpus/index.json");
+  const d = await openApp(browser, server.base, { query: "?lang=de", waitBoot: false, skipIntro: true });
+  await d.page.waitForSelector('html[data-boot="failed"]', { timeout: 15000 });
+  const detail = await d.page.textContent("#boot-detail");
+  check("a missing data file is reported in German", detail.startsWith("Eine Datendatei wurde nicht geladen."), detail);
+  server.blockLocal.clear();
+  await d.ctx.close();
 } finally {
   await browser.close();
   await server.close();

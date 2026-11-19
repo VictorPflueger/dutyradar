@@ -2,7 +2,8 @@
 // is imported dynamically so that a failed module load is reported on the boot screen instead of
 // leaving a blank page. Browsers never run this module from file:// — the boot screen in index.html
 // explains that case on its own. Nothing is loaded from a third party: every file comes from this site.
-// The boot messages are the static English texts of index.html (data attributes of #boot-status).
+// The boot messages start as the static English texts of index.html (data attributes of #boot-status);
+// once the strings are loaded, applyStatic sets them in the chosen language.
 
 import { APP, DATA } from "./config.js";
 

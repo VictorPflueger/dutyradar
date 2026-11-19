@@ -424,5 +424,11 @@
  },
  "table": {
   "show": "Figures as a table"
+ },
+ "boot": {
+  "loading_data": "Loading the law snapshot…",
+  "starting": "Starting the workspace…",
+  "failed_module": "A program file failed to load. Check that the js/ folder was deployed completely.",
+  "failed_data": "A data file failed to load. Check that the data/ and js/i18n/ folders were deployed completely."
  }
 }
