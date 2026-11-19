@@ -1,0 +1,17 @@
+HTTP/1.1 307 Temporary Redirect
+Date: Thu, 19 Nov 2026 17:31:04 GMT
+Server: Apache
+Set-Cookie: AL_CHK-S=tPZwpUOC2ixTGzLFvo+vsQ; Path=/; Secure; HttpOnly; SameSite=None
+Content-Length: 172
+Location: /cookie-check-d973?l=%2F&v=2141974020&m=934783104&h=crnk67YqVtSKj3ALzQcNbx9AtlHxTjtYhzTO0EoMGA0
+Content-Type: text/html
+
+HTTP/1.1 400 Bad Request
+Date: Thu, 19 Nov 2026 17:31:04 GMT
+Server: Apache
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: close
+Transfer-Encoding: chunked
+Content-Type: text/html
+

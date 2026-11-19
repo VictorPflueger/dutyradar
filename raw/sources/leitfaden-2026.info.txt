@@ -1,0 +1,17 @@
+Title:           Leitfaden zur Ermittlung und Darstellung des Erfüllungsaufwands in Regelungsvorhaben der Bundesregierung
+Author:          Herausgegeben von BReg, NKR, Destatis
+ModDate:         Fri Aug 28 04:49:33 2026 UTC
+Custom Metadata: yes
+Metadata Stream: yes
+Tagged:          yes
+UserProperties:  no
+Suspects:        no
+Form:            AcroForm
+JavaScript:      no
+Pages:           79
+Encrypted:       no
+Page size:       595.32 x 841.92 pts (A4)
+Page rot:        0
+File size:       4471455 bytes
+Optimized:       no
+PDF version:     1.6
