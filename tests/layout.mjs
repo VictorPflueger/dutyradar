@@ -4,7 +4,8 @@
 // console and drawer bar are all on screen, and the header stays within a quarter of the height; at
 // 1920 × 1080 and 1280 × 720 all of that in the light and the dark theme too, each with a screenshot
 // (sixteen in all, in the layout folder of the test output); at 360 px nothing scrolls sideways either.
-// In the run, every step of the duty map's ink ramp keeps its printed count at 4.5:1 in both themes.
+// In the run, every step of the duty map's ink ramp keeps its printed count at 4.5:1 in both themes,
+// and with a cell's duty cards open the map keeps its six columns beside them.
 // The ellipsis check proves itself first on a control element that is cut on purpose.
 // Usage: node tests/layout.mjs
 import path from "node:path";
@@ -135,6 +136,14 @@ try {
           check(`${rwhere}: screenshot written`, ok, file);
           if (ok) shots.push(file);
         }
+        // The duty cards beside the map: the map's six columns still fit, nothing is cut.
+        await run.page.click(".drawer-toggle");
+        await run.page.click("button.map-count");
+        await run.page.waitForSelector(".card-panel .duty-card", { timeout: 5000 });
+        const fit = await run.page.evaluate(() => { const m = document.querySelector(".map-wrap"); return { scroll: m.scrollWidth, client: m.clientWidth }; });
+        check(`${rwhere}: the map keeps its columns beside the duty cards`, fit.scroll <= fit.client + 1, JSON.stringify(fit));
+        const ccut = await run.page.evaluate(cutText);
+        check(`${rwhere}: with the duty cards open nothing is cut`, ccut.length === 0, ccut.join("; "));
         check(`${rwhere}: no errors`, run.problems.length === 0, run.problems.join("; "));
         await run.ctx.close();
       }

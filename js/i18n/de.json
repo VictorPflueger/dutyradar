@@ -739,6 +739,7 @@
  },
  "dutycard": {
   "panel": "Pflichtenkarten: {norm}, {type}",
+  "close": "Karten schließen",
   "type": "Art",
   "addressee": "Adressat",
   "trigger": "Auslöser",

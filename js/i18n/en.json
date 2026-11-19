@@ -739,6 +739,7 @@
  },
  "dutycard": {
   "panel": "Duty cards: {norm}, {type}",
+  "close": "Close the cards",
   "type": "Type",
   "addressee": "Addressee",
   "trigger": "Trigger",

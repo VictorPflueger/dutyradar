@@ -5,7 +5,10 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildData } from "../../js/data.js";
-import { parseNormXml } from "../../tools/snapshot-laws.mjs";
+// The fixture slice is parsed from XML with the snapshot script, which needs the development
+// dependencies (npm ci); the bundled slice does not, so the browser job can load it without them.
+let parseNormXml = null;
+try { ({ parseNormXml } = await import("../../tools/snapshot-laws.mjs")); } catch { /* no development dependencies installed */ }
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const json = (...p) => JSON.parse(readFileSync(path.join(ROOT, ...p), "utf8"));
@@ -33,6 +36,7 @@ export const loadBundled = (normIds = null) => buildData(rawBundled(normIds));
 
 /** The two-norm fixture slice: invented laws, the golden cases' parameters, real patterns and vocabulary. */
 export function rawFixture() {
+  if (!parseNormXml) throw new Error("The fixture slice needs the development dependencies: run npm ci first.");
   const dir = "tests/fixtures/slice-mini";
   const slice = json(dir, "slice.json");
   const retrieved = "2026-10-24T09:00:00Z";

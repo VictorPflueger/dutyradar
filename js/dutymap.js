@@ -62,7 +62,7 @@ export function renderDutyMap(root, run, { slice, onSelect, selected = null, rea
     const norm = index.norms.find((x) => x.id === normId);
     layout.append(h("aside", { class: "card-panel", "aria-label": t("dutycard.panel", { norm: norm?.abbr || normId, type: t(`duty_type.${type}`) }) },
       h("div", { class: "card-panel-head" }, h("h3", {}, `${norm?.abbr || normId} · ${t(`duty_type.${type}`)}`),
-        h("button", { type: "button", class: "vc-button vc-button--ghost vc-button--sm", on: { click: () => onSelect(null) } }, t("dialog.close"))),
+        h("button", { type: "button", class: "vc-button vc-button--ghost vc-button--sm", on: { click: () => onSelect(null) } }, t("dutycard.close"))),
       h("div", { class: "card-list" }, cards.map((d) => renderDutyCard(d, run)))));
   }
   root.append(filterBar, layout);

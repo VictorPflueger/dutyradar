@@ -294,7 +294,12 @@ export function initUI({ corpusIndex, slice }) {
       ui.review = { cluster_id: p.cluster_id };
       ui.reviewError = null;
       ui.view = "duplicates";
-      setTimeout(() => document.getElementById(`cluster-${p.cluster_id}`)?.scrollIntoView({ block: "nearest" }), 80);
+      // The board needs the height: the drawer has nothing to decide during a review.
+      drawer.setOpen(false);
+      setTimeout(() => {
+        document.getElementById(`cluster-${p.cluster_id}`)?.scrollIntoView({ block: "start" });
+        document.querySelector(`#cluster-${p.cluster_id} .cluster-actions`)?.scrollIntoView({ block: "nearest" });
+      }, 80);
     } else {
       ui.request = { target: p.target, option_ids: p.option_ids };
       ui.options = { ...freshOptions(), lastTarget: p.target };

@@ -165,7 +165,11 @@
 .map-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
 .check-field { display: inline-flex; align-items: center; gap: 6px; font-size: var(--vc-font-size-sm); }
 .map-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; align-items: start; }
-.map-layout[data-open="true"] { grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 1fr); }
+.map-layout[data-open="true"] { grid-template-columns: minmax(0, 1.5fr) minmax(19rem, 1fr); }
+/* With the duty cards open the map tightens, so its six columns keep fitting beside them. */
+.map-layout[data-open="true"] .map-table thead th { font-size: var(--vc-font-size-xs); letter-spacing: 0; }
+.map-layout[data-open="true"] .map-table thead th:not(:first-child) { writing-mode: vertical-rl; transform: rotate(180deg); text-align: start; vertical-align: bottom; height: 7.5rem; padding: 4px 2px; }
+.map-layout[data-open="true"] .map-count { min-width: 2.4rem; padding: 0 4px; }
 .map-wrap { overflow: auto; border: 1px solid var(--vc-border); }
 .map-table { width: 100%; font-size: var(--vc-font-size-sm); font-variant-numeric: tabular-nums; border-collapse: collapse; }
 .map-table th, .map-table td { padding: 2px 4px; }
@@ -305,9 +309,11 @@ button.map-count[aria-pressed="true"] { outline: 2px solid var(--vc-text); outli
 .mode-card > .vc-button { margin-top: auto; align-self: flex-start; }
 .mode-card[data-disabled="true"] { background: var(--vc-bg-subtle); color: var(--vc-text-muted); }
 .mode-tag { --_h: 26px; font-weight: var(--vc-weight-bold); letter-spacing: var(--vc-tracking-caps); }
-.mode-tag--simulation { padding-left: 30px; background: repeating-linear-gradient(-45deg, var(--vc-text) 0 6px, var(--vc-surface) 6px 12px) left / 22px 100% no-repeat, var(--vc-bg-subtle); color: var(--vc-text); }
-.mode-tag--live { background: var(--vc-accent); color: var(--vc-on-accent); border-color: var(--vc-accent); }
-.mode-tag--sovereign { background: var(--vc-feature-bg); color: var(--vc-feature-text); border-color: var(--vc-feature-border); }
+.mode-tag--simulation {
+  --_fg: var(--vc-text);
+  --_bg: repeating-linear-gradient(-45deg, var(--vc-text) 0 6px, var(--vc-surface) 6px 12px) left / 22px 100% no-repeat, var(--vc-bg-subtle);
+  padding-left: 30px;
+}
 .mode-reason, .mode-key { display: flex; align-items: center; gap: 6px; }
 .mode-reason { color: var(--vc-text); font-weight: var(--vc-weight-semibold); }
 .mode-norms { color: var(--vc-text-muted); }

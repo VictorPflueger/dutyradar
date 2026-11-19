@@ -29,6 +29,13 @@ export function openIntro() {
 
 let keyAccepted = false; // the stored key passed GET /v1/models in this page
 
+/** The mode tags, as the header's mode badge draws them: neutral tape, solid merlot, lilac. */
+const TAG = {
+  simulation: "vc-tag mode-tag mode-tag--simulation",
+  live: "vc-tag vc-tag--accent vc-tag--solid mode-tag",
+  sovereign: "vc-tag vc-tag--feature mode-tag"
+};
+
 /**
  * The mode dialog. opts: { runId, norms (names of the norms a Live run reads), sovereign (config or
  * null), onStart({ mode }) }.
@@ -38,7 +45,7 @@ export function openModeDialog({ runId, norms, sovereign, onStart }) {
   const sov = sovereignStatus(sovereign);
   const card = (mode, title, text, extra, action, { disabled = false, reason = "" } = {}) =>
     h("section", { class: "vc-card mode-card", dataset: { mode, disabled: String(disabled) }, "aria-labelledby": `mode-${mode}-title` },
-      h("h3", { id: `mode-${mode}-title` }, h("span", { class: `vc-tag mode-tag mode-tag--${mode}` }, t(`mode.${mode}`)), " ", title),
+      h("h3", { id: `mode-${mode}-title` }, h("span", { class: TAG[mode] }, t(`mode.${mode}`)), " ", title),
       h("p", {}, text),
       extra,
       disabled ? h("p", { class: "mode-reason", id: `mode-${mode}-reason` }, icon("info", 16), reason) : null,
