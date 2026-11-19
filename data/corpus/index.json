@@ -1,0 +1,637 @@
+{
+  "slice_id": "slice-1",
+  "slice_status": "provisional",
+  "retrieved_at": "2026-11-19T04:01:18Z",
+  "source": "https://www.gesetze-im-internet.de/gii-toc.xml",
+  "transport": {
+    "kind": "archive",
+    "repository": "https://github.com/QuantLaw/gesetze-im-internet",
+    "branch": "data",
+    "commit": "0d22c0e8e411a1d43d9e586ff87ce53cc86e66f1",
+    "scraped_at": "2026-11-19T04:01:18Z"
+  },
+  "toc_sha256": "78c2db9a186b078224bda29ea619c071e16e6e98b562fb2f1f2019fa5f131235",
+  "links": {
+    "checked": 0,
+    "fallbacks": 0,
+    "note": "not checked"
+  },
+  "norms": [
+    {
+      "id": "bstatg_1987",
+      "slug": "bstatg_1987",
+      "abbr": "BStatG",
+      "title": "Gesetz über die Statistik für Bundeszwecke",
+      "toc_title": "Gesetz über die Statistik für Bundeszwecke",
+      "family": "statistics",
+      "builddate": "20240515220510",
+      "paragraphs": 28,
+      "sentences": 170,
+      "eu_basis": [
+        "32020L2184"
+      ],
+      "xml_sha256": "5be464e0e09d3caf80f227fe60c1a3568c39be58cadb61a9f320901c30ab372c",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 4,
+        "other": 0
+      }
+    },
+    {
+      "id": "prodgewstatg",
+      "slug": "prodgewstatg",
+      "abbr": "ProdGewStatG",
+      "title": "Gesetz über die Statistik im Produzierenden Gewerbe",
+      "toc_title": "Gesetz über die Statistik im Produzierenden Gewerbe",
+      "family": "statistics",
+      "builddate": "20260506175051",
+      "paragraphs": 13,
+      "sentences": 62,
+      "eu_basis": [],
+      "xml_sha256": "7c5abd53ea7cc5dbccc98ffedc31545939172b6bfd1fb36df27b947f9253feb6",
+      "skipped": {
+        "structure": 4,
+        "annex": 0,
+        "repealed": 4,
+        "other": 1
+      }
+    },
+    {
+      "id": "hdldlstatg",
+      "slug": "hdldlstatg",
+      "abbr": "HdlDlStatG",
+      "title": "Gesetz über die Statistik im Handels- und Dienstleistungsbereich",
+      "toc_title": "Gesetz über die Statistik im Handels- und Dienstleistungsbereich",
+      "family": "statistics",
+      "builddate": "20260506174543",
+      "paragraphs": 15,
+      "sentences": 74,
+      "eu_basis": [],
+      "xml_sha256": "28632353b3c4033ec93f42458b680bb3d6381f0b3e6cb6ee35f54c6106d1a6ed",
+      "skipped": {
+        "structure": 4,
+        "annex": 0,
+        "repealed": 0,
+        "other": 0
+      }
+    },
+    {
+      "id": "kostrukstatg",
+      "slug": "kostrukstatg",
+      "abbr": "KoStrukStatG",
+      "title": "Gesetz über Kostenstrukturstatistik",
+      "toc_title": "Gesetz über Kostenstrukturstatistik",
+      "family": "statistics",
+      "builddate": "20260506174511",
+      "paragraphs": 7,
+      "sentences": 24,
+      "eu_basis": [],
+      "xml_sha256": "cabba35f8802e7ff59421b91a37fa1aebc85f59565a6dd13783c9303195ddf66",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 1,
+        "other": 1
+      }
+    },
+    {
+      "id": "preisstatg",
+      "slug": "preisstatg",
+      "abbr": "PreisStatG",
+      "title": "Gesetz über die Preisstatistik",
+      "toc_title": "Gesetz über die Preisstatistik",
+      "family": "statistics",
+      "builddate": "20260506174816",
+      "paragraphs": 14,
+      "sentences": 58,
+      "eu_basis": [],
+      "xml_sha256": "2d3429a0bb7590a0c74487de71d8db1b1f0c01719176a594ed6966ed9e76d859",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 0,
+        "other": 1
+      }
+    },
+    {
+      "id": "verdstatg",
+      "slug": "verdstatg",
+      "abbr": "VerdStatG",
+      "title": "Gesetz über die Statistik der Verdienste und Arbeitskosten",
+      "toc_title": "Gesetz über die Statistik der Verdienste und Arbeitskosten",
+      "family": "statistics",
+      "builddate": "20260601215502",
+      "paragraphs": 10,
+      "sentences": 46,
+      "eu_basis": [],
+      "xml_sha256": "b3132669570dfc124ee95eafe5f768dd94c95c816ddc0b6717a7002ae497fb19",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 1,
+        "other": 0
+      }
+    },
+    {
+      "id": "hwstatg_1994",
+      "slug": "hwstatg_1994",
+      "abbr": "HwStatG",
+      "title": "Gesetz über Statistiken im Handwerk",
+      "toc_title": "Gesetz über Statistiken im Handwerk",
+      "family": "statistics",
+      "builddate": "20260506175122",
+      "paragraphs": 6,
+      "sentences": 11,
+      "eu_basis": [],
+      "xml_sha256": "4181b2497b016b752c982878099706429cf3c648296e74602fa1c7c9ff5d8165",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 4,
+        "other": 0
+      }
+    },
+    {
+      "id": "gwstatg",
+      "slug": "gwstatg",
+      "abbr": "GWStatG",
+      "title": "Gesetz über die Statistik zu globalen Wertschöpfungsketten",
+      "toc_title": "Gesetz über die Statistik zu globalen Wertschöpfungsketten",
+      "family": "statistics",
+      "builddate": "20260506174902",
+      "paragraphs": 11,
+      "sentences": 34,
+      "eu_basis": [],
+      "xml_sha256": "cf971df71591c7c1f57a6b7e3492ebe88a6fc59eef7cd5b3f70391cb7d2d7411",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 0,
+        "other": 0
+      }
+    },
+    {
+      "id": "ahstatg",
+      "slug": "ahstatg",
+      "abbr": "AHStatG",
+      "title": "Gesetz über die Statistik des Warenverkehrs mit dem Ausland",
+      "toc_title": "Gesetz über die Statistik des Warenverkehrs mit dem Ausland",
+      "family": "statistics",
+      "builddate": "20260506175537",
+      "paragraphs": 19,
+      "sentences": 130,
+      "eu_basis": [],
+      "xml_sha256": "d4b01d60772d7b15d9ebaeeeb300bdbd2c93d09d6e26bdfc7e9c4a0274346858",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 0,
+        "other": 0
+      }
+    },
+    {
+      "id": "ahstatdv_2022",
+      "slug": "ahstatdv_2022",
+      "abbr": "AHStatDV",
+      "title": "Verordnung zur Durchführung des Gesetzes über die Statistik des Warenverkehrs mit dem Ausland",
+      "toc_title": "Verordnung zur Durchführung des Gesetzes über die Statistik des Warenverkehrs mit dem Ausland",
+      "family": "statistics",
+      "builddate": "20260506175830",
+      "paragraphs": 34,
+      "sentences": 246,
+      "eu_basis": [],
+      "xml_sha256": "41c9387f35e9e8ff4df62e62a6583855a387b35760a13f8f10daf53f5a2d0a30",
+      "skipped": {
+        "structure": 5,
+        "annex": 4,
+        "repealed": 0,
+        "other": 3
+      }
+    },
+    {
+      "id": "statregg",
+      "slug": "statregg",
+      "abbr": "StatRegG",
+      "title": "Gesetz über den Aufbau und die Führung\neines Statistikregisters",
+      "toc_title": "Gesetz über den Aufbau und die Führung eines Statistikregisters",
+      "family": "statistics",
+      "builddate": "20260506175423",
+      "paragraphs": 12,
+      "sentences": 42,
+      "eu_basis": [],
+      "xml_sha256": "ca28a11f3ac3701cba6ae2cec786a6cf9a5eea11f9ab2ef1bde3ae5e318ced17",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 0,
+        "other": 0
+      }
+    },
+    {
+      "id": "vwdvg_2010",
+      "slug": "vwdvg_2010",
+      "abbr": "VwDVG",
+      "title": "Gesetz über die Verwendung von Verwaltungsdaten für Zwecke der Wirtschaftsstatistiken",
+      "toc_title": "Gesetz über die Verwendung von Verwaltungsdaten für Zwecke der Wirtschaftsstatistiken",
+      "family": "statistics",
+      "builddate": "20260506175451",
+      "paragraphs": 8,
+      "sentences": 33,
+      "eu_basis": [],
+      "xml_sha256": "53d328b05d5f97cc2035f30025ac76888f35aa85e425782ad446fb602aa85c95",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 0,
+        "other": 0
+      }
+    },
+    {
+      "id": "enstatg_2017",
+      "slug": "enstatg_2017",
+      "abbr": "EnStatG",
+      "title": "Energiestatistikgesetz",
+      "toc_title": "Energiestatistikgesetz",
+      "family": "energy",
+      "builddate": "20200107213027",
+      "paragraphs": 16,
+      "sentences": 70,
+      "eu_basis": [],
+      "xml_sha256": "70a8f8c3af85a1f7e80002cd2d3a65ad371ee2cdd162793a3594c5b2d87889fd",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 0,
+        "other": 0
+      }
+    },
+    {
+      "id": "milog",
+      "slug": "milog",
+      "abbr": "MiLoG",
+      "title": "Gesetz zur Regelung eines allgemeinen Mindestlohns",
+      "toc_title": "Gesetz zur Regelung eines allgemeinen Mindestlohns",
+      "family": "worktime",
+      "builddate": "20260630215549",
+      "paragraphs": 23,
+      "sentences": 128,
+      "eu_basis": [
+        "32020L1057",
+        "32014L0067",
+        "32022L2041"
+      ],
+      "xml_sha256": "f9133387b010444d85b54e6473e3f5d57aab3553cc2125422aa2da49cbde51f3",
+      "skipped": {
+        "structure": 6,
+        "annex": 0,
+        "repealed": 1,
+        "other": 1
+      }
+    },
+    {
+      "id": "miloaufzv",
+      "slug": "miloaufzv",
+      "abbr": "MiLoAufzV",
+      "title": "Verordnung zur Abwandlung der Pflicht zur Arbeitszeitaufzeichnung nach dem Mindestlohngesetz und dem Arbeitnehmer-Entsendegesetz",
+      "toc_title": "Verordnung zur Abwandlung der Pflicht zur Arbeitszeitaufzeichnung nach dem Mindestlohngesetz und dem Arbeitnehmer-Entsendegesetz",
+      "family": "worktime",
+      "builddate": "20141231221857",
+      "paragraphs": 2,
+      "sentences": 7,
+      "eu_basis": [],
+      "xml_sha256": "942831fbf99b78c40cacf271bb86d983c7d546c923bfb15e053f649e16474af4",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 0,
+        "other": 1
+      }
+    },
+    {
+      "id": "milodokv_2015",
+      "slug": "milodokv_2015",
+      "abbr": "MiLoDokV",
+      "title": "Verordnung zu den Dokumentationspflichten nach den §§ 16 und 17 des Mindestlohngesetzes und den §§ 18 und 19 des Arbeitnehmer-Entsendegesetzes in Bezug auf bestimmte Arbeitnehmergruppen",
+      "toc_title": "Verordnung zu den Dokumentationspflichten nach den §§ 16 und 17 des Mindestlohngesetzes und den §§ 18 und 19 des Arbeitnehmer-Entsendegesetzes in Bezug auf bestimmte Arbeitnehmergruppen",
+      "family": "worktime",
+      "builddate": "20260506180024",
+      "paragraphs": 2,
+      "sentences": 8,
+      "eu_basis": [
+        "32020L1057",
+        "32014L0067"
+      ],
+      "xml_sha256": "565cd7c73c7bb8a7cc778da9746d85c29a2ff57caf3e98533c409f64b64be741",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 0,
+        "other": 1
+      }
+    },
+    {
+      "id": "milomeldv",
+      "slug": "milomeldv",
+      "abbr": "MiLoMeldV",
+      "title": "Verordnung über Meldepflichten nach dem Mindestlohngesetz, dem Arbeitnehmer-Entsendegesetz und dem Arbeitnehmerüberlassungsgesetz",
+      "toc_title": "Verordnung über Meldepflichten nach dem Mindestlohngesetz, dem Arbeitnehmer-Entsendegesetz und dem Arbeitnehmerüberlassungsgesetz",
+      "family": "worktime",
+      "builddate": "20260506174614",
+      "paragraphs": 4,
+      "sentences": 28,
+      "eu_basis": [
+        "32020L1057",
+        "32014L0067"
+      ],
+      "xml_sha256": "05f6303ac8b78d8e2184cf3c1196fadc2e26079c5c388b0be299c14810dd7a3c",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 0,
+        "other": 1
+      }
+    },
+    {
+      "id": "arbzg",
+      "slug": "arbzg",
+      "abbr": "ArbZG",
+      "title": "Arbeitszeitgesetz",
+      "toc_title": "Arbeitszeitgesetz",
+      "family": "worktime",
+      "builddate": "20241231222246",
+      "paragraphs": 26,
+      "sentences": 133,
+      "eu_basis": [],
+      "xml_sha256": "1bb557bc762742bbbdcd897feccb2db1b1d162ec81ea79902eaeedb5a000695e",
+      "skipped": {
+        "structure": 8,
+        "annex": 0,
+        "repealed": 1,
+        "other": 0
+      }
+    },
+    {
+      "id": "aentg_2009",
+      "slug": "aentg_2009",
+      "abbr": "AEntG",
+      "title": "Gesetz über zwingende Arbeitsbedingungen für grenzüberschreitend entsandte und für regelmäßig im Inland beschäftigte Arbeitnehmer und Arbeitnehmerinnen",
+      "toc_title": "Gesetz über zwingende Arbeitsbedingungen für grenzüberschreitend entsandte und für regelmäßig im Inland beschäftigte Arbeitnehmer und Arbeitnehmerinnen",
+      "family": "worktime",
+      "builddate": "20260630215538",
+      "paragraphs": 49,
+      "sentences": 287,
+      "eu_basis": [
+        "32018L0957",
+        "32020L1057",
+        "32014L0067"
+      ],
+      "xml_sha256": "3c8019626a8d31907b4296a837c413a43f5c636b52f26551e77ac0d62325a3e6",
+      "skipped": {
+        "structure": 14,
+        "annex": 0,
+        "repealed": 1,
+        "other": 1
+      }
+    },
+    {
+      "id": "verpackdg",
+      "slug": "verpackdg",
+      "abbr": "VerpackDG",
+      "title": "Gesetz zur Durchführung der Verordnung (EU) 2025/40 betreffend Verpackungen",
+      "toc_title": "Gesetz zur Durchführung der Verordnung (EU) 2025/40 betreffend Verpackungen 2",
+      "family": "products",
+      "builddate": "20261116220004",
+      "paragraphs": 69,
+      "sentences": 639,
+      "eu_basis": [
+        "32025L0040",
+        "32008L0098",
+        "32019L0904"
+      ],
+      "xml_sha256": "24d7e719e8c6442f2dc8eaedc7276c28fd7226c438f99223f4fb13b1a8a2fef9",
+      "skipped": {
+        "structure": 13,
+        "annex": 2,
+        "repealed": 0,
+        "other": 1
+      }
+    },
+    {
+      "id": "elektrog_2015",
+      "slug": "elektrog_2015",
+      "abbr": "ElektroG",
+      "title": "Gesetz über das Inverkehrbringen, die Rücknahme und die umweltverträgliche Entsorgung von Elektro- und Elektronikgeräten",
+      "toc_title": "Gesetz über das Inverkehrbringen, die Rücknahme und die umweltverträgliche Entsorgung von Elektro- und Elektronikgeräten",
+      "family": "products",
+      "builddate": "20260506175535",
+      "paragraphs": 52,
+      "sentences": 514,
+      "eu_basis": [
+        "32012L0019",
+        "32024L0884",
+        "32015L1535"
+      ],
+      "xml_sha256": "ecb875c059ea6046fe27c3188077a47ded7f004365d2250cb9af84c602cc806a",
+      "skipped": {
+        "structure": 11,
+        "annex": 8,
+        "repealed": 0,
+        "other": 1
+      }
+    },
+    {
+      "id": "battdg",
+      "slug": "battdg",
+      "abbr": "BattDG",
+      "title": "Gesetz zur Durchführung der Verordnung (EU) 2023/1542 betreffend Batterien und Altbatterien",
+      "toc_title": "Gesetz zur Durchführung der Verordnung (EU) 2023/1542 betreffend Batterien und Altbatterien",
+      "family": "products",
+      "builddate": "20260813215504",
+      "paragraphs": 64,
+      "sentences": 412,
+      "eu_basis": [],
+      "xml_sha256": "cb6064987b9f259f78421ff0265f33a402c70da1bc0ea66c1b6b69d525c393f6",
+      "skipped": {
+        "structure": 24,
+        "annex": 0,
+        "repealed": 0,
+        "other": 1
+      }
+    },
+    {
+      "id": "gewo",
+      "slug": "gewo",
+      "abbr": "GewO",
+      "title": "Gewerbeordnung",
+      "toc_title": "Gewerbeordnung",
+      "family": "trade",
+      "builddate": "20260821215501",
+      "paragraphs": 128,
+      "sentences": 1013,
+      "eu_basis": [
+        "32005L0036",
+        "32016L0097"
+      ],
+      "xml_sha256": "9d72811ec7c3d4fb0f030a7696b3ea936a352e1aeee58fc63d83cf7fac4ac561",
+      "skipped": {
+        "structure": 21,
+        "annex": 1,
+        "repealed": 25,
+        "other": 18
+      }
+    },
+    {
+      "id": "gewo_34cdv",
+      "slug": "gewo_34cdv",
+      "abbr": "MaBV",
+      "title": "Verordnung über die Pflichten der Immobilienmakler, Darlehensvermittler, Bauträger, Baubetreuer und Wohnimmobilienverwalter",
+      "toc_title": "Verordnung über die Pflichten der Immobilienmakler, Darlehensvermittler, Bauträger, Baubetreuer und Wohnimmobilienverwalter",
+      "family": "trade",
+      "builddate": "20260821215503",
+      "paragraphs": 22,
+      "sentences": 136,
+      "eu_basis": [],
+      "xml_sha256": "d342e9e2af80eae0d7842d9a65508fc33af5fcee74f98eff539f574eb5044a96",
+      "skipped": {
+        "structure": 0,
+        "annex": 3,
+        "repealed": 2,
+        "other": 0
+      }
+    },
+    {
+      "id": "finvermv",
+      "slug": "finvermv",
+      "abbr": "FinVermV",
+      "title": "Verordnung über die Finanzanlagenvermittlung",
+      "toc_title": "Verordnung über die Finanzanlagenvermittlung",
+      "family": "trade",
+      "builddate": "20250210223506",
+      "paragraphs": 29,
+      "sentences": 199,
+      "eu_basis": [],
+      "xml_sha256": "99b4f8cbefce6bc987f28bfc6af71212e318aeb093baa81b76af45b32575eb7e",
+      "skipped": {
+        "structure": 6,
+        "annex": 2,
+        "repealed": 1,
+        "other": 1
+      }
+    },
+    {
+      "id": "versvermv_2018",
+      "slug": "versvermv_2018",
+      "abbr": "VersVermV",
+      "title": "Verordnung über die Versicherungsvermittlung und -beratung",
+      "toc_title": "Verordnung über die Versicherungsvermittlung und -beratung",
+      "family": "trade",
+      "builddate": "20250221223013",
+      "paragraphs": 27,
+      "sentences": 149,
+      "eu_basis": [],
+      "xml_sha256": "6aad45c87c4477d03e4818d174471b4a4924fca89411e3122205c75d0efb7b73",
+      "skipped": {
+        "structure": 7,
+        "annex": 4,
+        "repealed": 0,
+        "other": 1
+      }
+    },
+    {
+      "id": "immvermv",
+      "slug": "immvermv",
+      "abbr": "ImmVermV",
+      "title": "Verordnung über Immobiliardarlehensvermittlung",
+      "toc_title": "Verordnung über Immobiliardarlehensvermittlung",
+      "family": "trade",
+      "builddate": "20260731215513",
+      "paragraphs": 19,
+      "sentences": 96,
+      "eu_basis": [],
+      "xml_sha256": "fc89327e017e1dfd16b52723eb14aa51f2203edd6f20b70b67275fa5535871f8",
+      "skipped": {
+        "structure": 6,
+        "annex": 2,
+        "repealed": 1,
+        "other": 0
+      }
+    },
+    {
+      "id": "bewachv_2019",
+      "slug": "bewachv_2019",
+      "abbr": "BewachV",
+      "title": "Verordnung über das Bewachungsgewerbe",
+      "toc_title": "Verordnung über das Bewachungsgewerbe",
+      "family": "trade",
+      "builddate": "20260506175210",
+      "paragraphs": 24,
+      "sentences": 110,
+      "eu_basis": [],
+      "xml_sha256": "1ece4ed0bd2c83b9b91fa5c857d7ef2dd668b2eeb1a89b7b99e04768d1fd0d99",
+      "skipped": {
+        "structure": 8,
+        "annex": 3,
+        "repealed": 0,
+        "other": 3
+      }
+    },
+    {
+      "id": "bewachrv",
+      "slug": "bewachrv",
+      "abbr": "BewachRV",
+      "title": "Verordnung über das Bewacherregister",
+      "toc_title": "Verordnung über das Bewacherregister",
+      "family": "trade",
+      "builddate": "20260506175243",
+      "paragraphs": 14,
+      "sentences": 67,
+      "eu_basis": [],
+      "xml_sha256": "167a87422edd883ac8ccd3be8f2b10c49c60cee2403994e61c37b636bc746a7a",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 0,
+        "other": 0
+      }
+    },
+    {
+      "id": "spielv",
+      "slug": "spielv",
+      "abbr": "SpielV",
+      "title": "Verordnung über Spielgeräte und andere Spiele mit Gewinnmöglichkeit",
+      "toc_title": "Verordnung über Spielgeräte und andere Spiele mit Gewinnmöglichkeit",
+      "family": "trade",
+      "builddate": "20210930213003",
+      "paragraphs": 26,
+      "sentences": 125,
+      "eu_basis": [],
+      "xml_sha256": "6352e838c7915e556fe061699a627ae355e97ce34aa61d120a3edc83abd7793b",
+      "skipped": {
+        "structure": 9,
+        "annex": 1,
+        "repealed": 1,
+        "other": 0
+      }
+    },
+    {
+      "id": "schauhv",
+      "slug": "schauhv",
+      "abbr": "SchauHV",
+      "title": "Verordnung über die Haftpflichtversicherung für Schausteller",
+      "toc_title": "Verordnung über die Haftpflichtversicherung für Schausteller",
+      "family": "trade",
+      "builddate": "20130405125757",
+      "paragraphs": 5,
+      "sentences": 8,
+      "eu_basis": [],
+      "xml_sha256": "de323e1ecbd00f7cc9101be5bbfa5d53e960638c87cd8cbb18cc7197ba649f00",
+      "skipped": {
+        "structure": 0,
+        "annex": 0,
+        "repealed": 0,
+        "other": 1
+      }
+    }
+  ]
+}

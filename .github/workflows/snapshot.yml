@@ -1,32 +1,31 @@
-# Builds the law snapshot in GitHub Actions, because the build environment cannot reach
-# gesetze-im-internet.de (TECH_NOTES §5). Two ways to start it:
-#   - a push to the branch snapshot/request, or Actions → snapshot → Run workflow: runs
-#     tools/snapshot-laws.mjs and pushes data/corpus/ and SNAPSHOT.md to a new branch
-#     snapshot/<UTC time>, from which a pull request takes them into the milestone branch
-#     (workflows may not open pull requests without a change to the repository settings);
-#   - a push to the branch snapshot/probe: keeps the raw sources for inspection on that branch
-#     (raw/: the table of contents, each norm's XML, the cost guide's text, the OnDEA home page).
-name: snapshot
+# Law snapshot: rebuilds data/corpus/ and SNAPSHOT.md for the slice in config/slice.json and pushes
+# them to a new branch snapshot/<UTC time> for review; nothing reaches main without a pull request.
+#
+# gesetze-im-internet.de does not answer GitHub's runners (TECH_NOTES.md §5), so the default source is
+# the public daily archive QuantLaw/gesetze-im-internet (branch data), which stores the host's table of
+# contents and each norm's unzipped XML unchanged. "direct" downloads from the host instead, for a
+# runner that can reach it.
+name: Law snapshot
 
 on:
   workflow_dispatch:
-  push:
-    branches: ["snapshot/request", "snapshot/probe"]
+    inputs:
+      source:
+        description: "archive (default) or direct"
+        required: false
+        default: archive
+      archive_ref:
+        description: "Archive commit, day tag (YYYY-MM-DD) or branch"
+        required: false
+        default: data
 
 permissions:
   contents: write
 
-concurrency:
-  group: snapshot-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
   snapshot:
-    name: Law snapshot from gesetze-im-internet.de
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    env:
-      GUIDE_URL: "https://www.destatis.de/DE/Themen/Staat/Buerokratiekosten/Publikationen/Downloads-Buerokratiekosten/leitfaden-erfuellungsaufwand.pdf?__blob=publicationFile"
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -34,56 +33,45 @@ jobs:
           node-version: 22
       - run: npm ci
 
-      - name: Reach the hosts (diagnostics only)
-        continue-on-error: true
-        run: |
-          getent ahosts www.gesetze-im-internet.de || true
-          for v in -4 -6; do
-            curl $v -sS -o /dev/null --connect-timeout 30 --max-time 90 -w "gesetze-im-internet.de $v: HTTP %{http_code}, %{remote_ip}, %{time_connect}s connect, %{size_download} bytes\n" https://www.gesetze-im-internet.de/gii-toc.xml || echo "gesetze-im-internet.de $v: failed"
-          done
-          curl -sS -o /dev/null --connect-timeout 30 --max-time 90 -w "http://www.gesetze-im-internet.de: HTTP %{http_code}, %{remote_ip}\n" http://www.gesetze-im-internet.de/gii-toc.xml || echo "http: failed"
-          curl -sS -o /dev/null --connect-timeout 30 --max-time 90 -w "www.destatis.de: HTTP %{http_code}, %{remote_ip}\n" "$GUIDE_URL" || echo "destatis: failed"
-          curl -sS -o /dev/null --connect-timeout 30 --max-time 90 -w "www.ondea.de: HTTP %{http_code}, %{remote_ip}\n" https://www.ondea.de/ || echo "ondea: failed"
-
-      - name: Probe the sources (raw law texts, the cost guide, OnDEA)
-        if: github.ref_name == 'snapshot/probe'
+      - name: Fetch the slice from the archive
+        if: ${{ inputs.source != 'direct' }}
         env:
-          NODE_OPTIONS: --dns-result-order=ipv4first
+          REF: ${{ inputs.archive_ref }}
         run: |
-          mkdir -p raw/laws raw/sources
-          node tools/snapshot-laws.mjs --raw-only --raw-out raw/laws || echo "The law download failed; see the log" > raw/laws/error.txt
-          # The cost guide (Destatis, February 2026): its text for the wage and time tables.
-          if curl -fsSL --max-time 120 -A "dutyradar-snapshot (GitHub Actions)" -o guide.pdf "$GUIDE_URL"; then
-            sha256sum guide.pdf > raw/sources/leitfaden-2026.sha256
-            stat -c '%s bytes' guide.pdf >> raw/sources/leitfaden-2026.sha256
-            sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils > /dev/null
-            pdfinfo guide.pdf > raw/sources/leitfaden-2026.info.txt || true
-            pdftotext -layout guide.pdf raw/sources/leitfaden-2026.txt
+          set -euo pipefail
+          git init -q "$RUNNER_TEMP/gii"
+          cd "$RUNNER_TEMP/gii"
+          git remote add origin https://github.com/QuantLaw/gesetze-im-internet
+          git config remote.origin.promisor true
+          git config remote.origin.partialclonefilter blob:none
+          git config core.sparseCheckout true
+          {
+            echo /data/toc.xml; echo /data/log.md; echo /data/not_found.txt
+            node -e "for (const n of require(process.argv[1]).norms) console.log('/data/items/' + n.slug + '/*.xml')" "$GITHUB_WORKSPACE/config/slice.json"
+          } > .git/info/sparse-checkout
+          git fetch -q --depth 1 --filter=blob:none origin "$REF"
+          git checkout -q FETCH_HEAD
+          git log -1 --format='Archive commit %H, scraped %aI'
+
+      - name: Build the corpus
+        run: |
+          set -euo pipefail
+          if [ "${{ inputs.source }}" = "direct" ]; then
+            node tools/snapshot-laws.mjs
           else
-            echo "The guide could not be downloaded from $GUIDE_URL" > raw/sources/leitfaden-2026.error.txt
+            node tools/snapshot-laws.mjs --archive "$RUNNER_TEMP/gii"
           fi
-          # OnDEA: reachability and what the home page offers.
-          curl -sS -L --max-time 60 -A "Mozilla/5.0 (dutyradar probe)" -D raw/sources/ondea-headers.txt -o raw/sources/ondea-home.html "https://www.ondea.de/" \
-            || echo "OnDEA could not be reached" > raw/sources/ondea-error.txt
-          date -u +%Y-%m-%dT%H:%M:%SZ > raw/probed_at.txt
+          node tools/check-data.mjs corpus
 
-      - name: Build the snapshot
-        if: github.ref_name != 'snapshot/probe'
-        run: node tools/snapshot-laws.mjs
-
-      - name: Push the result to a branch
+      - name: Push to a review branch
         run: |
+          set -euo pipefail
+          branch="snapshot/$(date -u +%Y%m%dT%H%M%SZ)"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ "$GITHUB_REF_NAME" = "snapshot/probe" ]; then
-            git add raw
-            git commit -m "Raw sources probed $(cat raw/probed_at.txt)"
-            git push origin "HEAD:$GITHUB_REF_NAME"
-          else
-            branch="snapshot/$(date -u +%Y%m%d-%H%M)"
-            git checkout -b "$branch"
-            git add data/corpus SNAPSHOT.md
-            git commit -m "Law snapshot of $(date -u +%Y-%m-%d) from gesetze-im-internet.de"
-            git push origin "$branch"
-            echo "Pushed $branch" >> "$GITHUB_STEP_SUMMARY"
-          fi
+          git switch -c "$branch"
+          git add data/corpus SNAPSHOT.md
+          if git diff --cached --quiet; then echo "The corpus is unchanged."; exit 0; fi
+          git commit -q -m "Law snapshot $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push -q origin "$branch"
+          echo "Pushed $branch"

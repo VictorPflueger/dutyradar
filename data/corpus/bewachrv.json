@@ -1,0 +1,494 @@
+{
+ "id": "bewachrv",
+ "abbr": "BewachRV",
+ "title": "Verordnung über das Bewacherregister",
+ "slug": "bewachrv",
+ "source_xml_url": "http://www.gesetze-im-internet.de/bewachrv/xml.zip",
+ "html_url": "https://www.gesetze-im-internet.de/bewachrv/index.html",
+ "builddate": "20260506175243",
+ "retrieved_at": "2026-11-19T04:01:18Z",
+ "eu_basis": [],
+ "paragraphs": [
+  {
+   "id": "bewachrv-p1",
+   "enbez": "§ 1",
+   "title": "Datensatz",
+   "text": "Die Registerbehörde speichert die Daten nach § 11b Absatz 2 und 3 der Gewerbeordnung im Bewacherregister. Der dem Datenmodell zugrundeliegende Datensatz kann beim Bundesamt für Wirtschaft und Ausfuhrkontrolle elektronisch bezogen werden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__1.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p1-s1",
+     "start": 0,
+     "end": 105
+    },
+    {
+     "id": "bewachrv-p1-s2",
+     "start": 106,
+     "end": 237
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p2",
+   "enbez": "§ 2",
+   "title": "Übermittlung und Verarbeitung von Daten",
+   "text": "(1) Die Datenübermittlung der für den Vollzug des § 34a der Gewerbeordnung zuständigen Behörden an die Registerbehörde nach § 4 und die Datenübermittlung durch die Gewerbetreibenden an die Registerbehörde nach § 5 erfolgt über das Portal der Registerbehörde im Internet.\n(2) Die Datenübermittlung zwischen den Fachverfahren der für den Vollzug des § 34a der Gewerbeordnung zuständigen Behörden und dem Bewacherregister erfolgt über das Verbindungsnetz des Bundes.\n(3) Die Übermittlung und Verarbeitung von Daten hat nach dem jeweils aktuellen Standard des Bundesamtes für Sicherheit in der Informationstechnik oder vergleichbaren Standards zu erfolgen. Die Verschlüsselung erfolgt nach dem jeweiligen Stand der Technik.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__2.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p2-s1",
+     "start": 0,
+     "end": 270
+    },
+    {
+     "id": "bewachrv-p2-s2",
+     "start": 271,
+     "end": 463
+    },
+    {
+     "id": "bewachrv-p2-s3",
+     "start": 464,
+     "end": 652
+    },
+    {
+     "id": "bewachrv-p2-s4",
+     "start": 653,
+     "end": 719
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p3",
+   "enbez": "§ 3",
+   "title": "Portalanwendung",
+   "text": "(1) Die Registerbehörde errichtet und betreibt eine Portalanwendung als zentralen Zugangsbereich mit Nutzerselbstverwaltung. Die Übermittlung von Daten an das Bewacherregister und der Abruf von Daten aus dem Bewacherregister erfolgen über die Portalanwendung, soweit nicht eine elektronische Schnittstelle nach § 7 verwendet wird.\n(2) Die nach § 9 Absatz 1 abrufberechtigten Behörden und Gewerbetreibenden erhalten einen Zugang zur Portalanwendung, indem sie sich für die Nutzung registrieren. Für die Registrierung müssen Name, Straße, Postleitzahl, Ort, E-Mail und Telefonnummer angegeben werden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__3.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p3-s1",
+     "start": 0,
+     "end": 124
+    },
+    {
+     "id": "bewachrv-p3-s2",
+     "start": 125,
+     "end": 330
+    },
+    {
+     "id": "bewachrv-p3-s3",
+     "start": 331,
+     "end": 493
+    },
+    {
+     "id": "bewachrv-p3-s4",
+     "start": 494,
+     "end": 598
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p4",
+   "enbez": "§ 4",
+   "title": "Verfahren der Datenübermittlung an die Registerbehörde durch die für den Vollzug des § 34a der Gewerbeordnung zuständigen Behörden",
+   "text": "(1) Besteht zu einem Gewerbetreibenden oder einem Gewerbebetrieb noch kein Datensatz im Bewacherregister, legt die für den Vollzug des § 34a der Gewerbeordnung zuständige Behörde einen neuen Datensatz an und übermittelt diesen an die Registerbehörde. Die Registerbehörde vergibt für jeden Gewerbetreibenden oder Gewerbebetrieb, der in das Register eingetragen wurde, eine Identifikationsnummer, die dem jeweiligen Datensatz zugeordnet wird. Die Identifikationsnummer darf nur zu dem Zweck der Zuordnung von Daten zu Datensätzen im Bewacherregister verarbeitet werden. Die für den Vollzug des § 34a der Gewerbeordnung zuständige Behörde übermittelt die Daten nach § 11b Absatz 2 Nummer 1, 2, 4, 5, 7, 8, 9, 10 und 11 der Gewerbeordnung an das Bewacherregister. Die Zuordnung der nach Satz 4 übermittelten Daten zu einem Datensatz erfolgt mit Hilfe der Identifikationsnummer.\n(2) Besteht im Bewacherregister zu einem Gewerbetreibenden oder einem Gewerbebetrieb bereits ein Datensatz, werden diesem die übermittelten Daten mit Hilfe der Identifikationsnummer zugeordnet.\n(3) Die für den Vollzug des § 34a der Gewerbeordnung zuständige Behörde meldet die nach § 11b Absatz 6 der Gewerbeordnung der Registerbehörde mitzuteilenden Datenänderungen über ihren Zugang zur Portalanwendung an das Bewacherregister.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__4.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p4-s1",
+     "start": 0,
+     "end": 250
+    },
+    {
+     "id": "bewachrv-p4-s2",
+     "start": 251,
+     "end": 440
+    },
+    {
+     "id": "bewachrv-p4-s3",
+     "start": 441,
+     "end": 567
+    },
+    {
+     "id": "bewachrv-p4-s4",
+     "start": 568,
+     "end": 759
+    },
+    {
+     "id": "bewachrv-p4-s5",
+     "start": 760,
+     "end": 873
+    },
+    {
+     "id": "bewachrv-p4-s6",
+     "start": 874,
+     "end": 1067
+    },
+    {
+     "id": "bewachrv-p4-s7",
+     "start": 1068,
+     "end": 1303
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p5",
+   "enbez": "§ 5",
+   "title": "Verfahren der Datenübermittlung an die Registerbehörde durch die Gewerbetreibenden",
+   "text": "(1) Besteht zu einer Wachperson oder einer mit der Leitung des Betriebs oder einer Zweigniederlassung beauftragten Person noch kein Datensatz im Bewacherregister, übermittelt der Gewerbetreibende die nach § 11b Absatz 2 Nummer 1, 3 und 6 und Absatz 5 der Gewerbeordnung erforderlichen Daten über seinen Zugang zur Portalanwendung an die Registerbehörde. Die Registerbehörde vergibt für jede eingetragene Person eine Identifikationsnummer, die dem jeweiligen Datensatz zugeordnet wird. Die Identifikationsnummer darf nur zu dem Zweck der Zuordnung von Daten zu Datensätzen im Bewacherregister verarbeitet werden.\n(2) Besteht im Bewacherregister zu einer Person bereits ein Datensatz, werden diesem die vom Gewerbetreibenden übermittelten Daten mit Hilfe der Identifikationsnummer zugeordnet.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__5.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p5-s1",
+     "start": 0,
+     "end": 353
+    },
+    {
+     "id": "bewachrv-p5-s2",
+     "start": 354,
+     "end": 484
+    },
+    {
+     "id": "bewachrv-p5-s3",
+     "start": 485,
+     "end": 611
+    },
+    {
+     "id": "bewachrv-p5-s4",
+     "start": 612,
+     "end": 790
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p6",
+   "enbez": "§ 6",
+   "title": "Meldungen durch die Registerbehörde",
+   "text": "(1) Die Registerbehörde informiert die für den Vollzug des § 34a der Gewerbeordnung zuständige Behörde über den Eingang von Datenübermittlungen durch den Gewerbetreibenden.\n(2) Soweit Datenänderungen zu einer Änderung der örtlichen Zuständigkeit der für den Vollzug des § 34a der Gewerbeordnung zuständigen Behörde führen, teilt die Registerbehörde diese Datenänderungen den von der Änderung der Zuständigkeit betroffenen Behörden mit.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__6.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p6-s1",
+     "start": 0,
+     "end": 172
+    },
+    {
+     "id": "bewachrv-p6-s2",
+     "start": 173,
+     "end": 435
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p7",
+   "enbez": "§ 7",
+   "title": "Verwendung von Schnittstellen",
+   "text": "(1) Die Registerbehörde stellt Schnittstellen des Bewacherregisters nach Maßgabe der Absätze 2 bis 4 bereit. Die Pflege und Weiterentwicklung der Schnittstellen obliegt der Registerbehörde.\n(2) Die Schnittstelle zum Bundesamt für Verfassungsschutz erfolgt über einen Datenaustausch des Bewacherregisters mit dem nachrichtendienstlichen Informationssystem, welches durch das Bundesamt für Verfassungsschutz betrieben wird. Bei der Übermittlung und Verarbeitung der Daten ist die jeweilige Geheimhaltungsstufe einzuhalten. Dabei sind die technischen Anforderungen des Bundesamtes für Sicherheit in der Informationstechnik zu beachten.\n(3) Die Schnittstelle zum Deutschen Industrie- und Handelskammertag e. V. erfolgt über einen Datenaustausch des Bewacherregisters mit der Datenbank für Unterrichtungen und Sachkundeprüfungen im Bewachungsgewerbe, welche durch den Deutschen Industrie- und Handelskammertag e. V. betrieben wird.\n(4) Die Registerbehörde bietet eine Schnittstelle an, über die der Datenaustausch des Bewacherregisters mit Fachverfahren der für den Vollzug des § 34a der Gewerbeordnung zuständigen Behörden erfolgen kann.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__7.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p7-s1",
+     "start": 0,
+     "end": 108
+    },
+    {
+     "id": "bewachrv-p7-s2",
+     "start": 109,
+     "end": 189
+    },
+    {
+     "id": "bewachrv-p7-s3",
+     "start": 190,
+     "end": 421
+    },
+    {
+     "id": "bewachrv-p7-s4",
+     "start": 422,
+     "end": 520
+    },
+    {
+     "id": "bewachrv-p7-s5",
+     "start": 521,
+     "end": 632
+    },
+    {
+     "id": "bewachrv-p7-s6",
+     "start": 633,
+     "end": 926
+    },
+    {
+     "id": "bewachrv-p7-s7",
+     "start": 927,
+     "end": 1133
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p8",
+   "enbez": "§ 8",
+   "title": "Verantwortung für die Datenübermittlung und die Datenrichtigkeit",
+   "text": "(1) Die für den Vollzug des § 34a der Gewerbeordnung zuständigen Behörden sind gegenüber der Registerbehörde für die Zulässigkeit der Übermittlung sowie für die Richtigkeit, Vollständigkeit und Aktualität der von ihnen übermittelten Daten verantwortlich. Die Registerbehörde stellt durch geeignete elektronische Datenverarbeitungsprogramme sicher, dass die zu speichernden Daten zuvor auf ihre Schlüssigkeit hin geprüft werden und dass durch die Speicherung dieser Daten bereits gespeicherte Daten nicht irrtümlich gelöscht oder unrichtig werden.\n(2) Soweit den für den Vollzug des § 34a der Gewerbeordnung zuständigen Behörden konkrete Anhaltspunkte für die Unrichtigkeit oder Unvollständigkeit der von ihnen übermittelten Daten vorliegen, prüfen sie diese auf Richtigkeit und Vollständigkeit. Wenn die von ihnen übermittelten Daten unrichtig oder unvollständig sind, übermitteln sie unverzüglich berichtigte und vervollständigte Daten. Die Registerbehörde schreibt die übermittelten Daten entsprechend fort.\n(3) Stellt die Registerbehörde fest, dass zu einer Person im Datenbestand mehrere Datensätze vorhanden sind, darf sie diese mit Einvernehmen der für den Vollzug des § 34a der Gewerbeordnung zuständigen Behörden, die die Daten an die Registerbehörde übermittelt haben, zu einem Datensatz zusammenführen.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__8.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p8-s1",
+     "start": 0,
+     "end": 254
+    },
+    {
+     "id": "bewachrv-p8-s2",
+     "start": 255,
+     "end": 546
+    },
+    {
+     "id": "bewachrv-p8-s3",
+     "start": 547,
+     "end": 794
+    },
+    {
+     "id": "bewachrv-p8-s4",
+     "start": 795,
+     "end": 937
+    },
+    {
+     "id": "bewachrv-p8-s5",
+     "start": 938,
+     "end": 1009
+    },
+    {
+     "id": "bewachrv-p8-s6",
+     "start": 1010,
+     "end": 1312
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p9",
+   "enbez": "§ 9",
+   "title": "Automatisiertes Abrufverfahren",
+   "text": "(1) Der Abruf aus dem Bewacherregister erfolgt im automatisierten Abrufverfahren. Die Zulassung zum Datenabruf im automatisierten Verfahren ist bei der Registerbehörde zu beantragen. Die Registerbehörde erteilt die Zulassung zum Datenabruf, wenn der Antrag gestellt wird durch 1. eine für den Vollzug des § 34a der Gewerbeordnung zuständige Behörde, 2. eine im Rahmen der Amtshilfe für den Vollzug des § 34a der Gewerbeordnung zuständige Behörde, insbesondere eine Polizei-, Ordnungs- oder Zollbehörde, 3. eine Behörde, die die Aufsicht über eine für den Vollzug des § 34a der Gewerbeordnung zuständige Behörde hat, 4. eine Behörde, die Widerspruchsbehörde für den Vollzug des § 34a der Gewerbeordnung betreffende Widerspruchsverfahren ist, 5. eine Behörde, die für die Verfolgung von Ordnungswidrigkeiten nach § 144 Absatz 1 Nummer 1 Buchstabe f oder Absatz 2 Nummer 1b der Gewerbeordnung in Verbindung mit § 22 der Bewachungsverordnung zuständig ist, oder 6. einen Gewerbetreibenden nach § 34a Absatz 1 der Gewerbeordnung.\n(2) Der Datenabruf durch Behörden nach Absatz 1 Satz 3 Nummer 1 bis 5 und durch Gewerbetreibende nach Absatz 1 Satz 3 Nummer 6 ist auf den Umfang nach § 10 zu beschränken. Die Zulassung zum Datenabruf im automatisierten Verfahren kann auch nachträglich inhaltlich beschränkt werden.\n(3) Die Registerbehörde führt zum Zwecke der datenschutzrechtlichen Kontrolle ein Verzeichnis mit dem Zweck der Datenverarbeitung und den zum Abruf im automatisierten Verfahren zugelassenen Behörden und Gewerbetreibenden.\n(4) Die Registerbehörde trifft die erforderlichen Vorkehrungen, damit keine Daten übermittelt werden, wenn die Identität der abfragenden Stelle nicht zweifelsfrei festgestellt werden kann.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__9.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p9-s1",
+     "start": 0,
+     "end": 81
+    },
+    {
+     "id": "bewachrv-p9-s2",
+     "start": 82,
+     "end": 182
+    },
+    {
+     "id": "bewachrv-p9-s3",
+     "start": 183,
+     "end": 1024
+    },
+    {
+     "id": "bewachrv-p9-s4",
+     "start": 1025,
+     "end": 1196
+    },
+    {
+     "id": "bewachrv-p9-s5",
+     "start": 1197,
+     "end": 1307
+    },
+    {
+     "id": "bewachrv-p9-s6",
+     "start": 1308,
+     "end": 1529
+    },
+    {
+     "id": "bewachrv-p9-s7",
+     "start": 1530,
+     "end": 1718
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p10",
+   "enbez": "§ 10",
+   "title": "Umfang des Datenabrufs",
+   "text": "(1) Nach § 9 Absatz 1 Satz 3 Nummer 1 und 2 zugelassene Behörden dürfen nur Daten aus dem Register abrufen im Rahmen der 1. Vor-Ort-Kontrolle von Bewachungstätigkeiten, 2. Prüfung von Bewachungsgewerbetreibenden, 3. Prüfung von mit der Leitung des Betriebs oder einer Zweigniederlassung beauftragten Personen, 4. Prüfung von Wachpersonal, 5. Pflege der Daten des Bewacherregisters oder 6. Wahrnehmung der Nachberichtspflicht gemäß § 34a Absatz 1b der Gewerbeordnung.\n(2) Nach § 9 Absatz 1 Satz 3 Nummer 3 zugelassene Behörden dürfen nur im Rahmen ihrer Zuständigkeit für die Aufsicht über die für den Vollzug des § 34a der Gewerbeordnung zuständige Behörden Daten aus dem Register abrufen.\n(3) Nach § 9 Absatz 1 Satz 3 Nummer 4 zugelassene Behörden dürfen nur im Rahmen ihrer Zuständigkeit für die Bearbeitung eines Widerspruchsverfahrens Daten aus dem Bewacherregister abrufen.\n(4) Nach § 9 Absatz 1 Satz 3 Nummer 5 zugelassene Behörden dürfen nur im Rahmen ihrer Zuständigkeit für die Verfolgung von Ordnungswidrigkeiten Daten aus dem Bewacherregister abrufen.\n(5) Nach § 9 Absatz 1 Satz 3 Nummer 6 zugelassene Gewerbetreibende dürfen nur Daten abrufen zur Wahrnehmung von Meldepflichten nach § 11b Absatz 5 und 6 Satz 3 der Gewerbeordnung in Verbindung mit § 16 der Bewachungsverordnung und zur Wahrnehmung von Einsichtsrechten. Der Abruf nach Satz 1 ist auf die eigenen Daten der Gewerbetreibenden und die von ihnen gemeldeten Daten ihrer gesetzlichen Vertreter, ihrer Wachpersonen und mit der Leitung des Betriebs oder einer Zweigniederlassung beauftragter Personen zu begrenzen.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__10.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p10-s1",
+     "start": 0,
+     "end": 466
+    },
+    {
+     "id": "bewachrv-p10-s2",
+     "start": 467,
+     "end": 689
+    },
+    {
+     "id": "bewachrv-p10-s3",
+     "start": 690,
+     "end": 878
+    },
+    {
+     "id": "bewachrv-p10-s4",
+     "start": 879,
+     "end": 1062
+    },
+    {
+     "id": "bewachrv-p10-s5",
+     "start": 1063,
+     "end": 1331
+    },
+    {
+     "id": "bewachrv-p10-s6",
+     "start": 1332,
+     "end": 1584
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p11",
+   "enbez": "§ 11",
+   "title": "Abrufvoraussetzungen",
+   "text": "Enthält das Abrufersuchen der nach § 9 Absatz 1 Satz 3 zugelassenen Behörden oder Gewerbetreibenden nicht die nach § 11b Absatz 2 der Gewerbeordnung im Register gespeicherte Identifikationsnummer, muss das Abrufersuchen mindestens folgende Daten enthalten: 1. den Familiennamen, mindestens einen Vornamen, die Ausweisart und die Ausweisnummer, 2. den Familiennamen, mindestens einen Vornamen und den Wohnort oder den Tag oder den Ort der Geburt, 3. den eingetragenen Namen der juristischen Person und den Ort und die Postleitzahl des Sitzes oder einer Niederlassung oder 4. den Namen des Gewerbebetriebs und den Ort und die Postleitzahl einer Niederlassung.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__11.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p11-s1",
+     "start": 0,
+     "end": 657
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p12",
+   "enbez": "§ 12",
+   "title": "Datenübermittlung für statistische Zwecke",
+   "text": "(1) Die Registerbehörde kann den für den Vollzug des § 34a der Gewerbeordnung zuständigen Behörden, den für das Bewachungsrecht zuständigen obersten und oberen Bundes- und Landesbehörden, dem Bundeskriminalamt sowie den Landeskriminalämtern für statistische Zwecke anonymisierte Daten zur Sammlung, Aufbereitung, Darstellung und Analyse bereitstellen.\n(2) Die Daten nach Absatz 1 dürfen den genannten Behörden nur für ihren jeweiligen Zuständigkeitsbereich übermittelt werden. Ergänzend hierzu können für Vergleichszwecke auf Antrag die korrespondierenden Gesamtzahlen im Bundesgebiet übermittelt werden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__12.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p12-s1",
+     "start": 0,
+     "end": 351
+    },
+    {
+     "id": "bewachrv-p12-s2",
+     "start": 352,
+     "end": 476
+    },
+    {
+     "id": "bewachrv-p12-s3",
+     "start": 477,
+     "end": 604
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p13",
+   "enbez": "§ 13",
+   "title": "Schutz personenbezogener Daten",
+   "text": "(1) Die Registerbehörde ist ab dem Zeitpunkt der Datenübermittlung durch die für den Vollzug des § 34a der Gewerbeordnung zuständigen Behörden an das Bewacherregister oder bei Datenmeldungen durch die Gewerbetreibenden an das Bewacherregister Verantwortliche für die Erfüllung der Rechte betroffener Personen nach der Verordnung (EU) 2016/679 des Europäischen Parlaments und des Rates vom 27. April 2016 zum Schutz natürlicher Personen bei der Verarbeitung personenbezogener Daten, zum freien Datenverkehr und zur Aufhebung der Richtlinie 95/46/EG (ABl. L 119 vom 4.5.2016, S. 1) in Verbindung mit dem Bundesdatenschutzgesetz verantwortlich.\n(2) Die Registerbehörde trifft die erforderlichen technischen und organisatorischen Maßnahmen, um sicherzustellen, dass die Verarbeitung der personenbezogenen Daten unter Anwendung der Verordnung (EU) 2016/679 erfolgt. Dabei ist insbesondere die besondere Schutzbedürftigkeit der im Register gespeicherten Daten zu berücksichtigen. Hinsichtlich der Verarbeitung der Ausweiskopien nach § 11b Absatz 5 der Gewerbeordnung hat die Registerbehörde Vorkehrungen gemäß Artikel 9 der Verordnung (EU) 2016/679 und des § 22 Absatz 2 des Bundesdatenschutzgesetzes zu treffen.\n(3) Die Registerbehörde hat bei der Zulassung von Behörden und Gewerbetreibenden nach § 9 Absatz 1 die Grundsätze der Aufgabentrennung und der Erforderlichkeit zu beachten; insbesondere ist der Zugang zu personenbezogenen Daten nur so weit gestattet, wie es für die Aufgabenerfüllung erforderlich ist.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__13.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p13-s1",
+     "start": 0,
+     "end": 553
+    },
+    {
+     "id": "bewachrv-p13-s2",
+     "start": 554,
+     "end": 641
+    },
+    {
+     "id": "bewachrv-p13-s3",
+     "start": 642,
+     "end": 860
+    },
+    {
+     "id": "bewachrv-p13-s4",
+     "start": 861,
+     "end": 973
+    },
+    {
+     "id": "bewachrv-p13-s5",
+     "start": 974,
+     "end": 1206
+    },
+    {
+     "id": "bewachrv-p13-s6",
+     "start": 1207,
+     "end": 1379
+    },
+    {
+     "id": "bewachrv-p13-s7",
+     "start": 1380,
+     "end": 1508
+    }
+   ]
+  },
+  {
+   "id": "bewachrv-p14",
+   "enbez": "§ 14",
+   "title": "Protokollierungspflicht",
+   "text": "(1) Die Registerbehörde als speichernde Stelle erstellt bei Abrufen nach den §§ 4 bis 12 Protokolle, aus denen Folgendes hervorgeht: 1. der Zweck der Datenübermittlung oder des Abrufs, 2. das Datum und die Uhrzeit der Datenübermittlung oder des Abrufs, 3. die Identität der Person oder der angemeldeten Stelle, die die Daten übermittelt oder abgefragt hat. Abweichend von Satz 1 sind Abrufe von Verfassungsschutzbehörden des Bundes und der Länder ausschließlich von diesen entsprechend § 6 Absatz 3 Satz 2 bis 5 des Bundesverfassungsschutzgesetzes zu protokollieren.\n(2) Die protokollierten Daten dürfen nur für Zwecke der Auskunftserteilung an die betroffene Person und zum Zwecke der Datenschutzkontrolle verwendet werden. Sie sind gegen zweckfremde Verwendung und gegen sonstigen Missbrauch zu schützen.\n(3) Die Protokollierung nach Absatz 1 ist nach dem jeweiligen Stand der Technik zu gewährleisten. Die Protokolldaten sind für mindestens 12 Monate zu speichern und nach spätestens 18 Monaten zu löschen. Dies gilt nicht, soweit sie für ein bereits eingeleitetes Kontrollverfahren benötigt werden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/bewachrv/__14.html",
+   "sentences": [
+    {
+     "id": "bewachrv-p14-s1",
+     "start": 0,
+     "end": 356
+    },
+    {
+     "id": "bewachrv-p14-s2",
+     "start": 357,
+     "end": 566
+    },
+    {
+     "id": "bewachrv-p14-s3",
+     "start": 567,
+     "end": 724
+    },
+    {
+     "id": "bewachrv-p14-s4",
+     "start": 725,
+     "end": 806
+    },
+    {
+     "id": "bewachrv-p14-s5",
+     "start": 807,
+     "end": 904
+    },
+    {
+     "id": "bewachrv-p14-s6",
+     "start": 905,
+     "end": 1009
+    },
+    {
+     "id": "bewachrv-p14-s7",
+     "start": 1010,
+     "end": 1102
+    }
+   ]
+  }
+ ],
+ "skipped": {
+  "structure": 0,
+  "annex": 0,
+  "repealed": 0,
+  "other": 0
+ }
+}

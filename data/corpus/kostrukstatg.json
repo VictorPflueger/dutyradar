@@ -1,0 +1,209 @@
+{
+ "id": "kostrukstatg",
+ "abbr": "KoStrukStatG",
+ "title": "Gesetz über Kostenstrukturstatistik",
+ "slug": "kostrukstatg",
+ "source_xml_url": "http://www.gesetze-im-internet.de/kostrukstatg/xml.zip",
+ "html_url": "https://www.gesetze-im-internet.de/kostrukstatg/index.html",
+ "builddate": "20260506174511",
+ "retrieved_at": "2026-11-19T04:01:18Z",
+ "eu_basis": [],
+ "paragraphs": [
+  {
+   "id": "kostrukstatg-p1",
+   "enbez": "§ 1",
+   "title": "",
+   "text": "(1) In den Wirtschaftsbereichen „Arzt- und Zahnarztpraxen“ sowie „Erbringung von Dienstleistungen von Psychotherapeutinnen und -therapeuten, klinischen und Gesundheitspsychologinnen und -psychologen, ohne ärztliche Therapien“ werden jährlich Kostenstrukturerhebungen als Bundesstatistik durchgeführt. Die Erhebungen erstrecken sich auf die folgenden Wirtschaftsklassen bzw. -unterklassen nach Anhang I der Verordnung (EG) Nr. 1893/2006 in Verbindung mit der vom Statistischen Bundesamt daraus erstellten Klassifikation der Wirtschaftszweige: 1. 86.21.0 – Arztpraxen für Allgemeinmedizin, 2. 86.22.0 – Facharztpraxen, 3. 86.23.0 – Zahnarztpraxen, 4. 86.93.0 – Erbringung von Dienstleistungen von Psychotherapeutinnen und -therapeuten, klinischen und Gesundheitspsychologinnen und -psychologen, ohne ärztliche Therapien.\n(2) Erhebungseinheiten sind Unternehmen und Einrichtungen zur Ausübung einer freiberuflichen Tätigkeit, die in den Wirtschaftszweigen nach Absatz 1 Satz 3 tätig sind.\n(3) Zu der freiberuflichen Tätigkeit nach Absatz 2 gehört die selbstständige Berufstätigkeit von Angehörigen der in § 18 Absatz 1 Nummer 1 Satz 2 des Einkommensteuergesetzes bezeichneten Berufe.\n(4) Das Statistische Bundesamt übermittelt den statistischen Ämtern der Länder die Einzeldatensätze für ihr Land für Sonderaufbereitungen auf regionaler Ebene.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/kostrukstatg/__1.html",
+   "sentences": [
+    {
+     "id": "kostrukstatg-p1-s1",
+     "start": 0,
+     "end": 300
+    },
+    {
+     "id": "kostrukstatg-p1-s2",
+     "start": 301,
+     "end": 818
+    },
+    {
+     "id": "kostrukstatg-p1-s3",
+     "start": 819,
+     "end": 985
+    },
+    {
+     "id": "kostrukstatg-p1-s4",
+     "start": 986,
+     "end": 1180
+    },
+    {
+     "id": "kostrukstatg-p1-s5",
+     "start": 1181,
+     "end": 1340
+    }
+   ]
+  },
+  {
+   "id": "kostrukstatg-p3",
+   "enbez": "§ 3",
+   "title": "",
+   "text": "(1) Die Kostenstrukturerhebungen nach § 1 erfassen folgende Tatbestände: 1. den Wert a) der steuerlichen und wirtschaftlichen Einnahmen, b) der Bruttoinvestitionen in Sachanlagen; 2. die Kosten, untergliedert nach Kostenarten; 3. die beschäftigten Personen.\n(2) Außer den in Absatz 1 bezeichneten Tatbeständen werden Angaben zur Kennzeichnung der Art und Zusammenarbeit der Unternehmen und der Einrichtungen zur Ausübung einer freiberuflichen Tätigkeit erhoben, die zu einer zutreffenden Beurteilung der statistischen Zuordnung erforderlich sind. In den Wirtschaftszweigen „Arztpraxen für Allgemeinmedizin“ und „Facharztpraxen“ wird zusätzlich die Durchführung von Operationen erfasst. Im Wirtschaftszweig „Zahnarztpraxen“ wird zusätzlich der Betrieb eines eigenen Praxislabors erfasst.\n(3) (weggefallen)",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/kostrukstatg/__3.html",
+   "sentences": [
+    {
+     "id": "kostrukstatg-p3-s1",
+     "start": 0,
+     "end": 179
+    },
+    {
+     "id": "kostrukstatg-p3-s2",
+     "start": 180,
+     "end": 226
+    },
+    {
+     "id": "kostrukstatg-p3-s3",
+     "start": 227,
+     "end": 257
+    },
+    {
+     "id": "kostrukstatg-p3-s4",
+     "start": 258,
+     "end": 546
+    },
+    {
+     "id": "kostrukstatg-p3-s5",
+     "start": 547,
+     "end": 685
+    },
+    {
+     "id": "kostrukstatg-p3-s6",
+     "start": 686,
+     "end": 786
+    },
+    {
+     "id": "kostrukstatg-p3-s7",
+     "start": 787,
+     "end": 804
+    }
+   ]
+  },
+  {
+   "id": "kostrukstatg-p4",
+   "enbez": "§ 4",
+   "title": "",
+   "text": "Die Angaben zu den in § 3 Abs. 1 und 2 bezeichneten Tatbeständen beziehen sich jeweils auf ein dem Erhebungsjahr vorangegangenes Kalenderjahr oder Geschäftsjahr.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/kostrukstatg/__4.html",
+   "sentences": [
+    {
+     "id": "kostrukstatg-p4-s1",
+     "start": 0,
+     "end": 161
+    }
+   ]
+  },
+  {
+   "id": "kostrukstatg-p5",
+   "enbez": "§ 5",
+   "title": "",
+   "text": "(1) Für die Erhebungen nach § 1 besteht Auskunftspflicht. Auskunftspflichtig sind die Inhaberinnen und Inhaber oder Leitungen der Unternehmen und der Einrichtungen zur Ausübung einer freiberuflichen Tätigkeit. Die Angaben zu § 6 Nummer 2 sind freiwillig.\n(2) Die Erhebungen werden bei höchstens 7 Prozent der Gesamtzahl der Unternehmen und der Einrichtungen zur Ausübung einer freiberuflichen Tätigkeit (§ 1) für die einzelnen Wirtschaftszweige durchgeführt.\n(3) Für Unternehmen und Einrichtungen zur Ausübung einer freiberuflichen Tätigkeit, deren Inhaber oder Inhaberinnen Existenzgründer oder Existenzgründerinnen sind, besteht im Kalenderjahr der Betriebseröffnung abweichend von Absatz 1 keine Auskunftspflicht. In den beiden folgenden Kalenderjahren besteht keine Auskunftspflicht, wenn die in Satz 1 genannten Unternehmen und Einrichtungen im letzten abgeschlossenen Geschäftsjahr Umsätze in Höhe von weniger als 800 000 Euro erwirtschaftet haben. Gesellschaften können sich auf die Befreiung von der Auskunftspflicht berufen, wenn alle an der Gesellschaft Beteiligten Existenzgründer oder Existenzgründerinnen sind.\n(4) Existenzgründer und Existenzgründerinnen im Sinne von Absatz 3 sind natürliche Personen, die eine gewerbliche oder freiberufliche Tätigkeit in Form einer Neugründung, einer Übernahme oder einer tätigen Beteiligung aus abhängiger Beschäftigung oder aus der Nichtbeschäftigung heraus aufnehmen.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/kostrukstatg/__5.html",
+   "sentences": [
+    {
+     "id": "kostrukstatg-p5-s1",
+     "start": 0,
+     "end": 57
+    },
+    {
+     "id": "kostrukstatg-p5-s2",
+     "start": 58,
+     "end": 209
+    },
+    {
+     "id": "kostrukstatg-p5-s3",
+     "start": 210,
+     "end": 254
+    },
+    {
+     "id": "kostrukstatg-p5-s4",
+     "start": 255,
+     "end": 458
+    },
+    {
+     "id": "kostrukstatg-p5-s5",
+     "start": 459,
+     "end": 716
+    },
+    {
+     "id": "kostrukstatg-p5-s6",
+     "start": 717,
+     "end": 954
+    },
+    {
+     "id": "kostrukstatg-p5-s7",
+     "start": 955,
+     "end": 1123
+    },
+    {
+     "id": "kostrukstatg-p5-s8",
+     "start": 1124,
+     "end": 1420
+    }
+   ]
+  },
+  {
+   "id": "kostrukstatg-p6",
+   "enbez": "§ 6",
+   "title": "",
+   "text": "Hilfsmerkmale der Erhebungen nach § 1 sind 1. Name, Anschrift, Telefonnummer und Adresse für elektronische Post der nach § 5 Absatz 1 Satz 2 Auskunftgebenden, 2. Name und Kontaktdaten der für Rückfragen zur Verfügung stehenden Personen.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/kostrukstatg/__6.html",
+   "sentences": [
+    {
+     "id": "kostrukstatg-p6-s1",
+     "start": 0,
+     "end": 236
+    }
+   ]
+  },
+  {
+   "id": "kostrukstatg-p7",
+   "enbez": "§ 7",
+   "title": "",
+   "text": "Die Kostenstrukturstatistik wird vom Statistischen Bundesamt durchgeführt.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/kostrukstatg/__7.html",
+   "sentences": [
+    {
+     "id": "kostrukstatg-p7-s1",
+     "start": 0,
+     "end": 74
+    }
+   ]
+  },
+  {
+   "id": "kostrukstatg-p10",
+   "enbez": "§ 10",
+   "title": "",
+   "text": "Dieses Gesetz tritt am Tage nach seiner Verkündung in Kraft.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/kostrukstatg/__10.html",
+   "sentences": [
+    {
+     "id": "kostrukstatg-p10-s1",
+     "start": 0,
+     "end": 60
+    }
+   ]
+  }
+ ],
+ "skipped": {
+  "structure": 0,
+  "annex": 0,
+  "repealed": 1,
+  "other": 1
+ }
+}

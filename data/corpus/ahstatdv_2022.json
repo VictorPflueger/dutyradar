@@ -1,0 +1,1589 @@
+{
+ "id": "ahstatdv_2022",
+ "abbr": "AHStatDV",
+ "title": "Verordnung zur Durchführung des Gesetzes über die Statistik des Warenverkehrs mit dem Ausland",
+ "slug": "ahstatdv_2022",
+ "source_xml_url": "http://www.gesetze-im-internet.de/ahstatdv_2022/xml.zip",
+ "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/index.html",
+ "builddate": "20260506175830",
+ "retrieved_at": "2026-11-19T04:01:18Z",
+ "eu_basis": [],
+ "paragraphs": [
+  {
+   "id": "ahstatdv_2022-p1",
+   "enbez": "§ 1",
+   "title": "Begriffsbestimmungen",
+   "text": "(1) „Durchfuhr“ ist der einfache Verkehr von Waren, die aus dem Ausland durch das Erhebungsgebiet unmittelbar wieder in das Ausland verbracht werden und dabei im Erhebungsgebiet nur Aufenthalte haben, die in unmittelbaren Zusammenhang mit dem Transport stehen.\n(2) „Freier Verkehr“ im Sinne der Außenhandelsstatistik ist der Warenverkehr innerhalb des Zollgebietes der Europäischen Union von 1. Unionswaren und 2. Nicht-Unionswaren in der zollamtlich bewilligten aktiven Veredelung.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__1.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p1-s1",
+     "start": 0,
+     "end": 260
+    },
+    {
+     "id": "ahstatdv_2022-p1-s2",
+     "start": 261,
+     "end": 482
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p2",
+   "enbez": "§ 2",
+   "title": "Datenübermittlung der Zollbehörden",
+   "text": "(1) Die Zollbehörden übermitteln dem Statistischen Bundesamt alle Anmeldungen zu Warenverkehren nach § 10 Absatz 3 des Außenhandelsstatistikgesetzes. Die Zollbehörden übermitteln dem Statistischen Bundesamt die Daten auch dann, wenn dem Auskunftspflichtigen bewilligt wurde, die Daten im Rahmen der Anschreibung in der Buchführung des Anmelders nach Artikel 182 der Verordnung (EU) Nr. 952/2013 des Europäischen Parlaments und des Rates vom 9. Oktober 2013 zur Festlegung des Zollkodex der Union (ABl. L 269 vom 10.10.2013, S. 11), die zuletzt durch die Verordnung (EU) 2019/632 (ABl. L 111 vom 25.4.2019, S. 54) geändert worden ist, bereitzustellen.\n(2) Die Zollbehörden übermitteln dem Statistischen Bundesamt zur Feststellung der Auskunftspflicht nach § 9 des Außenhandelsstatistikgesetzes und zur Überprüfung der Erhebungs- und Hilfsmerkmale nach den §§ 7 und 8 des Außenhandelsstatistikgesetzes zusätzlich zu den Merkmalen nach den §§ 7 und 8 des Außenhandelsstatistikgesetzes abhängig von der Verkehrsrichtung Daten aus den folgenden Zollanmeldedaten: 1. Datum der Überlassung, 2. maßgebliches Datum, 3. Datum des tatsächlichen Ausgangs, 4. Art der Anmeldung, 5. Kennnummer der Sendung, 6. Kontaktdaten des Anmelders, sowie gegebenenfalls des Subunternehmers und des Vertreters, 7. Art des Vertretungsverhältnisses, 8. Dienststellennummer der Gestellungs- und Ausgangszollstelle, 9. Kennzeichen für die statistische Relevanz der Zollanmeldung, 10. Umrechnungskurs, 11. Staatszugehörigkeit des grenzüberschreitenden aktiven Beförderungsmittels, 12. Packstück, 13. einfuhrrechtliches Papier, 14. Unterlagen und Bescheinigungen gemäß Anhang B Titel I der Durchführungsverordnung (EU) 2015/2447. Näheres regeln Verwaltungsvereinbarungen zwischen der Bundesfinanzverwaltung und dem Statistischen Bundesamt, insbesondere welche Daten nach Satz 1 bei welcher Verkehrsrichtung übermittelt werden.\n(3) Die Zollbehörden übermitteln, sobald die technischen Voraussetzungen bei ihnen gegeben sind, die folgenden Daten an das Statistische Bundesamt: 1. Daten über Warenverkehre, die im Rahmen der Eigenkontrolle (Self-Assessment) mit der vorgesehenen Anschreibung in der Buchführung des Anmelders nach Absatz 1 oder in der ergänzenden Zollanmeldung nach Artikel 167 der Verordnung (EU) Nr. 952/2013 erfasst wurden, 2. Daten, die bei Verzicht auf eine ergänzende Zollanmeldung oder im Rahmen der Zentralen Zollabwicklung erfasst wurden.\n(4) Werden Warenverkehre von den Zollbehörden nicht in elektronischer Form erfasst, steht den Zollbehörden die Art der Datenübermittlung frei.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__2.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p2-s1",
+     "start": 0,
+     "end": 149
+    },
+    {
+     "id": "ahstatdv_2022-p2-s2",
+     "start": 150,
+     "end": 501
+    },
+    {
+     "id": "ahstatdv_2022-p2-s3",
+     "start": 502,
+     "end": 584
+    },
+    {
+     "id": "ahstatdv_2022-p2-s4",
+     "start": 585,
+     "end": 650
+    },
+    {
+     "id": "ahstatdv_2022-p2-s5",
+     "start": 651,
+     "end": 1697
+    },
+    {
+     "id": "ahstatdv_2022-p2-s6",
+     "start": 1698,
+     "end": 1894
+    },
+    {
+     "id": "ahstatdv_2022-p2-s7",
+     "start": 1895,
+     "end": 2428
+    },
+    {
+     "id": "ahstatdv_2022-p2-s8",
+     "start": 2429,
+     "end": 2571
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p3",
+   "enbez": "§ 3",
+   "title": "Anmeldung von Zolllagerverkehren",
+   "text": "(1) Der Import in ein Zolllager oder in eine Freizone, die Entnahme aus einem Zolllager oder aus einer Freizone und der Export aus einem Zolllager oder aus einer Freizone sind dem Statistischen Bundesamt von dem Auskunftspflichtigen zur Außenhandelsstatistik nach § 9 des Außenhandelsstatistikgesetzes anzumelden.\n(2) Wird eine Ware aus einem Zolllager entnommen und zum zollrechtlich freien Verkehr überlassen oder in die aktive Veredelung überführt, so ist dieser Warenverkehr als Import aus dem Land anzumelden, aus dem sie in das Zolllager importiert wurde, es sei denn, die Ware befand sich vor der Überführung in das Zolllager im Erhebungsgebiet.\n(3) Wird eine Ware aus einem Zolllager entnommen und in ein anderes Land verbracht, ist die Entnahme als Export anzumelden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__3.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p3-s1",
+     "start": 0,
+     "end": 313
+    },
+    {
+     "id": "ahstatdv_2022-p3-s2",
+     "start": 314,
+     "end": 652
+    },
+    {
+     "id": "ahstatdv_2022-p3-s3",
+     "start": 653,
+     "end": 776
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p4",
+   "enbez": "§ 4",
+   "title": "Veredelungsverkehre",
+   "text": "(1) Im Rahmen dieser Verordnung ist 1. eine „deutsche Ware“ eine Ware, die sich im Moment der Be- oder Verarbeitung im Eigentum eines Inländers nach § 63 Nummer 2 der Außenwirtschaftsverordnung befindet, 2. eine „ausländische Ware“ eine Ware, die sich im Moment der Be- oder Verarbeitung im Eigentum eines Ausländers nach § 63 Nummer 3 der Außenwirtschaftsverordnung befindet, 3. eine „aktive Veredelung“ die Be- oder Verarbeitung von ausländischen Waren im Erhebungsgebiet nach § 3 des Außenhandelsstatistikgesetzes durch einen Inländer nach § 63 Nummer 2 der Außenwirtschaftsverordnung mit dem Ziel, aus ihnen neue oder wirklich verbesserte Waren herzustellen, 4. eine „passive Veredelung“ die Be- oder Verarbeitung von deutschen Waren außerhalb des Erhebungsgebiets durch einen Ausländer nach § 63 Nummer 3 der Außenwirtschaftsverordnung mit dem Ziel, aus ihnen neue oder wirklich verbesserte Waren herzustellen, 5. eine „Eigenveredelung“ der Eigentumsübergang an einem Vorprodukt an den Be- oder Verarbeiter, die Be- oder Verarbeitung in eigenem Namen des Be- oder Verarbeiters sowie der anschließende Eigentumsübergang der veredelten Ware an eine andere institutionelle Einheit nach Anhang A, Abschnitt 2.12 und 2.13 der Verordnung (EU) Nr. 549/2013 des Europäischen Parlaments und des Rates vom 21. Mai 2013 zum Europäischen System Volkswirtschaftlicher Gesamtrechnungen auf nationaler und regionaler Ebene in der Europäischen Union (ABl. L 174 vom 26.6.2013, S. 1), die durch die Delegierte Verordnung (EU) 2015/1342 (ABl. L 207 vom 4.8.2015, S. 35) geändert worden ist, in der jeweils geltenden Fassung, als den Be- oder Verarbeiter.\n(2) Bei den in Absatz 1 Nummer 3 und 4 bezeichneten Veredelungen sind die Sendungen zur und nach der Veredelung zur Außenhandelsstatistik anzumelden. Die Rücklieferung an den Eigentümer von nicht be- oder verarbeiteten Waren, die ursprünglich dem Be- oder Verarbeiter zur Veredelung geliefert wurden, ist ebenfalls als Sendung nach der Veredelung anzumelden.\n(3) Ein Warenverkehr kann sowohl im Rahmen eines zollamtlich bewilligten Veredelungsverfahrens als auch außerhalb eines solchen eine Veredelung im Sinne der Außenhandelsstatistik nach Absatz 1 Nummer 3 oder 4 sein. Waren, die aus einem Zolllager in den zollrechtlich freien Verkehr überlassen oder aus einem Zolllager in das Zollverfahren der aktiven Veredelung überführt werden, sind Gegenstand eines Veredelungsverkehrs, wenn die Tatbestände nach Absatz 1 Nummer 3 oder 4 vorliegen.\n(4) Wenn Waren im Rahmen der Zentralen Zollabwicklung in einen anderen Mitgliedstaat der Europäischen Union eingeführt werden und anschließend im Erhebungsgebiet zur Veredelung nach Absatz 1 Nummer 3 oder nach Veredelung nach Absatz 1 Nummer 4 eingehen oder aus dem Erhebungsgebiet versandt werden, so sind die entsprechenden Warenverkehre zur Intrahandelsstatistik als Veredelungsverkehre anzumelden.\n(5) Importe und Exporte von veredelten Waren, die nicht aus den nämlichen zur Veredelung exportierten oder importierten Waren hergestellt wurden, sondern aus anderen Waren gleicher Art (sogenannte Ersatzwaren), sind ebenfalls zur Außenhandelsstatistik als Veredelungsverkehre anzumelden. Dies gilt auch, wenn der Grenzübertritt der veredelten Waren zeitlich vor dem Grenzübertritt der gelieferten Vorprodukte liegt.\n(6) Warenverkehre zur oder nach der Eigenveredelung sind keine Veredelungsverkehre im Sinne der Außenhandelsstatistik. Sie sind als Kauf oder Verkauf anzusehen.\n(7) Wenn eine aktiv veredelte Ware im Erhebungsgebiet weiterveredelt wird, so ist diese Veredelung nicht erneut anzumelden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__4.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p4-s1",
+     "start": 0,
+     "end": 1444
+    },
+    {
+     "id": "ahstatdv_2022-p4-s2",
+     "start": 1445,
+     "end": 1529
+    },
+    {
+     "id": "ahstatdv_2022-p4-s3",
+     "start": 1530,
+     "end": 1641
+    },
+    {
+     "id": "ahstatdv_2022-p4-s4",
+     "start": 1642,
+     "end": 1791
+    },
+    {
+     "id": "ahstatdv_2022-p4-s5",
+     "start": 1792,
+     "end": 2000
+    },
+    {
+     "id": "ahstatdv_2022-p4-s6",
+     "start": 2001,
+     "end": 2215
+    },
+    {
+     "id": "ahstatdv_2022-p4-s7",
+     "start": 2216,
+     "end": 2485
+    },
+    {
+     "id": "ahstatdv_2022-p4-s8",
+     "start": 2486,
+     "end": 2887
+    },
+    {
+     "id": "ahstatdv_2022-p4-s9",
+     "start": 2888,
+     "end": 3175
+    },
+    {
+     "id": "ahstatdv_2022-p4-s10",
+     "start": 3176,
+     "end": 3303
+    },
+    {
+     "id": "ahstatdv_2022-p4-s11",
+     "start": 3304,
+     "end": 3422
+    },
+    {
+     "id": "ahstatdv_2022-p4-s12",
+     "start": 3423,
+     "end": 3464
+    },
+    {
+     "id": "ahstatdv_2022-p4-s13",
+     "start": 3465,
+     "end": 3588
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p5",
+   "enbez": "§ 5",
+   "title": "Befreiung der Anmeldung von Waren zu oder nach der vorübergehenden Verwendung",
+   "text": "(1) Waren zu oder nach der vorübergehenden Verwendung, die die Voraussetzungen für die Befreiung nach Anlage 4 Buchstabe c erfüllen, sind von der Anmeldung zur Außenhandelsstatistik befreit.\n(2) Sind bei Warenverkehren, die ursprünglich von der Anmeldung zur Außenhandelsstatistik nach Anlage 4 Buchstabe c befreit waren, die Voraussetzungen für die Befreiung nicht mehr erfüllt, so sind die Warenverkehre nachträglich ab dem Zeitpunkt, ab dem die Voraussetzungen für die Befreiung nicht mehr erfüllt sind, zur Außenhandelsstatistik durch den Auskunftspflichtigen nach § 9 des Außenhandelsstatistikgesetzes anzumelden. Als Bezugszeitraum ist der Kalendermonat anzugeben, in dem die Voraussetzungen für die Befreiung erstmalig nicht mehr erfüllt sind.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__5.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p5-s1",
+     "start": 0,
+     "end": 190
+    },
+    {
+     "id": "ahstatdv_2022-p5-s2",
+     "start": 191,
+     "end": 618
+    },
+    {
+     "id": "ahstatdv_2022-p5-s3",
+     "start": 619,
+     "end": 750
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p6",
+   "enbez": "§ 6",
+   "title": "Anmeldepflichten",
+   "text": "(1) Für grenzüberschreitenden Warenverkehr, für den keine oder keine vollständige Zollanmeldung bei einer deutschen Zollbehörde abgegeben wird, ist vom Auskunftspflichtigen eine Anmeldung zur Außenhandelsstatistik beim Statistischen Bundesamt abzugeben. Dies betrifft insbesondere 1. Warenverkehre im Rahmen einer mitgliedstaatenübergreifenden Bewilligung sowie 2. Zollanmeldungen, bei denen von einer Vereinfachung nach Artikel 177 der Verordnung (EU) Nr. 952/2013 Gebrauch gemacht wird.\n(2) Eine Anmeldung ist nicht erforderlich, sofern der Warenverkehr nach Anhang 5 der Durchführungsverordnung (EU) 2020/1197 der Kommission vom 30. Juli 2020 zur Festlegung technischer Spezifikationen und Einzelheiten nach der Verordnung (EU) 2019/2152 des Europäischen Parlaments und des Rates über europäische Unternehmensstatistiken, zur Aufhebung von zehn Rechtsakten im Bereich Unternehmensstatistiken (ABl. L 271 vom 18.8.2020, S. 1) oder nach Anlage 4 von der statistischen Anmeldung befreit ist.\n(3) Für Waren, die aus einem Drittland versendet, in einem anderen Mitgliedstaat der Europäischen Union in ein Zollverfahren überführt und anschließend in das Erhebungsgebiet verbracht werden, ohne dass eine Zollanmeldung bei einer deutschen Zollbehörde abgegeben wird, ist vom Auskunftspflichtigen eine Anmeldung zur Intrahandelsstatistik beim Statistischen Bundesamt abzugeben. Eine Anmeldung ist nicht erforderlich, sofern der Warenverkehr nach Anhang 5 der Durchführungsverordnung (EU) 2020/1197 oder nach Anlage 4 hiervon befreit ist.\n(4) Für Waren einschließlich Waren unter zollamtlicher Überwachung, die aus dem Erhebungsgebiet in einen anderen Mitgliedstaat der Europäischen Union verbracht oder dort in ein Zollverfahren überführt werden, ohne dass eine Zollanmeldung bei einer deutschen Zollbehörde abgegeben wird, ist vom Auskunftspflichtigen im Erhebungsgebiet eine elektronische Anmeldung zur Intrahandelsstatistik beim Statistischen Bundesamt abzugeben. Eine Anmeldung ist nicht erforderlich, sofern der Warenverkehr nach Anhang 5 der Durchführungsverordnung (EU) 2020/1197 oder nach Anlage 4 hiervon befreit ist.\n(5) Für Waren einschließlich Waren unter zollamtlicher Überwachung, die aus dem Erhebungsgebiet in einen anderen Mitgliedstaat der Europäischen Union verbracht oder dort in ein Zollverfahren überführt werden und für die bei einer deutschen Zollbehörde lediglich eine Zollanmeldung zur Überführung in das Versandverfahren abgegeben wird, ist vom Auskunftspflichtigen im Erhebungsgebiet eine elektronische Anmeldung zur Intrahandelsstatistik beim Statistischen Bundesamt abzugeben.\n(6) Das Statistische Bundesamt kann die Meldepflichten nach den Absätzen 2 bis 5 aussetzen, wenn es die betreffenden für die Erstellung der Außenhandelsstatistik qualitativ geeigneten Daten im Rahmen des Einzeldatenaustauschs nach Artikel 5 Absatz 4 oder den Artikeln 11 bis 14 der Verordnung (EU) 2019/2152 des europäischen Parlaments und des Rates vom 27. November 2019 über europäische Unternehmensstatistiken, zur Aufhebung von zehn Rechtsakten im Bereich Unternehmensstatistiken (ABl. L 327 vom 17.12.2019, S. 1), die durch die Delegierte Verordnung (EU) 2021/1704 (ABl. L 339 vom 24.9.2021, S. 33) geändert worden ist, in der jeweils geltenden Fassung, erhält.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__6.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p6-s1",
+     "start": 0,
+     "end": 253
+    },
+    {
+     "id": "ahstatdv_2022-p6-s2",
+     "start": 254,
+     "end": 488
+    },
+    {
+     "id": "ahstatdv_2022-p6-s3",
+     "start": 489,
+     "end": 900
+    },
+    {
+     "id": "ahstatdv_2022-p6-s4",
+     "start": 901,
+     "end": 991
+    },
+    {
+     "id": "ahstatdv_2022-p6-s5",
+     "start": 992,
+     "end": 1371
+    },
+    {
+     "id": "ahstatdv_2022-p6-s6",
+     "start": 1372,
+     "end": 1531
+    },
+    {
+     "id": "ahstatdv_2022-p6-s7",
+     "start": 1532,
+     "end": 1960
+    },
+    {
+     "id": "ahstatdv_2022-p6-s8",
+     "start": 1961,
+     "end": 2120
+    },
+    {
+     "id": "ahstatdv_2022-p6-s9",
+     "start": 2121,
+     "end": 2600
+    },
+    {
+     "id": "ahstatdv_2022-p6-s10",
+     "start": 2601,
+     "end": 3090
+    },
+    {
+     "id": "ahstatdv_2022-p6-s11",
+     "start": 3091,
+     "end": 3176
+    },
+    {
+     "id": "ahstatdv_2022-p6-s12",
+     "start": 3177,
+     "end": 3267
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p7",
+   "enbez": "§ 7",
+   "title": "Verfahren bei statistischen Anmeldungen/Anmeldeverfahren",
+   "text": "(1) Die Anmeldung von Warenverkehren beim Statistischen Bundesamt erfolgt elektronisch.\n(2) Abweichend von Absatz 1 kann das Statistische Bundesamt Warenverkehre von der Pflicht zur elektronischen Anmeldung befreien, wenn für die Warenverkehre keine schriftliche oder elektronische Zollanmeldung erforderlich ist. In diesen Fällen ist die Anmeldung schriftlich möglich. Für die schriftliche und elektronische Anmeldung gelten die gleichen Anmeldefristen.\n(3) Das Statistische Bundesamt darf abweichend von § 11 Absatz 3 des Außenhandelsstatistikgesetzes längere Anmeldefristen gewähren.\n(4) Das Statistische Bundesamt darf Erleichterungen hinsichtlich der Anmeldung mehrerer Sendungen in einer einzigen Warenposition gewähren. Waren dürfen jedoch nur dann gemeinsam in einer einzigen Warenposition in einem Bezugszeitraum angemeldet werden, wenn 1. bei Anmeldungen zu Eingängen die Warennummer, das Bestimmungsbundesland, das Ursprungsland, das Versendungsland, die Art des Geschäfts und der Verkehrszweig an der Grenze übereinstimmen, 2. bei Anmeldungen zu Versendungen die Warennummer, das Ursprungsbundesland, das Ursprungsland, das Bestimmungsland, die Art des Geschäfts, der Verkehrszweig und die Umsatzsteuer-Identifikationsnummer des Handelspartners im Bestimmungsland übereinstimmen. Zusammenstellungen nach § 30 bleiben von Satz 1 unberührt.\n(5) Fehlanzeigen nach § 9 Absatz 2 Nummer 2 des Außenhandelsstatistikgesetzes sind elektronisch abzugeben.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__7.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p7-s1",
+     "start": 0,
+     "end": 87
+    },
+    {
+     "id": "ahstatdv_2022-p7-s2",
+     "start": 88,
+     "end": 313
+    },
+    {
+     "id": "ahstatdv_2022-p7-s3",
+     "start": 314,
+     "end": 369
+    },
+    {
+     "id": "ahstatdv_2022-p7-s4",
+     "start": 370,
+     "end": 454
+    },
+    {
+     "id": "ahstatdv_2022-p7-s5",
+     "start": 455,
+     "end": 586
+    },
+    {
+     "id": "ahstatdv_2022-p7-s6",
+     "start": 587,
+     "end": 726
+    },
+    {
+     "id": "ahstatdv_2022-p7-s7",
+     "start": 727,
+     "end": 1291
+    },
+    {
+     "id": "ahstatdv_2022-p7-s8",
+     "start": 1292,
+     "end": 1350
+    },
+    {
+     "id": "ahstatdv_2022-p7-s9",
+     "start": 1351,
+     "end": 1457
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p8",
+   "enbez": "§ 8",
+   "title": "Berichtigungen",
+   "text": "(1) Stellt der Auskunftspflichtige fest, dass Anmeldedaten bereits zum Zeitpunkt der Anmeldung fehlerhaft waren, und betrifft der Fehler das aktuelle oder das vorangegangene Kalenderjahr, so hat er nach § 9 Absatz 2 Nummer 3 des Außenhandelsstatistikgesetzes diese Anmeldungen in folgenden Fällen zu berichtigen: 1. Angaben zum Rechnungsbetrag in der Intrahandelsstatistik und zum Statistischen Wert müssen nur berichtigt werden, wenn sich der ursprünglich gemeldete Wert der Warenposition durch die Berichtigung um mehr als 5 000 Euro verändern würde; 2. Angaben zur Eigenmasse und der besonderen Maßeinheit müssen nur berichtigt werden, wenn sich die ursprünglich gemeldete Menge der Warenposition durch die Korrektur um mehr als 10 Prozent verändern würde; 3. Angaben zu anderen als den in den Nummern 1 und 2 genannten Merkmalen müssen berichtigt werden, wenn der Rechnungsbetrag oder der Statistische Wert der betreffenden Warenposition höher als 5 000 Euro ist; zu den berichtigungspflichtigen Tatbeständen zählen in diesem Zusammenhang auch die Stornierungen von fälschlicherweise statistisch erfassten, aber nicht durchgeführten Warenbewegungen.\n(2) Ist im Zeitpunkt der Anmeldung dem Grunde nach bekannt, dass sich die anmeldepflichtigen Angaben nachträglich ändern können, müssen diese Angaben im Zeitpunkt der Änderung nach § 9 Absatz 2 Nummer 3 des Außenhandelsstatistikgesetzes berichtigt werden.\n(3) In anderen als in den Absätzen 1 und 2 genannten Fällen ist die Berichtigung freiwillig.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__8.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p8-s1",
+     "start": 0,
+     "end": 552
+    },
+    {
+     "id": "ahstatdv_2022-p8-s2",
+     "start": 553,
+     "end": 759
+    },
+    {
+     "id": "ahstatdv_2022-p8-s3",
+     "start": 760,
+     "end": 967
+    },
+    {
+     "id": "ahstatdv_2022-p8-s4",
+     "start": 968,
+     "end": 1153
+    },
+    {
+     "id": "ahstatdv_2022-p8-s5",
+     "start": 1154,
+     "end": 1409
+    },
+    {
+     "id": "ahstatdv_2022-p8-s6",
+     "start": 1410,
+     "end": 1502
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p9",
+   "enbez": "§ 9",
+   "title": "Warenbezeichnung und Warennummer",
+   "text": "(1) Das Warenverzeichnis für die Außenhandelsstatistik (Warenverzeichnis) besteht aus 1. den Warennummern in den Kapiteln 01 bis 97 der Kombinierten Nomenklatur nach Anhang I der Verordnung (EWG) Nr. 2658/87 des Rates vom 23. Juli 1987 über die zolltarifliche und statistische Nomenklatur sowie den Gemeinsamen Zolltarif (ABl. L 256 vom 7.9.1987, S. 1), die zuletzt durch die Durchführungsverordnung (EU) 2020/2159 (ABl. L 431 vom 21.12.2020, S. 34) geändert worden ist, in der jeweils geltenden Fassung, 2. den Warennummern in den Kapiteln 98 und 99, die in Anlage 1 aufgelistet sind.\n(2) Die Warenbezeichnung ist die übliche Handelsbezeichnung. Sie muss so genau sein, dass 1. die Klassifizierung der Ware im Warenverzeichnis möglich ist und 2. sich beim Import oder Export die Warennummer des Warenverzeichnisses ergibt. Die Warenbezeichnung ist verpflichtend in der Extrahandelsstatistik und freiwillig in der Intrahandelsstatistik anzugeben. Die Eigenschaft der Warensendung als Teilsendung nach § 19 ist als Teil der Warenbezeichnung anzugeben.\n(3) Die Warennummer ist 1. in der Intrahandelsstatistik die Nummer, nach der die Ware nach dem Warenverzeichnis zu klassifizieren ist, 2. in der Extrahandelsstatistik die vollständige Warennummer nach dem Elektronischen Zolltarif einschließlich des Zusatzcodes nach Artikel 2 der Verordnung (EWG) Nr. 2658/87.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__9.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p9-s1",
+     "start": 0,
+     "end": 326
+    },
+    {
+     "id": "ahstatdv_2022-p9-s2",
+     "start": 327,
+     "end": 420
+    },
+    {
+     "id": "ahstatdv_2022-p9-s3",
+     "start": 421,
+     "end": 585
+    },
+    {
+     "id": "ahstatdv_2022-p9-s4",
+     "start": 586,
+     "end": 646
+    },
+    {
+     "id": "ahstatdv_2022-p9-s5",
+     "start": 647,
+     "end": 823
+    },
+    {
+     "id": "ahstatdv_2022-p9-s6",
+     "start": 824,
+     "end": 946
+    },
+    {
+     "id": "ahstatdv_2022-p9-s7",
+     "start": 947,
+     "end": 1050
+    },
+    {
+     "id": "ahstatdv_2022-p9-s8",
+     "start": 1051,
+     "end": 1360
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p10",
+   "enbez": "§ 10",
+   "title": "Menge der Ware",
+   "text": "(1) „Menge der Ware“ sind die Eigenmasse, die Rohmasse, das Reingewicht und die Besondere Maßeinheit.\n(2) Eigenmasse ist die Masse der Ware ohne alle Umschließungen.\n(3) Die Rohmasse ist die Masse der Ware mit sämtlichen Umschließungen mit Ausnahme von Beförderungsmaterial und Behältern (Containern).\n(4) Reingewicht ist das Gewicht der Ware einschließlich der Umschließungen, mit denen die Ware beim Einzelverkauf dem Käufer übergeben wird. Das Reingewicht ist in der Anmeldung zur Intrahandelsstatistik anstelle der Eigenmasse anzugeben, wenn es handelsüblich und die Eigenmasse nicht bekannt ist.\n(5) Die Menge nach einer Besonderen Maßeinheit ist nur dann anzugeben, wenn diese im Warenverzeichnis bei der betreffenden Warennummer vermerkt ist. In der Intrahandelsstatistik muss in diesem Fall keine andere Maßeinheit für die Menge mehr angegeben werden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__10.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p10-s1",
+     "start": 0,
+     "end": 101
+    },
+    {
+     "id": "ahstatdv_2022-p10-s2",
+     "start": 102,
+     "end": 165
+    },
+    {
+     "id": "ahstatdv_2022-p10-s3",
+     "start": 166,
+     "end": 301
+    },
+    {
+     "id": "ahstatdv_2022-p10-s4",
+     "start": 302,
+     "end": 442
+    },
+    {
+     "id": "ahstatdv_2022-p10-s5",
+     "start": 443,
+     "end": 600
+    },
+    {
+     "id": "ahstatdv_2022-p10-s6",
+     "start": 601,
+     "end": 749
+    },
+    {
+     "id": "ahstatdv_2022-p10-s7",
+     "start": 750,
+     "end": 859
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p11",
+   "enbez": "§ 11",
+   "title": "Rechnungsbetrag",
+   "text": "(1) „Rechnungsbetrag“ ist das in Rechnung gestellte Entgelt in vollen Euro pro anmeldepflichtiger Ware ohne Umsatzsteuer. Er entspricht der umsatzsteuerrechtlichen Bemessungsgrundlage. Sind gewährte Skonti oder Rabatte, Transport- und Versicherungskosten und Abgaben sowie vor dem Eingang in das Erhebungsgebiet entrichtete Zölle Teil des Rechnungsbetrags, so müssen sie anteilig auf die anmeldepflichtigen Waren pro Warenposition aufgeteilt werden. Werden sowohl Waren als auch vor Ort erbrachte Dienstleistungen in Rechnung gestellt, ist nur der Wert der grenzüberschreitend gelieferten Waren zu berücksichtigen. Sind für eine importierte oder exportierte Ware Teilzahlungen vereinbart, ist der Rechnungsbetrag die Summe aller Teilzahlungen.\n(2) Der Umrechnungskurs für Rechnungsbeträge, die nicht in Euro gestellt werden, ist 1. der Wechselkurs, der nach den Bestimmungen von Artikel 48 der Durchführungsverordnung (EU) 2015/2447 der Kommission vom 24. November 2015 mit Einzelheiten zur Umsetzung von Bestimmungen der Verordnung (EU) Nr. 952/2013 des Europäischen Parlaments und des Rates zur Festlegung des Zollkodex der Union (ABl. L 343 vom 29.12.2015, S. 558), die zuletzt durch die Durchführungsverordnung (EU) 2021/235 (ABl. L 63 vom 23.2.2021, S. 386) geändert worden ist, in der jeweils geltenden Fassung zum Zeitpunkt der Annahme der Zollanmeldung festgelegt ist, 2. der nach § 16 Absatz 6 Satz 1 des Umsatzsteuergesetzes in der jeweils geltenden Fassung monatlich festgesetzte Umsatzsteuer-Umrechnungskurs, oder 3. der von der Europäischen Zentralbank für Mitgliedstaaten des Euro-Währungsgebietes für den Zeitpunkt des Imports oder Exports der Waren festgelegte und anzuwendende Referenzkurs oder der amtliche Wechselkurs, den nicht zum Euro-Währungsgebiet gehörende Mitgliedstaaten der Europäischen Union festgelegt haben.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__11.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p11-s1",
+     "start": 0,
+     "end": 121
+    },
+    {
+     "id": "ahstatdv_2022-p11-s2",
+     "start": 122,
+     "end": 184
+    },
+    {
+     "id": "ahstatdv_2022-p11-s3",
+     "start": 185,
+     "end": 449
+    },
+    {
+     "id": "ahstatdv_2022-p11-s4",
+     "start": 450,
+     "end": 614
+    },
+    {
+     "id": "ahstatdv_2022-p11-s5",
+     "start": 615,
+     "end": 743
+    },
+    {
+     "id": "ahstatdv_2022-p11-s6",
+     "start": 744,
+     "end": 1137
+    },
+    {
+     "id": "ahstatdv_2022-p11-s7",
+     "start": 1138,
+     "end": 1234
+    },
+    {
+     "id": "ahstatdv_2022-p11-s8",
+     "start": 1235,
+     "end": 1838
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p12",
+   "enbez": "§ 12",
+   "title": "Statistischer Wert",
+   "text": "(1) „Statistischer Wert“ ist der Wert der Ware zum Zeitpunkt des Grenzübertritts. Bei Kaufgeschäften ist er auf Grundlage des Rechnungsbetrages zu ermitteln. Bei Geschäften ohne Rechnungsbetrag für die Warensendung ist der Statistische Wert auf Grundlage eines Wertes zu ermitteln, der den Rechnungsbetrag ersetzt. Dabei kann der Preis zugrunde gelegt werden, der bei einem Kauf oder Verkauf einer gleichartigen Ware erzielt werden würde. Bei der Bildung des Statistischen Wertes sind beim Import einer Ware die Bewertungsgrundsätze des Zollwertrechts nach der Verordnung (EU) Nr. 952/2013 entsprechend anzuwenden. Diese Bewertungsgrundsätze finden auch beim Export einer Ware entsprechende Anwendung. Der Statistische Wert ist in vollen Euro anzugeben. Wird der Statistische Wert auf Grundlage von Rechnungen in anderen Währungen als dem Euro gebildet, so ist der Umrechnungskurs nach § 11 Absatz 2 zu wählen. Sind für eine importierte oder exportierte Ware Teilzahlungen vereinbart, ist der Statistische Wert auf Grundlage der Summe aller Teilzahlungen zu ermitteln und anzugeben.\n(2) In den Statistischen Wert sind für folgende Waren auch alle Beförderungskosten, beispielsweise Transport- und Versicherungskosten, einzubeziehen: 1. für Waren im Landverkehr (auch bei Beförderung in Rohrleitungen), Luftverkehr und Binnenschiffsverkehr frei Grenze des Erhebungsgebietes, 2. für Waren im Seeverkehr bis zur Grenze des Erhebungsgebietes, 3. für Waren im Postverkehr bei Import frei Bestimmungspoststelle, bei Export frei Einlieferungspoststelle, 4. für Waren bei Lieferung als Schiffs- und Luftfahrzeugbedarf frei an Bord des Fahrzeugs.\n(3) Beim Import gehören zum Statistischen Wert auch die Kosten, die für die Lagerung und für die Erhaltung der Waren außerhalb des Erhebungsgebietes entstanden sind, und zwar auch dann, wenn der Importeur diese Kosten zu tragen hat. In den Statistischen Wert sind die Zahlungen miteinzubeziehen, die im Zusammenhang mit dem Warenverkehr anfallen, wie zum Beispiel Kosten für Verpackungen und Umschließungen und Kosten für Verkaufslizenzen, sowie außerhalb des Erhebungsgebietes anfallende Kosten für Zertifizierungen und Analysen. Bei nicht auf den Importeur ausgestellten Rechnungen ist der Statistische Wert der auf der Basis des Absatzes 1 umgerechnete Rechnungspreis. Dies gilt unabhängig davon, ob die in Satz 2 genannten Kosten tatsächlich entstehen und wer sie trägt. Gewährte Skonti und Rabatte sowie Zölle, die vor dem Grenzübertritt in das Erhebungsgebiet erhoben wurden, sind in den Statistischen Wert einzubeziehen, nicht jedoch die Umsatzsteuer und Verbrauchssteuern, die im Erhebungsgebiet anfallen. Gemeinsame Kosten unterschiedlicher Warenpositionen einer Sendung sind auf die einzelnen Warenpositionen aufzuteilen.\n(4) Beim Export ist der maßgebliche Rechnungspreis für die Ermittlung des Statistischen Wertes der Rechnungspreis einer Warentransaktion zwischen einem gebietsansässigen Vertragspartner und einem nicht gebietsansässigen Vertragspartner. Dies gilt unabhängig davon, ob es sich bei dem gebietsansässigen Vertragspartner um den zollrechtlichen Ausführer nach Artikel 1 Nummer 19 der Delegierten Verordnung (EU) 2015/2446 der Kommission vom 28. Juli 2015 zur Ergänzung der Verordnung (EU) Nr. 952/2013 des Europäischen Parlaments und des Rates mit Einzelheiten zur Präzisierung von Bestimmungen des Zollkodex der Union (ABl. L 343 vom 29.12.2015, S. 1), die zuletzt durch die Delegierte Verordnung (EU) 2021/234 (ABl. L 63 vom 23.2.2021, S. 1) geändert worden ist, in der jeweils geltenden Fassung handelt.\n(5) Unter Berücksichtigung der Absätze 1 bis 4 umfasst der Statistische Wert in besonderen Fällen: 1. beim Import von bestimmten verderblichen Waren, die üblicherweise im Rahmen von Kommissionsgeschäften eingeführt werden und zum zollrechtlich freien Verkehr überlassen werden, den Warenwert, der sich bei Zugrundelegen des Durchschnittswerts je Einheit ergibt; 2. beim Export nach Lohnveredelung den beim Import angemeldeten Statistischen Wert der unveredelten Waren zuzüglich aller im Erhebungsgebiet für die Veredelung und für die Beförderung der Waren entstandenen Kosten; dies beinhaltet auch den Wert der zugelieferten Waren, den Wert der vom Veredler zur Herstellung der Fertigware gestellten Waren und die Kosten für Verpackung und Umschließung; 3. beim Import nach passiver Veredelung den beim Export angemeldeten Statistischen Wert der unveredelten Waren zuzüglich aller im Ausland für die Veredelung und für die Beförderung der Waren entstandenen Kosten; dies beinhaltet auch den Wert der zugelieferten Waren, den Wert der vom Veredler zur Herstellung der Fertigware gestellten Waren sowie die Kosten für Verpackung und Umschließung; 4. bei Warenverkehren mit Waren, die ohne Entgelt oder im Rahmen eines Mietgeschäftes geliefert werden, den üblichen Marktpreis der Waren, der auf der Basis der Absätze 1 und 3 erzielt werden würde; entsprechendes gilt für ein Import- oder Exportgeschäft zwischen verbundenen Vertragspartnern nach Artikel 127 der Durchführungsverordnung (EU) 2015/2447, wenn die Verbundenheit zu einer Beeinflussung des Preises geführt hat; 5. beim Import oder Export von Datenträgern, die für Zwecke der Weitergabe von standardisierten Daten oder standardisierter Software ausgetauscht werden, unter Beachtung von Absatz 1 den Gesamtwert des Datenträgers einschließlich der Kosten für die weitergegebenen Daten und gegebenenfalls dabei mitberechneter Lizenzen; 6. bei Raumflugkörpern den Wert des Raumflugkörpers ohne Transport- und Versicherungskosten und ohne den Wert der beim Start eingesetzten Trägerrakete.\n(6) Beim Import oder Export von Waren, die im Zusammenhang mit dem vorausgegangenen Import oder Export zurückgesandt werden, gilt als Statistischer Wert der beim vorangegangenen Grenzübertritt angemeldete Statistische Wert zuzüglich der Beförderungskosten, wie beispielsweise Transport- und Versicherungskosten, die bis zur Grenze des Erhebungsgebietes anfallen.\n(7) Fehlt zum Zeitpunkt der Anmeldung eine Grundlage für die Bildung des Statistischen Wertes, so ist er unter Beachtung der Absätze 1 bis 6 zu ermitteln.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__12.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p12-s1",
+     "start": 0,
+     "end": 81
+    },
+    {
+     "id": "ahstatdv_2022-p12-s2",
+     "start": 82,
+     "end": 157
+    },
+    {
+     "id": "ahstatdv_2022-p12-s3",
+     "start": 158,
+     "end": 314
+    },
+    {
+     "id": "ahstatdv_2022-p12-s4",
+     "start": 315,
+     "end": 438
+    },
+    {
+     "id": "ahstatdv_2022-p12-s5",
+     "start": 439,
+     "end": 614
+    },
+    {
+     "id": "ahstatdv_2022-p12-s6",
+     "start": 615,
+     "end": 701
+    },
+    {
+     "id": "ahstatdv_2022-p12-s7",
+     "start": 702,
+     "end": 753
+    },
+    {
+     "id": "ahstatdv_2022-p12-s8",
+     "start": 754,
+     "end": 910
+    },
+    {
+     "id": "ahstatdv_2022-p12-s9",
+     "start": 911,
+     "end": 1082
+    },
+    {
+     "id": "ahstatdv_2022-p12-s10",
+     "start": 1083,
+     "end": 1637
+    },
+    {
+     "id": "ahstatdv_2022-p12-s11",
+     "start": 1638,
+     "end": 1870
+    },
+    {
+     "id": "ahstatdv_2022-p12-s12",
+     "start": 1871,
+     "end": 2168
+    },
+    {
+     "id": "ahstatdv_2022-p12-s13",
+     "start": 2169,
+     "end": 2309
+    },
+    {
+     "id": "ahstatdv_2022-p12-s14",
+     "start": 2310,
+     "end": 2412
+    },
+    {
+     "id": "ahstatdv_2022-p12-s15",
+     "start": 2413,
+     "end": 2651
+    },
+    {
+     "id": "ahstatdv_2022-p12-s16",
+     "start": 2652,
+     "end": 2769
+    },
+    {
+     "id": "ahstatdv_2022-p12-s17",
+     "start": 2770,
+     "end": 3006
+    },
+    {
+     "id": "ahstatdv_2022-p12-s18",
+     "start": 3007,
+     "end": 3390
+    },
+    {
+     "id": "ahstatdv_2022-p12-s19",
+     "start": 3391,
+     "end": 3483
+    },
+    {
+     "id": "ahstatdv_2022-p12-s20",
+     "start": 3484,
+     "end": 3572
+    },
+    {
+     "id": "ahstatdv_2022-p12-s21",
+     "start": 3573,
+     "end": 3934
+    },
+    {
+     "id": "ahstatdv_2022-p12-s22",
+     "start": 3935,
+     "end": 4149
+    },
+    {
+     "id": "ahstatdv_2022-p12-s23",
+     "start": 4150,
+     "end": 4326
+    },
+    {
+     "id": "ahstatdv_2022-p12-s24",
+     "start": 4327,
+     "end": 4538
+    },
+    {
+     "id": "ahstatdv_2022-p12-s25",
+     "start": 4539,
+     "end": 4717
+    },
+    {
+     "id": "ahstatdv_2022-p12-s26",
+     "start": 4718,
+     "end": 4916
+    },
+    {
+     "id": "ahstatdv_2022-p12-s27",
+     "start": 4917,
+     "end": 5142
+    },
+    {
+     "id": "ahstatdv_2022-p12-s28",
+     "start": 5143,
+     "end": 5463
+    },
+    {
+     "id": "ahstatdv_2022-p12-s29",
+     "start": 5464,
+     "end": 5615
+    },
+    {
+     "id": "ahstatdv_2022-p12-s30",
+     "start": 5616,
+     "end": 5978
+    },
+    {
+     "id": "ahstatdv_2022-p12-s31",
+     "start": 5979,
+     "end": 6133
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p13",
+   "enbez": "§ 13",
+   "title": "Lieferbedingungen",
+   "text": "Die Lieferbedingungen eines Warenverkehrs sind in der Extrahandelsstatistik mit den Bezeichnungen nach Anhang B Titel II Datenelement Nummer 14 01 000 000 der Durchführungsverordnung (EU) 2015/2447 in der jeweils geltenden Fassung anzugeben.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__13.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p13-s1",
+     "start": 0,
+     "end": 241
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p14",
+   "enbez": "§ 14",
+   "title": "Ursprungsland",
+   "text": "(1) Bei Waren, die in einem einzigen Land oder Gebiet vollständig gewonnen oder hergestellt worden sind, gilt dieses Land oder Gebiet als Ursprungsland.\n(2) Wenn an der Herstellung einer Ware zwei oder mehr Länder beteiligt waren, so ist das Ursprungsland in der Intrahandelsstatistik das Land, in dem die Ware der letzten wesentlichen und wirtschaftlich gerechtfertigten Be- und Verarbeitung unterzogen wurde, die zur Herstellung eines neuen Erzeugnisses geführt hat oder eine neue Herstellungsstufe darstellt.\n(3) In der Extrahandelsstatistik ist als Ursprungsland das nichtpräferentielle Ursprungsland der Ware nach Artikel 60 der Verordnung (EU) Nr. 952/2013 anzugeben.\n(4) Das Ursprungsland ist mit den Bezeichnungen und Schlüsselnummern des Länderverzeichnisses für die Außenhandelsstatistik nach Anhang 1 der Durchführungsverordnung (EU) 2020/1470 der Kommission vom 12. Oktober 2020 über das Verzeichnis der Länder und Gebiete für die europäischen Statistiken über den internationalen Warenverkehr und die geografische Aufgliederung für sonstige Unternehmensstatistiken (ABl. L 334 vom 13.10.2020, S. 2) in der jeweils geltenden Fassung, mit Ausnahme des Teils „Verschiedenes“, zu benennen.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__14.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p14-s1",
+     "start": 0,
+     "end": 152
+    },
+    {
+     "id": "ahstatdv_2022-p14-s2",
+     "start": 153,
+     "end": 511
+    },
+    {
+     "id": "ahstatdv_2022-p14-s3",
+     "start": 512,
+     "end": 673
+    },
+    {
+     "id": "ahstatdv_2022-p14-s4",
+     "start": 674,
+     "end": 1083
+    },
+    {
+     "id": "ahstatdv_2022-p14-s5",
+     "start": 1084,
+     "end": 1198
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p15",
+   "enbez": "§ 15",
+   "title": "Versendungsland",
+   "text": "(1) „Versendungsland“ ist das Land, aus dem die Waren in das Erhebungsgebiet verbracht worden sind. Unberücksichtigt bleiben Durchfuhrländer, in denen die Waren nur den mit der Beförderung zusammenhängenden Aufenthalten oder Rechtsgeschäften unterworfen wurden. Ist das Versendungsland nicht bekannt, so gilt das Ursprungsland als Versendungsland.\n(2) Sind die Waren vor ihrer Ankunft im Erhebungsgebiet in ein oder mehrere Länder verbracht worden und haben dort andere als mit der Beförderung zusammenhängende Aufenthalte oder Rechtsgeschäfte stattgefunden, so gilt das letzte Land, in dem solche Aufenthalte oder Rechtsgeschäfte stattgefunden haben, als Versendungsland.\n(3) Das Versendungsland ist mit den Bezeichnungen und Schlüsselnummern des Länderverzeichnisses für die Außenhandelsstatistik nach Anhang 1 der Durchführungsverordnung (EU) 2020/1470 zu benennen.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__15.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p15-s1",
+     "start": 0,
+     "end": 99
+    },
+    {
+     "id": "ahstatdv_2022-p15-s2",
+     "start": 100,
+     "end": 261
+    },
+    {
+     "id": "ahstatdv_2022-p15-s3",
+     "start": 262,
+     "end": 347
+    },
+    {
+     "id": "ahstatdv_2022-p15-s4",
+     "start": 348,
+     "end": 672
+    },
+    {
+     "id": "ahstatdv_2022-p15-s5",
+     "start": 673,
+     "end": 868
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p16",
+   "enbez": "§ 16",
+   "title": "Bestimmungsland",
+   "text": "(1) „Bestimmungsland“ ist das Land, in dem die Ware ge- oder verbraucht oder be- oder verarbeitet werden soll. Ist das Bestimmungsland unbekannt, so ist das letzte bekannte Land einzutragen, in das die Ware zum Zeitpunkt des Exports versendet oder ausgeführt werden soll.\n(2) Das Bestimmungsland ist mit den Bezeichnungen und Schlüsselnummern des Länderverzeichnisses für die Außenhandelsstatistik zu benennen, die in der Durchführungsverordnung (EU) 2020/1470 genannt sind.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__16.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p16-s1",
+     "start": 0,
+     "end": 110
+    },
+    {
+     "id": "ahstatdv_2022-p16-s2",
+     "start": 111,
+     "end": 271
+    },
+    {
+     "id": "ahstatdv_2022-p16-s3",
+     "start": 272,
+     "end": 474
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p17",
+   "enbez": "§ 17",
+   "title": "Ursprungsbundesland, Bestimmungsbundesland",
+   "text": "(1) „Ursprungsbundesland“ ist das Bundesland, in dem die Ware vollständig gewonnen oder hergestellt worden ist. Bei Waren, die aus Einzelteilen bestehen, die verschiedene Ursprungsbundesländer haben, oder ausländischen Ursprungs sind, ist das Bundesland als Ursprungsbundesland anzugeben, in dem die letzte wesentliche Be- oder Verarbeitung stattgefunden hat. Kann das Ursprungsbundesland nicht ermittelt werden, ist das Bundesland anzugeben, aus dem die Ware versandt oder in den Handel gebracht wurde. Das Ursprungsbundesland ist mit der Schlüsselnummer des Bundeslandes nach Anlage 3 zu benennen. Ist die Ware ausländischen Ursprungs, so ist stattdessen die Schlüsselnummer für das Ausland zu benennen.\n(2) „Bestimmungsbundesland“ ist das Bundesland, in dem die Ware verbleiben soll. Ist zum Zeitpunkt der Anmeldung noch nicht bekannt, in welchem Bundesland die Ware verbleiben soll, ist das Bundesland anzugeben, in das die Ware zunächst verbracht wird. Das Bestimmungsbundesland ist mit der Schlüsselnummer des Bundeslandes nach Anlage 3 zu benennen. Ist die Ware für das Ausland bestimmt, so ist stattdessen die Schlüsselnummer für das Ausland zu benennen.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__17.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p17-s1",
+     "start": 0,
+     "end": 111
+    },
+    {
+     "id": "ahstatdv_2022-p17-s2",
+     "start": 112,
+     "end": 359
+    },
+    {
+     "id": "ahstatdv_2022-p17-s3",
+     "start": 360,
+     "end": 503
+    },
+    {
+     "id": "ahstatdv_2022-p17-s4",
+     "start": 504,
+     "end": 599
+    },
+    {
+     "id": "ahstatdv_2022-p17-s5",
+     "start": 600,
+     "end": 705
+    },
+    {
+     "id": "ahstatdv_2022-p17-s6",
+     "start": 706,
+     "end": 786
+    },
+    {
+     "id": "ahstatdv_2022-p17-s7",
+     "start": 787,
+     "end": 957
+    },
+    {
+     "id": "ahstatdv_2022-p17-s8",
+     "start": 958,
+     "end": 1055
+    },
+    {
+     "id": "ahstatdv_2022-p17-s9",
+     "start": 1056,
+     "end": 1162
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p18",
+   "enbez": "§ 18",
+   "title": "Art des Geschäfts",
+   "text": "Die Art des Geschäfts ist mit der Schlüsselnummer nach Anhang 1, Teil C, Tabelle 1 der Durchführungsverordnung (EU) 2020/1197 sowie zusätzlich mit den Nummern in Anlage 2 anzugeben. Dabei ist unter anderem zu berücksichtigen, ob es sich um Kauf, Verkauf, Kommission, Konsignation, aktive oder passive Veredelung oder um eine andere Art des Geschäfts handelt und ob die Waren gegen Entgelt oder ohne Entgelt geliefert werden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__18.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p18-s1",
+     "start": 0,
+     "end": 181
+    },
+    {
+     "id": "ahstatdv_2022-p18-s2",
+     "start": 182,
+     "end": 424
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p19",
+   "enbez": "§ 19",
+   "title": "Teilsendungen",
+   "text": "(1) „Teilsendungen“ sind Lieferungen von Komponenten einer zerlegten Ware, die aufgrund der Erfordernisse des Handels oder aus Transportgründen demontiert oder zerlegt sind und über mehrere Bezugszeiträume befördert werden.\n(2) Beim Import und Export einer Ware in Teilsendungen ist in der Anmeldung zur Extrahandelsstatistik jede einzelne Teilsendung als solche zu kennzeichnen und fortlaufend zu nummerieren; die letzte Teilsendung ist als solche zu bezeichnen. Der jeweiligen Bezeichnungen der Waren einer Teilsendung ist die Warennummer der vollständigen Ware hinzuzufügen, bei der ersten Teilsendung auch der voraussichtliche Gesamtrechnungswert der Ware und, sofern bekannt, das voraussichtliche Gesamtgewicht.\n(3) In der Anmeldung zur Intrahandelsstatistik sind Teilsendungen zusammengefasst bei Lieferung der letzten Teilsendung zu melden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__19.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p19-s1",
+     "start": 0,
+     "end": 223
+    },
+    {
+     "id": "ahstatdv_2022-p19-s2",
+     "start": 224,
+     "end": 410
+    },
+    {
+     "id": "ahstatdv_2022-p19-s3",
+     "start": 411,
+     "end": 463
+    },
+    {
+     "id": "ahstatdv_2022-p19-s4",
+     "start": 464,
+     "end": 716
+    },
+    {
+     "id": "ahstatdv_2022-p19-s5",
+     "start": 717,
+     "end": 847
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p20",
+   "enbez": "§ 20",
+   "title": "Schiffe, Luft- und Raumfahrzeuge",
+   "text": "(1) Im Sinne dieser Verordnung ist 1. „Schiff“ ein als seegängig angesehenes Wasserfahrzeug im Sinne von Kapitel 89 des Warenverzeichnisses – Wasserfahrzeuge und schwimmende Einrichtungen, 2. „Luftfahrzeug“ ein Luftfahrzeug im Sinne der Codes 8802 30 und 8802 40 nach den ersten sechs Stellen des Warenverzeichnisses nach § 9 Absatz 1, 3. „Raumfahrzeug“ ein Fahrzeug, das sich im Weltraum fortbewegen kann, im Sinne der Warennummern 8802 6011 bis 8802 6019 des Warenverzeichnisses, 4. „Wirtschaftliches Eigentum“ an den Waren nach den Nummern 1 bis 3 das Recht einer Person, die Vorteile aus der wirtschaftlichen Nutzung eines Schiffs, Luft- oder Raumfahrzeugs im Gegenzug zur Übernahme der damit verbundenen Risiken zu beanspruchen; der wirtschaftliche Eigentümer eines Vermögenswertes ist nicht zwangsläufig auch der rechtliche Eigentümer.\n(2) Warenverkehre mit Waren nach Absatz 1 Nummer 1 und 2 werden erfasst als 1. Import, falls das wirtschaftliche Eigentum von einer nicht gebietsansässigen Person an eine gebietsansässige Person wechselt; dazu zählen auch Eigentumsübergänge zum Zwecke des Zerlegens und Verschrottens, 2. Export, falls das wirtschaftliche Eigentum von einer gebietsansässigen Person an eine nicht gebietsansässige Person wechselt; dazu zählen auch Eigentumsübergänge zum Zwecke des Zerlegens und Verschrottens.\n(3) Die Veredelung von Schiffen und Luftfahrzeugen ist nach den Bestimmungen der §§ 4 und 6 anzumelden. Dabei ist 1. für Warenverkehre zu oder nach aktiver Veredelung nach § 4 Absatz 1 Nummer 3 der Bearbeiter auskunftspflichtig, 2. für Warenverkehre zu oder nach passiver Veredelung nach § 4 Absatz 1 Nummer 4 die Person, welche das wirtschaftliche Eigentum innehat, auskunftspflichtig.\n(4) Wenn nach dem Start eines Raumfahrzeuges das wirtschaftliche Eigentum an diesem von einer Person an eine andere übertragen worden ist, von denen eine nicht gebietsansässig ist, gilt für den Warenverkehr Folgendes: 1. Ein Export liegt vor, wenn das Eigentum am Raumfahrzeug von einer gebietsansässigen Person auf eine nicht gebietsansässige Person übertragen worden ist; 2. ein Import liegt vor, wenn das Eigentum am Raumfahrzeug von einer nicht gebietsansässigen Person auf eine gebietsansässige Person übertragen worden ist.\n(5) Grenzüberschreitende Warenverkehre von Raumfahrzeugen vor dem Start, einschließlich Warenverkehre zu oder nach Veredelungen von Raumfahrzeugen sind nach den Bestimmungen von § 6 und gegebenenfalls § 4 von der gebietsansässigen Person nach Absatz 3 anzumelden.\n(6) Für die Anmeldung der Warenverkehre nach Absatz 2 und 4 gilt Folgendes: 1. Als Ursprungsland gilt das Land, in dem die Person ansässig ist, die das wirtschaftliche Eigentum an dem Schiff, Luft- oder Raumfahrzeug überträgt, 2. als Bestimmungsland gilt das Land, in dem die Person ansässig ist, auf die das wirtschaftliche Eigentum an dem Schiff, Luft- oder Raumfahrzeug übertragen wird, 3. im Fall einer Lieferung eines neuen Schiffs, Luft- oder Raumfahrzeugs ab Werk gilt das Herstellungsland als Ursprungsland, 4. im Fall einer aktiven Veredelung eines Schiffes oder Luftfahrzeuges gilt das Land als Ursprungs- beziehungsweise Bestimmungsland in dem die Person ansässig ist, die das wirtschaftliche Eigentum an dem Schiff oder Luftfahrzeug innehat, 5. im Fall einer passiven Veredelung gilt das Land als Ursprungs- beziehungsweise Bestimmungsland, in dem die Bearbeitung erfolgt, 6. Bezugszeitraum ist der Monat des Übergangs des wirtschaftlichen Eigentums, 7. der Statistische Wert umfasst bei a) Schiffen und Luftfahrzeugen den Rechnungsbetrag ohne Beförderungs- und Versicherungskosten, b) Raumfahrzeugen den Rechnungsbetrag ohne Beförderungs- und Versicherungskosten und ohne den Wert der beim Start eingesetzten Trägerraketen.\n(7) Die Seeschiffsregister übermitteln dem Statistischen Bundesamt Angaben zu Änderungen, die notwendig sind, um den Wechsel des wirtschaftlichen Eigentums festzustellen.\n(8) Das Luftfahrtbundesamt übermittelt dem Statistischen Bundesamt Angaben zu Änderungen im Luftfahrzeugregister, die notwendig sind, um den Wechsel des wirtschaftlichen Eigentums festzustellen.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__20.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p20-s1",
+     "start": 0,
+     "end": 733
+    },
+    {
+     "id": "ahstatdv_2022-p20-s2",
+     "start": 734,
+     "end": 841
+    },
+    {
+     "id": "ahstatdv_2022-p20-s3",
+     "start": 842,
+     "end": 1046
+    },
+    {
+     "id": "ahstatdv_2022-p20-s4",
+     "start": 1047,
+     "end": 1255
+    },
+    {
+     "id": "ahstatdv_2022-p20-s5",
+     "start": 1256,
+     "end": 1335
+    },
+    {
+     "id": "ahstatdv_2022-p20-s6",
+     "start": 1336,
+     "end": 1439
+    },
+    {
+     "id": "ahstatdv_2022-p20-s7",
+     "start": 1440,
+     "end": 1722
+    },
+    {
+     "id": "ahstatdv_2022-p20-s8",
+     "start": 1723,
+     "end": 2096
+    },
+    {
+     "id": "ahstatdv_2022-p20-s9",
+     "start": 2097,
+     "end": 2252
+    },
+    {
+     "id": "ahstatdv_2022-p20-s10",
+     "start": 2253,
+     "end": 2516
+    },
+    {
+     "id": "ahstatdv_2022-p20-s11",
+     "start": 2517,
+     "end": 3753
+    },
+    {
+     "id": "ahstatdv_2022-p20-s12",
+     "start": 3754,
+     "end": 3924
+    },
+    {
+     "id": "ahstatdv_2022-p20-s13",
+     "start": 3925,
+     "end": 4119
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p21",
+   "enbez": "§ 21",
+   "title": "Schiffs- und Luftfahrzeugbedarf",
+   "text": "(1) Im Sinne dieser Verordnung sind Schiffs- und Luftfahrzeugbedarf 1. Waren für Besatzung und Passagiere zum Verbrauch an Bord von Schiffen oder Luftfahrzeugen und 2. Waren für den Betrieb von Motoren, Maschinen und sonstigen Geräten von Schiffen oder Luftfahrzeugen während der Reise.\n(2) Ein Schiff oder Luftfahrzeug gilt als dem Staat angehörig, in dem die Person ansässig ist, die das wirtschaftliche Eigentum nach § 20 Absatz 1 Nummer 4 an dem Schiff oder Luftfahrzeug innehat (Partnerland).\n(3) Für die Außenhandelsstatistik sind Exporte von Waren anzumelden, die aus dem Erhebungsgebiet unmittelbar an Schiffe oder Luftfahrzeuge im wirtschaftlichen Eigentum einer nicht gebietsansässigen Person geliefert werden, unabhängig davon, ob sich das betreffende Schiff oder Luftfahrzeug zum Zeitpunkt der Belieferung im Erhebungsgebiet oder im Ausland befindet.\n(4) Für Warenlieferungen an Schiffe und Luftfahrzeuge sind folgende vereinfachte Warennummern zu verwenden: 1. 9930 24 00: Waren der Kapitel 01 bis 24 des Warenverzeichnisses; 2. 9930 27 00: Waren des Kapitels 27 des Warenverzeichnisses; 3. 9930 99 00: anderweitig klassifizierte Waren.\n(5) Für die Angabe des Partnerlandes nach Absatz 2 sind folgende vereinfachte Codes nach § 18 Nummer 9 des Außenhandelsstatistikgesetzes in Verbindung mit Anhang 5 Abschnitt 22 Nummer 3 c der Durchführungsverordnung (EU) 2020/1197 der Kommission vom 30. Juli 2020 (ABl. L 271 vom 18.8.2020, S.1) zu verwenden: 1. der Code QR für andere Mitgliedstaaten der Europäischen Union, 2. der Code QS für Drittländer.\n(6) Die Anmeldung der Menge der Ware ist für Waren des Kapitels 27 des Warenverzeichnisses verpflichtend. Für alle anderen Waren, die als Schiffs- und Luftfahrzeugbedarf angemeldet werden, ist die Angabe der Menge der Ware freiwillig.\n(7) Die Vereinfachungen nach den Absätzen 4 und 5 gelten nicht für Lieferungen von Waren an Bord eines Schiffes oder Luftfahrzeuges, wenn diese Waren zum Weiterverkauf an Reisende und nicht zum Verbrauch an Bord nach Absatz 1 bestimmt sind. Als Partnerland gilt für diese Warenverkehre das Land, in dem der Verkäufer ansässig ist.\n(8) Die Vereinfachungen nach den Absätzen 4 und 5 gelten ebenfalls nicht für die Lieferung von anderen Waren als die in Absatz 1 genannten an Bord eines Schiffes oder Luftfahrzeuges, die dort verbleiben. Als Partnerland für diese Warenverkehre gilt das Land nach Absatz 2.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__21.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p21-s1",
+     "start": 0,
+     "end": 286
+    },
+    {
+     "id": "ahstatdv_2022-p21-s2",
+     "start": 287,
+     "end": 497
+    },
+    {
+     "id": "ahstatdv_2022-p21-s3",
+     "start": 498,
+     "end": 862
+    },
+    {
+     "id": "ahstatdv_2022-p21-s4",
+     "start": 863,
+     "end": 1038
+    },
+    {
+     "id": "ahstatdv_2022-p21-s5",
+     "start": 1039,
+     "end": 1100
+    },
+    {
+     "id": "ahstatdv_2022-p21-s6",
+     "start": 1101,
+     "end": 1149
+    },
+    {
+     "id": "ahstatdv_2022-p21-s7",
+     "start": 1150,
+     "end": 1419
+    },
+    {
+     "id": "ahstatdv_2022-p21-s8",
+     "start": 1420,
+     "end": 1557
+    },
+    {
+     "id": "ahstatdv_2022-p21-s9",
+     "start": 1558,
+     "end": 1663
+    },
+    {
+     "id": "ahstatdv_2022-p21-s10",
+     "start": 1664,
+     "end": 1792
+    },
+    {
+     "id": "ahstatdv_2022-p21-s11",
+     "start": 1793,
+     "end": 2033
+    },
+    {
+     "id": "ahstatdv_2022-p21-s12",
+     "start": 2034,
+     "end": 2123
+    },
+    {
+     "id": "ahstatdv_2022-p21-s13",
+     "start": 2124,
+     "end": 2327
+    },
+    {
+     "id": "ahstatdv_2022-p21-s14",
+     "start": 2328,
+     "end": 2396
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p22",
+   "enbez": "§ 22",
+   "title": "Waren an und von Einrichtungen auf hoher See",
+   "text": "(1) Im Sinne dieser Verordnung sind 1. „Einrichtungen auf hoher See“ auf See installierte ortsfeste Ausrüstungen und Anlagen; 2. „an Einrichtungen auf hoher See gelieferte Waren“ Waren, die zum Verbrauch durch die Besatzung und den Betrieb von Motoren, Maschinen und sonstigen Geräten von Einrichtungen auf hoher See geliefert werden; 3. „von Einrichtungen auf hoher See erhaltene oder produzierte Waren“ Waren, die auf der Einrichtung auf hoher See vom Meeresboden oder aus dem Untergrund gefördert oder hergestellt wurden; 4. „ausschließliche Wirtschaftszonen“ Gebiete, in denen ein Staat über das ausschließliche Recht verfügt, den dortigen Meeresboden oder Untergrund auszubeuten.\n(2) Warenverkehre mit Einrichtungen auf hoher See werden erfasst als 1. Import, falls die Waren geliefert wurden von a) dem Ausland an eine Einrichtung auf hoher See, die sich im Erhebungsgebiet befindet, b) einer Einrichtung auf hoher See in der ausschließlichen Wirtschaftszone eines anderen Staates in das Erhebungsgebiet, c) einer Einrichtung auf hoher See in der ausschließlichen Wirtschaftszone eines anderen Staates an eine Einrichtung auf hoher See, die sich im Erhebungsgebiet befindet; 2. Export, falls die Waren geliefert wurden a) von einer Einrichtung auf hoher See, die sich im Erhebungsgebiet befindet, an einen anderen Staat, b) vom deutschen Staatsgebiet an eine Einrichtung auf hoher See in der ausschließlichen Wirtschaftszone eines anderen Staates, c) von einer Einrichtung auf hoher See, die sich im Erhebungsgebiet befindet, an eine Einrichtung auf hoher See in der ausschließlichen Wirtschaftszone eines anderen Staates.\n(3) Einrichtungen auf hoher See außerhalb der ausschließlichen Wirtschaftszone eines Staates werden dem Staat zugerechnet, in dem der wirtschaftliche Eigentümer der Einrichtung ansässig ist.\n(4) Für Warenlieferungen an Einrichtungen auf hoher See sind folgende Warennummern zu verwenden: 1. 9931 24 00: Waren der Kapitel 01 bis 24 des Warenverzeichnisses, 2. 9931 27 00: Waren des Kapitels 27 des Warenverzeichnisses, 3. 9931 99 00: anderweitig eingeordnete Waren. Alle Waren, die nicht nach Absatz 1 Nummer 2 als an Einrichtungen auf hoher See gelieferte Waren gelten, sind mit der für sie zutreffenden Warennummer des Warenverzeichnisses anzumelden. Die Anmeldung der Menge der Ware ist für Waren des Kapitels 27 des Warenverzeichnisses verpflichtend. Für alle anderen Waren, die an Einrichtungen auf hoher See geliefert werden, ist die Anmeldung der Menge der Ware freiwillig.\n(5) Für Warenlieferungen an Einrichtungen auf hoher See sind folgende vereinfachte Ländercodes für die Angabe des Partnerlandes zu verwenden: 1. der Code QV für andere Mitgliedstaaten der Europäischen Union, 2. der Code QW für Drittländer.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__22.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p22-s1",
+     "start": 0,
+     "end": 125
+    },
+    {
+     "id": "ahstatdv_2022-p22-s2",
+     "start": 126,
+     "end": 334
+    },
+    {
+     "id": "ahstatdv_2022-p22-s3",
+     "start": 335,
+     "end": 524
+    },
+    {
+     "id": "ahstatdv_2022-p22-s4",
+     "start": 525,
+     "end": 684
+    },
+    {
+     "id": "ahstatdv_2022-p22-s5",
+     "start": 685,
+     "end": 1180
+    },
+    {
+     "id": "ahstatdv_2022-p22-s6",
+     "start": 1181,
+     "end": 1628
+    },
+    {
+     "id": "ahstatdv_2022-p22-s7",
+     "start": 1629,
+     "end": 1819
+    },
+    {
+     "id": "ahstatdv_2022-p22-s8",
+     "start": 1820,
+     "end": 2093
+    },
+    {
+     "id": "ahstatdv_2022-p22-s9",
+     "start": 2094,
+     "end": 2280
+    },
+    {
+     "id": "ahstatdv_2022-p22-s10",
+     "start": 2281,
+     "end": 2382
+    },
+    {
+     "id": "ahstatdv_2022-p22-s11",
+     "start": 2383,
+     "end": 2508
+    },
+    {
+     "id": "ahstatdv_2022-p22-s12",
+     "start": 2509,
+     "end": 2748
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p23",
+   "enbez": "§ 23",
+   "title": "Meeresprodukte",
+   "text": "(1) „Meeresprodukte“ im Sinne dieser Verordnung sind Fischereiprodukte, mineralische Stoffe, Bergungsgut und alle anderen Waren, die sich im Meer befunden haben und von Schiffen noch nicht angelandet wurden.\n(2) Ein Schiff gilt als dem Land angehörig, in dem die Person ansässig ist, die an dem Schiff das wirtschaftliche Eigentum nach § 20 Absatz 1 Nummer 4 innehat.\n(3) Bei Warenverkehren von Meeresprodukten werden erfasst: 1. als Import die Anlandung von Meeresprodukten in Häfen im Erhebungsgebiet, 2. als Export die Anlandung von Meeresprodukten in Häfen außerhalb des Erhebungsgebiets durch ein deutsches Schiff; 3. als Ursprungsland das Land, in dem die Person ansässig ist, die das wirtschaftliche Eigentum an dem Schiff hat, das die Ware erstmals an Bord nimmt, 4. als Bestimmungsland das Land, in dem die Meeresprodukte angelandet werden.\n(4) Die Bundesanstalt für Landwirtschaft und Ernährung übermittelt dem Statistischen Bundesamt alle Daten über Exporte von Fischereiprodukten nach Absatz 3, die von deutschen Schiffen in ausländischen Häfen angelandet werden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__23.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p23-s1",
+     "start": 0,
+     "end": 207
+    },
+    {
+     "id": "ahstatdv_2022-p23-s2",
+     "start": 208,
+     "end": 367
+    },
+    {
+     "id": "ahstatdv_2022-p23-s3",
+     "start": 368,
+     "end": 619
+    },
+    {
+     "id": "ahstatdv_2022-p23-s4",
+     "start": 620,
+     "end": 849
+    },
+    {
+     "id": "ahstatdv_2022-p23-s5",
+     "start": 850,
+     "end": 1075
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p24",
+   "enbez": "§ 24",
+   "title": "Strom und Erdgas",
+   "text": "(1) Bei grenzüberschreitenden Lieferungen von elektrischem Strom und Erdgas in Leitungen sind jeweils die Menge der Ware, die Verkehrsrichtung und das Versendungs- und Ursprungs- oder Bestimmungsland von den Netzbetreibern anzugeben. Die gebietsansässigen Personen, die mit nicht gebietsansässigen Vertragspartnern Verträge über Strom- und Erdgaslieferungen schließen, müssen diese Lieferungen mit den Angaben zu allen in den §§ 7 und 8 des Außenhandelsstatistikgesetzes genannten Merkmalen anmelden. Das Statistische Bundesamt kann auf die Anmeldungen nach Satz 2 verzichten, wenn Angaben zu den Merkmalen nach den §§ 7 und 8 des Außenhandelsstatistikgesetzes in anderen geeigneten Quellen vorliegen.\n(2) Leitungen für elektrischen Strom und Erdgas werden wie folgt zugeordnet: 1. Leitungen, die sich außerhalb des deutschen Staatsgebietes befinden und ausschließlich mit dem deutschen Elektrizitäts- oder Erdgasnetz verbunden sind, gelten als Teil des Erhebungsgebietes; 2. Leitungen, die sich auf deutschem Staatsgebiet befinden und ausschließlich mit einem ausländischen Erdgasnetz oder Elektrizitätsnetz verbunden sind, gelten nicht als Teil des Erhebungsgebietes.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__24.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p24-s1",
+     "start": 0,
+     "end": 233
+    },
+    {
+     "id": "ahstatdv_2022-p24-s2",
+     "start": 234,
+     "end": 500
+    },
+    {
+     "id": "ahstatdv_2022-p24-s3",
+     "start": 501,
+     "end": 701
+    },
+    {
+     "id": "ahstatdv_2022-p24-s4",
+     "start": 702,
+     "end": 972
+    },
+    {
+     "id": "ahstatdv_2022-p24-s5",
+     "start": 973,
+     "end": 1169
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p25",
+   "enbez": "§ 25",
+   "title": "Warenverkehre mit exterritorialen Einheiten",
+   "text": "(1) Diplomatische Vertretungen und Streitkräfte anderer Staaten auf deutschem Staatsgebiet gelten als ihrem Entsendestaat angehörig. Vertretungen internationaler Organisationen gelten als Teil dieser Organisationen, unabhängig davon, ob sie in Deutschland oder in einem anderen Staat ansässig sind.\n(2) Der Warenverkehr von Personen im Erhebungsgebiet mit ausländischen diplomatischen Vertretungen und ausländischen Streitkräften, die sich sowohl außerhalb Deutschlands als auch außerhalb ihres Entsendestaates befinden, wird als Außenhandel zwischen Deutschland und dem Entsendestaat erfasst.\n(3) Warenverkehre zwischen Personen im Erhebungsgebiet und internationalen Organisationen werden als Warenverkehr mit der internationalen Organisation erfasst. Für die Angabe des Partnerlandes sind folgende vereinfachte Codes nach § 18 Nummer 9 des Außenhandelsstatistikgesetzes zu verwenden: 1. QV für Organisationen mit Hauptsitz innerhalb der Europäischen Union, 2. QW für internationale Organisationen mit Hauptsitz außerhalb der Europäischen Union.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__25.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p25-s1",
+     "start": 0,
+     "end": 132
+    },
+    {
+     "id": "ahstatdv_2022-p25-s2",
+     "start": 133,
+     "end": 298
+    },
+    {
+     "id": "ahstatdv_2022-p25-s3",
+     "start": 299,
+     "end": 593
+    },
+    {
+     "id": "ahstatdv_2022-p25-s4",
+     "start": 594,
+     "end": 753
+    },
+    {
+     "id": "ahstatdv_2022-p25-s5",
+     "start": 754,
+     "end": 1047
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p26",
+   "enbez": "§ 26",
+   "title": "Warenverkehre mit Abfällen",
+   "text": "(1) Abfälle ohne Wert sind Abfälle, bei denen der Eigentümer für die Lieferung der Abfälle kein Entgelt erhält. Die grenzüberschreitenden Warenverkehre mit Abfällen ohne Wert sind wie folgt anzumelden: 1. mit Angaben zu allen in den §§ 7 und 8 des Außenhandelsstatistikgesetzes genannten Merkmalen, 2. mit der Verkehrsrichtung, 3. mit der Art des Geschäfts 99 nach Anhang I Teil C Tabelle 1 der Durchführungsverordnung (EU) 2020/1197 der Kommission und 4. abweichend von § 12 mit einem Statistischen Wert von einem Euro.\n(2) Abfälle mit Wert sind Abfälle, bei denen der Eigentümer für die Lieferung der Abfälle ein Entgelt erhält oder die im Rahmen eines Veredelungsgeschäfts geliefert werden. Diese sind nach den allgemeinen Vorschriften anzumelden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__26.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p26-s1",
+     "start": 0,
+     "end": 111
+    },
+    {
+     "id": "ahstatdv_2022-p26-s2",
+     "start": 112,
+     "end": 520
+    },
+    {
+     "id": "ahstatdv_2022-p26-s3",
+     "start": 521,
+     "end": 693
+    },
+    {
+     "id": "ahstatdv_2022-p26-s4",
+     "start": 694,
+     "end": 750
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p27",
+   "enbez": "§ 27",
+   "title": "Vereinfachte Anmeldungen",
+   "text": "(1) Meldepflichtige Importe oder Exporte können unter den in den §§ 28 bis 32 genannten Voraussetzungen vereinfacht angemeldet werden.\n(2) Hilfslieferungen öffentlicher oder privater Stellen sowie Warensendungen, die in Anlage 4 beschrieben werden, können unter den dafür vorgesehenen Sammelwarennummern des Kapitels 99 des Warenverzeichnisses für die Außenhandelsstatistik angemeldet werden. Sie unterliegen keiner Wertgrenze und bedürfen keiner Genehmigung des Statistischen Bundesamtes.\n(3) Vereinfachungen nach den Absätzen 1 und 2 gelten nicht für Waren, für die eine detaillierte Einreihung der einzelnen Waren in das Warenverzeichnis erforderlich ist aufgrund von Vorschriften 1. des Zollrechts, 2. des Außenwirtschaftsrechts, 3. des Ursprungsrechts, 4. der Rechtsvorschriften über ein- und ausfuhrrechtliche Verbote und Beschränkungen oder 5. anderer Rechtsvorschriften.\n(4) Die vereinfachten Anmeldungen unter Verwendung von Sammelwarennummern nach den §§ 29 bis 31 sowie die Vereinfachungen auf Grundlage von Anhang 5, Abschnitt 31 der Durchführungsverordnung (EU) 2020/1197 richten sich nach Anlage 1.\n(5) Die Befugnisse der Zollbehörden nach anderen Rechtsvorschriften bleiben unberührt.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__27.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p27-s1",
+     "start": 0,
+     "end": 134
+    },
+    {
+     "id": "ahstatdv_2022-p27-s2",
+     "start": 135,
+     "end": 392
+    },
+    {
+     "id": "ahstatdv_2022-p27-s3",
+     "start": 393,
+     "end": 489
+    },
+    {
+     "id": "ahstatdv_2022-p27-s4",
+     "start": 490,
+     "end": 878
+    },
+    {
+     "id": "ahstatdv_2022-p27-s5",
+     "start": 879,
+     "end": 1112
+    },
+    {
+     "id": "ahstatdv_2022-p27-s6",
+     "start": 1113,
+     "end": 1199
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p28",
+   "enbez": "§ 28",
+   "title": "Verwendung von genehmigungspflichtigen Sammelwarennummern",
+   "text": "(1) Das Statistische Bundesamt kann eine vereinfachte Anmeldung unter Verwendung einer Sammelwarennummer der Kapitel 98 (§ 29) oder Kapitel 99 (§ 30) des Warenverzeichnisses genehmigen.\n(2) Die zu verwendenden Warennummern aus Kapitel 99 für die in § 30 Absatz 3 Nummer 1 und 2 genannten Vereinfachungen sowie für Vereinfachungen auf Grundlage von Anhang 5 Abschnitt 31 der Durchführungsverordnung (EU) 2020/1197 richten sich nach Anlage 1.\n(3) Die Genehmigung der vereinfachten Anmeldung unter Verwendung einer Sammelwarennummer unterbleibt, sofern die Mindestanforderungen im Hinblick auf die Qualität der Ergebnisse der Außenhandelsstatistik nicht mehr gewährleistet werden können.\n(4) Der Importeur im Intrahandel oder der Exporteur hat die Genehmigung der vereinfachten Anmeldung unter Verwendung einer Sammelwarennummer schriftlich oder elektronisch zu beantragen. Im Antrag ist die Umsatzsteuernummer (im Intrahandel) oder die EORI-Nummer (im Extrahandel) anzugeben sowie die Erfüllung der Zulässigkeitsvoraussetzungen mittels geeigneter Unterlagen zu belegen.\n(5) Die Genehmigung ist nicht übertragbar.\n(6) Für die Genehmigung der vereinfachten Anmeldung unter Verwendung einer Sammelwarennummer kann das Statistische Bundesamt weitere Kriterien festlegen.\n(7) Das Statistische Bundesamt kann die Verwendung von Sammelwarennummern bei der vereinfachten Anmeldung untersagen, wenn diese widerrechtlich verwendet wurden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__28.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p28-s1",
+     "start": 0,
+     "end": 185
+    },
+    {
+     "id": "ahstatdv_2022-p28-s2",
+     "start": 186,
+     "end": 440
+    },
+    {
+     "id": "ahstatdv_2022-p28-s3",
+     "start": 441,
+     "end": 684
+    },
+    {
+     "id": "ahstatdv_2022-p28-s4",
+     "start": 685,
+     "end": 870
+    },
+    {
+     "id": "ahstatdv_2022-p28-s5",
+     "start": 871,
+     "end": 1067
+    },
+    {
+     "id": "ahstatdv_2022-p28-s6",
+     "start": 1068,
+     "end": 1110
+    },
+    {
+     "id": "ahstatdv_2022-p28-s7",
+     "start": 1111,
+     "end": 1264
+    },
+    {
+     "id": "ahstatdv_2022-p28-s8",
+     "start": 1265,
+     "end": 1426
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p29",
+   "enbez": "§ 29",
+   "title": "Vereinfachte Anmeldung von Fabrikationsanlagen",
+   "text": "(1) Im Sinne dieser Vorschrift ist 1. eine vollständige Fabrikationsanlage eine Kombination von Maschinen, Apparaten, Geräten, Ausrüstungen, Instrumenten und Materialien, die zusammen als Großanlage zur Herstellung von Waren oder zur Erbringung von Dienstleistungen dienen, 2. eine Komponente eine Lieferung für eine vollständige Fabrikationsanlage, die Waren umfasst, die alle unter ein und dasselbe Kapitel des Warenverzeichnisses fallen oder als Bestandteil eindeutig den Waren des Kapitels zugeordnet werden können.\n(2) Die Komponenten einer vollständigen Fabrikationsanlage können mit genehmigungspflichtigen Sammelwarennummern des Kapitels 98 vereinfacht angemeldet werden.\n(3) Bei Lieferungen von vollständigen Fabrikationsanlagen kann sich die Anmeldung im Warenverkehr zwischen Mitgliedstaaten und bei der Ausfuhr im Handel mit Drittländern nach Anhang 5, Abschnitt 31 Nummer 5 der Durchführungsverordnung (EU) 2020/1197 auf die Exporte und Eingänge der Komponenten der vollständigen Fabrikationsanlage beschränken, wenn die Komponenten zum ersten Aufbau einer vollständigen Fabrikationsanlage oder zur Wiederverwendung, zum Abbau oder zum Wiederaufbau gebrauchter vollständiger Fabrikationsanlagen bestimmt sind.\n(4) Das Statistische Bundesamt kann die vereinfachte Anmeldung genehmigen für 1. neue vollständige Fabrikationsanlagen, deren gesamter Statistischer Wert aller Exporte aus oder Eingänge nach Deutschland 3 Millionen Euro übersteigt sowie 2. alle Exporte sowie Eingänge von gebrauchten vollständigen Fabrikationsanlagen, unabhängig von deren Wert.\n(5) Der Antrag auf eine Genehmigung für die vereinfachte Anmeldung einer vollständigen Fabrikationsanlage muss folgende Angaben enthalten: 1. die genaue Bezeichnung der vollständigen Fabrikationsanlage mit einem eindeutigen Identifikationskriterium, beispielsweise der Auftragsnummer, 2. das Bestimmungsland oder das Versendungsland, 3. den Gesamtwert, gegebenenfalls einschließlich der Zulieferungen aus anderen Ländern, jedoch ohne den Wert der im Ausland erbrachten Dienstleistungen, 4. das Datum des Beginns und des voraussichtlichen Abschlusses der Lieferungen, 5. die Aufstellung aller zu liefernden Waren, 6. die Aufstellung der Länder mit Ausnahme Deutschlands, in denen die Personen ansässig sind, die Waren zur Errichtung der Anlage liefern; die Aufstellung muss die jeweiligen Wertanteile der von der Person gelieferten Waren am Gesamtwert der Anlage enthalten. Soweit diese Angaben aus dem Liefervertrag ersichtlich sind, ist dem Antrag auch eine Kopie des Liefervertrages als Beleg beizufügen.\n(6) Mit der Genehmigung der vereinfachten Anmeldung werden die zu verwendenden Warenbezeichnungen und Warennummern für die vollständigen Fabrikationsanlagen, die Komponenten der vollständigen Fabrikationsanlage sowie andere Einzelheiten der Anmeldung festgelegt.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__29.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p29-s1",
+     "start": 0,
+     "end": 519
+    },
+    {
+     "id": "ahstatdv_2022-p29-s2",
+     "start": 520,
+     "end": 679
+    },
+    {
+     "id": "ahstatdv_2022-p29-s3",
+     "start": 680,
+     "end": 1222
+    },
+    {
+     "id": "ahstatdv_2022-p29-s4",
+     "start": 1223,
+     "end": 1568
+    },
+    {
+     "id": "ahstatdv_2022-p29-s5",
+     "start": 1569,
+     "end": 2320
+    },
+    {
+     "id": "ahstatdv_2022-p29-s6",
+     "start": 2321,
+     "end": 2441
+    },
+    {
+     "id": "ahstatdv_2022-p29-s7",
+     "start": 2442,
+     "end": 2575
+    },
+    {
+     "id": "ahstatdv_2022-p29-s8",
+     "start": 2576,
+     "end": 2838
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p30",
+   "enbez": "§ 30",
+   "title": "Vereinfachte Anmeldung für Zusammenstellungen von Waren",
+   "text": "(1) Zusammenstellungen von mindestens drei Waren, von denen jede Ware eine unterschiedliche Warennummer des Warenverzeichnisses erhält und die zusammen ein- oder ausgeführt werden, können vereinfacht angemeldet werden. Für diese Waren können die genehmigungspflichtigen Sammelwarennummern des Kapitels 99 verwendet werden.\n(2) Um die Mindestanforderungen im Hinblick auf die Qualität der Ergebnisse der Außenhandelsstatistik zu gewährleisten, wird die vereinfachte Anmeldung unter Verwendung von Sammelwarennummern nur auskunftspflichtigen Personen genehmigt, deren Warenverkehre im vorangegangenen Kalenderjahr pro Verkehrsrichtung nach § 2 Absatz 11 und 16 des Außenhandelsstatistikgesetzes den vom Statistischen Bundesamt als Vereinfachungsschwelle festgelegten Statistischen Wert nicht überschritten haben, der mindestens 3 Millionen Euro beträgt. Das Statistische Bundesamt legt den Statistischen Wert für die Vereinfachungsschwelle am Ende eines Kalenderjahres für das kommende Kalenderjahr fest.\n(3) Die vereinfachte Anmeldung unter Verwendung einer Sammelwarennummer kann auf Antrag des Auskunftspflichtigen für folgende Zusammenstellungen genehmigt werden: 1. Zusammenstellungen von Kraft- und Luftfahrzeugteilen nach Anhang 5, Abschnitt 31 Nummer 4 der Durchführungsverordnung (EU) 2020/1197; diese Zusammenstellungen dürfen im Fall von Kraftfahrzeugteilen nur Waren des Kapitels 87 des Warenverzeichnisses und im Fall von Luftfahrzeugteilen nur Waren des Kapitels 88 des Warenverzeichnisses enthalten, 2. Zusammenstellungen von geringwertigen Waren mit Ausnahme der Kapitel 87, 88 und 93 des Warenverzeichnisses, wobei der Statistische Wert jeder einzelnen Ware einer solchen Zusammenstellung 1 000 Euro nicht überschreiten darf; bei Zusammenstellungen aus den Kapiteln 01 bis 24 darf der Statistische Wert jeder einzelnen Ware 400 Euro nicht überschreiten; das Gewicht jeder einzelnen Ware darf bei jeder Zusammenstellung 1 000 Kilogramm nicht überschreiten, 3. Warenlieferungen von Retouren, Restposten, Konkurswaren und gebrauchten Waren mit Ausnahme der Kapitel 87, 88 und 93 des Warenverzeichnisses; wobei der Statistische Wert einer Sendung 50 000 Euro nicht überschreiten darf; eine Sendung ist in diesem Zusammenhang die Gesamtheit der Waren, die an einem Tag an einen Empfänger geschickt werden, 4. (weggefallen)",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__30.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p30-s1",
+     "start": 0,
+     "end": 218
+    },
+    {
+     "id": "ahstatdv_2022-p30-s2",
+     "start": 219,
+     "end": 322
+    },
+    {
+     "id": "ahstatdv_2022-p30-s3",
+     "start": 323,
+     "end": 851
+    },
+    {
+     "id": "ahstatdv_2022-p30-s4",
+     "start": 852,
+     "end": 1002
+    },
+    {
+     "id": "ahstatdv_2022-p30-s5",
+     "start": 1003,
+     "end": 1302
+    },
+    {
+     "id": "ahstatdv_2022-p30-s6",
+     "start": 1303,
+     "end": 1740
+    },
+    {
+     "id": "ahstatdv_2022-p30-s7",
+     "start": 1741,
+     "end": 1868
+    },
+    {
+     "id": "ahstatdv_2022-p30-s8",
+     "start": 1869,
+     "end": 2115
+    },
+    {
+     "id": "ahstatdv_2022-p30-s9",
+     "start": 2116,
+     "end": 2195
+    },
+    {
+     "id": "ahstatdv_2022-p30-s10",
+     "start": 2196,
+     "end": 2332
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p31",
+   "enbez": "§ 31",
+   "title": "Genehmigungsfreie Vereinfachungen",
+   "text": "(1) Teile und Zubehör für Maschinen, Apparate, Geräte, Beförderungsmittel und Instrumente der Kapitel 84 bis 90 des Warenverzeichnisses, die üblicherweise zur Ausrüstung gehören und zusammen mit dem Hauptgegenstand exportiert oder importiert werden, können mit der Warenbezeichnung und der Warennummer des Hauptgegenstands und dem Zusatz „einschließlich des üblicherweise zur Ausrüstung gehörenden Zubehörs und der Ersatzteile“ angemeldet werden. Bei der Anmeldung zur Intrahandelsstatistik ist nur die Angabe der Warennummer des Hauptgegenstands ohne Warenbezeichnung erforderlich.\n(2) Werden Teile und Zubehör für Maschinen, Apparate, Geräte, Beförderungsmittel und Instrumente der Kapitel 84 bis 86 oder 90 des Warenverzeichnisses ohne den Hauptgegenstand in einer Sendung exportiert oder importiert, sind folgende Vereinfachungen bei der statistischen Anmeldung zulässig: 1. Beträgt der gesamte Statistische Wert der Sendung nicht mehr als 5 000 Euro, können sie mit den auf die Maschinen, Apparate, Geräte, Beförderungsmittel und Instrumente, zu deren Ausrüstung sie üblicherweise gehören, zutreffenden Warennummern des Warenverzeichnisses angemeldet werden; falls nicht bekannt ist, für welche Maschinen, Apparate, Geräte, Beförderungsmittel und Instrumente der Kapitel 84 bis 86 und 90 des Warenverzeichnisses die Teile und das Zubehör bestimmt sind, dürfen mechanische Teile der Position 8487, elektrische Teile der Position 8548 und optische Teile und Zubehör der Position 9033 des Warenverzeichnisses zugeordnet werden, 2. beträgt der gesamte Statistische Wert der Sendung mehr als 5 000 Euro, so sind die Teile und das Zubehör mit den auf sie zutreffenden Warennummern des Warenverzeichnisses anzumelden; Teile und Zubehör bis zu einem Statistischen Wert von einschließlich 2 000 Euro je Teil oder Zubehör, die jeweils einzeln in verschiedenen Warennummern der genannten Kapitel des Warenverzeichnisses einzureihen sind, dürfen jedoch mit der Warennummer der Warenposition mit dem höchsten Statistischen Wert angemeldet werden.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__31.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p31-s1",
+     "start": 0,
+     "end": 446
+    },
+    {
+     "id": "ahstatdv_2022-p31-s2",
+     "start": 447,
+     "end": 582
+    },
+    {
+     "id": "ahstatdv_2022-p31-s3",
+     "start": 583,
+     "end": 1163
+    },
+    {
+     "id": "ahstatdv_2022-p31-s4",
+     "start": 1164,
+     "end": 1715
+    },
+    {
+     "id": "ahstatdv_2022-p31-s5",
+     "start": 1716,
+     "end": 2038
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p32",
+   "enbez": "§ 32",
+   "title": "Befreiungen",
+   "text": "(1) Die Anmeldeschwelle im Eingang nach § 14 Absatz 3 des Außenhandelsstatistikgesetzes wird auf 3 Millionen Euro festgelegt. Die Anmeldeschwelle in der Versendung nach § 14 Absatz 2 des Außenhandelsstatistikgesetzes wird auf 1 Million Euro festgelegt.\n(2) Bei Kaufgeschäften einschließlich Kommissions- , Konsignations- und Lagergeschäften im Rahmen von innergemeinschaftlichen Warenverkehren ist der Statistische Wert von den Anmeldepflichtigen nur anzugeben, wenn dieser für alle derartigen Warenverkehre des Anmeldepflichtigen in einem Jahr je Verkehrsrichtung den nach Absatz 4 festgelegten Schwellenwert überschreitet.\n(3) Um zu ermitteln, wer verpflichtet ist, über den Statistischen Wert bei Kaufgeschäften einschließlich Kommissions-, Konsignations- und Lagergeschäften sowie Ansichts- und Probesendungen Auskunft zu geben, wird jährlich ein Schwellenwert für den Wareneingang und ein Schwellenwert für die Warenversendung festgelegt. Auskunftspflichtige zur Intrahandelsstatistik, deren Kaufgeschäfte einschließlich Kommissions-, Konsignations- und Lagergeschäften sowie Ansichts- und Probesendungen den jeweiligen Schwellenwert übersteigen, müssen im kommenden Kalenderjahr bei den entsprechenden Geschäften den Statistischen Wert angeben.\n(4) Für die Schwellenwerte gilt: 1. der Schwellenwert für den Wareneingang ist so festzulegen, dass nicht mehr als 70 Prozent des in Wertangaben erfassten Handels aller Kaufgeschäfte einschließlich Kommissions- , Konsignations- und Lagergeschäften sowie Ansichts- und Probesendungen des vorangegangenen Kalenderjahres abgedeckt werden, 2. der Schwellenwert für die Warenversendung ist so festzulegen, dass nicht mehr als 70 Prozent des in Wertangaben erfassten Handels aller Kaufgeschäfte einschließlich Kommissions- , Konsignations- und Lagergeschäften sowie Ansichts- und Probesendungen des vorangegangenen Kalenderjahres abgedeckt werden. Das Statistische Bundesamt legt die Schwellenwerte am Ende eines Kalenderjahres anhand der Werte des vorangegangenen Kalenderjahres für das kommende Kalenderjahr fest.\n(5) Die in der Anlage zu Anhang 5 der Durchführungsverordnung (EU) 2020/1197 der Kommission genannten Waren und Warenverkehre sowie die in Anlage 4 genannten Waren und Warenverkehre sind von der Anmeldung zur Außenhandelsstatistik befreit.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__32.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p32-s1",
+     "start": 0,
+     "end": 125
+    },
+    {
+     "id": "ahstatdv_2022-p32-s2",
+     "start": 126,
+     "end": 252
+    },
+    {
+     "id": "ahstatdv_2022-p32-s3",
+     "start": 253,
+     "end": 624
+    },
+    {
+     "id": "ahstatdv_2022-p32-s4",
+     "start": 625,
+     "end": 943
+    },
+    {
+     "id": "ahstatdv_2022-p32-s5",
+     "start": 944,
+     "end": 1250
+    },
+    {
+     "id": "ahstatdv_2022-p32-s6",
+     "start": 1251,
+     "end": 1892
+    },
+    {
+     "id": "ahstatdv_2022-p32-s7",
+     "start": 1893,
+     "end": 2060
+    },
+    {
+     "id": "ahstatdv_2022-p32-s8",
+     "start": 2061,
+     "end": 2300
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p33",
+   "enbez": "§ 33",
+   "title": "Datenübermittlung",
+   "text": "(1) Das Statistische Bundesamt übermittelt von den Zollbehörden erhaltene Einzelangaben, die diese im Rahmen der Zentralen Zollabwicklung erheben und Warenverkehre zwischen Drittstaaten und einen anderen Mitgliedstaat der Europäischen Union betreffen, an die zuständige nationale statistische Stelle dieses Mitgliedstaates der Europäischen Union.\n(2) Das Statistische Bundesamt übermittelt von den Zollbehörden erhaltene Einzelangaben zu Warenverkehren, die zwar in Deutschland angemeldet werden, deren Bestimmungsland oder tatsächliches Ausfuhrland jedoch ein anderer Mitgliedstaat der Europäischen Union ist, an die zuständige nationale statistische Stelle dieses Mitgliedstaates der Europäischen Union.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__33.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p33-s1",
+     "start": 0,
+     "end": 346
+    },
+    {
+     "id": "ahstatdv_2022-p33-s2",
+     "start": 347,
+     "end": 705
+    }
+   ]
+  },
+  {
+   "id": "ahstatdv_2022-p34",
+   "enbez": "§ 34",
+   "title": "Inkrafttreten",
+   "text": "Diese Verordnung tritt am 1. Januar 2022 in Kraft.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/ahstatdv_2022/__34.html",
+   "sentences": [
+    {
+     "id": "ahstatdv_2022-p34-s1",
+     "start": 0,
+     "end": 50
+    }
+   ]
+  }
+ ],
+ "skipped": {
+  "structure": 5,
+  "annex": 4,
+  "repealed": 0,
+  "other": 3
+ }
+}

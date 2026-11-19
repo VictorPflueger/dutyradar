@@ -6,14 +6,16 @@
 // more (TECH_NOTES §6): BGBl., Halbs., lit., Ziff., usw., sog., ff., and every single letter that
 // stands alone before a period (the parts of "z. B." or "i. V. m."). An ordinal number ends no
 // sentence where it numbers a list item (at a line start or after a colon or semicolon) or a date
-// ("1. Januar").
+// ("1. Januar"). Only an ordinary space, a tab or a line end after the period or semicolon makes a
+// boundary: the law snapshot ties each list number to its item with a no-break space (U+00A0), so a
+// list stays inside its sentence (TECH_NOTES §5).
 //
 // Offsets index the original text: a sentence is { start, end, text } with end exclusive and the
 // closing punctuation included.
 
 const WORD_ABBR = ["Abs", "Art", "Nr", "S", "Satz", "bzw", "ggf", "vgl", "Buchst", "BGBl", "Halbs", "Hs", "lit", "Ziff", "usw", "sog", "ff", "no", "No", "cf", "etc", "evtl", "Anl"];
 const MONTHS = "Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember";
-const MASK = "\u0000";
+const BREAK = /[ \t\r\n]/;
 
 /** The positions of periods that never end a sentence, as a Set of indexes into `text`. */
 export function maskedPeriods(text) {
@@ -45,7 +47,7 @@ export function splitSentences(text) {
     const c = s[i];
     let cut = -1; // exclusive end of the sentence
     if (c === "\n") cut = i;
-    else if ((c === "." || c === ";") && (i + 1 === s.length || /\s/.test(s[i + 1])) && !(c === "." && masked.has(i))) cut = i + 1;
+    else if ((c === "." || c === ";") && (i + 1 === s.length || BREAK.test(s[i + 1])) && !(c === "." && masked.has(i))) cut = i + 1;
     if (cut < 0) continue;
     const end = trimEnd(s, start, cut);
     if (end > start) out.push({ start, end, text: s.slice(start, end) });
@@ -66,5 +68,3 @@ function trimEnd(s, start, end) {
   while (end > start && /\s/.test(s[end - 1])) end--;
   return end;
 }
-
-export { MASK };

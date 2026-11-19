@@ -1,0 +1,74 @@
+{
+ "id": "miloaufzv",
+ "abbr": "MiLoAufzV",
+ "title": "Verordnung zur Abwandlung der Pflicht zur Arbeitszeitaufzeichnung nach dem Mindestlohngesetz und dem Arbeitnehmer-Entsendegesetz",
+ "slug": "miloaufzv",
+ "source_xml_url": "http://www.gesetze-im-internet.de/miloaufzv/xml.zip",
+ "html_url": "https://www.gesetze-im-internet.de/miloaufzv/index.html",
+ "builddate": "20141231221857",
+ "retrieved_at": "2026-11-19T04:01:18Z",
+ "eu_basis": [],
+ "paragraphs": [
+  {
+   "id": "miloaufzv-p1",
+   "enbez": "§ 1",
+   "title": "Vereinfachung und Abwandlung der Pflicht zur Arbeitszeitaufzeichnung",
+   "text": "(1) Abweichend von § 17 Absatz 1 Satz 1 des Mindestlohngesetzes und § 19 Absatz 1 Satz 1 des Arbeitnehmer-Entsendegesetzes genügt ein Arbeitgeber, 1. soweit er Arbeitnehmerinnen und Arbeitnehmer mit ausschließlich mobilen Tätigkeiten beschäftigt, 2. diese keinen Vorgaben zur konkreten täglichen Arbeitszeit (Beginn und Ende) unterliegen und 3. sich ihre tägliche Arbeitszeit eigenverantwortlich einteilen, seiner Aufzeichnungspflicht, wenn für diese Arbeitnehmerinnen und Arbeitnehmer nur die Dauer der tatsächlichen täglichen Arbeitszeit aufgezeichnet wird.\n(2) Bei einer ausschließlich mobilen Tätigkeit im Sinne des Absatzes 1 handelt es sich um eine Tätigkeit, die nicht an Beschäftigungsorte gebunden ist. Eine ausschließlich mobile Tätigkeit liegt insbesondere bei der Zustellung von Briefen, Paketen und Druckerzeugnissen, der Abfallsammlung, der Straßenreinigung, dem Winterdienst, dem Gütertransport und der Personenbeförderung vor. Arbeitnehmerinnen und Arbeitnehmer unterliegen im Sinne des Absatzes 1 keinen Vorgaben zur konkreten täglichen Arbeitszeit, wenn die Arbeit lediglich innerhalb eines bestimmten zeitlichen Rahmens geleistet werden muss, ohne dass die konkrete Lage (Beginn und Ende) der Arbeitszeit durch den Arbeitgeber festgelegt wird. Eine eigenverantwortliche Einteilung der Arbeitszeit im Sinne des Absatzes 1 liegt vor, wenn Arbeitnehmerinnen oder Arbeitnehmer während ihrer täglichen Arbeitszeit regelmäßig nicht durch ihren Arbeitgeber oder Dritte Arbeitsaufträge entgegennehmen oder für entsprechende Arbeitsaufträge zur Verfügung stehen müssen. Die zeitliche Ausführung des täglichen Arbeitsauftrages muss in der Verantwortung der Arbeitnehmerinnen und Arbeitnehmer liegen.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/miloaufzv/__1.html",
+   "sentences": [
+    {
+     "id": "miloaufzv-p1-s1",
+     "start": 0,
+     "end": 559
+    },
+    {
+     "id": "miloaufzv-p1-s2",
+     "start": 560,
+     "end": 711
+    },
+    {
+     "id": "miloaufzv-p1-s3",
+     "start": 712,
+     "end": 942
+    },
+    {
+     "id": "miloaufzv-p1-s4",
+     "start": 943,
+     "end": 1262
+    },
+    {
+     "id": "miloaufzv-p1-s5",
+     "start": 1263,
+     "end": 1579
+    },
+    {
+     "id": "miloaufzv-p1-s6",
+     "start": 1580,
+     "end": 1708
+    }
+   ]
+  },
+  {
+   "id": "miloaufzv-p2",
+   "enbez": "§ 2",
+   "title": "Inkrafttreten",
+   "text": "Diese Verordnung tritt am 1. Januar 2015 in Kraft.",
+   "footnotes": [],
+   "html_url": "https://www.gesetze-im-internet.de/miloaufzv/__2.html",
+   "sentences": [
+    {
+     "id": "miloaufzv-p2-s1",
+     "start": 0,
+     "end": 50
+    }
+   ]
+  }
+ ],
+ "skipped": {
+  "structure": 0,
+  "annex": 0,
+  "repealed": 0,
+  "other": 1
+ }
+}

@@ -11,13 +11,18 @@
 //   5. Checks every paragraph link with a HEAD request; a link that fails falls back to the norm's index
 //      page, and every fallback is logged.
 //
-// Usage: node tools/snapshot-laws.mjs                         full run (network)
+// Usage: node tools/snapshot-laws.mjs                         full run from the host (network)
+//        node tools/snapshot-laws.mjs --archive <dir>         from a checkout of the daily archive
+//                                                             QuantLaw/gesetze-im-internet (branch data)
 //        node tools/snapshot-laws.mjs --raw-only --raw-out raw/   download only, keep the raw files
-//        node tools/snapshot-laws.mjs --from raw/             build from raw files (no network, links unchecked)
+//        node tools/snapshot-laws.mjs --from raw/             build from raw files (no network)
 // Options: --slice <file> --toc <file> --out <dir> --snapshot-md <file> --raw-out <dir> --no-links
-// This environment's build shell cannot reach the host; the snapshot runs in GitHub Actions
-// (.github/workflows/snapshot.yml, TECH_NOTES §5).
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+//          --archive-commit <sha> --archive-scraped-at <UTC time> (when <dir> is not a git checkout)
+// gesetze-im-internet.de does not answer GitHub's runners or this build's shell, so the bundled
+// snapshot comes from the archive, which stores the host's files unchanged (TECH_NOTES §5). Links are
+// checked only in a direct run.
+import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { createHash } from "node:crypto";
@@ -28,6 +33,7 @@ import { splitSentences } from "../js/engine/sentences.js";
 
 export const HOST = "https://www.gesetze-im-internet.de";
 export const TOC_URL = `${HOST}/gii-toc.xml`;
+export const ARCHIVE_REPO = "https://github.com/QuantLaw/gesetze-im-internet";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 /** Collapses white space the way titles are compared. */
@@ -72,16 +78,26 @@ export function resolveSlice(norms, tocItems, { lenient = false } = {}) {
 
 // ---- norm XML ------------------------------------------------------------------------------------
 
-const BLOCK = new Set(["P", "DT", "DD", "LA", "row", "entry", "title", "Title", "TOC", "pre", "table", "tgroup", "tbody", "thead"]);
+// Text mapping (TECH_NOTES §5): paragraphs (P), headings, tables rows and preformatted blocks end in
+// a line break; a list (DL) stays inside its sentence, as in the official layout, with each item's
+// number tied to its text by a no-break space so that "1." never ends a sentence; table cells are
+// separated by spaces; editorial comments (kommentar), images and footnote marks are left out, and
+// footnotes inside the text go to the paragraph's footnotes.
+const NBSP = "\u00A0";
+const BLOCK = new Set(["P", "title", "Title", "Ident", "TOC", "pre", "table", "tgroup", "tbody", "thead", "row"]);
+const SKIP = new Set(["FnR", "FnArea", "img", "IMG", "noindex", "kommentar", "Footnotes", "Footnote", "ABWFORMAT", "colspec"]);
 
-/** Flattens a preserveOrder node list to text; block elements end in a line break. */
+/** Flattens a preserveOrder node list to text pieces. */
 function flatten(nodes, out = []) {
   for (const node of nodes || []) {
     for (const [tag, value] of Object.entries(node)) {
       if (tag === ":@") continue;
-      if (tag === "#text") { out.push(String(value)); continue; }
+      if (tag === "#text") { out.push(String(value).replace(/\u00A0/g, " ")); continue; }
       if (tag === "BR") { out.push("\n"); continue; }
-      if (tag === "FnR" || tag === "FnArea" || tag === "img" || tag === "IMG") continue;
+      if (SKIP.has(tag)) continue;
+      if (tag === "Split") { out.push(" … "); continue; }
+      if (tag === "DT") { out.push(" "); flatten(value, out); out.push(NBSP); continue; }
+      if (tag === "DL" || tag === "DD" || tag === "LA" || tag === "entry") { flatten(value, out); out.push(" "); continue; }
       flatten(value, out);
       if (BLOCK.has(tag)) out.push("\n");
     }
@@ -92,11 +108,23 @@ function flatten(nodes, out = []) {
 /** Plain text of an element's children: entities decoded, white space tidied, line breaks kept. */
 export function textOf(nodes) {
   return flatten(nodes).join("")
-    .replace(/ /g, " ")
-    .replace(/[ \t]+/g, " ")
+    .replace(/[ \t\r]+/g, " ")
+    .replace(/ ?\u00A0 ?/g, NBSP)
     .replace(/ *\n */g, "\n")
     .replace(/\n{2,}/g, "\n")
     .trim();
+}
+
+/** Every element named `tag` below `nodes`, in document order. */
+function descendants(nodes, tag, out = []) {
+  for (const node of nodes || []) {
+    for (const [t, value] of Object.entries(node)) {
+      if (t === ":@" || t === "#text") continue;
+      if (t === tag) out.push(value);
+      else descendants(value, tag, out);
+    }
+  }
+  return out;
 }
 
 const child = (nodes, tag) => (nodes || []).find((n) => tag in n)?.[tag];
@@ -162,12 +190,14 @@ export function parseNormXml(xml, meta) {
     const ref = parseEnbez(enbez);
     if (!ref) { if (/^Anlage|^Anhang|^Muster/i.test(enbez)) skipped.annex += 1; else skipped.other += 1; continue; }
     const title = textOf(child(md, "titel"));
-    const text = textOf(child(child(td, "text"), "Content") || child(td, "text"));
+    const textEl = child(td, "text");
+    const text = textOf(child(textEl, "Content") || textEl);
+    const inlineNotes = descendants(textEl, "Footnote").map((f) => textOf(f)).filter(Boolean);
     if (!text || /^\(?weggefallen\)?$/i.test(text) || /^\(weggefallen\)$/i.test(title) || text === "-") { skipped.repealed += 1; continue; }
     const id = paragraphId(meta.slug, ref);
     if (paragraphs.some((p) => p.id === id)) throw new SnapshotError(`${meta.slug}: two paragraphs with the id ${id}`);
     const sentences = splitSentences(text).map((s, i) => ({ id: `${id}-s${i + 1}`, start: s.start, end: s.end }));
-    paragraphs.push({ id, enbez: ref.label, title, text, footnotes: fussnoten ? [fussnoten] : [], html_url: paragraphUrl(meta.slug, ref), sentences });
+    paragraphs.push({ id, enbez: ref.label, title, text, footnotes: [...inlineNotes, ...(fussnoten ? [fussnoten] : [])], html_url: paragraphUrl(meta.slug, ref), sentences });
   }
   return {
     id: meta.slug,
@@ -214,14 +244,49 @@ export function xmlFromZip(bytes, slug) {
 
 function args(argv) {
   const o = { links: true };
+  const valued = ["--from", "--archive", "--archive-commit", "--archive-scraped-at", "--slice", "--toc", "--out", "--snapshot-md", "--raw-out"];
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--raw-only") o.rawOnly = true;
     else if (a === "--no-links") o.links = false;
-    else if (["--from", "--slice", "--toc", "--out", "--snapshot-md", "--raw-out"].includes(a)) o[a.slice(2).replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = argv[++i];
+    else if (valued.includes(a)) o[a.slice(2).replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = argv[++i];
     else throw new SnapshotError(`Unknown option ${a}`);
   }
+  if (o.from && o.archive) throw new SnapshotError("Use either --from or --archive, not both.");
   return o;
+}
+
+/** "2026-11-19T04:01:18" (UTC without zone) or any ISO time → "2026-11-19T04:01:18Z". */
+export function utcStamp(value) {
+  const s = String(value || "").trim();
+  const d = new Date(/(?:[zZ]|[+-]\d\d:?\d\d)$/.test(s) ? s : `${s}Z`);
+  if (Number.isNaN(d.getTime())) throw new SnapshotError(`Not a time: "${s}"`);
+  return d.toISOString().replace(/\.\d{3}Z$/, "Z");
+}
+
+/**
+ * The archive's identity: commit and scrape time from the options, else from git, else the scrape
+ * time from data/log.md. The archive stores gii-toc.xml as data/toc.xml and each norm's unzipped
+ * archive as data/items/<slug>/; data/not_found.txt lists the norms it could not download.
+ */
+async function archiveInfo(dir, o) {
+  let commit = o.archiveCommit || null;
+  let scraped = o.archiveScrapedAt || null;
+  if (!commit || !scraped) {
+    try {
+      const [h, t] = execFileSync("git", ["-C", dir, "log", "-1", "--format=%H%n%aI"], { encoding: "utf8" }).trim().split("\n");
+      commit ||= h;
+      scraped ||= t;
+    } catch { /* not a git checkout: fall back below */ }
+  }
+  if (!scraped) {
+    const log = await readFile(path.join(dir, "data", "log.md"), "utf8").catch(() => "");
+    scraped = log.trim().split("\n").pop()?.replace(/^-\s*/, "") || null;
+  }
+  if (!commit || !scraped) throw new SnapshotError(`${dir}: name the archive's commit and scrape time (--archive-commit, --archive-scraped-at)`);
+  const notFound = (await readFile(path.join(dir, "data", "not_found.txt"), "utf8").catch(() => ""))
+    .split("\n").map((l) => l.trim()).filter(Boolean);
+  return { kind: "archive", repository: ARCHIVE_REPO, branch: "data", commit, scraped_at: utcStamp(scraped), not_found: notFound };
 }
 
 export async function run(argv = process.argv.slice(2), log = console.log) {
@@ -229,11 +294,17 @@ export async function run(argv = process.argv.slice(2), log = console.log) {
   const slicePath = path.resolve(ROOT, o.slice || "config/slice.json");
   const slice = JSON.parse(await readFile(slicePath, "utf8"));
   const norms = Array.isArray(slice) ? slice : slice.norms;
-  const startedAt = new Date().toISOString();
-  const offline = Boolean(o.from);
+  const startedAt = utcStamp(new Date().toISOString());
+  const offline = Boolean(o.from || o.archive);
+  const archive = o.archive ? path.resolve(o.archive) : null;
+  const transport = archive ? await archiveInfo(archive, o) : o.from ? { kind: "raw", note: "raw files downloaded earlier" } : { kind: "direct" };
+  const retrievedAt = archive ? transport.scraped_at : startedAt;
 
   // 1–2. Table of contents and slice.
-  const tocBytes = o.toc ? await readFile(path.resolve(o.toc)) : offline ? await readFile(path.join(o.from, "gii-toc.xml")) : await fetchBytes(TOC_URL);
+  const tocBytes = o.toc ? await readFile(path.resolve(o.toc))
+    : archive ? await readFile(path.join(archive, "data", "toc.xml"))
+    : o.from ? await readFile(path.join(o.from, "gii-toc.xml"))
+    : await fetchBytes(TOC_URL);
   const toc = parseToc(tocBytes.toString("utf8"));
   let resolved;
   if (o.rawOnly) {
@@ -245,22 +316,33 @@ export async function run(argv = process.argv.slice(2), log = console.log) {
     resolved = resolveSlice(norms, toc);
     log(`gii-toc.xml: ${toc.length} items; all ${resolved.length} norms of the slice found with their titles.`);
   }
+  if (archive) {
+    const missing = resolved.filter((n) => transport.not_found.includes(n.slug)).map((n) => n.slug);
+    if (missing.length) throw new SnapshotError(`The archive could not download ${missing.join(", ")} (data/not_found.txt)`);
+    log(`Archive ${transport.repository} (${transport.branch}) at ${transport.commit.slice(0, 12)}, scraped ${transport.scraped_at}.`);
+  }
   if (o.rawOut) {
     await mkdir(o.rawOut, { recursive: true });
     await writeFile(path.join(o.rawOut, "gii-toc.xml"), tocBytes);
   }
 
   // 3. Archives.
-  const manifest = { toc: { url: TOC_URL, sha256: sha256(tocBytes), bytes: tocBytes.length, items: toc.length, fetched_at: startedAt }, norms: [] };
+  const manifest = { toc: { url: TOC_URL, sha256: sha256(tocBytes), bytes: tocBytes.length, items: toc.length, retrieved_at: retrievedAt }, transport, norms: [] };
   const corpus = [];
   for (const n of resolved) {
     let xml;
     let entries = [];
     let zipSha = null;
-    if (offline && existsSync(path.join(o.from, `${n.slug}.xml`))) {
+    if (archive) {
+      const dir = path.join(archive, "data", "items", n.slug);
+      const names = existsSync(dir) ? (await readdir(dir)).filter((f) => f.toLowerCase().endsWith(".xml")) : [];
+      if (names.length !== 1) throw new SnapshotError(`${n.slug}: the archive holds ${names.length} XML files in data/items/${n.slug}/`);
+      xml = await readFile(path.join(dir, names[0]), "utf8");
+      entries = names;
+    } else if (o.from && existsSync(path.join(o.from, `${n.slug}.xml`))) {
       xml = await readFile(path.join(o.from, `${n.slug}.xml`), "utf8");
     } else {
-      const zip = offline ? await readFile(path.join(o.from, `${n.slug}.zip`)) : await fetchBytes(n.link.replace(/^http:/, "https:"));
+      const zip = o.from ? await readFile(path.join(o.from, `${n.slug}.zip`)) : await fetchBytes(n.link.replace(/^http:/, "https:"));
       zipSha = sha256(zip);
       const out = xmlFromZip(zip, n.slug);
       xml = out.xml;
@@ -270,7 +352,7 @@ export async function run(argv = process.argv.slice(2), log = console.log) {
     if (o.rawOut) await writeFile(path.join(o.rawOut, `${n.slug}.xml`), xml);
     if (o.rawOnly) { log(`  ${n.slug}: ${xml.length} characters kept raw`); continue; }
     const norm = parseNormXml(xml, n);
-    norm.retrieved_at = startedAt;
+    norm.retrieved_at = retrievedAt;
     corpus.push(norm);
     log(`  ${n.slug}: ${norm.abbr}, ${norm.paragraphs.length} paragraphs, ${norm.paragraphs.reduce((k, p) => k + p.sentences.length, 0)} sentences${norm.eu_basis.length ? `, EU basis ${norm.eu_basis.join(" ")}` : ""}`);
   }
@@ -294,10 +376,13 @@ export async function run(argv = process.argv.slice(2), log = console.log) {
   const outDir = path.resolve(ROOT, o.out || "data/corpus");
   await mkdir(outDir, { recursive: true });
   for (const norm of corpus) await writeFile(path.join(outDir, `${norm.slug}.json`), `${JSON.stringify(norm, null, 1)}\n`);
+  const { not_found: _notFound, ...transportOut } = transport;
   const index = {
     slice_id: slice.slice_id || null,
-    retrieved_at: startedAt,
+    slice_status: slice.status || null,
+    retrieved_at: retrievedAt,
     source: TOC_URL,
+    transport: transportOut,
     toc_sha256: manifest.toc.sha256,
     links: o.links && !offline ? { checked, fallbacks: fallbacks.length } : { checked: 0, fallbacks: 0, note: "not checked" },
     norms: corpus.map((n, i) => ({
@@ -312,19 +397,26 @@ export async function run(argv = process.argv.slice(2), log = console.log) {
   return { index, fallbacks };
 }
 
+/** "20260630215549" → "2026-06-30". */
+const buildDay = (b) => (/^\d{8}/.test(b || "") ? `${b.slice(0, 4)}-${b.slice(4, 6)}-${b.slice(6, 8)}` : "–");
+
 /** SNAPSHOT.md: sources, dates and counts of the bundled corpus. */
 export function snapshotMarkdown(index, fallbacks = []) {
   const total = (k) => index.norms.reduce((s, n) => s + n[k], 0);
+  const t = index.transport || { kind: "direct" };
+  const how = t.kind === "archive"
+    ? `They were retrieved from ${index.source} on ${index.retrieved_at} by the public daily archive [${t.repository.replace("https://github.com/", "")}](${t.repository}) (branch \`${t.branch}\`, commit \`${t.commit}\`), which stores the table of contents and every norm's unzipped XML unchanged; \`tools/snapshot-laws.mjs --archive\` built this corpus from that commit, because gesetze-im-internet.de does not answer GitHub's runners or this build's shell (TECH_NOTES.md §5).`
+    : `They were retrieved from ${index.source} on ${index.retrieved_at} by \`tools/snapshot-laws.mjs\`${t.kind === "raw" ? " from raw files downloaded earlier" : ""}.`;
   const lines = [
     "# SNAPSHOT — the bundled law texts",
     "",
-    `Generated by \`tools/snapshot-laws.mjs\` on ${index.retrieved_at} from ${index.source} (SHA-256 \`${index.toc_sha256.slice(0, 16)}…\`). The texts are the consolidated versions of gesetze-im-internet.de, free to use and reuse; they are not the official version, which is the Federal Law Gazette (Bundesgesetzblatt).`,
+    `The law texts in \`data/corpus/\` are the consolidated versions published on gesetze-im-internet.de by the Federal Ministry of Justice and juris; they are not the official version, which is the Federal Law Gazette (Bundesgesetzblatt). ${how}`,
     "",
-    `Slice \`${index.slice_id}\`: ${index.norms.length} norms, ${total("paragraphs")} paragraphs, ${total("sentences")} sentences. Paragraph links: ${index.links.note ? index.links.note : `${index.links.checked} checked, ${index.links.fallbacks} fell back to the norm's index page`}.`,
+    `Table of contents: ${index.source}, SHA-256 \`${index.toc_sha256}\`. Slice \`${index.slice_id}\`${index.slice_status ? ` (${index.slice_status})` : ""}: ${index.norms.length} norms, ${total("paragraphs")} paragraphs, ${total("sentences")} sentences. Paragraph links: ${index.links.note ? `${index.links.note} (they follow the site's pattern \`<slug>/__<nr>.html\`; TECH_NOTES.md §5 lists the spot checks)` : `${index.links.checked} checked, ${index.links.fallbacks} fell back to the norm's index page`}.`,
     "",
-    "| Slug | Abbreviation | Build date | Paragraphs | Sentences | EU basis (CELEX) | Not kept (structure, annex, repealed, other) |",
+    "| Slug | Abbreviation | Build date | Paragraphs | Sentences | EU basis (CELEX) | Not kept: structure, annex, repealed, other |",
     "| --- | --- | --- | --- | --- | --- | --- |",
-    ...index.norms.map((n) => `| \`${n.slug}\` | ${n.abbr} | ${n.builddate ?? "–"} | ${n.paragraphs} | ${n.sentences} | ${n.eu_basis.length ? n.eu_basis.join(", ") : "–"} | ${n.skipped.structure}, ${n.skipped.annex}, ${n.skipped.repealed}, ${n.skipped.other} |`),
+    ...index.norms.map((n) => `| \`${n.slug}\` | ${n.abbr} | ${buildDay(n.builddate)} | ${n.paragraphs} | ${n.sentences} | ${n.eu_basis.length ? n.eu_basis.join(", ") : "–"} | ${n.skipped.structure}, ${n.skipped.annex}, ${n.skipped.repealed}, ${n.skipped.other} |`),
     ""
   ];
   if (fallbacks.length) lines.push("Link fallbacks:", "", ...fallbacks.map((f) => `- ${f}`), "");
