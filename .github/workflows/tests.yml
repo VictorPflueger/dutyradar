@@ -30,7 +30,7 @@ jobs:
       - run: npm ci
       # The hygiene check reads its private term list from the HYGIENE_TERMS secret if the repository
       # has one; without it only the generic checks run (tests/hygiene.mjs).
-      - run: node tests/run-all.mjs tokens page-icon vici-files unit engine snapshot data corpus sources static hygiene docs
+      - run: node tests/run-all.mjs tokens page-icon vici-files unit engine tools live runs check-runs snapshot data corpus sources static hygiene docs
         env:
           HYGIENE_TERMS: ${{ secrets.HYGIENE_TERMS }}
       # The shared shell is compared with the sister app's (public) repository.
