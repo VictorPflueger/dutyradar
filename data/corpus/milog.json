@@ -3,7 +3,7 @@
  "abbr": "MiLoG",
  "title": "Gesetz zur Regelung eines allgemeinen Mindestlohns",
  "slug": "milog",
- "source_xml_url": "http://www.gesetze-im-internet.de/milog/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/milog/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/milog/index.html",
  "builddate": "20260630215549",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -553,40 +553,30 @@
     {
      "id": "milog-p16-s5",
      "start": 2930,
-     "end": 3343
-    },
-    {
-     "id": "milog-p16-s6",
-     "start": 3344,
-     "end": 3426
-    },
-    {
-     "id": "milog-p16-s7",
-     "start": 3427,
      "end": 3487
     },
     {
-     "id": "milog-p16-s8",
+     "id": "milog-p16-s6",
      "start": 3488,
      "end": 3522
     },
     {
-     "id": "milog-p16-s9",
+     "id": "milog-p16-s7",
      "start": 3523,
      "end": 4818
     },
     {
-     "id": "milog-p16-s10",
+     "id": "milog-p16-s8",
      "start": 4819,
      "end": 4853
     },
     {
-     "id": "milog-p16-s11",
+     "id": "milog-p16-s9",
      "start": 4854,
      "end": 5663
     },
     {
-     "id": "milog-p16-s12",
+     "id": "milog-p16-s10",
      "start": 5664,
      "end": 5854
     }
@@ -630,75 +620,40 @@
     {
      "id": "milog-p17-s6",
      "start": 1495,
-     "end": 2337
-    },
-    {
-     "id": "milog-p17-s7",
-     "start": 2338,
-     "end": 2421
-    },
-    {
-     "id": "milog-p17-s8",
-     "start": 2422,
-     "end": 3001
-    },
-    {
-     "id": "milog-p17-s9",
-     "start": 3002,
-     "end": 3027
-    },
-    {
-     "id": "milog-p17-s10",
-     "start": 3028,
-     "end": 3054
-    },
-    {
-     "id": "milog-p17-s11",
-     "start": 3055,
-     "end": 3137
-    },
-    {
-     "id": "milog-p17-s12",
-     "start": 3138,
      "end": 3586
     },
     {
-     "id": "milog-p17-s13",
+     "id": "milog-p17-s7",
      "start": 3587,
      "end": 3920
     },
     {
-     "id": "milog-p17-s14",
+     "id": "milog-p17-s8",
      "start": 3921,
      "end": 4162
     },
     {
-     "id": "milog-p17-s15",
+     "id": "milog-p17-s9",
      "start": 4163,
-     "end": 5122
-    },
-    {
-     "id": "milog-p17-s16",
-     "start": 5123,
      "end": 5322
     },
     {
-     "id": "milog-p17-s17",
+     "id": "milog-p17-s10",
      "start": 5323,
      "end": 5537
     },
     {
-     "id": "milog-p17-s18",
+     "id": "milog-p17-s11",
      "start": 5538,
      "end": 6059
     },
     {
-     "id": "milog-p17-s19",
+     "id": "milog-p17-s12",
      "start": 6060,
      "end": 6437
     },
     {
-     "id": "milog-p17-s20",
+     "id": "milog-p17-s13",
      "start": 6438,
      "end": 6997
     }

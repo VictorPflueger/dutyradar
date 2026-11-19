@@ -204,7 +204,7 @@ export function parseNormXml(xml, meta) {
     abbr: abbr || meta.short || meta.slug,
     title: longTitle || shortTitle || meta.expected_title || meta.slug,
     slug: meta.slug,
-    source_xml_url: meta.link || `${HOST}/${meta.slug}/xml.zip`,
+    source_xml_url: (meta.link || `${HOST}/${meta.slug}/xml.zip`).replace(/^http:/, "https:"),
     html_url: `${HOST}/${meta.slug}/index.html`,
     builddate: rootAttrs.builddate || norms.map((n) => attrs(n, "metadaten").builddate).find(Boolean) || null,
     retrieved_at: null,

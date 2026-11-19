@@ -3,7 +3,7 @@
  "abbr": "GWStatG",
  "title": "Gesetz über die Statistik zu globalen Wertschöpfungsketten",
  "slug": "gwstatg",
- "source_xml_url": "http://www.gesetze-im-internet.de/gwstatg/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/gwstatg/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/gwstatg/index.html",
  "builddate": "20260506174902",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -20,20 +20,10 @@
     {
      "id": "gwstatg-p1-s1",
      "start": 0,
-     "end": 440
-    },
-    {
-     "id": "gwstatg-p1-s2",
-     "start": 441,
-     "end": 526
-    },
-    {
-     "id": "gwstatg-p1-s3",
-     "start": 527,
      "end": 677
     },
     {
-     "id": "gwstatg-p1-s4",
+     "id": "gwstatg-p1-s2",
      "start": 678,
      "end": 733
     }
@@ -50,40 +40,20 @@
     {
      "id": "gwstatg-p2-s1",
      "start": 0,
-     "end": 285
-    },
-    {
-     "id": "gwstatg-p2-s2",
-     "start": 286,
-     "end": 370
-    },
-    {
-     "id": "gwstatg-p2-s3",
-     "start": 371,
      "end": 453
     },
     {
-     "id": "gwstatg-p2-s4",
+     "id": "gwstatg-p2-s2",
      "start": 454,
      "end": 586
     },
     {
-     "id": "gwstatg-p2-s5",
+     "id": "gwstatg-p2-s3",
      "start": 587,
-     "end": 879
-    },
-    {
-     "id": "gwstatg-p2-s6",
-     "start": 880,
-     "end": 964
-    },
-    {
-     "id": "gwstatg-p2-s7",
-     "start": 965,
      "end": 1046
     },
     {
-     "id": "gwstatg-p2-s8",
+     "id": "gwstatg-p2-s4",
      "start": 1047,
      "end": 1261
     }
@@ -100,20 +70,15 @@
     {
      "id": "gwstatg-p3-s1",
      "start": 0,
-     "end": 491
-    },
-    {
-     "id": "gwstatg-p3-s2",
-     "start": 492,
      "end": 568
     },
     {
-     "id": "gwstatg-p3-s3",
+     "id": "gwstatg-p3-s2",
      "start": 569,
      "end": 828
     },
     {
-     "id": "gwstatg-p3-s4",
+     "id": "gwstatg-p3-s3",
      "start": 829,
      "end": 1001
     }

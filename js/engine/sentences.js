@@ -3,7 +3,9 @@
 // A paragraph splits after ". " and "; " and at line ends, never after an abbreviation. The
 // specification names Abs., Art., Nr., S., Satz, bzw., ggf., z. B., u. a., i. V. m., d. h., vgl. and
 // Buchst.; the brief adds no., e.g., i.e. and cf. for English model text. Legal German needs a few
-// more (TECH_NOTES §6): BGBl., Halbs., lit., Ziff., usw., sog., ff., and every single letter that
+// more (TECH_NOTES §6): BGBl., ABl. (also written "ABI." and "ABL." in the source), Nrn., Halbs., Unterabs.,
+// Abschn., Kap., Anh., Anl., lit., Ziff., gem., insb., bzgl., usw., sog., ff., ca., Mio., Mrd., evtl.,
+// and every single letter that
 // stands alone before a period (the parts of "z. B." or "i. V. m."). An ordinal number ends no
 // sentence where it numbers a list item (at a line start or after a colon or semicolon) or a date
 // ("1. Januar"). Only an ordinary space, a tab or a line end after the period or semicolon makes a
@@ -13,11 +15,13 @@
 // Offsets index the original text: a sentence is { start, end, text } with end exclusive and the
 // closing punctuation included.
 
-const WORD_ABBR = ["Abs", "Art", "Nr", "S", "Satz", "bzw", "ggf", "vgl", "Buchst", "BGBl", "Halbs", "Hs", "lit", "Ziff", "usw", "sog", "ff", "no", "No", "cf", "etc", "evtl", "Anl"];
+const WORD_ABBR = ["Abs", "Art", "Nr", "Nrn", "S", "Satz", "bzw", "ggf", "vgl", "Buchst", "BGBl", "ABl", "ABI", "ABL", "Halbs", "Hs", "Unterabs", "Abschn", "Kap", "Anh", "Anl", "lit", "Ziff", "gem", "insb", "bzgl", "usw", "sog", "ff", "ca", "Mio", "Mrd", "evtl", "no", "No", "cf", "etc"];
 const MONTHS = "Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember";
+// Nouns an ordinal number stands before inside a phrase: "am 27. Tag", "des 50. Lebensjahres".
+const ORDINAL_NOUNS = "Tag|Tages|Kalendertag|Kalendertages|Werktag|Werktages|Arbeitstag|Arbeitstages|Lebensjahr|Lebensjahres|Monat|Monats|Kalendermonat|Kalendermonats|Berichtsmonat|Berichtsmonats|Folgemonat|Folgemonats|Jahr|Jahres|Kalenderjahr|Kalenderjahres|Quartal|Quartals|Kalendervierteljahr|Kalendervierteljahres|Woche|Kalenderwoche|Stunde|Mal|Kapitel|Kapitels|Buch|Buches";
 const BREAK = /[ \t\r\n]/;
 
-/** The positions of periods that never end a sentence, as a Set of indexes into `text`. */
+/** The positions of periods (and semicolons) that never end a sentence, as a Set of indexes into `text`. */
 export function maskedPeriods(text) {
   const masked = new Set();
   const add = (re, offsetInMatch) => {
@@ -34,6 +38,12 @@ export function maskedPeriods(text) {
   // Ordinals that number a list item or a day of a date.
   add(/(?:^|\n|[:;]\s*)(\d+[a-z]?)\.(?=\s)/gu, (m) => m[0].length - 1);
   add(new RegExp(`(?<![\\p{L}\\p{N}])\\d{1,2}\\.(?=\\s(?:${MONTHS})\\b)`, "gu"), (m) => m[0].length - 1);
+  // An ordinal inside a phrase ("bis zum 15. Kalendertag") and any period before a lowercase word,
+  // because no sentence starts with one ("bis zum 15. des Monats", "Ges. vom").
+  add(new RegExp(`(?<![\\p{L}\\p{N}])\\d{1,3}\\.(?=[ \\u00A0](?:${ORDINAL_NOUNS})(?![\\p{L}\\p{N}]))`, "gu"), (m) => m[0].length - 1);
+  add(/\.(?=[ \u00A0]+\p{Ll})/gu, () => 0);
+  // A semicolon inside a citation of the EU's Official Journal: "S. 1; L 335 vom 20.12.2007".
+  add(/;(?=\s+[LC]\s+\d+\s+vom\b)/gu, () => 0);
   return masked;
 }
 
@@ -47,7 +57,7 @@ export function splitSentences(text) {
     const c = s[i];
     let cut = -1; // exclusive end of the sentence
     if (c === "\n") cut = i;
-    else if ((c === "." || c === ";") && (i + 1 === s.length || BREAK.test(s[i + 1])) && !(c === "." && masked.has(i))) cut = i + 1;
+    else if ((c === "." || c === ";") && (i + 1 === s.length || BREAK.test(s[i + 1])) && !masked.has(i)) cut = i + 1;
     if (cut < 0) continue;
     const end = trimEnd(s, start, cut);
     if (end > start) out.push({ start, end, text: s.slice(start, end) });

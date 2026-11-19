@@ -1,0 +1,286 @@
+{
+ "app": {
+  "name": "Duty Radar",
+  "subtitle": "Find, cluster and price duties"
+ },
+ "disclosure": {
+  "ai": "You are interacting with an AI system.",
+  "proto": "Prototype – not an official federal government service"
+ },
+ "mode": {
+  "simulation": "SIMULATION",
+  "live": "LIVE",
+  "sovereign": "SOVEREIGN"
+ },
+ "start": {
+  "question": "How many duties do we carry, and which ask twice?",
+  "button": "Start analysis"
+ },
+ "cite": {
+  "notice": "Consolidated text, not official. The Federal Law Gazette is authoritative."
+ },
+ "options": {
+  "keep": "Keep",
+  "approve": "Approve",
+  "reject": "Reject",
+  "info": "Ask for information",
+  "target_decided": "Target decided"
+ },
+ "audit": {
+  "blocked": "Unsourced figure blocked",
+  "manual": "Needs manual editing",
+  "text_blocked": "Text blocked"
+ },
+ "outbox": {
+  "title": "Relief dossier (draft)",
+  "notice": "Nothing is sent."
+ },
+ "badge": {
+  "assumption": "Assumption",
+  "synthetic": "synthetic",
+  "simulated": "simulated",
+  "eu": "EU-related",
+  "protected": "Protected standard"
+ },
+ "kpi": {
+  "estimate": "Estimate",
+  "slice_note": "Slice only, not the national target",
+  "duties": "Duties inventoried",
+  "reporting": "Reporting duties in the slice (benchmark −⅓)",
+  "documentation": "Documentation duties in the slice (benchmark −½)",
+  "cost": "Compliance cost addressed (estimate)"
+ },
+ "dossier": {
+  "kept": "Kept duties (with justification)",
+  "kept_short": "Kept duties"
+ },
+ "screen": {
+  "start": "Start",
+  "dutymap": "Duty map",
+  "duplicates": "Duplicates",
+  "options": "Options & review",
+  "outbox": "Outbox",
+  "diagnostics": "Assumptions & diagnostics"
+ },
+ "cluster": {
+  "confirm": "Confirm cluster",
+  "split": "Split"
+ },
+ "fact": {
+  "where": "Where does this figure come from?",
+  "retired": "no longer applies",
+  "option": {
+   "register_retrieval": {
+    "net_delta": "Change in compliance cost through register retrieval",
+    "wirtschaft_delta": "Relief for businesses through register retrieval",
+    "verwaltung_delta": "Cost for the administration through register retrieval",
+    "buerger_delta": "Relief for citizens in material cost through register retrieval",
+    "buerger_hours_delta": "Time saved by citizens through register retrieval",
+    "duty_count_delta": "Change in the number of duties through register retrieval",
+    "one_off": "One-off implementation cost through register retrieval"
+   },
+   "merge": {
+    "net_delta": "Change in compliance cost through merging",
+    "wirtschaft_delta": "Relief for businesses through merging",
+    "verwaltung_delta": "Cost for the administration through merging",
+    "buerger_delta": "Relief for citizens in material cost through merging",
+    "buerger_hours_delta": "Time saved by citizens through merging",
+    "duty_count_delta": "Change in the number of duties through merging",
+    "one_off": "One-off implementation cost through merging"
+   },
+   "lower_frequency": {
+    "net_delta": "Change in compliance cost through a lower frequency",
+    "wirtschaft_delta": "Relief for businesses through a lower frequency",
+    "verwaltung_delta": "Cost for the administration through a lower frequency",
+    "buerger_delta": "Relief for citizens in material cost through a lower frequency",
+    "buerger_hours_delta": "Time saved by citizens through a lower frequency",
+    "duty_count_delta": "Change in the number of duties through a lower frequency",
+    "one_off": "One-off implementation cost through a lower frequency"
+   },
+   "delete": {
+    "net_delta": "Change in compliance cost through deletion",
+    "wirtschaft_delta": "Relief for businesses through deletion",
+    "verwaltung_delta": "Cost for the administration through deletion",
+    "buerger_delta": "Relief for citizens in material cost through deletion",
+    "buerger_hours_delta": "Time saved by citizens through deletion",
+    "duty_count_delta": "Change in the number of duties through deletion",
+    "one_off": "One-off implementation cost through deletion"
+   },
+   "keep": {
+    "net_delta": "Change in compliance cost when kept",
+    "wirtschaft_delta": "Relief for businesses when kept",
+    "verwaltung_delta": "Cost for the administration when kept",
+    "buerger_delta": "Relief for citizens in material cost when kept",
+    "buerger_hours_delta": "Time saved by citizens when kept",
+    "duty_count_delta": "Change in the number of duties when kept",
+    "one_off": "One-off implementation cost when kept"
+   }
+  },
+  "duty": {
+   "fallzahl": "Case number of the duty",
+   "ea_annual": "Annual compliance cost of the duty",
+   "hours": "Citizens' time per year",
+   "buerokratiekosten": "Bureaucracy costs of the duty per year",
+   "one_off": "One-off compliance cost of the duty"
+  },
+  "cluster": {
+   "fallzahl": "Case number of the cluster",
+   "ea_annual": "Annual compliance cost of the cluster"
+  }
+ },
+ "sim": {
+  "preset": "Set by the simulation"
+ },
+ "selftest": {
+  "run": "Run all tests"
+ },
+ "key": {
+  "rejected": "Key rejected",
+  "forget": "Forget key"
+ },
+ "record": {
+  "run": "Record run"
+ },
+ "sovereign": {
+  "none": "No sovereign endpoint configured"
+ },
+ "slice": {
+  "provisional": "provisional"
+ },
+ "run": {
+  "handwritten": "hand-authored"
+ },
+ "reviewer": {
+  "role": "Desk officer (demo)"
+ },
+ "warning": {
+  "params_mismatch": "Classification and parameters disagree"
+ },
+ "assumption": {
+  "working_days": "Assumption: working days"
+ },
+ "note": {
+  "assumption_no_known_user": "Assumption: no known user"
+ },
+ "risk": {
+  "eu_frequency_check": "Check the frequency against the EU requirement",
+  "register_currency": "The register must hold the data as up to date as needed"
+ },
+ "reason": {
+  "no_register": "No register covers the data",
+  "no_cluster": "No cluster",
+  "members_differ": "Frequency or population differs",
+  "single_duties_only": "Single duties only",
+  "protected_standard": "Protected standards stay untouched",
+  "not_periodic": "Not periodic",
+  "less_than_quarterly": "Less often than quarterly",
+  "eu_related": "EU-related: only national additions can be deleted",
+  "data_use_known": "Data use known"
+ },
+ "code": {
+  "Z1": "Duplicate collection",
+  "Z2": "Register available",
+  "Z3": "No known use",
+  "Z4": "Frequency too high",
+  "Z5": "Other",
+  "A1": "Required by EU law",
+  "A2": "Higher-ranking law",
+  "A3": "Needed for the department's task",
+  "A4": "Data not in the register",
+  "A5": "Needs further review",
+  "A6": "Other",
+  "I1": "Question to the specialist unit"
+ },
+ "option_type": {
+  "delete": "Delete",
+  "merge": "Merge",
+  "register_retrieval": "Register retrieval",
+  "lower_frequency": "Lower frequency",
+  "keep": "Keep"
+ },
+ "option_status": {
+  "draft": "Draft",
+  "proposed": "Proposed",
+  "under_review": "Under review",
+  "approved": "Approved",
+  "rejected": "Rejected",
+  "needs_info": "Needs information"
+ },
+ "duty_status": {
+  "candidate": "Candidate",
+  "confirmed": "Confirmed",
+  "rejected": "Rejected",
+  "needs_review": "Needs review"
+ },
+ "cluster_status": {
+  "candidate": "Candidate",
+  "confirmed": "Confirmed",
+  "split": "Split"
+ },
+ "duty_type": {
+  "MELDEPFLICHT": "Reporting and notification duty",
+  "NACHWEISPFLICHT": "Proof duty",
+  "INFORMATIONSPFLICHT": "Information duty",
+  "DOKUMENTATIONSPFLICHT": "Documentation and retention duty",
+  "EVALUIERUNGSPFLICHT": "Evaluation and reporting duty",
+  "KONTROLLPFLICHT": "Control and inspection duty"
+ },
+ "duty_type_short": {
+  "MELDEPFLICHT": "Reporting",
+  "NACHWEISPFLICHT": "Proof",
+  "INFORMATIONSPFLICHT": "Information",
+  "DOKUMENTATIONSPFLICHT": "Documentation",
+  "EVALUIERUNGSPFLICHT": "Evaluation",
+  "KONTROLLPFLICHT": "Control"
+ },
+ "addressee": {
+  "buerger": "Citizens",
+  "wirtschaft": "Businesses",
+  "verwaltung": "Administration"
+ },
+ "trigger": {
+  "periodisch": "periodic",
+  "anlassbezogen": "event-driven",
+  "einmalig": "one-off"
+ },
+ "frequency": {
+  "täglich": "daily",
+  "wöchentlich": "weekly",
+  "monatlich": "monthly",
+  "vierteljährlich": "quarterly",
+  "halbjährlich": "half-yearly",
+  "jährlich": "yearly"
+ },
+ "certainty": {
+  "hoch": "high",
+  "mittel": "medium",
+  "niedrig": "low"
+ },
+ "protected": {
+  "menschenrechte": "human rights",
+  "buergerrechte": "civil rights",
+  "verbraucherrechte": "consumer rights",
+  "arbeitnehmerrechte": "workers' rights",
+  "steuerbetrug": "prevention of tax fraud"
+ },
+ "agent": {
+  "orchestrator": "Orchestrator",
+  "corpus": "Corpus agent",
+  "duty_extractor": "Duty extractor",
+  "once_matcher": "Once-only matcher",
+  "cost": "Cost agent",
+  "signal": "Signal agent",
+  "drafting": "Drafting agent",
+  "fact_auditor": "Fact auditor"
+ },
+ "complaint_category": {
+  "Verwaltung digital": "Digital administration",
+  "Anträge": "Applications",
+  "Servicequalität": "Service quality",
+  "Gesundheit & Soziales": "Health & social affairs",
+  "Einmal genügt": "Once-only",
+  "Betriebe": "Businesses",
+  "Steuern": "Taxes",
+  "Weniger Bürokratie": "Less bureaucracy"
+ }
+}

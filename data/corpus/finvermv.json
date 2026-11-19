@@ -3,7 +3,7 @@
  "abbr": "FinVermV",
  "title": "Verordnung über die Finanzanlagenvermittlung",
  "slug": "finvermv",
- "source_xml_url": "http://www.gesetze-im-internet.de/finvermv/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/finvermv/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/finvermv/index.html",
  "builddate": "20250210223506",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -524,11 +524,6 @@
     {
      "id": "finvermv-p11a-s7",
      "start": 1648,
-     "end": 2148
-    },
-    {
-     "id": "finvermv-p11a-s8",
-     "start": 2149,
      "end": 2221
     }
    ]
@@ -864,20 +859,10 @@
     {
      "id": "finvermv-p16-s20",
      "start": 5594,
-     "end": 6031
-    },
-    {
-     "id": "finvermv-p16-s21",
-     "start": 6032,
-     "end": 6140
-    },
-    {
-     "id": "finvermv-p16-s22",
-     "start": 6141,
      "end": 6317
     },
     {
-     "id": "finvermv-p16-s23",
+     "id": "finvermv-p16-s21",
      "start": 6318,
      "end": 6373
     }

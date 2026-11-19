@@ -3,7 +3,7 @@
  "abbr": "VerdStatG",
  "title": "Gesetz über die Statistik der Verdienste und Arbeitskosten",
  "slug": "verdstatg",
- "source_xml_url": "http://www.gesetze-im-internet.de/verdstatg/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/verdstatg/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/verdstatg/index.html",
  "builddate": "20260601215502",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -75,60 +75,50 @@
     {
      "id": "verdstatg-p4-s2",
      "start": 153,
-     "end": 543
-    },
-    {
-     "id": "verdstatg-p4-s3",
-     "start": 544,
-     "end": 626
-    },
-    {
-     "id": "verdstatg-p4-s4",
-     "start": 627,
      "end": 781
     },
     {
-     "id": "verdstatg-p4-s5",
+     "id": "verdstatg-p4-s3",
      "start": 782,
      "end": 854
     },
     {
-     "id": "verdstatg-p4-s6",
+     "id": "verdstatg-p4-s4",
      "start": 855,
      "end": 1054
     },
     {
-     "id": "verdstatg-p4-s7",
+     "id": "verdstatg-p4-s5",
      "start": 1055,
      "end": 1130
     },
     {
-     "id": "verdstatg-p4-s8",
+     "id": "verdstatg-p4-s6",
      "start": 1131,
      "end": 1243
     },
     {
-     "id": "verdstatg-p4-s9",
+     "id": "verdstatg-p4-s7",
      "start": 1244,
      "end": 1877
     },
     {
-     "id": "verdstatg-p4-s10",
+     "id": "verdstatg-p4-s8",
      "start": 1878,
      "end": 2023
     },
     {
-     "id": "verdstatg-p4-s11",
+     "id": "verdstatg-p4-s9",
      "start": 2024,
      "end": 2187
     },
     {
-     "id": "verdstatg-p4-s12",
+     "id": "verdstatg-p4-s10",
      "start": 2188,
      "end": 2432
     },
     {
-     "id": "verdstatg-p4-s13",
+     "id": "verdstatg-p4-s11",
      "start": 2433,
      "end": 2572
     }

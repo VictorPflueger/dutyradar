@@ -3,7 +3,7 @@
  "abbr": "MiLoMeldV",
  "title": "Verordnung über Meldepflichten nach dem Mindestlohngesetz, dem Arbeitnehmer-Entsendegesetz und dem Arbeitnehmerüberlassungsgesetz",
  "slug": "milomeldv",
- "source_xml_url": "http://www.gesetze-im-internet.de/milomeldv/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/milomeldv/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/milomeldv/index.html",
  "builddate": "20260506174614",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -33,35 +33,25 @@
     {
      "id": "milomeldv-p1-s3",
      "start": 297,
-     "end": 975
-    },
-    {
-     "id": "milomeldv-p1-s4",
-     "start": 976,
-     "end": 1058
-    },
-    {
-     "id": "milomeldv-p1-s5",
-     "start": 1059,
      "end": 1119
     },
     {
-     "id": "milomeldv-p1-s6",
+     "id": "milomeldv-p1-s4",
      "start": 1120,
      "end": 1346
     },
     {
-     "id": "milomeldv-p1-s7",
+     "id": "milomeldv-p1-s5",
      "start": 1347,
      "end": 1589
     },
     {
-     "id": "milomeldv-p1-s8",
+     "id": "milomeldv-p1-s6",
      "start": 1590,
      "end": 1700
     },
     {
-     "id": "milomeldv-p1-s9",
+     "id": "milomeldv-p1-s7",
      "start": 1701,
      "end": 1837
     }

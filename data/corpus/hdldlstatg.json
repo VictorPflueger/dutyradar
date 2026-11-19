@@ -3,7 +3,7 @@
  "abbr": "HdlDlStatG",
  "title": "Gesetz über die Statistik im Handels- und Dienstleistungsbereich",
  "slug": "hdldlstatg",
- "source_xml_url": "http://www.gesetze-im-internet.de/hdldlstatg/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/hdldlstatg/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/hdldlstatg/index.html",
  "builddate": "20260506174543",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -40,65 +40,35 @@
     {
      "id": "hdldlstatg-p2-s1",
      "start": 0,
-     "end": 285
-    },
-    {
-     "id": "hdldlstatg-p2-s2",
-     "start": 286,
-     "end": 370
-    },
-    {
-     "id": "hdldlstatg-p2-s3",
-     "start": 371,
      "end": 518
     },
     {
-     "id": "hdldlstatg-p2-s4",
+     "id": "hdldlstatg-p2-s2",
      "start": 519,
-     "end": 811
-    },
-    {
-     "id": "hdldlstatg-p2-s5",
-     "start": 812,
-     "end": 904
-    },
-    {
-     "id": "hdldlstatg-p2-s6",
-     "start": 905,
      "end": 986
     },
     {
-     "id": "hdldlstatg-p2-s7",
+     "id": "hdldlstatg-p2-s3",
      "start": 987,
-     "end": 1372
-    },
-    {
-     "id": "hdldlstatg-p2-s8",
-     "start": 1373,
      "end": 1433
     },
     {
-     "id": "hdldlstatg-p2-s9",
+     "id": "hdldlstatg-p2-s4",
      "start": 1434,
-     "end": 1827
-    },
-    {
-     "id": "hdldlstatg-p2-s10",
-     "start": 1828,
      "end": 1888
     },
     {
-     "id": "hdldlstatg-p2-s11",
+     "id": "hdldlstatg-p2-s5",
      "start": 1889,
      "end": 2103
     },
     {
-     "id": "hdldlstatg-p2-s12",
+     "id": "hdldlstatg-p2-s6",
      "start": 2104,
      "end": 2388
     },
     {
-     "id": "hdldlstatg-p2-s13",
+     "id": "hdldlstatg-p2-s7",
      "start": 2389,
      "end": 2587
     }

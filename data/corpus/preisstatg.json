@@ -3,7 +3,7 @@
  "abbr": "PreisStatG",
  "title": "Gesetz über die Preisstatistik",
  "slug": "preisstatg",
- "source_xml_url": "http://www.gesetze-im-internet.de/preisstatg/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/preisstatg/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/preisstatg/index.html",
  "builddate": "20260506174816",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -55,45 +55,40 @@
     {
      "id": "preisstatg-p3-s2",
      "start": 123,
-     "end": 588
-    },
-    {
-     "id": "preisstatg-p3-s3",
-     "start": 589,
      "end": 617
     },
     {
-     "id": "preisstatg-p3-s4",
+     "id": "preisstatg-p3-s3",
      "start": 618,
      "end": 909
     },
     {
-     "id": "preisstatg-p3-s5",
+     "id": "preisstatg-p3-s4",
      "start": 910,
      "end": 1080
     },
     {
-     "id": "preisstatg-p3-s6",
+     "id": "preisstatg-p3-s5",
      "start": 1081,
      "end": 1103
     },
     {
-     "id": "preisstatg-p3-s7",
+     "id": "preisstatg-p3-s6",
      "start": 1104,
      "end": 1237
     },
     {
-     "id": "preisstatg-p3-s8",
+     "id": "preisstatg-p3-s7",
      "start": 1238,
      "end": 1315
     },
     {
-     "id": "preisstatg-p3-s9",
+     "id": "preisstatg-p3-s8",
      "start": 1316,
      "end": 2382
     },
     {
-     "id": "preisstatg-p3-s10",
+     "id": "preisstatg-p3-s9",
      "start": 2383,
      "end": 2600
     }

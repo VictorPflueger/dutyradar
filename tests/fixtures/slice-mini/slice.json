@@ -1,0 +1,9 @@
+{
+  "slice_id": "slice-mini",
+  "status": "provisional",
+  "note": "A two-norm fixture slice of invented laws for the snapshot tests; the XML follows gii-norm.dtd 1.01 as the real files do.",
+  "norms": [
+    { "slug": "beispielg", "expected_title": "Gesetz über ein Beispiel (Beispielgesetz)", "family": "statistics", "short": "BeispielG" },
+    { "slug": "musterv", "expected_title": "Musterverordnung über betriebliche Meldungen", "family": "statistics", "short": "MusterV" }
+  ]
+}

@@ -3,7 +3,7 @@
  "abbr": "VersVermV",
  "title": "Verordnung über die Versicherungsvermittlung und -beratung",
  "slug": "versvermv_2018",
- "source_xml_url": "http://www.gesetze-im-internet.de/versvermv_2018/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/versvermv_2018/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/versvermv_2018/index.html",
  "builddate": "20250221223013",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -475,55 +475,45 @@
     {
      "id": "versvermv_2018-p12-s3",
      "start": 328,
-     "end": 581
-    },
-    {
-     "id": "versvermv_2018-p12-s4",
-     "start": 582,
-     "end": 607
-    },
-    {
-     "id": "versvermv_2018-p12-s5",
-     "start": 608,
      "end": 681
     },
     {
-     "id": "versvermv_2018-p12-s6",
+     "id": "versvermv_2018-p12-s4",
      "start": 682,
      "end": 896
     },
     {
-     "id": "versvermv_2018-p12-s7",
+     "id": "versvermv_2018-p12-s5",
      "start": 897,
      "end": 1222
     },
     {
-     "id": "versvermv_2018-p12-s8",
+     "id": "versvermv_2018-p12-s6",
      "start": 1223,
      "end": 1454
     },
     {
-     "id": "versvermv_2018-p12-s9",
+     "id": "versvermv_2018-p12-s7",
      "start": 1455,
      "end": 1547
     },
     {
-     "id": "versvermv_2018-p12-s10",
+     "id": "versvermv_2018-p12-s8",
      "start": 1548,
      "end": 1771
     },
     {
-     "id": "versvermv_2018-p12-s11",
+     "id": "versvermv_2018-p12-s9",
      "start": 1772,
      "end": 1915
     },
     {
-     "id": "versvermv_2018-p12-s12",
+     "id": "versvermv_2018-p12-s10",
      "start": 1916,
      "end": 2038
     },
     {
-     "id": "versvermv_2018-p12-s13",
+     "id": "versvermv_2018-p12-s11",
      "start": 2039,
      "end": 2180
     }

@@ -3,7 +3,7 @@
  "abbr": "VerpackDG",
  "title": "Gesetz zur Durchführung der Verordnung (EU) 2025/40 betreffend Verpackungen",
  "slug": "verpackdg",
- "source_xml_url": "http://www.gesetze-im-internet.de/verpackdg/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/verpackdg/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/verpackdg/index.html",
  "builddate": "20261116220004",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -1319,70 +1319,65 @@
     {
      "id": "verpackdg-p25-s1",
      "start": 0,
-     "end": 532
-    },
-    {
-     "id": "verpackdg-p25-s2",
-     "start": 533,
      "end": 831
     },
     {
-     "id": "verpackdg-p25-s3",
+     "id": "verpackdg-p25-s2",
      "start": 832,
      "end": 991
     },
     {
-     "id": "verpackdg-p25-s4",
+     "id": "verpackdg-p25-s3",
      "start": 992,
      "end": 1177
     },
     {
-     "id": "verpackdg-p25-s5",
+     "id": "verpackdg-p25-s4",
      "start": 1178,
      "end": 1451
     },
     {
-     "id": "verpackdg-p25-s6",
+     "id": "verpackdg-p25-s5",
      "start": 1452,
      "end": 1655
     },
     {
-     "id": "verpackdg-p25-s7",
+     "id": "verpackdg-p25-s6",
      "start": 1656,
      "end": 2012
     },
     {
-     "id": "verpackdg-p25-s8",
+     "id": "verpackdg-p25-s7",
      "start": 2013,
      "end": 2225
     },
     {
-     "id": "verpackdg-p25-s9",
+     "id": "verpackdg-p25-s8",
      "start": 2226,
      "end": 2329
     },
     {
-     "id": "verpackdg-p25-s10",
+     "id": "verpackdg-p25-s9",
      "start": 2330,
      "end": 2571
     },
     {
-     "id": "verpackdg-p25-s11",
+     "id": "verpackdg-p25-s10",
      "start": 2572,
      "end": 2971
     },
     {
-     "id": "verpackdg-p25-s12",
+     "id": "verpackdg-p25-s11",
      "start": 2972,
      "end": 3062
     },
     {
-     "id": "verpackdg-p25-s13",
+     "id": "verpackdg-p25-s12",
      "start": 3063,
      "end": 3115
     },
     {
-     "id": "verpackdg-p25-s14",
+     "id": "verpackdg-p25-s13",
      "start": 3116,
      "end": 3587
     }

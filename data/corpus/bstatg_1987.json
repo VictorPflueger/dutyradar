@@ -3,7 +3,7 @@
  "abbr": "BStatG",
  "title": "Gesetz über die Statistik für Bundeszwecke",
  "slug": "bstatg_1987",
- "source_xml_url": "http://www.gesetze-im-internet.de/bstatg_1987/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/bstatg_1987/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/bstatg_1987/index.html",
  "builddate": "20240515220510",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -629,45 +629,40 @@
     {
      "id": "bstatg_1987-p13-s1",
      "start": 0,
-     "end": 456
-    },
-    {
-     "id": "bstatg_1987-p13-s2",
-     "start": 457,
      "end": 547
     },
     {
-     "id": "bstatg_1987-p13-s3",
+     "id": "bstatg_1987-p13-s2",
      "start": 548,
      "end": 776
     },
     {
-     "id": "bstatg_1987-p13-s4",
+     "id": "bstatg_1987-p13-s3",
      "start": 777,
      "end": 1094
     },
     {
-     "id": "bstatg_1987-p13-s5",
+     "id": "bstatg_1987-p13-s4",
      "start": 1095,
      "end": 1433
     },
     {
-     "id": "bstatg_1987-p13-s6",
+     "id": "bstatg_1987-p13-s5",
      "start": 1434,
      "end": 1664
     },
     {
-     "id": "bstatg_1987-p13-s7",
+     "id": "bstatg_1987-p13-s6",
      "start": 1665,
      "end": 1809
     },
     {
-     "id": "bstatg_1987-p13-s8",
+     "id": "bstatg_1987-p13-s7",
      "start": 1810,
      "end": 1974
     },
     {
-     "id": "bstatg_1987-p13-s9",
+     "id": "bstatg_1987-p13-s8",
      "start": 1975,
      "end": 2246
     }
@@ -1004,16 +999,6 @@
     {
      "id": "bstatg_1987-p18-s3",
      "start": 781,
-     "end": 1463
-    },
-    {
-     "id": "bstatg_1987-p18-s4",
-     "start": 1464,
-     "end": 1545
-    },
-    {
-     "id": "bstatg_1987-p18-s5",
-     "start": 1546,
      "end": 1628
     }
    ]

@@ -3,7 +3,7 @@
  "abbr": "GewO",
  "title": "Gewerbeordnung",
  "slug": "gewo",
- "source_xml_url": "http://www.gesetze-im-internet.de/gewo/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/gewo/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/gewo/index.html",
  "builddate": "20260821215501",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -70,25 +70,20 @@
     {
      "id": "gewo-p4-s2",
      "start": 405,
-     "end": 781
-    },
-    {
-     "id": "gewo-p4-s3",
-     "start": 782,
      "end": 964
     },
     {
-     "id": "gewo-p4-s4",
+     "id": "gewo-p4-s3",
      "start": 965,
      "end": 1218
     },
     {
-     "id": "gewo-p4-s5",
+     "id": "gewo-p4-s4",
      "start": 1219,
      "end": 1557
     },
     {
-     "id": "gewo-p4-s6",
+     "id": "gewo-p4-s5",
      "start": 1558,
      "end": 1736
     }
@@ -195,16 +190,6 @@
     {
      "id": "gewo-p6b-s3",
      "start": 438,
-     "end": 689
-    },
-    {
-     "id": "gewo-p6b-s4",
-     "start": 690,
-     "end": 768
-    },
-    {
-     "id": "gewo-p6b-s5",
-     "start": 769,
      "end": 1031
     }
    ]
@@ -344,25 +329,10 @@
     {
      "id": "gewo-p11-s15",
      "start": 2741,
-     "end": 3236
-    },
-    {
-     "id": "gewo-p11-s16",
-     "start": 3237,
-     "end": 3262
-    },
-    {
-     "id": "gewo-p11-s17",
-     "start": 3263,
-     "end": 3291
-    },
-    {
-     "id": "gewo-p11-s18",
-     "start": 3292,
      "end": 3386
     },
     {
-     "id": "gewo-p11-s19",
+     "id": "gewo-p11-s16",
      "start": 3387,
      "end": 3776
     }
@@ -531,20 +501,15 @@
     {
      "id": "gewo-p11a-s31",
      "start": 6451,
-     "end": 6975
-    },
-    {
-     "id": "gewo-p11a-s32",
-     "start": 6976,
      "end": 7152
     },
     {
-     "id": "gewo-p11a-s33",
+     "id": "gewo-p11a-s32",
      "start": 7153,
      "end": 7549
     },
     {
-     "id": "gewo-p11a-s34",
+     "id": "gewo-p11a-s33",
      "start": 7550,
      "end": 7609
     }
@@ -743,80 +708,75 @@
     {
      "id": "gewo-p11d-s2",
      "start": 346,
-     "end": 839
-    },
-    {
-     "id": "gewo-p11d-s3",
-     "start": 840,
      "end": 886
     },
     {
-     "id": "gewo-p11d-s4",
+     "id": "gewo-p11d-s3",
      "start": 887,
      "end": 1112
     },
     {
-     "id": "gewo-p11d-s5",
+     "id": "gewo-p11d-s4",
      "start": 1113,
      "end": 1573
     },
     {
-     "id": "gewo-p11d-s6",
+     "id": "gewo-p11d-s5",
      "start": 1574,
      "end": 1982
     },
     {
-     "id": "gewo-p11d-s7",
+     "id": "gewo-p11d-s6",
      "start": 1983,
      "end": 2390
     },
     {
-     "id": "gewo-p11d-s8",
+     "id": "gewo-p11d-s7",
      "start": 2391,
      "end": 2720
     },
     {
-     "id": "gewo-p11d-s9",
+     "id": "gewo-p11d-s8",
      "start": 2721,
      "end": 2878
     },
     {
-     "id": "gewo-p11d-s10",
+     "id": "gewo-p11d-s9",
      "start": 2879,
      "end": 3177
     },
     {
-     "id": "gewo-p11d-s11",
+     "id": "gewo-p11d-s10",
      "start": 3178,
      "end": 3342
     },
     {
-     "id": "gewo-p11d-s12",
+     "id": "gewo-p11d-s11",
      "start": 3343,
      "end": 3563
     },
     {
-     "id": "gewo-p11d-s13",
+     "id": "gewo-p11d-s12",
      "start": 3564,
      "end": 3690
     },
     {
-     "id": "gewo-p11d-s14",
+     "id": "gewo-p11d-s13",
      "start": 3691,
      "end": 3997
     },
     {
-     "id": "gewo-p11d-s15",
+     "id": "gewo-p11d-s14",
      "start": 3998,
      "end": 4448
     },
     {
-     "id": "gewo-p11d-s16",
+     "id": "gewo-p11d-s15",
      "start": 4449,
      "end": 4659
     },
     {
-     "id": "gewo-p11d-s17",
+     "id": "gewo-p11d-s16",
      "start": 4660,
      "end": 5397
     }
@@ -2104,40 +2064,30 @@
     {
      "id": "gewo-p34a-s25",
      "start": 10524,
-     "end": 12462
-    },
-    {
-     "id": "gewo-p34a-s26",
-     "start": 12463,
-     "end": 12541
-    },
-    {
-     "id": "gewo-p34a-s27",
-     "start": 12542,
      "end": 13186
     },
     {
-     "id": "gewo-p34a-s28",
+     "id": "gewo-p34a-s26",
      "start": 13187,
      "end": 13511
     },
     {
-     "id": "gewo-p34a-s29",
+     "id": "gewo-p34a-s27",
      "start": 13512,
      "end": 13884
     },
     {
-     "id": "gewo-p34a-s30",
+     "id": "gewo-p34a-s28",
      "start": 13885,
      "end": 14305
     },
     {
-     "id": "gewo-p34a-s31",
+     "id": "gewo-p34a-s29",
      "start": 14306,
      "end": 14420
     },
     {
-     "id": "gewo-p34a-s32",
+     "id": "gewo-p34a-s30",
      "start": 14421,
      "end": 14438
     }
@@ -2503,190 +2453,180 @@
     {
      "id": "gewo-p34d-s29",
      "start": 8003,
-     "end": 8799
-    },
-    {
-     "id": "gewo-p34d-s30",
-     "start": 8800,
      "end": 8842
     },
     {
-     "id": "gewo-p34d-s31",
+     "id": "gewo-p34d-s30",
      "start": 8843,
      "end": 8912
     },
     {
-     "id": "gewo-p34d-s32",
+     "id": "gewo-p34d-s31",
      "start": 8913,
      "end": 9850
     },
     {
-     "id": "gewo-p34d-s33",
+     "id": "gewo-p34d-s32",
      "start": 9851,
      "end": 10429
     },
     {
-     "id": "gewo-p34d-s34",
+     "id": "gewo-p34d-s33",
      "start": 10430,
      "end": 10768
     },
     {
-     "id": "gewo-p34d-s35",
+     "id": "gewo-p34d-s34",
      "start": 10769,
      "end": 11102
     },
     {
-     "id": "gewo-p34d-s36",
+     "id": "gewo-p34d-s35",
      "start": 11103,
      "end": 11408
     },
     {
-     "id": "gewo-p34d-s37",
+     "id": "gewo-p34d-s36",
      "start": 11409,
      "end": 11850
     },
     {
-     "id": "gewo-p34d-s38",
+     "id": "gewo-p34d-s37",
      "start": 11851,
      "end": 12088
     },
     {
-     "id": "gewo-p34d-s39",
+     "id": "gewo-p34d-s38",
      "start": 12089,
      "end": 12364
     },
     {
-     "id": "gewo-p34d-s40",
+     "id": "gewo-p34d-s39",
      "start": 12365,
      "end": 12756
     },
     {
-     "id": "gewo-p34d-s41",
+     "id": "gewo-p34d-s40",
      "start": 12757,
      "end": 12856
     },
     {
-     "id": "gewo-p34d-s42",
+     "id": "gewo-p34d-s41",
      "start": 12857,
      "end": 13080
     },
     {
-     "id": "gewo-p34d-s43",
+     "id": "gewo-p34d-s42",
      "start": 13081,
      "end": 13286
     },
     {
-     "id": "gewo-p34d-s44",
+     "id": "gewo-p34d-s43",
      "start": 13287,
      "end": 13542
     },
     {
-     "id": "gewo-p34d-s45",
+     "id": "gewo-p34d-s44",
      "start": 13543,
      "end": 13623
     },
     {
-     "id": "gewo-p34d-s46",
+     "id": "gewo-p34d-s45",
      "start": 13624,
      "end": 13954
     },
     {
-     "id": "gewo-p34d-s47",
+     "id": "gewo-p34d-s46",
      "start": 13955,
      "end": 14039
     },
     {
-     "id": "gewo-p34d-s48",
+     "id": "gewo-p34d-s47",
      "start": 14040,
      "end": 14157
     },
     {
-     "id": "gewo-p34d-s49",
+     "id": "gewo-p34d-s48",
      "start": 14158,
-     "end": 14561
-    },
-    {
-     "id": "gewo-p34d-s50",
-     "start": 14562,
      "end": 14721
     },
     {
-     "id": "gewo-p34d-s51",
+     "id": "gewo-p34d-s49",
      "start": 14722,
      "end": 14763
     },
     {
-     "id": "gewo-p34d-s52",
+     "id": "gewo-p34d-s50",
      "start": 14764,
      "end": 15031
     },
     {
-     "id": "gewo-p34d-s53",
+     "id": "gewo-p34d-s51",
      "start": 15032,
      "end": 15082
     },
     {
-     "id": "gewo-p34d-s54",
+     "id": "gewo-p34d-s52",
      "start": 15083,
      "end": 15240
     },
     {
-     "id": "gewo-p34d-s55",
+     "id": "gewo-p34d-s53",
      "start": 15241,
      "end": 15382
     },
     {
-     "id": "gewo-p34d-s56",
+     "id": "gewo-p34d-s54",
      "start": 15383,
      "end": 15703
     },
     {
-     "id": "gewo-p34d-s57",
+     "id": "gewo-p34d-s55",
      "start": 15704,
      "end": 15861
     },
     {
-     "id": "gewo-p34d-s58",
+     "id": "gewo-p34d-s56",
      "start": 15862,
      "end": 15955
     },
     {
-     "id": "gewo-p34d-s59",
+     "id": "gewo-p34d-s57",
      "start": 15956,
      "end": 16090
     },
     {
-     "id": "gewo-p34d-s60",
+     "id": "gewo-p34d-s58",
      "start": 16091,
      "end": 16405
     },
     {
-     "id": "gewo-p34d-s61",
+     "id": "gewo-p34d-s59",
      "start": 16406,
      "end": 16523
     },
     {
-     "id": "gewo-p34d-s62",
+     "id": "gewo-p34d-s60",
      "start": 16524,
      "end": 16565
     },
     {
-     "id": "gewo-p34d-s63",
+     "id": "gewo-p34d-s61",
      "start": 16566,
      "end": 16688
     },
     {
-     "id": "gewo-p34d-s64",
+     "id": "gewo-p34d-s62",
      "start": 16689,
      "end": 16889
     },
     {
-     "id": "gewo-p34d-s65",
+     "id": "gewo-p34d-s63",
      "start": 16890,
      "end": 16982
     },
     {
-     "id": "gewo-p34d-s66",
+     "id": "gewo-p34d-s64",
      "start": 16983,
      "end": 17221
     }
@@ -2703,85 +2643,60 @@
     {
      "id": "gewo-p34e-s1",
      "start": 0,
-     "end": 510
-    },
-    {
-     "id": "gewo-p34e-s2",
-     "start": 511,
-     "end": 538
-    },
-    {
-     "id": "gewo-p34e-s3",
-     "start": 539,
-     "end": 626
-    },
-    {
-     "id": "gewo-p34e-s4",
-     "start": 627,
-     "end": 908
-    },
-    {
-     "id": "gewo-p34e-s5",
-     "start": 909,
-     "end": 935
-    },
-    {
-     "id": "gewo-p34e-s6",
-     "start": 936,
      "end": 3869
     },
     {
-     "id": "gewo-p34e-s7",
+     "id": "gewo-p34e-s2",
      "start": 3870,
      "end": 3932
     },
     {
-     "id": "gewo-p34e-s8",
+     "id": "gewo-p34e-s3",
      "start": 3933,
      "end": 3990
     },
     {
-     "id": "gewo-p34e-s9",
+     "id": "gewo-p34e-s4",
      "start": 3991,
      "end": 4080
     },
     {
-     "id": "gewo-p34e-s10",
+     "id": "gewo-p34e-s5",
      "start": 4081,
      "end": 4147
     },
     {
-     "id": "gewo-p34e-s11",
+     "id": "gewo-p34e-s6",
      "start": 4148,
      "end": 4331
     },
     {
-     "id": "gewo-p34e-s12",
+     "id": "gewo-p34e-s7",
      "start": 4332,
      "end": 4637
     },
     {
-     "id": "gewo-p34e-s13",
+     "id": "gewo-p34e-s8",
      "start": 4638,
      "end": 5138
     },
     {
-     "id": "gewo-p34e-s14",
+     "id": "gewo-p34e-s9",
      "start": 5139,
      "end": 5554
     },
     {
-     "id": "gewo-p34e-s15",
+     "id": "gewo-p34e-s10",
      "start": 5555,
      "end": 5957
     },
     {
-     "id": "gewo-p34e-s16",
+     "id": "gewo-p34e-s11",
      "start": 5958,
      "end": 6367
     },
     {
-     "id": "gewo-p34e-s17",
+     "id": "gewo-p34e-s12",
      "start": 6368,
      "end": 6565
     }
@@ -3035,65 +2950,60 @@
     {
      "id": "gewo-p34i-s8",
      "start": 2712,
-     "end": 3276
-    },
-    {
-     "id": "gewo-p34i-s9",
-     "start": 3277,
      "end": 3465
     },
     {
-     "id": "gewo-p34i-s10",
+     "id": "gewo-p34i-s9",
      "start": 3466,
      "end": 3618
     },
     {
-     "id": "gewo-p34i-s11",
+     "id": "gewo-p34i-s10",
      "start": 3619,
      "end": 4124
     },
     {
-     "id": "gewo-p34i-s12",
+     "id": "gewo-p34i-s11",
      "start": 4125,
      "end": 4321
     },
     {
-     "id": "gewo-p34i-s13",
+     "id": "gewo-p34i-s12",
      "start": 4322,
      "end": 4680
     },
     {
-     "id": "gewo-p34i-s14",
+     "id": "gewo-p34i-s13",
      "start": 4681,
      "end": 4944
     },
     {
-     "id": "gewo-p34i-s15",
+     "id": "gewo-p34i-s14",
      "start": 4945,
      "end": 5095
     },
     {
-     "id": "gewo-p34i-s16",
+     "id": "gewo-p34i-s15",
      "start": 5096,
      "end": 5308
     },
     {
-     "id": "gewo-p34i-s17",
+     "id": "gewo-p34i-s16",
      "start": 5309,
      "end": 5386
     },
     {
-     "id": "gewo-p34i-s18",
+     "id": "gewo-p34i-s17",
      "start": 5387,
      "end": 5900
     },
     {
-     "id": "gewo-p34i-s19",
+     "id": "gewo-p34i-s18",
      "start": 5901,
      "end": 6311
     },
     {
-     "id": "gewo-p34i-s20",
+     "id": "gewo-p34i-s19",
      "start": 6312,
      "end": 6392
     }
@@ -3110,35 +3020,25 @@
     {
      "id": "gewo-p34j-s1",
      "start": 0,
-     "end": 313
-    },
-    {
-     "id": "gewo-p34j-s2",
-     "start": 314,
-     "end": 392
-    },
-    {
-     "id": "gewo-p34j-s3",
-     "start": 393,
      "end": 2049
     },
     {
-     "id": "gewo-p34j-s4",
+     "id": "gewo-p34j-s2",
      "start": 2050,
      "end": 2147
     },
     {
-     "id": "gewo-p34j-s5",
+     "id": "gewo-p34j-s3",
      "start": 2148,
      "end": 3996
     },
     {
-     "id": "gewo-p34j-s6",
+     "id": "gewo-p34j-s4",
      "start": 3997,
      "end": 4328
     },
     {
-     "id": "gewo-p34j-s7",
+     "id": "gewo-p34j-s5",
      "start": 4329,
      "end": 4734
     }
@@ -3350,45 +3250,40 @@
     {
      "id": "gewo-p36-s8",
      "start": 2978,
-     "end": 3322
-    },
-    {
-     "id": "gewo-p36-s9",
-     "start": 3323,
      "end": 3395
     },
     {
-     "id": "gewo-p36-s10",
+     "id": "gewo-p36-s9",
      "start": 3396,
      "end": 3556
     },
     {
-     "id": "gewo-p36-s11",
+     "id": "gewo-p36-s10",
      "start": 3557,
      "end": 3665
     },
     {
-     "id": "gewo-p36-s12",
+     "id": "gewo-p36-s11",
      "start": 3666,
      "end": 3799
     },
     {
-     "id": "gewo-p36-s13",
+     "id": "gewo-p36-s12",
      "start": 3800,
      "end": 3981
     },
     {
-     "id": "gewo-p36-s14",
+     "id": "gewo-p36-s13",
      "start": 3982,
      "end": 4270
     },
     {
-     "id": "gewo-p36-s15",
+     "id": "gewo-p36-s14",
      "start": 4271,
      "end": 4459
     },
     {
-     "id": "gewo-p36-s16",
+     "id": "gewo-p36-s15",
      "start": 4460,
      "end": 4897
     }
@@ -3868,30 +3763,25 @@
     {
      "id": "gewo-p56-s10",
      "start": 1816,
-     "end": 1886
-    },
-    {
-     "id": "gewo-p56-s11",
-     "start": 1887,
      "end": 1892
     },
     {
-     "id": "gewo-p56-s12",
+     "id": "gewo-p56-s11",
      "start": 1893,
      "end": 2063
     },
     {
-     "id": "gewo-p56-s13",
+     "id": "gewo-p56-s12",
      "start": 2064,
      "end": 2081
     },
     {
-     "id": "gewo-p56-s14",
+     "id": "gewo-p56-s13",
      "start": 2082,
      "end": 2203
     },
     {
-     "id": "gewo-p56-s15",
+     "id": "gewo-p56-s14",
      "start": 2204,
      "end": 2609
     }
@@ -3955,45 +3845,25 @@
     {
      "id": "gewo-p56a-s10",
      "start": 3560,
-     "end": 3906
-    },
-    {
-     "id": "gewo-p56a-s11",
-     "start": 3907,
-     "end": 3932
-    },
-    {
-     "id": "gewo-p56a-s12",
-     "start": 3933,
-     "end": 3958
-    },
-    {
-     "id": "gewo-p56a-s13",
-     "start": 3959,
-     "end": 4034
-    },
-    {
-     "id": "gewo-p56a-s14",
-     "start": 4035,
      "end": 4117
     },
     {
-     "id": "gewo-p56a-s15",
+     "id": "gewo-p56a-s11",
      "start": 4118,
      "end": 4211
     },
     {
-     "id": "gewo-p56a-s16",
+     "id": "gewo-p56a-s12",
      "start": 4212,
      "end": 4358
     },
     {
-     "id": "gewo-p56a-s17",
+     "id": "gewo-p56a-s13",
      "start": 4359,
      "end": 4381
     },
     {
-     "id": "gewo-p56a-s18",
+     "id": "gewo-p56a-s14",
      "start": 4382,
      "end": 4645
     }
@@ -4307,40 +4177,30 @@
     {
      "id": "gewo-p67-s1",
      "start": 0,
-     "end": 512
-    },
-    {
-     "id": "gewo-p67-s2",
-     "start": 513,
-     "end": 591
-    },
-    {
-     "id": "gewo-p67-s3",
-     "start": 592,
      "end": 675
     },
     {
-     "id": "gewo-p67-s4",
+     "id": "gewo-p67-s2",
      "start": 676,
      "end": 842
     },
     {
-     "id": "gewo-p67-s5",
+     "id": "gewo-p67-s3",
      "start": 843,
      "end": 1076
     },
     {
-     "id": "gewo-p67-s6",
+     "id": "gewo-p67-s4",
      "start": 1077,
      "end": 1163
     },
     {
-     "id": "gewo-p67-s7",
+     "id": "gewo-p67-s5",
      "start": 1164,
      "end": 1221
     },
     {
-     "id": "gewo-p67-s8",
+     "id": "gewo-p67-s6",
      "start": 1222,
      "end": 1530
     }
@@ -5002,25 +4862,20 @@
     {
      "id": "gewo-p145-s2",
      "start": 814,
-     "end": 1264
-    },
-    {
-     "id": "gewo-p145-s3",
-     "start": 1265,
      "end": 1271
     },
     {
-     "id": "gewo-p145-s4",
+     "id": "gewo-p145-s3",
      "start": 1272,
      "end": 2379
     },
     {
-     "id": "gewo-p145-s5",
+     "id": "gewo-p145-s4",
      "start": 2380,
      "end": 3789
     },
     {
-     "id": "gewo-p145-s6",
+     "id": "gewo-p145-s5",
      "start": 3790,
      "end": 4274
     }
@@ -5129,20 +4984,15 @@
     {
      "id": "gewo-p147c-s1",
      "start": 0,
-     "end": 265
-    },
-    {
-     "id": "gewo-p147c-s2",
-     "start": 266,
      "end": 638
     },
     {
-     "id": "gewo-p147c-s3",
+     "id": "gewo-p147c-s2",
      "start": 639,
      "end": 737
     },
     {
-     "id": "gewo-p147c-s4",
+     "id": "gewo-p147c-s3",
      "start": 738,
      "end": 813
     }
@@ -5159,15 +5009,10 @@
     {
      "id": "gewo-p147d-s1",
      "start": 0,
-     "end": 371
-    },
-    {
-     "id": "gewo-p147d-s2",
-     "start": 372,
      "end": 1191
     },
     {
-     "id": "gewo-p147d-s3",
+     "id": "gewo-p147d-s2",
      "start": 1192,
      "end": 1290
     }
@@ -5656,55 +5501,40 @@
     {
      "id": "gewo-p150e-s5",
      "start": 657,
-     "end": 1069
-    },
-    {
-     "id": "gewo-p150e-s6",
-     "start": 1070,
-     "end": 1097
-    },
-    {
-     "id": "gewo-p150e-s7",
-     "start": 1098,
-     "end": 1124
-    },
-    {
-     "id": "gewo-p150e-s8",
-     "start": 1125,
      "end": 1170
     },
     {
-     "id": "gewo-p150e-s9",
+     "id": "gewo-p150e-s6",
      "start": 1171,
      "end": 1856
     },
     {
-     "id": "gewo-p150e-s10",
+     "id": "gewo-p150e-s7",
      "start": 1857,
      "end": 2017
     },
     {
-     "id": "gewo-p150e-s11",
+     "id": "gewo-p150e-s8",
      "start": 2018,
      "end": 2229
     },
     {
-     "id": "gewo-p150e-s12",
+     "id": "gewo-p150e-s9",
      "start": 2230,
      "end": 2398
     },
     {
-     "id": "gewo-p150e-s13",
+     "id": "gewo-p150e-s10",
      "start": 2399,
      "end": 2507
     },
     {
-     "id": "gewo-p150e-s14",
+     "id": "gewo-p150e-s11",
      "start": 2508,
      "end": 2594
     },
     {
-     "id": "gewo-p150e-s15",
+     "id": "gewo-p150e-s12",
      "start": 2595,
      "end": 2630
     }

@@ -3,7 +3,7 @@
  "abbr": "AEntG",
  "title": "Gesetz über zwingende Arbeitsbedingungen für grenzüberschreitend entsandte und für regelmäßig im Inland beschäftigte Arbeitnehmer und Arbeitnehmerinnen",
  "slug": "aentg_2009",
- "source_xml_url": "http://www.gesetze-im-internet.de/aentg_2009/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/aentg_2009/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/aentg_2009/index.html",
  "builddate": "20260630215538",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -803,11 +803,6 @@
     {
      "id": "aentg_2009-p13a-s1",
      "start": 0,
-     "end": 224
-    },
-    {
-     "id": "aentg_2009-p13a-s2",
-     "start": 225,
      "end": 360
     }
    ]
@@ -1083,40 +1078,30 @@
     {
      "id": "aentg_2009-p18-s5",
      "start": 2876,
-     "end": 3289
-    },
-    {
-     "id": "aentg_2009-p18-s6",
-     "start": 3290,
-     "end": 3372
-    },
-    {
-     "id": "aentg_2009-p18-s7",
-     "start": 3373,
      "end": 3433
     },
     {
-     "id": "aentg_2009-p18-s8",
+     "id": "aentg_2009-p18-s6",
      "start": 3434,
      "end": 3468
     },
     {
-     "id": "aentg_2009-p18-s9",
+     "id": "aentg_2009-p18-s7",
      "start": 3469,
      "end": 4614
     },
     {
-     "id": "aentg_2009-p18-s10",
+     "id": "aentg_2009-p18-s8",
      "start": 4615,
      "end": 4649
     },
     {
-     "id": "aentg_2009-p18-s11",
+     "id": "aentg_2009-p18-s9",
      "start": 4650,
      "end": 5470
     },
     {
-     "id": "aentg_2009-p18-s12",
+     "id": "aentg_2009-p18-s10",
      "start": 5471,
      "end": 5661
     }
@@ -1155,75 +1140,40 @@
     {
      "id": "aentg_2009-p19-s5",
      "start": 1490,
-     "end": 2298
-    },
-    {
-     "id": "aentg_2009-p19-s6",
-     "start": 2299,
-     "end": 2382
-    },
-    {
-     "id": "aentg_2009-p19-s7",
-     "start": 2383,
-     "end": 2962
-    },
-    {
-     "id": "aentg_2009-p19-s8",
-     "start": 2963,
-     "end": 2988
-    },
-    {
-     "id": "aentg_2009-p19-s9",
-     "start": 2989,
-     "end": 3015
-    },
-    {
-     "id": "aentg_2009-p19-s10",
-     "start": 3016,
-     "end": 3098
-    },
-    {
-     "id": "aentg_2009-p19-s11",
-     "start": 3099,
      "end": 3547
     },
     {
-     "id": "aentg_2009-p19-s12",
+     "id": "aentg_2009-p19-s6",
      "start": 3548,
      "end": 3847
     },
     {
-     "id": "aentg_2009-p19-s13",
+     "id": "aentg_2009-p19-s7",
      "start": 3848,
      "end": 4055
     },
     {
-     "id": "aentg_2009-p19-s14",
+     "id": "aentg_2009-p19-s8",
      "start": 4056,
-     "end": 4993
-    },
-    {
-     "id": "aentg_2009-p19-s15",
-     "start": 4994,
      "end": 5193
     },
     {
-     "id": "aentg_2009-p19-s16",
+     "id": "aentg_2009-p19-s9",
      "start": 5194,
      "end": 5374
     },
     {
-     "id": "aentg_2009-p19-s17",
+     "id": "aentg_2009-p19-s10",
      "start": 5375,
      "end": 5862
     },
     {
-     "id": "aentg_2009-p19-s18",
+     "id": "aentg_2009-p19-s11",
      "start": 5863,
      "end": 6181
     },
     {
-     "id": "aentg_2009-p19-s19",
+     "id": "aentg_2009-p19-s12",
      "start": 6182,
      "end": 6721
     }
@@ -1362,15 +1312,10 @@
     {
      "id": "aentg_2009-p24-s1",
      "start": 0,
-     "end": 573
-    },
-    {
-     "id": "aentg_2009-p24-s2",
-     "start": 574,
      "end": 1508
     },
     {
-     "id": "aentg_2009-p24-s3",
+     "id": "aentg_2009-p24-s2",
      "start": 1509,
      "end": 1716
     }
@@ -1767,45 +1712,20 @@
     {
      "id": "aentg_2009-p36-s1",
      "start": 0,
-     "end": 518
-    },
-    {
-     "id": "aentg_2009-p36-s2",
-     "start": 519,
-     "end": 589
-    },
-    {
-     "id": "aentg_2009-p36-s3",
-     "start": 590,
-     "end": 615
-    },
-    {
-     "id": "aentg_2009-p36-s4",
-     "start": 616,
      "end": 683
     },
     {
-     "id": "aentg_2009-p36-s5",
+     "id": "aentg_2009-p36-s2",
      "start": 684,
-     "end": 1182
-    },
-    {
-     "id": "aentg_2009-p36-s6",
-     "start": 1183,
-     "end": 1269
-    },
-    {
-     "id": "aentg_2009-p36-s7",
-     "start": 1270,
      "end": 1730
     },
     {
-     "id": "aentg_2009-p36-s8",
+     "id": "aentg_2009-p36-s3",
      "start": 1731,
      "end": 1810
     },
     {
-     "id": "aentg_2009-p36-s9",
+     "id": "aentg_2009-p36-s4",
      "start": 1811,
      "end": 2096
     }
@@ -1887,16 +1807,6 @@
     {
      "id": "aentg_2009-p39-s1",
      "start": 0,
-     "end": 325
-    },
-    {
-     "id": "aentg_2009-p39-s2",
-     "start": 326,
-     "end": 405
-    },
-    {
-     "id": "aentg_2009-p39-s3",
-     "start": 406,
      "end": 688
     }
    ]

@@ -3,7 +3,7 @@
  "abbr": "EnStatG",
  "title": "Energiestatistikgesetz",
  "slug": "enstatg_2017",
- "source_xml_url": "http://www.gesetze-im-internet.de/enstatg_2017/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/enstatg_2017/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/enstatg_2017/index.html",
  "builddate": "20200107213027",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -315,11 +315,6 @@
     {
      "id": "enstatg_2017-p11-s2",
      "start": 102,
-     "end": 184
-    },
-    {
-     "id": "enstatg_2017-p11-s3",
-     "start": 185,
      "end": 243
     }
    ]
@@ -340,36 +335,11 @@
     {
      "id": "enstatg_2017-p12-s2",
      "start": 935,
-     "end": 1419
-    },
-    {
-     "id": "enstatg_2017-p12-s3",
-     "start": 1420,
-     "end": 1445
-    },
-    {
-     "id": "enstatg_2017-p12-s4",
-     "start": 1446,
-     "end": 1474
-    },
-    {
-     "id": "enstatg_2017-p12-s5",
-     "start": 1475,
      "end": 1705
     },
     {
-     "id": "enstatg_2017-p12-s6",
+     "id": "enstatg_2017-p12-s3",
      "start": 1706,
-     "end": 2351
-    },
-    {
-     "id": "enstatg_2017-p12-s7",
-     "start": 2352,
-     "end": 2464
-    },
-    {
-     "id": "enstatg_2017-p12-s8",
-     "start": 2465,
      "end": 2615
     }
    ]
@@ -390,75 +360,55 @@
     {
      "id": "enstatg_2017-p13-s2",
      "start": 403,
-     "end": 859
-    },
-    {
-     "id": "enstatg_2017-p13-s3",
-     "start": 860,
-     "end": 995
-    },
-    {
-     "id": "enstatg_2017-p13-s4",
-     "start": 996,
-     "end": 1440
-    },
-    {
-     "id": "enstatg_2017-p13-s5",
-     "start": 1441,
-     "end": 1518
-    },
-    {
-     "id": "enstatg_2017-p13-s6",
-     "start": 1519,
      "end": 1799
     },
     {
-     "id": "enstatg_2017-p13-s7",
+     "id": "enstatg_2017-p13-s3",
      "start": 1800,
      "end": 1926
     },
     {
-     "id": "enstatg_2017-p13-s8",
+     "id": "enstatg_2017-p13-s4",
      "start": 1927,
      "end": 2101
     },
     {
-     "id": "enstatg_2017-p13-s9",
+     "id": "enstatg_2017-p13-s5",
      "start": 2102,
      "end": 2530
     },
     {
-     "id": "enstatg_2017-p13-s10",
+     "id": "enstatg_2017-p13-s6",
      "start": 2531,
      "end": 2713
     },
     {
-     "id": "enstatg_2017-p13-s11",
+     "id": "enstatg_2017-p13-s7",
      "start": 2714,
      "end": 2944
     },
     {
-     "id": "enstatg_2017-p13-s12",
+     "id": "enstatg_2017-p13-s8",
      "start": 2945,
      "end": 3112
     },
     {
-     "id": "enstatg_2017-p13-s13",
+     "id": "enstatg_2017-p13-s9",
      "start": 3113,
      "end": 3241
     },
     {
-     "id": "enstatg_2017-p13-s14",
+     "id": "enstatg_2017-p13-s10",
      "start": 3242,
      "end": 3392
     },
     {
-     "id": "enstatg_2017-p13-s15",
+     "id": "enstatg_2017-p13-s11",
      "start": 3393,
      "end": 3459
     },
     {
-     "id": "enstatg_2017-p13-s16",
+     "id": "enstatg_2017-p13-s12",
      "start": 3460,
      "end": 3722
     }

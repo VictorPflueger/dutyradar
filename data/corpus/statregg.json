@@ -3,7 +3,7 @@
  "abbr": "StatRegG",
  "title": "Gesetz über den Aufbau und die Führung\neines Statistikregisters",
  "slug": "statregg",
- "source_xml_url": "http://www.gesetze-im-internet.de/statregg/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/statregg/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/statregg/index.html",
  "builddate": "20260506175423",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -25,65 +25,45 @@
     {
      "id": "statregg-p1-s2",
      "start": 117,
-     "end": 402
-    },
-    {
-     "id": "statregg-p1-s3",
-     "start": 403,
-     "end": 488
-    },
-    {
-     "id": "statregg-p1-s4",
-     "start": 489,
-     "end": 982
-    },
-    {
-     "id": "statregg-p1-s5",
-     "start": 983,
-     "end": 1069
-    },
-    {
-     "id": "statregg-p1-s6",
-     "start": 1070,
      "end": 1897
     },
     {
-     "id": "statregg-p1-s7",
+     "id": "statregg-p1-s3",
      "start": 1898,
      "end": 1980
     },
     {
-     "id": "statregg-p1-s8",
+     "id": "statregg-p1-s4",
      "start": 1981,
      "end": 2134
     },
     {
-     "id": "statregg-p1-s9",
+     "id": "statregg-p1-s5",
      "start": 2135,
      "end": 2266
     },
     {
-     "id": "statregg-p1-s10",
+     "id": "statregg-p1-s6",
      "start": 2267,
      "end": 2314
     },
     {
-     "id": "statregg-p1-s11",
+     "id": "statregg-p1-s7",
      "start": 2315,
      "end": 2682
     },
     {
-     "id": "statregg-p1-s12",
+     "id": "statregg-p1-s8",
      "start": 2683,
      "end": 2816
     },
     {
-     "id": "statregg-p1-s13",
+     "id": "statregg-p1-s9",
      "start": 2817,
      "end": 2965
     },
     {
-     "id": "statregg-p1-s14",
+     "id": "statregg-p1-s10",
      "start": 2966,
      "end": 3275
     }

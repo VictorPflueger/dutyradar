@@ -26,7 +26,7 @@
       "family": "statistics",
       "builddate": "20240515220510",
       "paragraphs": 28,
-      "sentences": 170,
+      "sentences": 167,
       "eu_basis": [
         "32020L2184"
       ],
@@ -66,7 +66,7 @@
       "family": "statistics",
       "builddate": "20260506174543",
       "paragraphs": 15,
-      "sentences": 74,
+      "sentences": 68,
       "eu_basis": [],
       "xml_sha256": "28632353b3c4033ec93f42458b680bb3d6381f0b3e6cb6ee35f54c6106d1a6ed",
       "skipped": {
@@ -104,7 +104,7 @@
       "family": "statistics",
       "builddate": "20260506174816",
       "paragraphs": 14,
-      "sentences": 58,
+      "sentences": 57,
       "eu_basis": [],
       "xml_sha256": "2d3429a0bb7590a0c74487de71d8db1b1f0c01719176a594ed6966ed9e76d859",
       "skipped": {
@@ -123,7 +123,7 @@
       "family": "statistics",
       "builddate": "20260601215502",
       "paragraphs": 10,
-      "sentences": 46,
+      "sentences": 44,
       "eu_basis": [],
       "xml_sha256": "b3132669570dfc124ee95eafe5f768dd94c95c816ddc0b6717a7002ae497fb19",
       "skipped": {
@@ -161,7 +161,7 @@
       "family": "statistics",
       "builddate": "20260506174902",
       "paragraphs": 11,
-      "sentences": 34,
+      "sentences": 27,
       "eu_basis": [],
       "xml_sha256": "cf971df71591c7c1f57a6b7e3492ebe88a6fc59eef7cd5b3f70391cb7d2d7411",
       "skipped": {
@@ -180,7 +180,7 @@
       "family": "statistics",
       "builddate": "20260506175537",
       "paragraphs": 19,
-      "sentences": 130,
+      "sentences": 120,
       "eu_basis": [],
       "xml_sha256": "d4b01d60772d7b15d9ebaeeeb300bdbd2c93d09d6e26bdfc7e9c4a0274346858",
       "skipped": {
@@ -199,7 +199,7 @@
       "family": "statistics",
       "builddate": "20260506175830",
       "paragraphs": 34,
-      "sentences": 246,
+      "sentences": 231,
       "eu_basis": [],
       "xml_sha256": "41c9387f35e9e8ff4df62e62a6583855a387b35760a13f8f10daf53f5a2d0a30",
       "skipped": {
@@ -218,7 +218,7 @@
       "family": "statistics",
       "builddate": "20260506175423",
       "paragraphs": 12,
-      "sentences": 42,
+      "sentences": 38,
       "eu_basis": [],
       "xml_sha256": "ca28a11f3ac3701cba6ae2cec786a6cf9a5eea11f9ab2ef1bde3ae5e318ced17",
       "skipped": {
@@ -256,7 +256,7 @@
       "family": "energy",
       "builddate": "20200107213027",
       "paragraphs": 16,
-      "sentences": 70,
+      "sentences": 60,
       "eu_basis": [],
       "xml_sha256": "70a8f8c3af85a1f7e80002cd2d3a65ad371ee2cdd162793a3594c5b2d87889fd",
       "skipped": {
@@ -275,7 +275,7 @@
       "family": "worktime",
       "builddate": "20260630215549",
       "paragraphs": 23,
-      "sentences": 128,
+      "sentences": 119,
       "eu_basis": [
         "32020L1057",
         "32014L0067",
@@ -339,7 +339,7 @@
       "family": "worktime",
       "builddate": "20260506174614",
       "paragraphs": 4,
-      "sentences": 28,
+      "sentences": 26,
       "eu_basis": [
         "32020L1057",
         "32014L0067"
@@ -361,7 +361,7 @@
       "family": "worktime",
       "builddate": "20241231222246",
       "paragraphs": 26,
-      "sentences": 133,
+      "sentences": 131,
       "eu_basis": [],
       "xml_sha256": "1bb557bc762742bbbdcd897feccb2db1b1d162ec81ea79902eaeedb5a000695e",
       "skipped": {
@@ -380,7 +380,7 @@
       "family": "worktime",
       "builddate": "20260630215538",
       "paragraphs": 49,
-      "sentences": 287,
+      "sentences": 269,
       "eu_basis": [
         "32018L0957",
         "32020L1057",
@@ -403,7 +403,7 @@
       "family": "products",
       "builddate": "20261116220004",
       "paragraphs": 69,
-      "sentences": 639,
+      "sentences": 638,
       "eu_basis": [
         "32025L0040",
         "32008L0098",
@@ -426,7 +426,7 @@
       "family": "products",
       "builddate": "20260506175535",
       "paragraphs": 52,
-      "sentences": 514,
+      "sentences": 494,
       "eu_basis": [
         "32012L0019",
         "32024L0884",
@@ -468,7 +468,7 @@
       "family": "trade",
       "builddate": "20260821215501",
       "paragraphs": 128,
-      "sentences": 1013,
+      "sentences": 979,
       "eu_basis": [
         "32005L0036",
         "32016L0097"
@@ -509,7 +509,7 @@
       "family": "trade",
       "builddate": "20250210223506",
       "paragraphs": 29,
-      "sentences": 199,
+      "sentences": 196,
       "eu_basis": [],
       "xml_sha256": "99b4f8cbefce6bc987f28bfc6af71212e318aeb093baa81b76af45b32575eb7e",
       "skipped": {
@@ -528,7 +528,7 @@
       "family": "trade",
       "builddate": "20250221223013",
       "paragraphs": 27,
-      "sentences": 149,
+      "sentences": 147,
       "eu_basis": [],
       "xml_sha256": "6aad45c87c4477d03e4818d174471b4a4924fca89411e3122205c75d0efb7b73",
       "skipped": {
@@ -547,7 +547,7 @@
       "family": "trade",
       "builddate": "20260731215513",
       "paragraphs": 19,
-      "sentences": 96,
+      "sentences": 92,
       "eu_basis": [],
       "xml_sha256": "fc89327e017e1dfd16b52723eb14aa51f2203edd6f20b70b67275fa5535871f8",
       "skipped": {
@@ -566,7 +566,7 @@
       "family": "trade",
       "builddate": "20260506175210",
       "paragraphs": 24,
-      "sentences": 110,
+      "sentences": 109,
       "eu_basis": [],
       "xml_sha256": "1ece4ed0bd2c83b9b91fa5c857d7ef2dd668b2eeb1a89b7b99e04768d1fd0d99",
       "skipped": {
@@ -585,7 +585,7 @@
       "family": "trade",
       "builddate": "20260506175243",
       "paragraphs": 14,
-      "sentences": 67,
+      "sentences": 66,
       "eu_basis": [],
       "xml_sha256": "167a87422edd883ac8ccd3be8f2b10c49c60cee2403994e61c37b636bc746a7a",
       "skipped": {

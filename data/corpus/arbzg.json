@@ -3,7 +3,7 @@
  "abbr": "ArbZG",
  "title": "Arbeitszeitgesetz",
  "slug": "arbzg",
- "source_xml_url": "http://www.gesetze-im-internet.de/arbzg/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/arbzg/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/arbzg/index.html",
  "builddate": "20241231222246",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -180,40 +180,35 @@
     {
      "id": "arbzg-p6-s6",
      "start": 823,
-     "end": 846
-    },
-    {
-     "id": "arbzg-p6-s7",
-     "start": 847,
      "end": 933
     },
     {
-     "id": "arbzg-p6-s8",
+     "id": "arbzg-p6-s7",
      "start": 934,
      "end": 1152
     },
     {
-     "id": "arbzg-p6-s9",
+     "id": "arbzg-p6-s8",
      "start": 1153,
      "end": 1800
     },
     {
-     "id": "arbzg-p6-s10",
+     "id": "arbzg-p6-s9",
      "start": 1801,
      "end": 2019
     },
     {
-     "id": "arbzg-p6-s11",
+     "id": "arbzg-p6-s10",
      "start": 2020,
      "end": 2115
     },
     {
-     "id": "arbzg-p6-s12",
+     "id": "arbzg-p6-s11",
      "start": 2116,
      "end": 2423
     },
     {
-     "id": "arbzg-p6-s13",
+     "id": "arbzg-p6-s12",
      "start": 2424,
      "end": 2598
     }
@@ -750,110 +745,105 @@
     {
      "id": "arbzg-p21a-s1",
      "start": 0,
-     "end": 421
-    },
-    {
-     "id": "arbzg-p21a-s2",
-     "start": 422,
      "end": 747
     },
     {
-     "id": "arbzg-p21a-s3",
+     "id": "arbzg-p21a-s2",
      "start": 748,
      "end": 829
     },
     {
-     "id": "arbzg-p21a-s4",
+     "id": "arbzg-p21a-s3",
      "start": 830,
      "end": 927
     },
     {
-     "id": "arbzg-p21a-s5",
+     "id": "arbzg-p21a-s4",
      "start": 928,
      "end": 1272
     },
     {
-     "id": "arbzg-p21a-s6",
+     "id": "arbzg-p21a-s5",
      "start": 1273,
      "end": 1409
     },
     {
-     "id": "arbzg-p21a-s7",
+     "id": "arbzg-p21a-s6",
      "start": 1410,
      "end": 1600
     },
     {
-     "id": "arbzg-p21a-s8",
+     "id": "arbzg-p21a-s7",
      "start": 1601,
      "end": 1654
     },
     {
-     "id": "arbzg-p21a-s9",
+     "id": "arbzg-p21a-s8",
      "start": 1655,
      "end": 1720
     },
     {
-     "id": "arbzg-p21a-s10",
+     "id": "arbzg-p21a-s9",
      "start": 1721,
      "end": 1789
     },
     {
-     "id": "arbzg-p21a-s11",
+     "id": "arbzg-p21a-s10",
      "start": 1790,
      "end": 1961
     },
     {
-     "id": "arbzg-p21a-s12",
+     "id": "arbzg-p21a-s11",
      "start": 1962,
      "end": 2100
     },
     {
-     "id": "arbzg-p21a-s13",
+     "id": "arbzg-p21a-s12",
      "start": 2101,
      "end": 2151
     },
     {
-     "id": "arbzg-p21a-s14",
+     "id": "arbzg-p21a-s13",
      "start": 2152,
      "end": 2547
     },
     {
-     "id": "arbzg-p21a-s15",
+     "id": "arbzg-p21a-s14",
      "start": 2548,
      "end": 2660
     },
     {
-     "id": "arbzg-p21a-s16",
+     "id": "arbzg-p21a-s15",
      "start": 2661,
      "end": 2701
     },
     {
-     "id": "arbzg-p21a-s17",
+     "id": "arbzg-p21a-s16",
      "start": 2702,
      "end": 2731
     },
     {
-     "id": "arbzg-p21a-s18",
+     "id": "arbzg-p21a-s17",
      "start": 2732,
      "end": 2817
     },
     {
-     "id": "arbzg-p21a-s19",
+     "id": "arbzg-p21a-s18",
      "start": 2818,
      "end": 2878
     },
     {
-     "id": "arbzg-p21a-s20",
+     "id": "arbzg-p21a-s19",
      "start": 2879,
      "end": 2993
     },
     {
-     "id": "arbzg-p21a-s21",
+     "id": "arbzg-p21a-s20",
      "start": 2994,
      "end": 3177
     },
     {
-     "id": "arbzg-p21a-s22",
+     "id": "arbzg-p21a-s21",
      "start": 3178,
      "end": 3230
     }

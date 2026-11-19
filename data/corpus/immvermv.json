@@ -3,7 +3,7 @@
  "abbr": "ImmVermV",
  "title": "Verordnung über Immobiliardarlehensvermittlung",
  "slug": "immvermv",
- "source_xml_url": "http://www.gesetze-im-internet.de/immvermv/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/immvermv/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/immvermv/index.html",
  "builddate": "20260731215513",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -262,20 +262,15 @@
     {
      "id": "immvermv-p6-s1",
      "start": 0,
-     "end": 1465
-    },
-    {
-     "id": "immvermv-p6-s2",
-     "start": 1466,
      "end": 1778
     },
     {
-     "id": "immvermv-p6-s3",
+     "id": "immvermv-p6-s2",
      "start": 1779,
      "end": 2050
     },
     {
-     "id": "immvermv-p6-s4",
+     "id": "immvermv-p6-s3",
      "start": 2051,
      "end": 2535
     }
@@ -377,50 +372,45 @@
     {
      "id": "immvermv-p10-s2",
      "start": 175,
-     "end": 695
-    },
-    {
-     "id": "immvermv-p10-s3",
-     "start": 696,
      "end": 768
     },
     {
-     "id": "immvermv-p10-s4",
+     "id": "immvermv-p10-s3",
      "start": 769,
      "end": 955
     },
     {
-     "id": "immvermv-p10-s5",
+     "id": "immvermv-p10-s4",
      "start": 956,
      "end": 1278
     },
     {
-     "id": "immvermv-p10-s6",
+     "id": "immvermv-p10-s5",
      "start": 1279,
      "end": 1510
     },
     {
-     "id": "immvermv-p10-s7",
+     "id": "immvermv-p10-s6",
      "start": 1511,
      "end": 1603
     },
     {
-     "id": "immvermv-p10-s8",
+     "id": "immvermv-p10-s7",
      "start": 1604,
      "end": 1827
     },
     {
-     "id": "immvermv-p10-s9",
+     "id": "immvermv-p10-s8",
      "start": 1828,
      "end": 1971
     },
     {
-     "id": "immvermv-p10-s10",
+     "id": "immvermv-p10-s9",
      "start": 1972,
      "end": 2094
     },
     {
-     "id": "immvermv-p10-s11",
+     "id": "immvermv-p10-s10",
      "start": 2095,
      "end": 2236
     }
@@ -627,16 +617,6 @@
     {
      "id": "immvermv-p18-s2",
      "start": 343,
-     "end": 751
-    },
-    {
-     "id": "immvermv-p18-s3",
-     "start": 752,
-     "end": 831
-    },
-    {
-     "id": "immvermv-p18-s4",
-     "start": 832,
      "end": 904
     }
    ]

@@ -3,7 +3,7 @@
  "abbr": "AHStatG",
  "title": "Gesetz über die Statistik des Warenverkehrs mit dem Ausland",
  "slug": "ahstatg",
- "source_xml_url": "http://www.gesetze-im-internet.de/ahstatg/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/ahstatg/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/ahstatg/index.html",
  "builddate": "20260506175537",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -90,156 +90,136 @@
     {
      "id": "ahstatg-p2-s12",
      "start": 2039,
-     "end": 2577
-    },
-    {
-     "id": "ahstatg-p2-s13",
-     "start": 2578,
      "end": 2613
     },
     {
-     "id": "ahstatg-p2-s14",
+     "id": "ahstatg-p2-s13",
      "start": 2614,
      "end": 2741
     },
     {
-     "id": "ahstatg-p2-s15",
+     "id": "ahstatg-p2-s14",
      "start": 2742,
      "end": 2840
     },
     {
-     "id": "ahstatg-p2-s16",
+     "id": "ahstatg-p2-s15",
      "start": 2841,
      "end": 2937
     },
     {
-     "id": "ahstatg-p2-s17",
+     "id": "ahstatg-p2-s16",
      "start": 2938,
      "end": 3051
     },
     {
-     "id": "ahstatg-p2-s18",
+     "id": "ahstatg-p2-s17",
      "start": 3052,
      "end": 3305
     },
     {
-     "id": "ahstatg-p2-s19",
+     "id": "ahstatg-p2-s18",
      "start": 3306,
      "end": 3374
     },
     {
-     "id": "ahstatg-p2-s20",
+     "id": "ahstatg-p2-s19",
      "start": 3375,
      "end": 3430
     },
     {
-     "id": "ahstatg-p2-s21",
+     "id": "ahstatg-p2-s20",
      "start": 3431,
      "end": 3489
     },
     {
-     "id": "ahstatg-p2-s22",
+     "id": "ahstatg-p2-s21",
      "start": 3490,
      "end": 3622
     },
     {
-     "id": "ahstatg-p2-s23",
+     "id": "ahstatg-p2-s22",
      "start": 3623,
      "end": 3902
     },
     {
-     "id": "ahstatg-p2-s24",
+     "id": "ahstatg-p2-s23",
      "start": 3903,
      "end": 4055
     },
     {
-     "id": "ahstatg-p2-s25",
+     "id": "ahstatg-p2-s24",
      "start": 4056,
      "end": 4312
     },
     {
-     "id": "ahstatg-p2-s26",
+     "id": "ahstatg-p2-s25",
      "start": 4313,
      "end": 4558
     },
     {
-     "id": "ahstatg-p2-s27",
+     "id": "ahstatg-p2-s26",
      "start": 4559,
      "end": 4649
     },
     {
-     "id": "ahstatg-p2-s28",
+     "id": "ahstatg-p2-s27",
      "start": 4650,
      "end": 4945
     },
     {
-     "id": "ahstatg-p2-s29",
+     "id": "ahstatg-p2-s28",
      "start": 4946,
      "end": 5175
     },
     {
-     "id": "ahstatg-p2-s30",
+     "id": "ahstatg-p2-s29",
      "start": 5176,
      "end": 5434
     },
     {
-     "id": "ahstatg-p2-s31",
+     "id": "ahstatg-p2-s30",
      "start": 5435,
      "end": 5702
     },
     {
-     "id": "ahstatg-p2-s32",
+     "id": "ahstatg-p2-s31",
      "start": 5703,
-     "end": 6024
-    },
-    {
-     "id": "ahstatg-p2-s33",
-     "start": 6025,
      "end": 6127
     },
     {
-     "id": "ahstatg-p2-s34",
+     "id": "ahstatg-p2-s32",
      "start": 6128,
      "end": 6253
     },
     {
-     "id": "ahstatg-p2-s35",
+     "id": "ahstatg-p2-s33",
      "start": 6254,
      "end": 6396
     },
     {
-     "id": "ahstatg-p2-s36",
+     "id": "ahstatg-p2-s34",
      "start": 6397,
      "end": 6622
     },
     {
-     "id": "ahstatg-p2-s37",
+     "id": "ahstatg-p2-s35",
      "start": 6623,
      "end": 6689
     },
     {
-     "id": "ahstatg-p2-s38",
+     "id": "ahstatg-p2-s36",
      "start": 6690,
      "end": 6776
     },
     {
-     "id": "ahstatg-p2-s39",
+     "id": "ahstatg-p2-s37",
      "start": 6777,
      "end": 7028
     },
     {
-     "id": "ahstatg-p2-s40",
+     "id": "ahstatg-p2-s38",
      "start": 7029,
-     "end": 7216
-    },
-    {
-     "id": "ahstatg-p2-s41",
-     "start": 7217,
-     "end": 7359
-    },
-    {
-     "id": "ahstatg-p2-s42",
-     "start": 7360,
      "end": 7489
     }
    ]
@@ -445,35 +425,15 @@
     {
      "id": "ahstatg-p9-s8",
      "start": 1724,
-     "end": 1968
-    },
-    {
-     "id": "ahstatg-p9-s9",
-     "start": 1969,
-     "end": 1996
-    },
-    {
-     "id": "ahstatg-p9-s10",
-     "start": 1997,
-     "end": 2025
-    },
-    {
-     "id": "ahstatg-p9-s11",
-     "start": 2026,
-     "end": 2108
-    },
-    {
-     "id": "ahstatg-p9-s12",
-     "start": 2109,
      "end": 2260
     },
     {
-     "id": "ahstatg-p9-s13",
+     "id": "ahstatg-p9-s9",
      "start": 2261,
      "end": 2532
     },
     {
-     "id": "ahstatg-p9-s14",
+     "id": "ahstatg-p9-s10",
      "start": 2533,
      "end": 2710
     }
@@ -820,16 +780,6 @@
     {
      "id": "ahstatg-p18-s1",
      "start": 0,
-     "end": 1267
-    },
-    {
-     "id": "ahstatg-p18-s2",
-     "start": 1268,
-     "end": 1371
-    },
-    {
-     "id": "ahstatg-p18-s3",
-     "start": 1372,
      "end": 2459
     }
    ]

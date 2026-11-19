@@ -3,7 +3,7 @@
  "abbr": "BewachRV",
  "title": "Verordnung über das Bewacherregister",
  "slug": "bewachrv",
- "source_xml_url": "http://www.gesetze-im-internet.de/bewachrv/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/bewachrv/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/bewachrv/index.html",
  "builddate": "20260506175243",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -405,35 +405,30 @@
     {
      "id": "bewachrv-p13-s1",
      "start": 0,
-     "end": 553
-    },
-    {
-     "id": "bewachrv-p13-s2",
-     "start": 554,
      "end": 641
     },
     {
-     "id": "bewachrv-p13-s3",
+     "id": "bewachrv-p13-s2",
      "start": 642,
      "end": 860
     },
     {
-     "id": "bewachrv-p13-s4",
+     "id": "bewachrv-p13-s3",
      "start": 861,
      "end": 973
     },
     {
-     "id": "bewachrv-p13-s5",
+     "id": "bewachrv-p13-s4",
      "start": 974,
      "end": 1206
     },
     {
-     "id": "bewachrv-p13-s6",
+     "id": "bewachrv-p13-s5",
      "start": 1207,
      "end": 1379
     },
     {
-     "id": "bewachrv-p13-s7",
+     "id": "bewachrv-p13-s6",
      "start": 1380,
      "end": 1508
     }

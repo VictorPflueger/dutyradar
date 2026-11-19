@@ -3,7 +3,7 @@
  "abbr": "BewachV",
  "title": "Verordnung über das Bewachungsgewerbe",
  "slug": "bewachv_2019",
- "source_xml_url": "http://www.gesetze-im-internet.de/bewachv_2019/xml.zip",
+ "source_xml_url": "https://www.gesetze-im-internet.de/bewachv_2019/xml.zip",
  "html_url": "https://www.gesetze-im-internet.de/bewachv_2019/index.html",
  "builddate": "20260506175210",
  "retrieved_at": "2026-11-19T04:01:18Z",
@@ -460,55 +460,50 @@
     {
      "id": "bewachv_2019-p16-s1",
      "start": 0,
-     "end": 369
-    },
-    {
-     "id": "bewachv_2019-p16-s2",
-     "start": 370,
      "end": 504
     },
     {
-     "id": "bewachv_2019-p16-s3",
+     "id": "bewachv_2019-p16-s2",
      "start": 505,
      "end": 845
     },
     {
-     "id": "bewachv_2019-p16-s4",
+     "id": "bewachv_2019-p16-s3",
      "start": 846,
      "end": 2061
     },
     {
-     "id": "bewachv_2019-p16-s5",
+     "id": "bewachv_2019-p16-s4",
      "start": 2062,
      "end": 2388
     },
     {
-     "id": "bewachv_2019-p16-s6",
+     "id": "bewachv_2019-p16-s5",
      "start": 2389,
      "end": 2483
     },
     {
-     "id": "bewachv_2019-p16-s7",
+     "id": "bewachv_2019-p16-s6",
      "start": 2484,
      "end": 3937
     },
     {
-     "id": "bewachv_2019-p16-s8",
+     "id": "bewachv_2019-p16-s7",
      "start": 3938,
      "end": 4149
     },
     {
-     "id": "bewachv_2019-p16-s9",
+     "id": "bewachv_2019-p16-s8",
      "start": 4150,
      "end": 4314
     },
     {
-     "id": "bewachv_2019-p16-s10",
+     "id": "bewachv_2019-p16-s9",
      "start": 4315,
      "end": 4683
     },
     {
-     "id": "bewachv_2019-p16-s11",
+     "id": "bewachv_2019-p16-s10",
      "start": 4684,
      "end": 4862
     }
