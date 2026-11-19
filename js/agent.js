@@ -50,7 +50,7 @@ export function createCallGate({ maxCalls = RUN_DEFAULTS.max_model_calls, budget
   };
 }
 
-/** hooks: { onKeyRejected() } */
+/** hooks: { onKeyRejected(), onSubcall(kind, input, output) } */
 export function createLiveAgent({ hooks = {} } = {}) {
   let current = null;
 
@@ -74,9 +74,15 @@ export function createLiveAgent({ hooks = {} } = {}) {
     r.ev = ev;
     state.setEmitter((type, payload) => ev(type, payload, type === "decision_recorded" || type.startsWith("cluster_") ? "human" : "ui"));
     const subcalls = createSubcalls({ call: (kind, req) => subcall(r, kind, req), data, lang, settings: set });
+    // Each sub-call's answer is handed to hooks.onSubcall too, so that "Record run" can store it.
+    const recorded = (kind, fn) => async (input, opts) => {
+      const output = await fn(input, opts);
+      hooks.onSubcall?.(kind, input, output);
+      return output;
+    };
     const toolbox = createToolbox({
       data, state, lang,
-      hooks: { classify: subcalls.classify, amend: subcalls.amend, classifierModel: sov ? sov.model : set.classifier_model },
+      hooks: { classify: recorded("classify", subcalls.classify), amend: recorded("amend", subcalls.amend), classifierModel: sov ? sov.model : set.classifier_model },
       emit: (type, payload) => {
         if (type === "audit_failed") audit.record("audit_failed", { actor: "agent", tool: payload.tool, details: { tokens: payload.tokens, option_id: payload.option_id || null, field: payload.field || null } });
         ev(type, payload, type === "audit_failed" ? "fact_auditor" : type === "agent_text" ? payload.agent || "orchestrator" : "ui");

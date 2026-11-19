@@ -123,6 +123,14 @@ if (want("i18n")) {
   tokens.push("I18N STRINGS OK");
 }
 
+if (want("config")) {
+  // The run defaults in js/config.js mirror config/run.json, the file Diagnostics and TECH_NOTES cite.
+  const { RUN_DEFAULTS } = await import("../js/config.js");
+  const file = JSON.parse(readFileSync(path.join(ROOT, "config/run.json"), "utf8"));
+  check("RUN_DEFAULTS in js/config.js equals config/run.json", JSON.stringify(Object.entries(RUN_DEFAULTS).sort()) === JSON.stringify(Object.entries(file).sort()), `${JSON.stringify(RUN_DEFAULTS)} vs ${JSON.stringify(file)}`);
+  tokens.push("RUN DEFAULTS OK");
+}
+
 if (want("icu")) {
   check("de-DE groups with periods", new Intl.NumberFormat("de-DE").format(1220000) === "1.220.000", new Intl.NumberFormat("de-DE").format(1220000));
   check("en-GB groups with commas", new Intl.NumberFormat("en-GB").format(1220000) === "1,220,000", new Intl.NumberFormat("en-GB").format(1220000));

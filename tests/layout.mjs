@@ -1,14 +1,17 @@
-// Layout suite (browser): from 1920 × 1080 down to 1280 × 720 in both languages, nothing scrolls
-// sideways, no text is cut to an ellipsis or a line clamp, the header, control bar, centrepiece,
+// Layout suite (browser): from 1920 × 1080 down to 1280 × 720 in both languages, on the start screen
+// and with run R1 waiting for a decision (the duty map filled, the options open in the drawer), nothing
+// scrolls sideways, no text is cut to an ellipsis or a line clamp, the header, control bar, centrepiece,
 // console and drawer bar are all on screen, and the header stays within a quarter of the height; at
 // 1920 × 1080 and 1280 × 720 all of that in the light and the dark theme too, each with a screenshot
-// (eight in all, in the layout folder of the test output); at 360 px nothing scrolls sideways either.
+// (sixteen in all, in the layout folder of the test output); at 360 px nothing scrolls sideways either.
+// In the run, every step of the duty map's ink ramp keeps its printed count at 4.5:1 in both themes.
 // The ellipsis check proves itself first on a control element that is cut on purpose.
 // Usage: node tests/layout.mjs
 import path from "node:path";
 import { statSync } from "node:fs";
 import { APP_ROOT, launchBrowser, outDir, serveStatic } from "./lib/harness.mjs";
 import { openApp } from "./lib/page.mjs";
+import { startRun, waitDecision } from "./lib/run-page.mjs";
 
 const OUT = await outDir("layout");
 const server = await serveStatic(APP_ROOT, 8233);
@@ -30,6 +33,35 @@ function cutText() {
     const clamp = s.webkitLineClamp && s.webkitLineClamp !== "none" && el.scrollHeight > el.clientHeight + 1;
     return ellipsis || clamp;
   }).map((el) => `${el.tagName.toLowerCase()}${el.id ? `#${el.id}` : ""}${typeof el.className === "string" && el.className.trim() ? `.${el.className.trim().split(/\s+/).join(".")}` : ""} "${el.textContent.trim().slice(0, 40)}"`);
+}
+
+/** The contrast of the printed count on each step of the duty map's ink ramp (1 to 6, and 0). */
+function inkContrast() {
+  const rgb = (css) => {
+    const c = document.createElement("canvas");
+    c.width = c.height = 1;
+    const x = c.getContext("2d");
+    x.fillStyle = "#000";
+    x.fillStyle = css;
+    x.fillRect(0, 0, 1, 1);
+    const d = x.getImageData(0, 0, 1, 1).data;
+    return [d[0], d[1], d[2]];
+  };
+  const lum = (v) => { const f = (c) => { const s = c / 255; return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(v[0]) + 0.7152 * f(v[1]) + 0.0722 * f(v[2]); };
+  const host = document.querySelector(".map-table") || document.body;
+  const out = {};
+  for (const step of ["0", "1", "2", "3", "4", "5", "6"]) {
+    const probe = document.createElement("span");
+    probe.className = "map-count";
+    probe.dataset.ink = step;
+    probe.textContent = "12";
+    host.append(probe);
+    const s = getComputedStyle(probe);
+    const [a, b] = [lum(rgb(s.color)), lum(rgb(s.backgroundColor))].sort((m, n) => n - m);
+    out[step] = (a + 0.05) / (b + 0.05);
+    probe.remove();
+  }
+  return out;
 }
 
 try {
@@ -74,6 +106,37 @@ try {
         }
         check(`${where}: no errors`, problems.length === 0, problems.join("; "));
         await ctx.close();
+
+        // The same with run R1 waiting for a decision: the duty map filled, the options in the drawer.
+        const run = await openApp(browser, server.base, { viewport: { width, height }, query: `?lang=${lang}&speed=1000`, skipIntro: true, theme, colorScheme: theme });
+        const rwhere = `${where}, run waiting`;
+        await startRun(run.page, { run: "R1" });
+        await waitDecision(run.page);
+        await run.page.waitForTimeout(300);
+        await run.page.evaluate(() => document.fonts.ready);
+        check(`${rwhere}: the duty map and the options are shown`, (await run.page.$$("button.map-count")).length > 10 && await run.page.isVisible("#panel-options .option-card"));
+        check(`${rwhere}: no sideways scrolling`, await run.page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+        const rcut = await run.page.evaluate(cutText);
+        check(`${rwhere}: no text cut to an ellipsis`, rcut.length === 0, rcut.join("; "));
+        const rboxes = await run.page.evaluate(() => Object.fromEntries(["header", "#controls", ".map-panel", "#console", ".drawer-tabs", "#btn-approve"].map((sel) => {
+          const r = document.querySelector(sel)?.getBoundingClientRect();
+          return [sel, r ? { top: r.top, bottom: r.bottom, left: r.left, right: r.right, height: r.height } : null];
+        })));
+        for (const [sel, r] of Object.entries(rboxes)) check(`${rwhere}: ${sel} on screen`, r && r.height > 0 && r.top >= 0 && r.bottom <= height + 1 && r.left >= 0 && r.right <= width + 1, JSON.stringify(r));
+        check(`${rwhere}: the control bar keeps one row`, (await run.page.evaluate(() => document.querySelector("#controls").getBoundingClientRect().height)) <= 72);
+        if (lang === "en") {
+          const ink = await run.page.evaluate(inkContrast);
+          for (const [step, ratio] of Object.entries(ink)) check(`${rwhere}: ink step ${step} keeps its count at 4.5:1`, ratio >= 4.5, ratio.toFixed(2));
+        }
+        if (SHOT_SIZES.has(key)) {
+          const file = path.join(OUT, `run-${key}-${theme}-${lang}.png`);
+          await run.page.screenshot({ path: file });
+          const ok = statSync(file, { throwIfNoEntry: false })?.size > 0;
+          check(`${rwhere}: screenshot written`, ok, file);
+          if (ok) shots.push(file);
+        }
+        check(`${rwhere}: no errors`, run.problems.length === 0, run.problems.join("; "));
+        await run.ctx.close();
       }
     }
   }
@@ -84,6 +147,6 @@ try {
   await browser.close();
   await server.close();
 }
-check("eight screenshots written", shots.length === 8, `${shots.length}`);
+check("sixteen screenshots written", shots.length === 16, `${shots.length}`);
 if (failed) { console.log(`${failed} of ${checks} checks failed.`); process.exit(1); }
 console.log(`LAYOUT OK (${checks} checks, ${shots.length} screenshots in ${OUT})`);

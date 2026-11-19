@@ -25,9 +25,11 @@ const SUITES = [
   { id: "hygiene", what: "no client, contact or meeting named in any published file", file: "tests/hygiene.mjs", browser: false },
   { id: "docs", what: "documentation set complete, every path and section it names exists", file: "tests/docs.mjs", browser: false },
   { id: "parity", what: "shared shell identical to the sister app's (needs a Rebate Hunter checkout)", file: "tests/parity.mjs", browser: false, optional: true },
-  { id: "smoke", what: "boot offline, intro, views, drawer, Diagnostics, keyboard, a failed boot", file: "tests/smoke.mjs", browser: true },
-  { id: "i18n", what: "English first, the switch without a reload, ?lang=, stored choice, German at 1280 × 720, a failed boot in German", file: "tests/i18n.mjs", browser: true },
-  { id: "layout", what: "viewports from 1920 × 1080 to 1280 × 720 in both languages, both themes with eight screenshots, and 360 px", file: "tests/layout.mjs", browser: true },
+  { id: "smoke", what: "boot offline, intro, views, drawer, Diagnostics, the mode dialog, keyboard, a failed boot", file: "tests/smoke.mjs", browser: true },
+  { id: "sims", what: "R1 to R3 replayed in Chromium in both languages: pauses, recorded reviews, tiles equal to the engines' facts", file: "tests/sims.mjs", browser: true },
+  { id: "accept", what: "AC-19 decisions, AC-22 caps, AC-23 the key, a Live run end to end, AC-31 the modes, the exports", file: "tests/accept.mjs", browser: true },
+  { id: "i18n", what: "English first, the switch without a reload on every screen of a run, model text keeps its language, ?lang=, German at 1280 × 720", file: "tests/i18n.mjs", browser: true },
+  { id: "layout", what: "viewports from 1920 × 1080 to 1280 × 720 in both languages, idle and with a run waiting, both themes with sixteen screenshots, the ink ramp, and 360 px", file: "tests/layout.mjs", browser: true },
   { id: "hexagon", what: "nothing round: the app's files, and the rendered app in both themes", file: "tests/hexagon.mjs", browser: true }
 ];
 

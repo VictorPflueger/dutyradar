@@ -5,6 +5,7 @@
 //            an option ineligible the ids stay, and retired facts render "no longer applies" / "entfallen"
 //   replay   R1 to R3 to their end with the intended decisions and with other decisions: dossier,
 //            kept duties and KPIs equal what the engines compute from the decisions taken
+//   precision  AC-29's measuring tool (tools/measure-precision.mjs) on R1 and its controls
 // Usage: node tests/runs.mjs [section…]
 import { readFileSync } from "node:fs";
 import path from "node:path";
@@ -162,6 +163,24 @@ if (want("replay")) {
   check("R2 records the split, a blocked figure, the rejection and the duty kept with A1",
     r2.events.some((e) => e.type === "cluster_split") && r2.events.some((e) => e.type === "audit_failed") && r2.state.decisions.some((d) => d.decision === "rejected") && r2.state.dossier.kept.some((x) => x.reason_code === "A1") && r2.state.dossier.items.length === 0);
   end("REPLAY OK", `${RUNS.length} runs × 2 languages`);
+}
+
+if (want("precision")) {
+  // AC-29's measuring tool (tools/measure-precision.mjs) on a run in the recording format, and its control.
+  begin();
+  const { measurePrecision } = await import("../tools/measure-precision.mjs");
+  const r1 = readRun("R1");
+  const m = measurePrecision(r1);
+  check("the measure covers the 60 gold sentences of the full slice", m.scope === 60 && m.unclassified === 0, JSON.stringify(m));
+  check("it counts sentences called duties", m.tp + m.fp > 0 && m.precision >= 0 && m.precision <= 1, JSON.stringify(m));
+  const everything = clone(r1);
+  for (const c of Object.values(everything.recorded.classifications)) c.is_duty = true;
+  const worse = measurePrecision(everything);
+  check("control: calling every candidate a duty counts the flagged non-duty as a false positive", worse.fp >= 1 && worse.precision < m.precision + 1e-12 && worse.fp > m.fp, JSON.stringify(worse));
+  const none = clone(r1);
+  none.recorded.classifications = {};
+  check("control: a run without classifications has no precision", measurePrecision(none).precision === null);
+  end("PRECISION TOOL OK");
 }
 
 console.log(failed ? `${failed} of ${checks} checks failed.` : `All ${checks} checks passed.`);

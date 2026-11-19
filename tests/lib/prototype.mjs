@@ -3,6 +3,8 @@
 // Navigator, Timetable Translator, Repack Pilot and Duty Radar; this file is the one place that is not.
 // Everything here is Duty Radar's.
 
+import { decide } from "./run-page.mjs";
+
 /** The prototype's name, as on its page and on its card on Victor's website. */
 export const NAME = "Duty Radar";
 
@@ -10,7 +12,8 @@ export const NAME = "Duty Radar";
  * Colour pairs only this prototype draws (the shared shell's pairs are in tests/tokens.mjs):
  * [what, foreground token, background token, kind]. kind "text" needs 4.5:1, "mark" (a line, an icon,
  * a control's border, a bar) 3:1 (WCAG 2.2, 1.4.3 and 1.4.11). Tokens are Vici's, without "--vc-".
- * The duty map's ink ramp joins with version 0.2.0, with its own contrast test (color-mix steps).
+ * The duty map's ink ramp mixes ink into the surface (color-mix), which no token pair describes; its
+ * contrast is checked step by step in both themes by tests/layout.mjs.
  */
 export const COLOUR_PAIRS = [
   // The role strip above the console (css/app.css).
@@ -48,11 +51,14 @@ export const SEPARATIONS = [
 ];
 
 /**
- * The hexagon test's tour of the app (tests/hexagon.mjs), as far as version 0.1.0 goes: the start
- * screen with the intro, the start view, the duty map and duplicates views, the drawer's three tabs,
- * Assumptions & diagnostics, and the start view in German. The page has just been opened, without
- * SKIP_INTRO, so the intro opens by itself. visit(name, { settle }) checks the page as it is, settle
- * ms (250) after the step. The agent runs join the tour with version 0.2.0.
+ * The hexagon test's tour of the app (tests/hexagon.mjs): the start screen with the intro, the start
+ * view, the duty map and duplicates views empty, the drawer's three tabs, Assumptions & diagnostics, the
+ * start view in German; then version 0.2.0's run screens: the mode dialog and the key dialog, and run R2
+ * replayed at ?speed=1000 with the duplicates board waiting for its review, the options waiting for a
+ * decision, the duty map with its duty cards, "Where does this figure come from?", the closing report in
+ * the console, the outbox with the kept duty, the audit log and Assumptions & diagnostics with the run's
+ * parameters. The page has just been opened, without SKIP_INTRO, so the intro opens by itself.
+ * visit(name, { settle }) checks the page as it is, settle ms (250) after the step.
  */
 export async function hexagonTour(page, visit) {
   await page.waitForSelector('html[data-boot="ready"]', { timeout: 20000 });
@@ -81,6 +87,55 @@ export async function hexagonTour(page, visit) {
   await page.waitForFunction(() => document.documentElement.lang === "de");
   await visit("start view in German");
   await page.click('.lang-option[data-lang="en"]');
+
+  // Version 0.2.0: the run screens, with R2 replayed fast.
+  const here = new URL(page.url());
+  await page.goto(`${here.origin}${here.pathname}?lang=en&speed=1000`);
+  await page.waitForSelector('html[data-boot="ready"]', { timeout: 20000 });
+  await page.waitForSelector("#boot", { state: "detached", timeout: 5000 });
+  await page.click("#btn-start");
+  await page.waitForSelector(".mode-modal", { timeout: 5000 });
+  await visit("mode dialog", { settle: 400 });
+  await page.click("#start-live");
+  await page.waitForSelector(".key-modal", { timeout: 5000 });
+  await visit("key dialog", { settle: 400 });
+  await page.keyboard.press("Escape");
+  await page.waitForSelector(".key-modal", { state: "detached", timeout: 5000 });
+  await page.selectOption("#run-select", "R2");
+  await page.click("#btn-start");
+  await page.waitForSelector(".mode-modal", { timeout: 5000 });
+  await page.click("#start-simulation");
+  await page.waitForSelector('.cluster-card[data-pending="true"]', { timeout: 60000 });
+  await visit("duplicates with a review waiting");
+  const [, split] = await page.$$('.cluster-card[data-pending="true"] .cluster-actions button');
+  await split.click();
+  await page.waitForSelector("#btn-approve:not([disabled])", { timeout: 60000 });
+  await visit("options and review with a decision waiting");
+  await page.click('.centre-tab[data-view="dutymap"]');
+  await page.click("button.map-count");
+  await page.waitForSelector(".card-panel .duty-card", { timeout: 5000 });
+  await visit("duty map with duty cards");
+  await page.click("#kpi-duties .fact-ref");
+  await page.waitForSelector(".fact-modal", { timeout: 5000 });
+  await visit("where does this figure come from", { settle: 400 });
+  await page.keyboard.press("Escape");
+  await page.waitForSelector(".fact-modal", { state: "detached", timeout: 5000 });
+  await decide(page, { option: "register_retrieval", code: "A1", button: "reject" });
+  await page.waitForSelector('article.option-card[id$="-keep"][data-status="proposed"] .option-pick', { timeout: 60000 });
+  await page.waitForSelector("#btn-approve:not([disabled])", { timeout: 60000 });
+  await decide(page, { option: "keep", code: "A1" });
+  await page.waitForFunction(() => document.querySelector("#status-pill")?.dataset.tone === "done", null, { timeout: 60000 });
+  await visit("console with the closing report");
+  await page.click("#tab-outbox");
+  await page.waitForSelector("#panel-outbox:not([hidden]) .kept-item", { timeout: 5000 });
+  await visit("outbox with the kept duty");
+  await page.click("#tab-audit");
+  await page.waitForSelector("#panel-audit:not([hidden]) .audit-table", { timeout: 5000 });
+  await visit("audit log");
+  await page.click("#btn-diagnostics");
+  await page.waitForSelector(".diag-modal .param-input", { timeout: 5000 });
+  await visit("assumptions and diagnostics with the run's parameters", { settle: 400 });
+  await page.keyboard.press("Escape");
 }
 
 /**

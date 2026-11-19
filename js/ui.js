@@ -1,17 +1,33 @@
-// The workspace in version 0.1.0: header with the four KPI tiles, the control bar, the centrepiece's
-// start view (the question, what is real, the slice), its two views (duty map, duplicates) in their
-// empty state, the console with the role strip, the drawer with its three tabs, the intro and the
-// Assumptions & diagnostics dialog. Every string comes from js/i18n/*.json; a language switch
-// re-renders every view without a reload. The agent runs arrive in version 0.2.0.
+// The workspace (version 0.2.0): the header with the mode badge and the four KPI tiles, the control bar,
+// the centrepiece (start view, duty map, duplicates), the agent console with the role strip, the drawer
+// (Options & review, Outbox, Audit) and the dialogs. One run at a time comes from js/run_controller.js;
+// every view reads the run state and re-renders when it changes, the console appends the RunEvents as
+// they arrive. Every string comes from js/i18n/*.json; a language switch re-renders every view without
+// a reload, while model text keeps the language it was written in.
 
-import { h, clear, setDisabled, withTooltip } from "./dom.js";
+import { h, clear } from "./dom.js";
 import { icon } from "./icons.js";
 import { t, lang, setLang, onLangChange, applyStatic } from "./i18n.js";
 import { createDrawer } from "./drawer.js";
 import { createProgressRail } from "./progress.js";
-import { openModal } from "./modal.js";
-import { APP, AGENT, FX_USD_EUR, STORAGE } from "./config.js";
-import { formatCount, formatEur, formatShare, formatNumber } from "./engine/format.js";
+import { STORAGE, DEFAULT_MODEL, MODELS, RUN_DEFAULTS } from "./config.js";
+import { formatCount } from "./engine/format.js";
+import { bus } from "./events.js";
+import { createDataStore, DATA_FILES } from "./data.js";
+import { createRunController, LIVE_NORMS } from "./run_controller.js";
+import { createControls, RUNS, SPEEDS } from "./controls.js";
+import { openIntro, openModeDialog, keyRejected } from "./dialogs.js";
+import { openDiagnostics } from "./diagnostics.js";
+import { createConsole } from "./console.js";
+import { renderKpis } from "./kpi.js";
+import { renderDutyMap } from "./dutymap.js";
+import { renderDuplicates } from "./duplicates.js";
+import { renderOptions } from "./options_panel.js";
+import { renderOutbox } from "./outbox.js";
+import { renderAuditPanel } from "./audit_panel.js";
+import { exportFile } from "./exports.js";
+import { recordingEnabled } from "./recorder.js";
+import { DecisionError } from "./state.js";
 
 /** The seven roles of the agent team, in the order of the role strip (PLAN.md section 3.6). */
 export const ROLES = [
@@ -23,65 +39,288 @@ export const ROLES = [
   { id: "drafting", labelKey: "agent.drafting", icon: "edit" },
   { id: "fact_auditor", labelKey: "agent.fact_auditor", icon: "check" }
 ];
-const DUTY_TYPES = ["MELDEPFLICHT", "NACHWEISPFLICHT", "INFORMATIONSPFLICHT", "DOKUMENTATIONSPFLICHT", "EVALUIERUNGSPFLICHT", "KONTROLLPFLICHT"];
-const RUNS = ["R1", "R2", "R3"];
+const FINAL = new Set(["done", "stopped", "aborted", "error", "incomplete"]);
 
 /** "2026-11-19T04:01:18Z" → "19 November 2026" / "19. November 2026". */
 const longDate = (iso) => new Intl.DateTimeFormat(lang() === "de" ? "de-DE" : "en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(iso));
+const session = {
+  get(k) { try { return sessionStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { sessionStorage.setItem(k, v); } catch { /* storage blocked */ } }
+};
+
+async function getJson(url) {
+  const res = await fetch(url, { cache: "no-cache" });
+  if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
+  return res.json();
+}
+
+/** A form field the presenter is typing in or choosing from: the view waits until it is left. */
+const editing = (root) => {
+  const a = document.activeElement;
+  if (!a || !root.contains(a)) return false;
+  return a.tagName === "TEXTAREA" || a.tagName === "SELECT" || (a.tagName === "INPUT" && !["radio", "checkbox", "button"].includes(a.type));
+};
 
 export function initUI({ corpusIndex, slice }) {
-  const views = [];
-  const view = (render) => {
-    render();
-    views.push(render);
+  const store = createDataStore(getJson);
+  let sovereign = null;
+  getJson(DATA_FILES.sovereign).then((c) => { sovereign = c; }).catch(() => { sovereign = null; });
+  const controller = createRunController({ store, fetchJson: getJson, onKeyRejected: () => keyRejected() });
+  const recording = recordingEnabled();
+  const freshOptions = () => ({ selected: null, reason: "", comment: "", error: null, lastTarget: null });
+  const storedModel = session.get(STORAGE.model);
+  // ?speed=n (up to 1000) replays faster than the menu's ×4: for rehearsals and the browser tests.
+  const urlSpeed = Number(new URLSearchParams(globalThis.location?.search || "").get("speed"));
+  const storedSpeed = urlSpeed > 0 && urlSpeed <= 1000 ? urlSpeed : Number(session.get(STORAGE.speed));
+  const ui = {
+    view: "start", cell: null, reading: null, runId: "R1",
+    model: MODELS.some((m) => m.id === storedModel) ? storedModel : DEFAULT_MODEL,
+    speed: SPEEDS.includes(storedSpeed) || (urlSpeed > 0 && urlSpeed <= 1000) ? storedSpeed : 1,
+    status: "idle", cost: null, request: null, review: null, reviewError: null, options: freshOptions()
   };
-  onLangChange(() => {
-    for (const render of views) render();
-    syncLangSwitch();
-  });
+  controller.setSpeed(ui.speed);
+  const run = () => controller.current();
+  const dirty = new Set();
 
-  // ---- header: language switch, intro, KPI tiles ----------------------------------------------
+  // ---- header: language switch, intro, mode badge, KPI tiles -----------------------------------
   const switchButtons = [...document.querySelectorAll(".lang-option")];
-  function syncLangSwitch() {
-    for (const b of switchButtons) b.setAttribute("aria-pressed", String(b.dataset.lang === lang()));
-  }
+  const syncLangSwitch = () => { for (const b of switchButtons) b.setAttribute("aria-pressed", String(b.dataset.lang === lang())); };
   for (const b of switchButtons) b.addEventListener("click", () => setLang(b.dataset.lang));
   syncLangSwitch();
   document.getElementById("btn-intro")?.addEventListener("click", () => openIntro());
-
+  const badge = document.getElementById("mode-badge");
+  function renderBadge() {
+    const mode = run()?.mode || "none";
+    badge.dataset.mode = mode;
+    badge.dataset.i18n = `mode.${mode}`;
+    badge.className = mode === "live" ? "vc-tag vc-tag--accent vc-tag--solid mode-badge" : mode === "sovereign" ? "vc-tag vc-tag--feature mode-badge" : "vc-tag mode-badge";
+    badge.textContent = t(`mode.${mode}`);
+    if (mode === "live") badge.prepend(h("span", { class: "mode-dot", "aria-hidden": "true" }));
+  }
   const kpis = document.getElementById("kpis");
-  view(() => renderKpis(kpis));
 
-  // ---- control bar --------------------------------------------------------------------------
-  const controls = document.getElementById("controls");
-  view(() => renderControls(controls, { onDiagnostics: () => openDiagnostics(corpusIndex) }));
+  // ---- control bar ----------------------------------------------------------------------------
+  const sliceInfo = { id: corpusIndex.slice_id, norms: corpusIndex.norms.length };
+  const controls = createControls(document.getElementById("controls"), {
+    onStart: () => openModeDialog({ runId: ui.runId, norms: liveNorms(ui.runId), sovereign, onStart: ({ mode }) => startRun(mode) }),
+    onRunChange: (id) => { ui.runId = id; },
+    onModelChange: (id) => { ui.model = id; session.set(STORAGE.model, id); },
+    onSpeed: (n) => { ui.speed = n; session.set(STORAGE.speed, String(n)); controller.setSpeed(n); controls.update(); },
+    onPause: () => { const r = run(); if (r) controller.pause(!r.paused); },
+    onAbort: () => controller.abort(),
+    onReset: () => controller.reset(),
+    onRecord: () => { const r = run(); if (r) exportFile("run", r).then(schedule); },
+    onDiagnostics: () => store.load([]).then((data) => openDiagnostics({ index: corpusIndex, data, run: run(), cost: ui.cost, sovereign })).catch((e) => notice("notice.error", { message: e.message }))
+  }, () => ({ run: run(), status: ui.status, runId: ui.runId, model: ui.model, speed: ui.speed, cost: ui.cost, recording, slice: sliceInfo }));
 
-  // ---- centrepiece: start view, duty map, duplicates ---------------------------------------
+  /** The norms a Live run of a scripted run reads, for the mode dialog. */
+  function liveNorms(runId) {
+    const ids = LIVE_NORMS[runId];
+    if (!ids) return t("mode.live_all", { n: formatCount(corpusIndex.norms.length, lang()) });
+    return ids.map((id) => corpusIndex.norms.find((n) => n.id === id)?.abbr || id).join(", ");
+  }
+
+  // ---- centrepiece: start view, duty map, duplicates ------------------------------------------
   const centre = document.getElementById("centre");
-  let activeView = "start";
-  view(() => renderCentre(centre, { corpusIndex, slice, active: activeView }));
+  /** force: the presenter's own action (a tab, a cell, a filter, a review), which re-renders at once. */
+  function renderCentre({ force = false } = {}) {
+    if (!force && editing(centre)) { dirty.add("centre"); return; }
+    dirty.delete("centre");
+    const scroll = centre.scrollTop;
+    clear(centre);
+    const tabs = h("div", { class: "centre-tabs", role: "group", "aria-label": t("view.tabs") },
+      ["start", "dutymap", "duplicates"].map((v) => h("button", { type: "button", class: "centre-tab", dataset: { view: v }, "aria-pressed": String(v === ui.view) }, t(`screen.${v}`))));
+    centre.append(h("div", { class: "centre-head" }, h("h2", { class: "centre-title", id: "centre-title" }, t(`screen.${ui.view}`)), tabs));
+    const body = h("div", { class: "centre-body" });
+    centre.append(body);
+    const r = run();
+    if (ui.view === "dutymap") {
+      if (r) renderDutyMap(body, r, { slice, selected: ui.cell, reading: r.status === "running" ? ui.reading : null, onSelect: (key) => { ui.cell = key; renderCentre({ force: true }); } });
+      else body.append(emptyState("dutymap.empty", "layers"));
+    } else if (ui.view === "duplicates") {
+      if (r) renderDuplicates(body, r, { review: ui.review ? { cluster_id: ui.review.cluster_id, recorded: r.review?.cluster_id === ui.review.cluster_id ? r.review.recorded : null } : null, onReview, error: ui.reviewError });
+      else body.append(emptyState("duplicates.empty", "link"));
+    } else body.append(startView(corpusIndex, slice));
+    centre.scrollTop = scroll;
+  }
   centre.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-view]");
-    if (!btn || !centre.contains(btn)) return;
-    activeView = btn.dataset.view;
-    renderCentre(centre, { corpusIndex, slice, active: activeView });
+    const btn = e.target.closest(".centre-tab[data-view]");
+    if (!btn) return;
+    ui.view = btn.dataset.view;
+    renderCentre({ force: true });
   });
 
-  // ---- console with the role strip ---------------------------------------------------------
-  const consoleEl = document.getElementById("console");
-  const rail = createProgressRail({ steps: ROLES });
-  view(() => renderConsole(consoleEl, rail));
+  function onReview({ cluster_id, action, separate_ids = [] }) {
+    const r = run();
+    if (!r) return;
+    ui.reviewError = null;
+    const recorded = r.mode === "simulation" && r.review?.cluster_id === cluster_id ? r.review.recorded : null;
+    if (recorded && recorded.action !== action) { ui.reviewError = t("sim.preset"); schedule(); return; }
+    try {
+      controller.review({ cluster_id, action, separate_ids: recorded?.action === "split" ? recorded.separate_ids : separate_ids });
+    } catch (e) {
+      if (!(e instanceof DecisionError)) throw e;
+      ui.reviewError = t(`error.decision.${e.code}`, e.params);
+    }
+    schedule();
+  }
 
-  // ---- drawer -----------------------------------------------------------------------------
+  // ---- console with the role strip --------------------------------------------------------------
+  const consoleEl = document.getElementById("console");
+  try { consoleEl.dataset.text = localStorage.getItem(STORAGE.consoleText) || ""; } catch { /* storage blocked */ }
+  const rail = createProgressRail({ steps: ROLES });
+  const consoleHead = h("div", { class: "console-head" });
+  const watermark = h("div", { class: "sim-watermark", hidden: true });
+  const log = h("div", { class: "log", role: "log", "aria-live": "polite", "aria-relevant": "additions", tabindex: "0" });
+  consoleEl.append(consoleHead, rail.el, watermark, log);
+  function renderConsoleHead() {
+    consoleEl.setAttribute("aria-label", t("console.title"));
+    log.setAttribute("aria-label", t("console.title"));
+    const size = h("button", { class: "vc-button vc-button--ghost button-compact text-size", type: "button", "aria-pressed": String(consoleEl.dataset.text === "large") }, t("console.larger"));
+    size.addEventListener("click", () => {
+      consoleEl.dataset.text = consoleEl.dataset.text === "large" ? "" : "large";
+      size.setAttribute("aria-pressed", String(consoleEl.dataset.text === "large"));
+      try { localStorage.setItem(STORAGE.consoleText, consoleEl.dataset.text); } catch { /* storage blocked */ }
+    });
+    clear(consoleHead).append(h("div", { class: "console-title" }, h("h2", {}, t("console.title"))), h("div", { class: "console-head-actions" }, size));
+    clear(watermark).append(t("mode.simulation"), " ", h("span", {}, t("console.sim_note")));
+  }
+  const consoleEmpty = () => h("div", { class: "log-empty" },
+    h("p", {}, t("console.empty")),
+    h("ul", { class: "run-list" }, RUNS.map((r) => h("li", {}, h("strong", {}, t(`run.${r}`)), " ", t(`run.${r}_desc`)))));
+  renderConsoleHead();
+  log.append(consoleEmpty());
+  const consoleView = createConsole(log, {
+    ctx: () => ({ state: run()?.state, data: run()?.data, lang: lang(), mode: run()?.mode }),
+    onOpen: (kind, id) => {
+      if (kind === "cluster") { ui.view = "duplicates"; renderCentre({ force: true }); document.getElementById(`cluster-${id}`)?.scrollIntoView({ block: "nearest" }); }
+      else drawer.show("options");
+    }
+  });
+  const notice = (code, params = {}, level = "error") => bus.emit("notice", { level, code, params, text: t(code, params) });
+
+  // ---- drawer ---------------------------------------------------------------------------------
   const drawerEl = document.getElementById("drawer");
   const drawer = createDrawer(drawerEl, { tabs: [{ id: "options", labelKey: "screen.options" }, { id: "outbox", labelKey: "screen.outbox" }, { id: "audit", labelKey: "drawer.tab.audit" }] });
-  view(() => {
+  const doExport = (kind) => { const r = run(); if (r) exportFile(kind, r).then(schedule).catch((e) => notice("notice.error", { message: e.message })); };
+  function renderDrawer() {
     drawerEl.setAttribute("aria-label", `${t("screen.options")}, ${t("screen.outbox")}, ${t("drawer.tab.audit")}`);
-    empty(drawer.panel("options"), "options.empty");
-    renderOutbox(drawer.panel("outbox"));
-    empty(drawer.panel("audit"), "audit.empty");
+    const r = run();
+    const panels = [
+      ["options", (p) => renderOptions(p, r, { request: ui.request, ui: ui.options, onChange: schedule })],
+      ["outbox", (p) => renderOutbox(p, r, { onExport: doExport })],
+      ["audit", (p) => renderAuditPanel(p, r, { onExport: () => doExport("audit") })]
+    ];
+    for (const [id, render] of panels) {
+      const p = drawer.panel(id);
+      if (editing(p)) { dirty.add(id); continue; }
+      dirty.delete(id);
+      const scroll = p.scrollTop;
+      render(p);
+      p.scrollTop = scroll;
+    }
+    const open = ui.request ? ui.request.option_ids.filter((id) => ["proposed", "under_review"].includes(r?.state.options.get(id)?.status)).length : 0;
+    drawer.setCount("options", open, Boolean(ui.request));
+    drawer.setCount("outbox", r ? r.state.dossier.items.length + r.state.dossier.kept.length : 0);
+    drawer.setCount("audit", r ? r.audit.events().length : 0);
+  }
+
+  // ---- rendering --------------------------------------------------------------------------------
+  function renderAll() {
+    renderBadge();
+    renderKpis(kpis, run());
+    controls.update();
+    renderCentre();
+    renderDrawer();
+  }
+  let timer = null;
+  function schedule() {
+    if (timer) return;
+    timer = setTimeout(() => { timer = null; renderAll(); }, 30);
+  }
+  for (const root of [centre, drawerEl]) root.addEventListener("focusout", () => setTimeout(() => { if (dirty.size && !editing(root)) schedule(); }, 200));
+
+  onLangChange(() => {
+    syncLangSwitch();
+    controls.build();
+    renderConsoleHead();
+    if (!consoleView.count()) consoleView.clear(consoleEmpty());
+    else consoleView.rerender();
+    renderAll();
   });
 
+  // ---- runs -------------------------------------------------------------------------------------
+  async function startRun(mode) {
+    consoleView.clear();
+    log.dataset.sim = String(mode === "simulation");
+    watermark.hidden = mode !== "simulation";
+    rail.reset();
+    Object.assign(ui, { status: "running", request: null, review: null, reviewError: null, cell: null, view: "dutymap", options: freshOptions(),
+      cost: mode === "simulation" ? null : { calls: 0, eur: 0, maxCalls: RUN_DEFAULTS.max_model_calls, budgetEur: RUN_DEFAULTS.max_cost_eur } });
+    schedule();
+    try {
+      await controller.start({ runId: ui.runId, mode, settings: { orchestrator_model: ui.model }, sovereign: mode === "sovereign" ? sovereign : null });
+    } catch (e) {
+      ui.status = "error";
+      notice("notice.error", { message: e?.message || String(e) });
+    }
+    schedule();
+  }
+
+  let lastRun = null;
+  let auditOff = null;
+  controller.onChange((r) => {
+    if (r !== lastRun) {
+      auditOff?.();
+      auditOff = r ? r.audit.onRecord(() => schedule()) : null;
+      lastRun = r;
+    }
+    if (r && FINAL.has(r.status)) ui.status = r.status;
+    schedule();
+  });
+  bus.on("state_changed", schedule);
+  bus.on("state_change", (ev) => { ui.status = ev.payload.state; schedule(); });
+  bus.on("role_active", (ev) => rail.setActive(ev.payload.role));
+  // The norm the agent reads, for the duty map's fjord marker.
+  bus.on("tool_call", (ev) => {
+    const input = ev.payload?.input || {};
+    const norm = input.norm_id || (Array.isArray(input.candidate_ids) && input.candidate_ids.length ? run()?.state.candidates.get(input.candidate_ids[0])?.norm_id : null);
+    if (norm && norm !== ui.reading) { ui.reading = norm; schedule(); }
+  });
+  bus.on("cost_update", (ev) => { ui.cost = ev.payload; controls.update(); });
+  bus.on("decision_requested", (ev) => {
+    const p = ev.payload;
+    if (p.kind === "cluster") {
+      ui.review = { cluster_id: p.cluster_id };
+      ui.reviewError = null;
+      ui.view = "duplicates";
+      setTimeout(() => document.getElementById(`cluster-${p.cluster_id}`)?.scrollIntoView({ block: "nearest" }), 80);
+    } else {
+      ui.request = { target: p.target, option_ids: p.option_ids };
+      ui.options = { ...freshOptions(), lastTarget: p.target };
+      drawer.show("options");
+    }
+    rail.setDecision(true);
+    schedule();
+  });
+  bus.on("decision_recorded", (ev) => {
+    const id = ev.payload?.decision?.option_id || ev.payload?.option_id;
+    if (ui.request && ui.request.option_ids.includes(id)) ui.request = null;
+    rail.setDecision(false);
+    schedule();
+  });
+  for (const type of ["cluster_split", "cluster_confirmed"]) bus.on(type, () => { ui.review = null; ui.reviewError = null; rail.setDecision(false); schedule(); });
+  bus.on("run_end", (ev) => { ui.status = ev.payload.status === "done" ? "done" : ev.payload.status; ui.request = null; ui.review = null; rail.finish(ev.payload.status); schedule(); });
+  bus.on("run_reset", () => {
+    consoleView.clear(consoleEmpty());
+    log.dataset.sim = "false";
+    watermark.hidden = true;
+    rail.reset();
+    Object.assign(ui, { status: "idle", cost: null, request: null, review: null, reviewError: null, cell: null, view: "start", options: freshOptions() });
+    schedule();
+  });
+
+  renderAll();
   applyStatic();
   return {
     introOnFirstVisit() {
@@ -90,75 +329,12 @@ export function initUI({ corpusIndex, slice }) {
       if (!seen) openIntro();
     },
     drawer,
-    rail
+    rail,
+    controller
   };
 }
 
-// ---- KPI tiles -------------------------------------------------------------------------------
-
-function tile(id, label, value, note, extra = null) {
-  return h("div", { class: "vc-stat kpi", id: `kpi-${id}`, dataset: { tone: "muted" }, role: "group", "aria-label": label },
-    h("div", { class: "vc-stat__label kpi-label" }, label),
-    extra || h("div", { class: "vc-stat__value kpi-value" }, value),
-    h("div", { class: "vc-stat__note kpi-sub" }, note));
-}
-
-/** A hexagonal gauge; its value is set through the CSSOM (the policy allows no style attribute). */
-function gauge(label, share) {
-  const percent = Math.max(0, Math.min(100, share * 100));
-  const el = h("span", { class: "vc-progress-hex vc-progress-hex--sm kpi-gauge", role: "progressbar", "aria-label": label, "aria-valuenow": String(Math.round(percent)), "aria-valuemin": "0", "aria-valuemax": "100" }, formatShare(share, lang()));
-  el.style.setProperty("--value", String(percent));
-  return el;
-}
-
-function renderKpis(root) {
-  clear(root);
-  root.setAttribute("aria-label", t("kpis.label"));
-  const duties = tile("duties", t("kpi.duties"), formatCount(0, lang()), t("kpi.per_type"));
-  duties.title = DUTY_TYPES.map((d) => `${t(`duty_type_short.${d}`)}: ${formatCount(0, lang())}`).join(" · ");
-  const reporting = tile("reporting", t("kpi.reporting"), null, t("kpi.of_benchmark", { value: formatShare(0, lang()) }), gauge(t("kpi.reporting"), 0));
-  const documentation = tile("documentation", t("kpi.documentation"), null, t("kpi.of_benchmark", { value: formatShare(0, lang()) }), gauge(t("kpi.documentation"), 0));
-  for (const g of [reporting, documentation]) g.title = t("kpi.slice_note");
-  const cost = tile("cost", t("kpi.cost"), formatEur(0, lang()), t("kpi.estimate"));
-  root.append(duties, reporting, documentation, cost);
-}
-
-// ---- control bar -----------------------------------------------------------------------------
-
-function renderControls(root, { onDiagnostics }) {
-  clear(root);
-  root.setAttribute("aria-label", t("controls.label"));
-  const start = h("button", { class: "vc-button", type: "button", id: "btn-start" }, icon("play", 18), h("span", {}, t("controls.start")));
-  setDisabled(start, true, t("controls.start_later"));
-  const runSelect = h("select", { class: "vc-select control-select", id: "run-select", "aria-label": t("controls.run") },
-    RUNS.map((r) => h("option", { value: r }, t(`run.${r}`))));
-  const speeds = h("div", { class: "segmented", role: "group", "aria-label": t("controls.speed") },
-    [1, 2, 4].map((n) => h("button", { type: "button", "aria-pressed": String(n === 1), "aria-label": t("controls.speed_x", { n }) }, `×${n}`)));
-  const pill = h("div", { class: "vc-tag status-pill", role: "status", "aria-live": "polite", dataset: { tone: "idle" } }, h("span", { class: "dot", "aria-hidden": "true" }), h("span", { class: "text" }, t("state.idle")));
-  const diag = h("button", { class: "vc-button vc-button--outline", type: "button", id: "btn-diagnostics" }, icon("pulse", 18), h("span", { class: "btn-text" }, t("screen.diagnostics")));
-  diag.addEventListener("click", onDiagnostics);
-  root.append(
-    h("div", { class: "control-group" }, start),
-    h("label", { class: "control-group control-field" }, h("span", { class: "control-label" }, t("controls.run")), runSelect),
-    h("div", { class: "control-group" }, h("span", { class: "control-label" }, t("controls.speed")), speeds),
-    h("span", { class: "spacer" }),
-    pill,
-    h("div", { class: "control-group" }, withTooltip(diag, t("screen.diagnostics"), { below: true }))
-  );
-}
-
-// ---- centrepiece -----------------------------------------------------------------------------
-
-function renderCentre(root, { corpusIndex, slice, active }) {
-  clear(root);
-  const tabs = h("div", { class: "centre-tabs", role: "group", "aria-label": t("view.tabs") },
-    ["start", "dutymap", "duplicates"].map((v) => h("button", { type: "button", class: "centre-tab", dataset: { view: v }, "aria-pressed": String(v === active) }, t(`screen.${v}`))));
-  const title = h("h2", { class: "centre-title", id: "centre-title" }, t(`screen.${active}`));
-  root.append(h("div", { class: "centre-head" }, title, tabs));
-  if (active === "dutymap") root.append(emptyState("dutymap.empty", "layers"));
-  else if (active === "duplicates") root.append(emptyState("duplicates.empty", "link"));
-  else root.append(startView(corpusIndex, slice));
-}
+// ---- start view -----------------------------------------------------------------------------------
 
 function emptyState(key, iconName) {
   return h("div", { class: "centre-empty" }, h("span", { class: "vc-cell vc-cell--lg", "aria-hidden": "true" }, icon(iconName, 0)), h("p", {}, t(key)));
@@ -197,84 +373,4 @@ function startView(index, slice) {
             h("thead", {}, h("tr", {}, ["start.col_norm", "start.col_title", "start.col_paragraphs", "start.col_sentences", "start.col_eu"].map((k) => h("th", { scope: "col" }, t(k))))),
             h("tbody", {}, rows))),
         h("p", { class: "cite-notice" }, icon("info", 16), t("cite.notice")))));
-}
-
-// ---- console ---------------------------------------------------------------------------------
-
-function renderConsole(root, rail) {
-  clear(root);
-  root.setAttribute("aria-label", t("console.title"));
-  const size = h("button", { class: "vc-button vc-button--ghost button-compact text-size", type: "button", "aria-pressed": String(root.dataset.text === "large") }, t("console.larger"));
-  size.addEventListener("click", () => {
-    root.dataset.text = root.dataset.text === "large" ? "" : "large";
-    size.setAttribute("aria-pressed", String(root.dataset.text === "large"));
-    try { localStorage.setItem(STORAGE.consoleText, root.dataset.text); } catch { /* storage blocked */ }
-  });
-  const log = h("div", { class: "log", role: "log", "aria-live": "polite", "aria-relevant": "additions" },
-    h("div", { class: "log-empty" },
-      h("p", {}, t("console.empty")),
-      h("ul", { class: "run-list" }, RUNS.map((r) => h("li", {}, h("strong", {}, t(`run.${r}`)), " ", t(`run.${r}_desc`))))));
-  root.append(
-    h("div", { class: "console-head" }, h("div", { class: "console-title" }, h("h2", {}, t("console.title"))), h("div", { class: "console-head-actions" }, size)),
-    rail.el,
-    log);
-}
-
-// ---- drawer panels ---------------------------------------------------------------------------
-
-function empty(panel, key) {
-  clear(panel);
-  panel.append(h("p", { class: "drawer-empty" }, t(key)));
-}
-
-function renderOutbox(panel) {
-  clear(panel);
-  panel.append(
-    h("h3", { class: "outbox-title" }, t("outbox.title")),
-    h("p", { class: "drawer-empty" }, t("outbox.empty")),
-    h("p", { class: "outbox-notice" }, icon("shield", 16), t("outbox.notice")));
-}
-
-// ---- dialogs ---------------------------------------------------------------------------------
-
-function openIntro() {
-  const { close } = openModal({
-    title: t("intro.title"),
-    intro: t("start.question"),
-    size: "intro",
-    className: "intro-modal",
-    body: [h("ol", { class: "intro-steps" }, ["inventory", "duplicates", "prices", "decision"].map((k) => h("li", {}, t(`intro.step.${k}`)))),
-      h("p", { class: "intro-disclosure" }, t("disclosure.ai"), " ", t("disclosure.proto"))],
-    footer: [h("button", { class: "vc-button", type: "button", autofocus: true, on: { click: () => close() } }, t("intro.close"))],
-    onClose: () => { try { localStorage.setItem(STORAGE.introSeen, "1"); } catch { /* storage blocked */ } }
-  });
-}
-
-function openDiagnostics(index) {
-  const policy = document.querySelector('meta[http-equiv="Content-Security-Policy"]')?.content || "";
-  const tr = t;
-  const row = (k, v) => h("tr", {}, h("th", { scope: "row" }, k), h("td", {}, v));
-  const tv = index.transport || {};
-  openModal({
-    title: tr("screen.diagnostics"),
-    size: "wide",
-    className: "diag-modal",
-    body: [
-      h("section", { class: "diag-section" }, h("h3", {}, tr("diag.snapshot")),
-        h("table", { class: "vc-table diag-table" }, h("tbody", {},
-          row(tr("diag.source"), index.source),
-          row(tr("diag.retrieved"), longDate(index.retrieved_at)),
-          tv.kind === "archive" ? row(tr("diag.archive"), `${tv.repository.replace("https://github.com/", "")} · ${tv.commit.slice(0, 12)}`) : null,
-          row(tr("start.slice_title"), `${index.slice_id} · ${formatCount(index.norms.length, lang())}`),
-          row(tr("diag.links"), index.links.note ? tr("diag.links_unchecked") : `${index.links.checked}`)))),
-      h("section", { class: "diag-section" }, h("h3", {}, tr("diag.policy")), h("p", {}, tr("diag.policy_text")),
-        h("p", { class: "diag-label" }, tr("diag.csp")), h("code", { class: "diag-code" }, policy)),
-      h("section", { class: "diag-section" }, h("h3", {}, tr("diag.model")),
-        h("table", { class: "vc-table diag-table" }, h("tbody", {},
-          row(tr("diag.version"), `${APP.name} ${APP.version}`),
-          row(tr("diag.model"), tr("diag.caps", { calls: AGENT.maxSteps, eur: formatEur(AGENT.budgetEur, lang()) })),
-          row(tr("diag.fx"), `1 USD = ${formatNumber(FX_USD_EUR, lang(), 3)} EUR`)))),
-      h("p", { class: "cite-notice" }, icon("info", 16), tr("cite.notice"))
-    ]
-  });
 }

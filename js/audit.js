@@ -42,6 +42,7 @@ function redact(value) {
  */
 export function createAuditLog({ runId, mode, now = () => new Date() }) {
   const events = [];
+  const listeners = new Set();
   let seq = 0;
   let currentMode = mode;
   const mirror = () => {
@@ -69,9 +70,12 @@ export function createAuditLog({ runId, mode, now = () => new Date() }) {
       });
       events.push(ev);
       mirror();
+      for (const fn of listeners) fn(ev);
       return ev;
     },
     events: () => events.slice(),
+    /** Calls fn(event) after every new event (the audit tab); returns the unsubscribe function. */
+    onRecord(fn) { listeners.add(fn); return () => listeners.delete(fn); },
     /** The export: the log with the run's mode, model, settings, facts and decisions. */
     exportJson({ model = null, settings = {}, facts = [], decisions = [] } = {}) {
       return JSON.stringify(redact({ run_id: runId, mode: currentMode, model, settings, exported_at: now().toISOString(), facts, decisions, events }), null, 2);

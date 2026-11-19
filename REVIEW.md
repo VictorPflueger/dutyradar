@@ -25,7 +25,7 @@ Two languages need one change in the shell: its visible strings go through the a
 | `js/handover.js` | "Awaiting your decision", "Awaiting your approval" and the run-state labels come from `t()`; `RUN_STATES` holds i18n keys; the logic is unchanged | Two languages |
 | `js/modal.js` | The close button's tooltip "Close dialog" comes from `t()` | Two languages |
 
-`js/anthropic.js` stays unchanged: where the app shows the shared client's errors, it will translate them by HTTP status and error type (version 0.2.0).
+`js/anthropic.js` stays unchanged: the app translates the shared client's errors by HTTP status and error type where it shows them (the Live loop's notices in `js/agent.js`, the key check in `js/dialogs.js`). Version 0.2.0 changes none of the shared files; its screens are Duty Radar's own modules (`js/run_controller.js`, `js/controls.js`, `js/dialogs.js`, `js/console.js`, `js/kpi.js`, `js/dutymap.js`, `js/dutycard.js`, `js/duplicates.js`, `js/options_panel.js`, `js/outbox.js`, `js/exports.js`, `js/audit_panel.js`, `js/diagnostics.js`, `js/recorder.js`, `js/popovers.js`, `js/rich.js`), and its styles live in `css/app.css`, which overrides two shell rules there: the console panel keeps its log inside it and scrolls when the open drawer leaves it too little height (the log is positioned and would otherwise paint over the drawer), and the console's header tightens below 800 px.
 
 ## Independent review
 

@@ -21,6 +21,8 @@ const VICI = {
 
 /** The app's own drawings (static, trusted strings; never built from data). */
 const DRAWN = {
+  // Two upright bars (pause a replay).
+  pause: "<path d='M8.75 5.5 V18.5 M15.25 5.5 V18.5'/>",
   // A square with chamfered corners.
   stop: "<path d='M7.6 6 H16.4 L18 7.6 V16.4 L16.4 18 H7.6 L6 16.4 V7.6 Z'/>",
   // Two nested hexagons with a sweep line (the radar).

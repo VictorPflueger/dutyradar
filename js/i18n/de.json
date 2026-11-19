@@ -12,7 +12,24 @@
   "live": "LIVE",
   "sovereign": "SOUVERÄN",
   "none": "Kein Lauf aktiv",
-  "hint": "Den Modus wählen Sie mit „Agent starten“."
+  "hint": "Den Modus wählen Sie mit „Agent starten“.",
+  "dialog_title": "Wie soll der Agent laufen?",
+  "dialog_lead": "Lauf: {run}",
+  "simulation_title": "Wiedergabe ohne Modell",
+  "simulation_text": "Spielt den handgeschriebenen Lauf offline ab: kein Schlüssel, keine Modellaufrufe, keine Kosten. Jede Zahl rechnen die Engines neu, und Ihre Entscheidungen sind frei.",
+  "simulation_start": "Simulation starten",
+  "live_title": "Claude mit Ihrem Schlüssel",
+  "live_text": "Der Agent ruft Claude mit Ihrem API-Schlüssel auf, höchstens {calls} Modellaufrufe und {eur} je Lauf.",
+  "live_norms": "Normen in diesem Lauf: {norms}",
+  "live_all": "alle {n} Normen des Ausschnitts",
+  "live_start": "Live-Lauf starten",
+  "live_key_ok": "Schlüssel angenommen ({key})",
+  "live_key_needed": "Braucht einen API-Schlüssel; er wird vor dem Start kostenlos geprüft.",
+  "sovereign_title": "Eigener Endpunkt",
+  "sovereign_text": "Derselbe Agent an einem OpenAI-kompatiblen Endpunkt, den Sie betreiben.",
+  "sovereign_ready": "Endpunkt: {label}",
+  "sovereign_start": "Souveränen Lauf starten",
+  "cancel": "Abbrechen"
  },
  "start": {
   "question": "Wie viele Pflichten tragen wir, und welche sind doppelt?",
@@ -40,18 +57,91 @@
   "reject": "Ablehnen",
   "info": "Rückfrage",
   "target_decided": "Ziel entschieden",
-  "empty": "Noch keine Optionen. Sie erscheinen, wenn der Agent Ihre Entscheidung braucht."
+  "empty": "Noch keine Optionen. Sie erscheinen, wenn der Agent Ihre Entscheidung braucht.",
+  "for_target": "Optionen für {target}",
+  "delta": "Änderung des Erfüllungsaufwands",
+  "per_year": "pro Jahr",
+  "hours": "Zeitaufwand der Bürger:",
+  "duty_count": "Änderung der Zahl der Pflichten:",
+  "one_off": "Einmaliger Umstellungsaufwand:",
+  "keep_basis": "Begründungsgrundlage",
+  "uses": "Bekannte Datennutzungen: {n}",
+  "no_eu": "Kein EU-Bezug",
+  "no_standard": "Kein Schutzstandard",
+  "draft_title": "Entwurfstext auf Deutsch, so wie er das deutsche Recht ändert",
+  "gist": "Kern:",
+  "audit_passed": "Faktenprüfer: jede Zahl belegt",
+  "audit_pending": "Faktenprüfer: noch nicht geprüft",
+  "ineligible": "Nicht angeboten:",
+  "reason": "Begründungscode",
+  "reason_choose": "Code wählen",
+  "codes_approve": "Zur Freigabe",
+  "codes_reject": "Zur Ablehnung oder zum Beibehalten",
+  "codes_info": "Zur Rückfrage",
+  "comment": "Kommentar",
+  "comment_help": "Pflicht bei Z5 und A6; höchstens 500 Zeichen.",
+  "no_request": "Der Agent hat zu diesen Optionen gerade keine Entscheidung angefragt."
  },
  "audit": {
   "blocked": "Zahl ohne Beleg blockiert",
   "manual": "manuelle Bearbeitung",
   "text_blocked": "Text blockiert",
-  "empty": "Noch keine Ereignisse."
+  "empty": "Noch keine Ereignisse.",
+  "title": "Protokoll",
+  "export": "Protokoll exportieren (JSON)",
+  "col_time": "Zeit",
+  "col_event": "Ereignis",
+  "col_actor": "Akteur",
+  "col_detail": "Details",
+  "col_id": "Nr.",
+  "ok": "erfolgreich",
+  "failed": "Fehler",
+  "usage": "{input} Token ein, {output} aus",
+  "kind": {
+   "orchestrator": "Orchestrator",
+   "classify": "Klassifikation",
+   "amend": "Änderungstext"
+  },
+  "actor": {
+   "agent": "Agent",
+   "system": "System"
+  },
+  "event": {
+   "run_started": "Lauf gestartet",
+   "mode_set": "Modus gesetzt",
+   "model_request": "Modellanfrage",
+   "model_response": "Modellantwort",
+   "tool_called": "Werkzeug aufgerufen",
+   "tool_result": "Werkzeugergebnis",
+   "audit_failed": "Zahl ohne Beleg blockiert",
+   "cluster_split": "Bündel aufgeteilt",
+   "decision_recorded": "Entscheidung erfasst",
+   "parameter_changed": "Parameter geändert",
+   "export_created": "Export erstellt",
+   "cap_reached": "Grenze erreicht",
+   "run_stopped": "Lauf beendet",
+   "error": "Fehler"
+  }
  },
  "outbox": {
   "title": "Entlastungsdossier (Entwurf)",
   "notice": "Nichts wird versendet.",
-  "empty": "Das Dossier ist leer. Nur Ihre Freigaben füllen es."
+  "empty": "Das Dossier ist leer. Nur Ihre Freigaben füllen es.",
+  "cites": "Paragrafen",
+  "removed": "Entfallende Pflichten",
+  "reason": "Begründung",
+  "uses": "Datennutzungen",
+  "no_uses": "keine bekannt",
+  "none_kept": "Noch keine Pflicht beibehalten.",
+  "exports": "Exporte",
+  "export_md": "Dossier (Markdown)",
+  "export_html": "Dossier (HTML)",
+  "export_audit": "Protokoll (JSON)",
+  "export_csv": "Pflichtenliste (CSV)",
+  "export_none": "Die Exporte gibt es, sobald ein Lauf begonnen hat.",
+  "meta": "Lauf {run} · {mode} · {app} · {date}",
+  "totals": "Adressierter Erfüllungsaufwand: {ea} pro Jahr; Meldepflichten im Ausschnitt: {reporting}; Dokumentationspflichten im Ausschnitt: {documentation}",
+  "footnote": "Zahlen aus den Engines von Pflichten-Radar auf den gebündelten Daten; Annahmen sind in der App gekennzeichnet. Entwurfstexte sind Vorschläge, kein geltendes Recht."
  },
  "badge": {
   "assumption": "Annahme",
@@ -68,8 +158,9 @@
   "documentation": "Dokumentationspflichten im Ausschnitt (Richtwert −½)",
   "cost": "Erfüllungsaufwand adressiert (Schätzung)",
   "per_type": "Erfasste Pflichten je Art",
-  "of_benchmark": "{value} des Richtwerts",
-  "pending": "offen: {value}"
+  "of_benchmark": "des Richtwerts",
+  "pending": "offen:",
+  "coverage_note": "{removed} von {total} entfallen"
  },
  "dossier": {
   "kept": "Beibehaltene Pflichten (mit Begründung)",
@@ -157,7 +248,12 @@
    "ea_addressed": "Erfüllungsaufwand adressiert durch freigegebene Optionen",
    "ea_pending": "Erfüllungsaufwand in offenen Vorschlägen",
    "clusters_found": "Gefundene Bündel doppelter Datenanforderungen"
-  }
+  },
+  "id": "Kennung",
+  "produced_by": "Erzeugt von",
+  "key": "Schlüssel der Zahl",
+  "inputs": "Eingaben",
+  "no_inputs": "Die Zahl hat keine Eingaben; sie zählt, was der Lauf erfasst hat."
  },
  "sim": {
   "preset": "In der Simulation vorgegeben"
@@ -167,13 +263,31 @@
  },
  "key": {
   "rejected": "Schlüssel ungültig",
-  "forget": "Schlüssel löschen"
+  "forget": "Schlüssel löschen",
+  "title": "Anthropic-API-Schlüssel",
+  "title_sovereign": "Schlüssel für den Endpunkt",
+  "lead": "Fügen Sie einen Schlüssel aus der Claude Console ein. Pflichten-Radar prüft ihn mit einer kostenlosen Anfrage und behält ihn nur in diesem Tab.",
+  "lead_sovereign": "Der Endpunkt verlangt einen Schlüssel. Er bleibt nur in diesem Tab.",
+  "label": "API-Schlüssel",
+  "show": "Schlüssel zeigen",
+  "hide": "Schlüssel verbergen",
+  "check": "Prüfen und starten",
+  "checking": "Der Schlüssel wird geprüft …",
+  "format": "Das sieht nicht nach einem Anthropic-Schlüssel aus (sk-ant-…).",
+  "empty": "Bitte einen Schlüssel einfügen.",
+  "rejected_detail": "Schlüssel ungültig: Anthropic hat ihn abgelehnt ({status}).",
+  "forgotten": "Der Schlüssel wurde aus diesem Tab gelöscht.",
+  "privacy": "Der Schlüssel liegt nur im Sitzungsspeicher dieses Tabs, wird maskiert angezeigt, nur an api.anthropic.com gesendet und nie in einen Export, das Protokoll oder eine Aufzeichnung geschrieben.",
+  "spend": "Tipp: einen Schlüssel aus einem Workspace mit monatlichem Ausgabenlimit verwenden.",
+  "workspaces": "Workspaces in der Claude Console (öffnet in einem neuen Tab)"
  },
  "record": {
   "run": "Lauf aufzeichnen"
  },
  "sovereign": {
-  "none": "Kein souveräner Endpunkt konfiguriert"
+  "none": "Kein souveräner Endpunkt konfiguriert",
+  "bad_url": "Der Endpunkt muss eine https-Adresse haben.",
+  "no_model": "Für den Endpunkt ist kein Modell konfiguriert."
  },
  "slice": {
   "provisional": "vorläufig"
@@ -308,7 +422,8 @@
   "cost": "Kosten-Agent",
   "signal": "Signal-Agent",
   "drafting": "Entwurfs-Agent",
-  "fact_auditor": "Faktenprüfer"
+  "fact_auditor": "Faktenprüfer",
+  "ui": "Oberfläche"
  },
  "complaint_category": {
   "Verwaltung digital": "Verwaltung digital",
@@ -350,7 +465,9 @@
   "done": "Fertig",
   "stopped": "Gestoppt",
   "aborted": "Abgebrochen",
-  "error": "Fehler"
+  "error": "Fehler",
+  "paused": "Pausiert",
+  "incomplete": "Unvollständig"
  },
  "handover": {
   "awaiting_decision": "Wartet auf Ihre Entscheidung",
@@ -389,28 +506,71 @@
  "controls": {
   "label": "Laufsteuerung",
   "start": "Agent starten",
-  "start_later": "Die Agentenläufe kommen mit Version 0.2.0.",
   "run": "Lauf",
   "slice": "Ausschnitt",
   "model": "Modell",
   "speed": "Wiedergabe",
   "speed_x": "Wiedergabe ×{n}",
   "abort": "Abbrechen",
-  "reset": "Zurücksetzen"
+  "reset": "Zurücksetzen",
+  "pause": "Pausieren",
+  "resume": "Fortsetzen",
+  "running": "Ein Lauf ist in Arbeit: erst abbrechen oder zurücksetzen.",
+  "nothing_running": "Kein Lauf in Arbeit.",
+  "sim_only": "Nur in der Simulation",
+  "slice_option": "{norms} Normen",
+  "cost_meter": "{calls} von {max} Aufrufen · {eur} von {budget}",
+  "cost_title": "Modellaufrufe und Ausgaben dieses Laufs; er endet bei {max} Aufrufen oder {budget}."
  },
  "console": {
   "title": "Agenten-Konsole",
   "larger": "Größere Schrift",
-  "empty": "Noch kein Lauf. Die drei Läufe:"
+  "empty": "Noch kein Lauf. Die drei Läufe:",
+  "ai": "KI",
+  "report": "Abschlussbericht:",
+  "reasoning": "Zusammenfassung der Überlegungen",
+  "tool_error": "Das Werkzeug meldete einen Fehler; der Agent erhielt eine Anleitung, wie er den Aufruf korrigiert.",
+  "details": "Details",
+  "awaiting_review": "Bündel {target} wartet auf Ihre Prüfung.",
+  "awaiting_decision": "Die Optionen für {target} warten auf Ihre Entscheidung.",
+  "open_review": "Bündel prüfen",
+  "open_options": "Optionen prüfen",
+  "your_decision": "Ihre Entscheidung:",
+  "cluster_split": "Bündel {cluster} aufgeteilt; weiter mit {parts}.",
+  "cluster_confirmed": "Bündel {cluster} bestätigt.",
+  "started": "Lauf {run} gestartet:",
+  "sim_note": "skriptierte Wiedergabe, keine Modellaufrufe",
+  "finished": {
+   "done": "Lauf beendet.",
+   "stopped": "Lauf an einer Grenze beendet.",
+   "aborted": "Lauf abgebrochen.",
+   "error": "Lauf mit einem Fehler beendet.",
+   "incomplete": "Lauf unvollständig beendet."
+  }
  },
  "view": {
   "tabs": "Ansichten"
  },
  "dutymap": {
-  "empty": "Die Karte füllt sich, sobald der Agent die Pflichten erfasst."
+  "empty": "Die Karte füllt sich, sobald der Agent die Pflichten erfasst.",
+  "filters": "Filter",
+  "addressee": "Adressat",
+  "all": "Alle",
+  "confidence": "Konfidenz",
+  "at_least": "mindestens {value}",
+  "needs_review": "Nur zu prüfende",
+  "caption": "Pflichten nach Norm und Art"
  },
  "duplicates": {
-  "empty": "Bündel erscheinen, sobald der Abgleich läuft."
+  "empty": "Bündel erscheinen, sobald der Abgleich läuft.",
+  "none": "Keine doppelten Datenanforderungen gefunden.",
+  "best": "Beste Option ({type}):",
+  "cost": "Aufwand pro Jahr:",
+  "shared": "Gemeinsame Daten:",
+  "register": "Registerkandidat",
+  "confidence": "Konfidenz",
+  "members": "{n} Pflichten",
+  "decided": "Freigegeben: {type}"
  },
  "diag": {
   "snapshot": "Gesetzesstand",
@@ -430,7 +590,39 @@
   "assumptions_text": "Kostenparameter je Adressatengruppe; jeder Wert hat eine Quelle oder das Etikett Annahme.",
   "col_field": "Feld",
   "col_value": "Wert",
-  "col_source": "Quelle"
+  "col_source": "Quelle",
+  "col_duty": "Pflicht",
+  "assumptions_none": "Vor einem Lauf gelten die Standardwerte je Adressatengruppe; ein Lauf zeigt hier die Parameter der Pflichten, die er bepreist, und Sie können sie ändern.",
+  "edit_label": "{field} von {duty}",
+  "edit_invalid": "Bitte eine Zahl von mindestens null eingeben.",
+  "edited": "Geändert: {changed} Zahlen neu berechnet, {retired} entfallen.",
+  "edited_tag": "geändert",
+  "key": "API-Schlüssel",
+  "key_none": "keiner in diesem Tab",
+  "key_set": "{key} (nur dieser Tab)",
+  "sovereign": "Souveräner Endpunkt",
+  "orchestrator": "Orchestrator",
+  "classifier": "Klassifikation",
+  "drafting": "Entwurf",
+  "model_effort": "{model}, Aufwand {effort}",
+  "max_tokens": "Ausgabelimit je Aufruf",
+  "max_tokens_value": "Orchestrator {orchestrator} Token, Unteraufrufe {subcall} Token",
+  "caps_label": "Grenzen je Lauf",
+  "soft": "Weiche Grenze",
+  "soft_value": "ab {calls} Aufrufen oder {eur} fordert der Agent die offenen Entscheidungen an und schließt ab",
+  "run_figures": "Kennzahlen des Laufs",
+  "no_run": "Noch kein Lauf.",
+  "run": "Lauf",
+  "events": "Ereignisse des Laufs",
+  "audit_events": "Einträge im Protokoll",
+  "facts": "Zahlen mit Beleg",
+  "decisions": "Entscheidungen",
+  "dossier": "Dossier",
+  "dossier_value": "{items} Entlastungen, {kept} beibehaltene Pflichten",
+  "calls": "Modellaufrufe",
+  "checker": "Laufprüfer",
+  "checker_ok": "{run} hält die Regeln des Faktenprüfers ein.",
+  "checker_failed": "{n} Probleme, zuerst: {first}"
  },
  "table": {
   "show": "Zahlen als Tabelle"
@@ -484,5 +676,93 @@
   "bad_request": "Die API hat die Anfrage abgelehnt (400): {message}",
   "network": "Die API ist von diesem Browser aus nicht erreichbar: {message}",
   "busy": "Die API ist gerade überlastet, auch nach zwei weiteren Versuchen. Bitte später erneut versuchen oder die Simulation nutzen."
+ },
+ "decision": {
+  "approved": "freigegeben",
+  "rejected": "abgelehnt",
+  "needs_info": "Rückfrage"
+ },
+ "review": {
+  "confirmed": "bestätigt",
+  "split": "aufgeteilt"
+ },
+ "params_from": {
+  "entry": "der Parameterdatei",
+  "defaults": "den Standardwerten der Adressatengruppe (Annahme)"
+ },
+ "blocked_field": {
+  "rationale": "Begründung",
+  "recipient": "Empfänger",
+  "data_items": "Datenpunkte"
+ },
+ "tool": {
+  "label": {
+   "law_list": "listet die Normen des Ausschnitts",
+   "law_fetch": "liest Paragrafen einer Norm",
+   "law_search": "durchsucht die Texte des Ausschnitts",
+   "duty_extract": "sucht Pflichtkandidaten in einer Norm",
+   "duty_classify": "klassifiziert die Kandidaten",
+   "once_cluster": "sucht Pflichten, die dieselben Daten abfragen",
+   "once_registers": "prüft, ob ein Register die Daten führt",
+   "cost_params": "sammelt die Kostenparameter",
+   "cost_estimate": "bepreist den Erfüllungsaufwand",
+   "signal_match": "gleicht Beschwerden ab (synthetisch)",
+   "draft_options": "entwirft die Entlastungsoptionen",
+   "draft_amendment": "entwirft den Änderungstext",
+   "audit_check": "prüft jede Zahl auf ihren Beleg",
+   "ui_progress": "meldet den Fortschritt",
+   "ui_request_decision": "bittet um Ihre Entscheidung",
+   "ui_report": "schreibt den Abschlussbericht",
+   "kpi": "Kennzahlen des Laufs"
+  },
+  "law_list": "{norms} Normen im Ausschnitt.",
+  "law_fetch": "{norm}: {paragraphs} Paragrafen gelesen.",
+  "law_fetch_outline": "{norm}: Gliederung mit {paragraphs} Paragrafen.",
+  "law_search": "{matches} Treffer für „{query}“.",
+  "duty_extract": "{norm}: {candidates} Kandidatensätze.",
+  "duty_classify": "{candidates} klassifiziert: {confirmed} bestätigt, {needs_review} zu prüfen, {rejected} verworfen.",
+  "once_cluster": "{clusters} Bündel gefunden, {review} davon zur Prüfung.",
+  "once_registers": "{target}: Registerkandidat {register} (simuliert).",
+  "once_registers_none": "{target}: Kein Register führt die Daten.",
+  "cost_params": "{duty}: Parameter aus {from}.",
+  "cost_estimate": "{target} bepreist:",
+  "signal_match": "{duties} Pflichten mit Beschwerden, {complaints} Beschwerden (synthetisch).",
+  "draft_options": "{target}: {options} Optionen.",
+  "draft_amendment": "Entwurf für {option} (Versuch {attempt}).",
+  "audit_check_option": "{option}: jede Zahl belegt.",
+  "audit_check_text": "Text geprüft: jede Zahl belegt.",
+  "ui_progress": "Fortschritt gemeldet.",
+  "ui_report": "Abschlussbericht gezeigt.",
+  "ui_request_decision": "{target}: {decision} ({reason}).",
+  "ui_request_review": "{cluster}: {action}.",
+  "error": "Fehler ({code})."
+ },
+ "dutycard": {
+  "panel": "Pflichtenkarten: {norm}, {type}",
+  "type": "Art",
+  "addressee": "Adressat",
+  "trigger": "Auslöser",
+  "recipient": "Empfänger",
+  "items": "Datenpunkte",
+  "population": "Population",
+  "confidence": "Konfidenz",
+  "signals": "{count} Beschwerden (synthetisch): {ids}",
+  "provenance": "Gefunden von {tool} im Lauf {run}; Klassifikation: {method}",
+  "recorded": "aufgezeichnet (Simulation)"
+ },
+ "param": {
+  "population_units": "Population (Einheiten)",
+  "frequency_per_year": "Turnus pro Jahr",
+  "cases_per_year": "Fälle pro Jahr",
+  "minutes_per_case": "Minuten je Fall",
+  "wage_eur_per_hour": "Lohnsatz (€/Std.)",
+  "material_eur_per_case": "Sachkosten je Fall (€)",
+  "admin_minutes_per_case": "Minuten der Verwaltung je Fall",
+  "admin_wage_eur_per_hour": "Lohnsatz der Verwaltung (€/Std.)"
+ },
+ "effort": {
+  "low": "niedrig",
+  "medium": "mittel",
+  "high": "hoch"
  }
 }
