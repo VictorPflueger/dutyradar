@@ -1,0 +1,76 @@
+# Builds the law snapshot in GitHub Actions, because the build environment cannot reach
+# gesetze-im-internet.de (TECH_NOTES §5). Two ways to start it:
+#   - a push to the branch snapshot/request, or Actions → snapshot → Run workflow: runs
+#     tools/snapshot-laws.mjs and pushes data/corpus/ and SNAPSHOT.md to a new branch
+#     snapshot/<UTC time>, from which a pull request takes them into the milestone branch
+#     (workflows may not open pull requests without a change to the repository settings);
+#   - a push to the branch snapshot/probe: keeps the raw sources for inspection on that branch
+#     (raw/: the table of contents, each norm's XML, the cost guide's text, the OnDEA home page).
+name: snapshot
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["snapshot/request", "snapshot/probe"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: snapshot-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    name: Law snapshot from gesetze-im-internet.de
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      GUIDE_URL: "https://www.destatis.de/DE/Themen/Staat/Buerokratiekosten/Publikationen/Downloads-Buerokratiekosten/leitfaden-erfuellungsaufwand.pdf?__blob=publicationFile"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+
+      - name: Probe the sources (raw law texts, the cost guide, OnDEA)
+        if: github.ref_name == 'snapshot/probe'
+        run: |
+          node tools/snapshot-laws.mjs --raw-only --raw-out raw/laws
+          mkdir -p raw/sources
+          # The cost guide (Destatis, February 2026): its text for the wage and time tables.
+          if curl -fsSL --max-time 120 -A "dutyradar-snapshot (GitHub Actions)" -o guide.pdf "$GUIDE_URL"; then
+            sha256sum guide.pdf > raw/sources/leitfaden-2026.sha256
+            stat -c '%s bytes' guide.pdf >> raw/sources/leitfaden-2026.sha256
+            sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils > /dev/null
+            pdfinfo guide.pdf > raw/sources/leitfaden-2026.info.txt || true
+            pdftotext -layout guide.pdf raw/sources/leitfaden-2026.txt
+          else
+            echo "The guide could not be downloaded from $GUIDE_URL" > raw/sources/leitfaden-2026.error.txt
+          fi
+          # OnDEA: reachability and what the home page offers.
+          curl -sS -L --max-time 60 -A "Mozilla/5.0 (dutyradar probe)" -D raw/sources/ondea-headers.txt -o raw/sources/ondea-home.html "https://www.ondea.de/" \
+            || echo "OnDEA could not be reached" > raw/sources/ondea-error.txt
+          date -u +%Y-%m-%dT%H:%M:%SZ > raw/probed_at.txt
+
+      - name: Build the snapshot
+        if: github.ref_name != 'snapshot/probe'
+        run: node tools/snapshot-laws.mjs
+
+      - name: Push the result to a branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "$GITHUB_REF_NAME" = "snapshot/probe" ]; then
+            git add raw
+            git commit -m "Raw sources probed $(cat raw/probed_at.txt)"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          else
+            branch="snapshot/$(date -u +%Y%m%d-%H%M)"
+            git checkout -b "$branch"
+            git add data/corpus SNAPSHOT.md
+            git commit -m "Law snapshot of $(date -u +%Y-%m-%d) from gesetze-im-internet.de"
+            git push origin "$branch"
+            echo "Pushed $branch" >> "$GITHUB_STEP_SUMMARY"
+          fi
