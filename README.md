@@ -42,7 +42,7 @@ Every assumed value carries the label "Annahme" (Assumption) with its rationale 
 
 ## Measured recall
 
-The gold set (`tests/fixtures/gold-duties.json`) holds 60 sentences of the slice, 40 duties and 20 non-duties, drawn in a seeded, reproducible order and labelled by hand. **The labels are the builder's and not yet confirmed.**
+The gold set (`tests/fixtures/gold-duties.json`) holds 60 sentences of the slice, 40 duties and 20 non-duties, drawn in a seeded, reproducible order and labelled by hand. Victor Pflüger confirmed the labels on 19 November 2026.
 
 | Measure | Value | Note |
 | --- | --- | --- |
@@ -79,7 +79,7 @@ npm run csp                                                             # write 
 | M2 Agents and screens | 0.2.0 | The 16 tools, the Live loop with its caps, the Sovereign adapter, the six screens, R1 to R3 | Next |
 | M3 Hardening and demo | 1.0.0 | End-to-end suites, accessibility, small screens, print, self-test, demo script, review | Later |
 
-Decisions still open: the slice (D1, provisional), the sovereign endpoint (D3, none configured), calibration with OnDEA and DIP (D4, not reachable from the build environment, so every population and case number stays an assumption), the API key for recordings (D7, hand-authored runs until then) and the website card (D8).
+Victor confirmed the slice (D1) and the gold-set labels on 19 November 2026. Decisions still open: the sovereign endpoint (D3, none configured), calibration with OnDEA and DIP (D4, not reachable from the build environment, so every population and case number stays an assumption), the API key for recordings (D7, hand-authored runs until then) and the website card (D8).
 
 ## Acceptance record
 
@@ -92,7 +92,7 @@ Automated criteria pass in CI; manual ones are recorded here with date, person a
 | AC-03 Cluster cases K1 to K9 | `tests/engine.mjs cluster` | Pass |
 | AC-04 Option cases O1 to O6, reasons in both languages | `tests/engine.mjs options` | Pass |
 | AC-05 Slice coverage | `tests/engine.mjs golden coverage` | Pass |
-| AC-06 Pattern-stage recall on the gold set | `tests/engine.mjs recall` | Pass (builder's labels, unconfirmed) |
+| AC-06 Pattern-stage recall on the gold set | `tests/engine.mjs recall` | Pass (labels confirmed on 19 November 2026) |
 | AC-07 Pattern boundaries and abbreviations | `tests/engine.mjs patterns` | Pass |
 | AC-08 Snapshot stops on a missing slug or title; Norm contract | `tests/snapshot.mjs` | Pass |
 | AC-09 Sources, synthetic and simulated labels, 25 to 35 norms | `tools/check-data.mjs` | Pass |

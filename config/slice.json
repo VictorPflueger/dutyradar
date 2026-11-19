@@ -1,6 +1,7 @@
 {
   "slice_id": "slice-1",
-  "status": "provisional",
+  "status": "confirmed",
+  "confirmed_on": "2026-11-19",
   "retrieved_titles_from": "gii-toc.xml read on 2026-11-19 (PLAN.md section 6.1)",
   "families": {
     "statistics": {

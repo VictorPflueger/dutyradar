@@ -1,6 +1,6 @@
 {
   "slice_id": "slice-1",
-  "slice_status": "provisional",
+  "slice_status": "confirmed",
   "retrieved_at": "2026-11-19T04:01:18Z",
   "source": "https://www.gesetze-im-internet.de/gii-toc.xml",
   "transport": {

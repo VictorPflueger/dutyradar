@@ -2,7 +2,7 @@
 
 The law texts in `data/corpus/` are the consolidated versions published on gesetze-im-internet.de by the Federal Ministry of Justice and juris; they are not the official version, which is the Federal Law Gazette (Bundesgesetzblatt). They were retrieved from https://www.gesetze-im-internet.de/gii-toc.xml on 2026-11-19T04:01:18Z by the public daily archive [QuantLaw/gesetze-im-internet](https://github.com/QuantLaw/gesetze-im-internet) (branch `data`, commit `0d22c0e8e411a1d43d9e586ff87ce53cc86e66f1`), which stores the table of contents and every norm's unzipped XML unchanged; `tools/snapshot-laws.mjs --archive` built this corpus from that commit, because gesetze-im-internet.de does not answer GitHub's runners or this build's shell (TECH_NOTES.md §5).
 
-Table of contents: https://www.gesetze-im-internet.de/gii-toc.xml, SHA-256 `78c2db9a186b078224bda29ea619c071e16e6e98b562fb2f1f2019fa5f131235`. Slice `slice-1` (provisional): 31 norms, 778 paragraphs, 4904 sentences. Paragraph links: not checked (they follow the site's pattern `<slug>/__<nr>.html`; TECH_NOTES.md §5 lists the spot checks).
+Table of contents: https://www.gesetze-im-internet.de/gii-toc.xml, SHA-256 `78c2db9a186b078224bda29ea619c071e16e6e98b562fb2f1f2019fa5f131235`. Slice `slice-1` (confirmed): 31 norms, 778 paragraphs, 4904 sentences. Paragraph links: not checked (they follow the site's pattern `<slug>/__<nr>.html`; TECH_NOTES.md §5 lists the spot checks).
 
 | Slug | Abbreviation | Build date | Paragraphs | Sentences | EU basis (CELEX) | Not kept: structure, annex, repealed, other |
 | --- | --- | --- | --- | --- | --- | --- |
