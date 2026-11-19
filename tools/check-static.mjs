@@ -1,7 +1,8 @@
 // Static checks of the site (AC-14 and AC-15, run from M1): the security policy in index.html is the
 // specification's (as tools/set-csp.mjs writes it), no inline script or style, no script, style, font
 // or image from another host, every storage key starts with "dr." (Vici's "vc-theme" is the one shared
-// key), no fixed-point string conversion in js/engine/, both language files with identical keys, and
+// key), no fixed-point string conversion in js/engine/, pure engines, tools and run state (no DOM,
+// storage, network or JSON import), both language files with identical keys, and
 // no key-like string and no unfinished-work marker (a to-do or fix-me note, placeholder text) in any
 // published file of the project (the law texts and Vici's files are others' and not searched for markers).
 // Usage: node tools/check-static.mjs
@@ -32,13 +33,13 @@ if (/\sstyle="/.test(html)) fail("index.html has a style attribute");
 if (/\son[a-z]+="/.test(html)) fail("index.html has an inline event handler");
 for (const m of html.matchAll(/<link\b[^>]*href="([^"]+)"/g)) if (/^(?:https?:)?\/\//.test(m[1])) fail(`index.html links a file from another host: ${m[1]}`);
 
-// The app's own files.
+// The app's own files (the top-level folders below are not the app; js/tools/ is).
 const SKIP = new Set(["vici", "node_modules", ".git", "tests", "tools", "data"]);
 const files = [];
 (function walk(dir) {
   for (const name of readdirSync(path.join(ROOT, dir))) {
     const rel = path.join(dir, name);
-    if (statSync(path.join(ROOT, rel)).isDirectory()) { if (!SKIP.has(name) && !name.startsWith(".")) walk(rel); }
+    if (statSync(path.join(ROOT, rel)).isDirectory()) { if (!SKIP.has(rel) && !name.startsWith(".")) walk(rel); }
     else if (/\.(js|mjs|css|html)$/.test(name)) files.push(rel);
   }
 })("");
@@ -50,7 +51,8 @@ for (const f of files) {
     }
     for (const m of text.matchAll(/\bfetch\(\s*(["'`])(https?:\/\/[^"'`]+)\1/g)) if (!m[2].startsWith("https://api.anthropic.com/")) fail(`${f}: fetches ${m[2]}`);
     if (f.startsWith(`js${path.sep}engine${path.sep}`) && /toFixed/.test(text)) fail(`${f}: fixed-point string conversion in an engine (round only for display, with Intl.NumberFormat)`);
-    if (f.startsWith(`js${path.sep}engine${path.sep}`) && /\b(?:document|window|localStorage|sessionStorage)\b|\bfetch\(/.test(text.replace(/\/\/.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, ""))) fail(`${f}: an engine touches the DOM, storage or the network`);
+    const pure = [`js${path.sep}engine${path.sep}`, `js${path.sep}tools${path.sep}`].some((d) => f.startsWith(d)) || f === `js${path.sep}state.js`;
+    if (pure && /\b(?:document|window|localStorage|sessionStorage)\b|\bfetch\(|\bimport\s[^;]*\.json\b/.test(text.replace(/\/\/.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, ""))) fail(`${f}: an engine, tool or the run state touches the DOM, storage or the network, or imports JSON`);
   }
   if (/@import\s+url\((?:["']?)https?:/.test(text) || /url\((["']?)https?:\/\//.test(text)) fail(`${f}: loads a file from another host`);
 }
