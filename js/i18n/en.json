@@ -10,11 +10,26 @@
  "mode": {
   "simulation": "SIMULATION",
   "live": "LIVE",
-  "sovereign": "SOVEREIGN"
+  "sovereign": "SOVEREIGN",
+  "none": "No run active",
+  "hint": "Choose a mode with Start agent."
  },
  "start": {
   "question": "How many duties do we carry, and which ask twice?",
-  "button": "Start analysis"
+  "button": "Start analysis",
+  "what_real": "What is real?",
+  "real": "Real: law texts and citations, the cost method, the engines' arithmetic and live model runs.",
+  "assumed": "Assumed or synthetic: case numbers and time values without an official source, complaints, register availability and the reviewer's role.",
+  "never": "Never: ministry systems, personal data, anything sent from the outbox.",
+  "benchmarks": "The PflichtenLichten benchmarks: reporting duties −⅓, documentation duties −½.",
+  "slice_title": "The slice",
+  "slice_meta": "{norms} norms, {paragraphs} paragraphs, {sentences} sentences; texts as of {date}",
+  "col_norm": "Norm",
+  "col_title": "Title",
+  "col_paragraphs": "Paragraphs",
+  "col_sentences": "Sentences",
+  "col_eu": "EU-related",
+  "table_caption": "The slice's norms by family"
  },
  "cite": {
   "notice": "Consolidated text, not official. The Federal Law Gazette is authoritative."
@@ -24,16 +39,19 @@
   "approve": "Approve",
   "reject": "Reject",
   "info": "Ask for information",
-  "target_decided": "Target decided"
+  "target_decided": "Target decided",
+  "empty": "No options yet. They appear when the agent needs your decision."
  },
  "audit": {
   "blocked": "Unsourced figure blocked",
   "manual": "Needs manual editing",
-  "text_blocked": "Text blocked"
+  "text_blocked": "Text blocked",
+  "empty": "No events yet."
  },
  "outbox": {
   "title": "Relief dossier (draft)",
-  "notice": "Nothing is sent."
+  "notice": "Nothing is sent.",
+  "empty": "The dossier is empty. Only your approvals fill it."
  },
  "badge": {
   "assumption": "Assumption",
@@ -48,7 +66,10 @@
   "duties": "Duties inventoried",
   "reporting": "Reporting duties in the slice (benchmark −⅓)",
   "documentation": "Documentation duties in the slice (benchmark −½)",
-  "cost": "Compliance cost addressed (estimate)"
+  "cost": "Compliance cost addressed (estimate)",
+  "per_type": "Duties inventoried by type",
+  "of_benchmark": "{value} of the benchmark",
+  "pending": "pending: {value}"
  },
  "dossier": {
   "kept": "Kept duties (with justification)",
@@ -148,7 +169,13 @@
   "provisional": "provisional"
  },
  "run": {
-  "handwritten": "hand-authored"
+  "handwritten": "hand-authored",
+  "R1": "R1 Pitch run",
+  "R2": "R2 Rejection path",
+  "R3": "R3 Single norm",
+  "R1_desc": "Full slice: inventory, clusters, options for the top cluster, one decision, dossier.",
+  "R2_desc": "A cluster is split, an unsourced figure blocked, a proposal rejected and the duty kept with its justification.",
+  "R3_desc": "One norm end to end, with the same tool sequence as a live run."
  },
  "reviewer": {
   "role": "Desk officer (demo)"
@@ -282,5 +309,120 @@
   "Betriebe": "Businesses",
   "Steuern": "Taxes",
   "Weniger Bürokratie": "Less bureaucracy"
+ },
+ "drawer": {
+  "built_by": "Built by",
+  "linkedin": "Victor Pflüger on LinkedIn (opens in a new tab)",
+  "website": "Victor Pflüger's website (opens in a new tab)",
+  "tab": {
+   "audit": "Audit"
+  },
+  "tablist": "Decision drawer",
+  "show": "Show",
+  "hide": "Hide",
+  "toggle": "Show or hide the drawer",
+  "note": "Nothing is sent."
+ },
+ "rail": {
+  "label": "The agent team's roles",
+  "decision": "Your decision",
+  "state": {
+   "idle": "not called yet",
+   "active": "working",
+   "done": "called before"
+  }
+ },
+ "state": {
+  "idle": "Ready",
+  "running": "Running",
+  "awaiting_decision": "Awaiting your decision",
+  "awaiting_review": "Awaiting your cluster review",
+  "done": "Done",
+  "stopped": "Stopped",
+  "aborted": "Aborted",
+  "error": "Error"
+ },
+ "handover": {
+  "awaiting_decision": "Awaiting your decision",
+  "awaiting_approval": "Awaiting your approval"
+ },
+ "dialog": {
+  "close": "Close dialog"
+ },
+ "skip": {
+  "console": "Skip to the agent console"
+ },
+ "lang": {
+  "label": "Language",
+  "en": "EN",
+  "de": "DE",
+  "en_name": "English",
+  "de_name": "Deutsch"
+ },
+ "theme": {
+  "toggle": "Light or dark theme"
+ },
+ "intro": {
+  "button": "How it works",
+  "title": "How Duty Radar works",
+  "step": {
+   "inventory": "Inventory: the agent reads the slice's norms and records reporting, proof, information, documentation, evaluation and control duties with their citation.",
+   "duplicates": "Duplicates: duties that ask the same businesses for the same data are clustered; a register could supply the data.",
+   "prices": "Prices: every duty and every option is priced with the compliance cost (Erfüllungsaufwand) method. Every figure has a source or carries the label Assumption.",
+   "decision": "Decision: you approve, reject or ask for information. Only your approval enters the dossier, and nothing is sent."
+  },
+  "close": "Got it"
+ },
+ "kpis": {
+  "label": "Key figures of the run"
+ },
+ "controls": {
+  "label": "Run controls",
+  "start": "Start agent",
+  "start_later": "The agent runs arrive with version 0.2.0.",
+  "run": "Run",
+  "slice": "Slice",
+  "model": "Model",
+  "speed": "Replay speed",
+  "speed_x": "Replay speed ×{n}",
+  "abort": "Abort",
+  "reset": "Reset"
+ },
+ "console": {
+  "title": "Agent console",
+  "larger": "Larger text",
+  "empty": "No run yet. The three runs:"
+ },
+ "view": {
+  "tabs": "Views"
+ },
+ "dutymap": {
+  "empty": "The map fills once the agent inventories the duties."
+ },
+ "duplicates": {
+  "empty": "Clusters appear once the matcher runs."
+ },
+ "diag": {
+  "snapshot": "Law snapshot",
+  "source": "Source",
+  "retrieved": "Retrieved",
+  "archive": "Through the daily archive",
+  "links": "Paragraph links",
+  "links_unchecked": "not checked",
+  "policy": "Network & security policy",
+  "policy_text": "The page loads only its own files. In Live mode it talks only to api.anthropic.com, in Sovereign mode only to the configured endpoint.",
+  "csp": "This page's policy",
+  "model": "Model & caps",
+  "caps": "At most {calls} model calls and {eur} per run",
+  "fx": "Exchange rate (assumption)",
+  "version": "Version",
+  "assumptions": "Assumptions",
+  "assumptions_text": "Cost parameters per addressee group; every value has a source or the label Assumption.",
+  "col_field": "Field",
+  "col_value": "Value",
+  "col_source": "Source"
+ },
+ "table": {
+  "show": "Figures as a table"
  }
 }

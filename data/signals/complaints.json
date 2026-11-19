@@ -1,0 +1,258 @@
+[
+ {
+  "id": "K-001",
+  "category": "Einmal genügt",
+  "text": "Wir melden dieselben Beschäftigtenzahlen jedes Quartal an zwei verschiedene Stellen.",
+  "text_en": "We report the same employee numbers to two different offices every quarter.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-002",
+  "category": "Einmal genügt",
+  "text": "Die Anmeldung vor jedem Einsatz verlangt Angaben, die der Zoll aus früheren Meldungen schon kennt.",
+  "text_en": "The registration before each assignment asks for details customs already has from earlier notifications.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-003",
+  "category": "Einmal genügt",
+  "text": "Unsere Stammdaten stehen in drei Registern und müssen trotzdem in jedem Formular neu eingetragen werden.",
+  "text_en": "Our master data sits in three registers and still has to be entered again in every form.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-004",
+  "category": "Einmal genügt",
+  "text": "Für die Statistik geben wir den Umsatz an, den das Finanzamt längst hat.",
+  "text_en": "For the statistics we state the turnover the tax office has long had.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-005",
+  "category": "Einmal genügt",
+  "text": "Dieselben Arbeitszeiten zeichnen wir für zwei Gesetze getrennt auf.",
+  "text_en": "We record the same working hours separately for two laws.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-006",
+  "category": "Betriebe",
+  "text": "Die tägliche Arbeitszeitaufzeichnung kostet unseren kleinen Betrieb jede Woche mehrere Stunden.",
+  "text_en": "Recording daily working time costs our small business several hours a week.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-007",
+  "category": "Betriebe",
+  "text": "Bei der Verpackungsmeldung ändern sich die Materialarten öfter, als wir die Daten pflegen können.",
+  "text_en": "In the packaging report the material types change more often than we can maintain the data.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-008",
+  "category": "Betriebe",
+  "text": "Für jedes neue Gerätemodell müssen wir die Registrierung anpassen, auch wenn sich nichts Wesentliches ändert.",
+  "text_en": "For every new device model we have to amend the registration, even when nothing essential changes.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-009",
+  "category": "Betriebe",
+  "text": "Die Unterlagen müssen am Einsatzort bereitliegen, obwohl alles digital im Büro verfügbar ist.",
+  "text_en": "The documents must be kept at the work site, although everything is available digitally in the office.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-010",
+  "category": "Betriebe",
+  "text": "Als Handwerksbetrieb verstehen wir nicht, warum wir für zwei Statistiken befragt werden.",
+  "text_en": "As a craft business we do not understand why we are surveyed for two statistics.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-011",
+  "category": "Weniger Bürokratie",
+  "text": "Die Fristen der verschiedenen Meldungen liegen alle im selben Monat.",
+  "text_en": "The deadlines of the different reports all fall in the same month.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-012",
+  "category": "Weniger Bürokratie",
+  "text": "Viele Angaben in der Erhebung werden für uns nie sichtbar ausgewertet.",
+  "text_en": "Many details in the survey are never visibly used for us.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-013",
+  "category": "Weniger Bürokratie",
+  "text": "Die Aufbewahrungsfristen für dieselben Unterlagen sind je nach Gesetz verschieden.",
+  "text_en": "The retention periods for the same documents differ from law to law.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-014",
+  "category": "Weniger Bürokratie",
+  "text": "Eine einzige Meldestelle würde uns viel Zeit sparen.",
+  "text_en": "A single reporting office would save us a lot of time.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-015",
+  "category": "Weniger Bürokratie",
+  "text": "Wir müssen Änderungen unverzüglich melden, auch wenn es nur eine neue Telefonnummer ist.",
+  "text_en": "We must report changes without delay, even when it is only a new phone number.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-016",
+  "category": "Verwaltung digital",
+  "text": "Das Meldeportal akzeptiert unsere Lohnsoftware nicht als Schnittstelle.",
+  "text_en": "The reporting portal does not accept our payroll software as an interface.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-017",
+  "category": "Verwaltung digital",
+  "text": "Der elektronische Weg für die Gewerbeanzeige endet mit einem Ausdruck, den wir unterschreiben sollen.",
+  "text_en": "The electronic route for the trade notification ends with a printout we are asked to sign.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-018",
+  "category": "Verwaltung digital",
+  "text": "Bei jeder Meldung müssen wir uns neu anmelden und dieselben Kontaktdaten eintippen.",
+  "text_en": "For each report we have to log in again and type the same contact details.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-019",
+  "category": "Verwaltung digital",
+  "text": "Die Formatvorgaben ändern sich, ohne dass die alten Dateien weiter funktionieren.",
+  "text_en": "The format rules change and the old files stop working.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-020",
+  "category": "Anträge",
+  "text": "Für die Erlaubnis als Vermittler mussten wir Nachweise vorlegen, die bei der Kammer schon vorliegen.",
+  "text_en": "For the intermediary licence we had to submit proof the chamber already holds.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-021",
+  "category": "Anträge",
+  "text": "Der Antrag auf vereinfachte Anmeldung ist komplizierter als die Anmeldung selbst.",
+  "text_en": "The application for the simplified declaration is more complicated than the declaration itself.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-022",
+  "category": "Anträge",
+  "text": "Die Bescheinigung über die Unterrichtung gilt nur für einen Betrieb, nicht für die ganze Gruppe.",
+  "text_en": "The certificate of instruction is valid for one business only, not for the whole group.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-023",
+  "category": "Anträge",
+  "text": "Für den Wechsel des Systems müssen wir die gesamte Registrierung neu einreichen.",
+  "text_en": "To change the system we have to resubmit the whole registration.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-024",
+  "category": "Servicequalität",
+  "text": "Auf Rückfragen der Statistik bekommen wir Antworten erst nach Wochen.",
+  "text_en": "Our questions to the statistics office get answers only after weeks.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-025",
+  "category": "Servicequalität",
+  "text": "Die Hinweise zum Ausfüllen erklären die Begriffe anders als das Gesetz.",
+  "text_en": "The guidance for filling in explains the terms differently from the law.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-026",
+  "category": "Servicequalität",
+  "text": "Niemand konnte uns sagen, welche Behörde für die Meldung zuständig ist.",
+  "text_en": "Nobody could tell us which authority handles the report.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-027",
+  "category": "Steuern",
+  "text": "Die Umsatzzahlen für die Statistik weichen von denen der Umsatzsteuer ab, und wir müssen beides erklären.",
+  "text_en": "The turnover figures for the statistics differ from those for VAT, and we have to explain both.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-028",
+  "category": "Steuern",
+  "text": "Die Wirtschaftsidentifikationsnummer müssen wir in jede Meldung erneut eintragen.",
+  "text_en": "We have to enter the business identification number again in every report.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-029",
+  "category": "Gesundheit & Soziales",
+  "text": "Die Beschäftigtendaten aus der Sozialversicherung könnten die Statistikmeldung ersetzen.",
+  "text_en": "The employee data from social insurance could replace the statistics report.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-030",
+  "category": "Gesundheit & Soziales",
+  "text": "Für Pflegekräfte im Ausland melden wir dieselben Personendaten an mehrere Stellen.",
+  "text_en": "For care workers from abroad we report the same personal data to several offices.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-031",
+  "category": "Einmal genügt",
+  "text": "Die Energiedaten unserer Anlage stehen schon im Register, die Erhebung fragt sie monatlich erneut ab.",
+  "text_en": "Our installation's energy data is already in the register; the survey asks for it again every month.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-032",
+  "category": "Betriebe",
+  "text": "Die Meldung über die Beendigung des Einsatzes wiederholt fast alle Angaben der Anmeldung.",
+  "text_en": "The report on the end of the assignment repeats almost all details of the registration.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ }
+]

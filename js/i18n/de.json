@@ -10,11 +10,26 @@
  "mode": {
   "simulation": "SIMULATION",
   "live": "LIVE",
-  "sovereign": "SOUVERÄN"
+  "sovereign": "SOUVERÄN",
+  "none": "Kein Lauf aktiv",
+  "hint": "Den Modus wählen Sie mit „Agent starten“."
  },
  "start": {
   "question": "Wie viele Pflichten tragen wir, und welche sind doppelt?",
-  "button": "Analyse starten"
+  "button": "Analyse starten",
+  "what_real": "Was ist echt?",
+  "real": "Echt: Gesetzestexte und Zitate, die Kostenmethode, die Rechnung der Engines und Live-Läufe des Modells.",
+  "assumed": "Angenommen oder synthetisch: Fallzahlen und Zeitwerte ohne amtliche Quelle, Beschwerden, die Verfügbarkeit von Registern und die Rolle der Prüferin.",
+  "never": "Nie: Systeme von Ministerien, personenbezogene Daten, ein Versand aus dem Ausgang.",
+  "benchmarks": "Die Richtwerte von PflichtenLichten: Meldepflichten −⅓, Dokumentationspflichten −½.",
+  "slice_title": "Der Ausschnitt",
+  "slice_meta": "{norms} Normen, {paragraphs} Paragrafen, {sentences} Sätze; Stand der Texte {date}",
+  "col_norm": "Norm",
+  "col_title": "Titel",
+  "col_paragraphs": "Paragrafen",
+  "col_sentences": "Sätze",
+  "col_eu": "EU-Bezug",
+  "table_caption": "Die Normen des Ausschnitts nach Familie"
  },
  "cite": {
   "notice": "Konsolidierte Fassung, nicht amtlich. Maßgeblich ist das Bundesgesetzblatt."
@@ -24,16 +39,19 @@
   "approve": "Freigeben",
   "reject": "Ablehnen",
   "info": "Rückfrage",
-  "target_decided": "Ziel entschieden"
+  "target_decided": "Ziel entschieden",
+  "empty": "Noch keine Optionen. Sie erscheinen, wenn der Agent Ihre Entscheidung braucht."
  },
  "audit": {
   "blocked": "Zahl ohne Beleg blockiert",
   "manual": "manuelle Bearbeitung",
-  "text_blocked": "Text blockiert"
+  "text_blocked": "Text blockiert",
+  "empty": "Noch keine Ereignisse."
  },
  "outbox": {
   "title": "Entlastungsdossier (Entwurf)",
-  "notice": "Nichts wird versendet."
+  "notice": "Nichts wird versendet.",
+  "empty": "Das Dossier ist leer. Nur Ihre Freigaben füllen es."
  },
  "badge": {
   "assumption": "Annahme",
@@ -48,7 +66,10 @@
   "duties": "Pflichten erfasst",
   "reporting": "Meldepflichten im Ausschnitt (Richtwert −⅓)",
   "documentation": "Dokumentationspflichten im Ausschnitt (Richtwert −½)",
-  "cost": "Erfüllungsaufwand adressiert (Schätzung)"
+  "cost": "Erfüllungsaufwand adressiert (Schätzung)",
+  "per_type": "Erfasste Pflichten je Art",
+  "of_benchmark": "{value} des Richtwerts",
+  "pending": "offen: {value}"
  },
  "dossier": {
   "kept": "Beibehaltene Pflichten (mit Begründung)",
@@ -148,7 +169,13 @@
   "provisional": "vorläufig"
  },
  "run": {
-  "handwritten": "handgeschrieben"
+  "handwritten": "handgeschrieben",
+  "R1": "R1 Pitch-Lauf",
+  "R2": "R2 Ablehnungspfad",
+  "R3": "R3 Einzelne Norm",
+  "R1_desc": "Ganzer Ausschnitt: Inventar, Bündel, Optionen für das größte Bündel, eine Entscheidung, Dossier.",
+  "R2_desc": "Ein Bündel wird aufgeteilt, eine Zahl ohne Beleg blockiert, ein Vorschlag abgelehnt und die Pflicht mit Begründung beibehalten.",
+  "R3_desc": "Eine Norm von Anfang bis Ende, mit derselben Werkzeugfolge wie ein Live-Lauf."
  },
  "reviewer": {
   "role": "Referentin (Demo)"
@@ -282,5 +309,120 @@
   "Betriebe": "Betriebe",
   "Steuern": "Steuern",
   "Weniger Bürokratie": "Weniger Bürokratie"
+ },
+ "drawer": {
+  "built_by": "Gebaut von",
+  "linkedin": "Victor Pflüger auf LinkedIn (öffnet in einem neuen Tab)",
+  "website": "Website von Victor Pflüger (öffnet in einem neuen Tab)",
+  "tab": {
+   "audit": "Protokoll"
+  },
+  "tablist": "Entscheidungsleiste",
+  "show": "Anzeigen",
+  "hide": "Ausblenden",
+  "toggle": "Leiste ein- oder ausblenden",
+  "note": "Nichts wird versendet."
+ },
+ "rail": {
+  "label": "Rollen des Agententeams",
+  "decision": "Ihre Entscheidung",
+  "state": {
+   "idle": "noch nicht aufgerufen",
+   "active": "arbeitet",
+   "done": "schon aufgerufen"
+  }
+ },
+ "state": {
+  "idle": "Bereit",
+  "running": "Läuft",
+  "awaiting_decision": "Wartet auf Ihre Entscheidung",
+  "awaiting_review": "Wartet auf Ihre Bündelprüfung",
+  "done": "Fertig",
+  "stopped": "Gestoppt",
+  "aborted": "Abgebrochen",
+  "error": "Fehler"
+ },
+ "handover": {
+  "awaiting_decision": "Wartet auf Ihre Entscheidung",
+  "awaiting_approval": "Wartet auf Ihre Freigabe"
+ },
+ "dialog": {
+  "close": "Dialog schließen"
+ },
+ "skip": {
+  "console": "Zur Agenten-Konsole springen"
+ },
+ "lang": {
+  "label": "Sprache",
+  "en": "EN",
+  "de": "DE",
+  "en_name": "English",
+  "de_name": "Deutsch"
+ },
+ "theme": {
+  "toggle": "Helles oder dunkles Design"
+ },
+ "intro": {
+  "button": "So funktioniert es",
+  "title": "So funktioniert der Pflichten-Radar",
+  "step": {
+   "inventory": "Inventar: Der Agent liest die Normen des Ausschnitts und erfasst Melde-, Nachweis-, Informations-, Dokumentations-, Evaluierungs- und Kontrollpflichten mit ihrem Zitat.",
+   "duplicates": "Dubletten: Pflichten, die dieselben Unternehmen nach denselben Daten fragen, werden gebündelt; ein Register könnte die Daten liefern.",
+   "prices": "Preise: Jede Pflicht und jede Option wird nach der Methode des Erfüllungsaufwands bepreist. Jede Zahl hat eine Quelle oder trägt das Etikett Annahme.",
+   "decision": "Entscheidung: Sie geben frei, lehnen ab oder stellen eine Rückfrage. Nur Ihre Freigabe kommt ins Dossier, und nichts wird versendet."
+  },
+  "close": "Verstanden"
+ },
+ "kpis": {
+  "label": "Kennzahlen des Laufs"
+ },
+ "controls": {
+  "label": "Laufsteuerung",
+  "start": "Agent starten",
+  "start_later": "Die Agentenläufe kommen mit Version 0.2.0.",
+  "run": "Lauf",
+  "slice": "Ausschnitt",
+  "model": "Modell",
+  "speed": "Wiedergabe",
+  "speed_x": "Wiedergabe ×{n}",
+  "abort": "Abbrechen",
+  "reset": "Zurücksetzen"
+ },
+ "console": {
+  "title": "Agenten-Konsole",
+  "larger": "Größere Schrift",
+  "empty": "Noch kein Lauf. Die drei Läufe:"
+ },
+ "view": {
+  "tabs": "Ansichten"
+ },
+ "dutymap": {
+  "empty": "Die Karte füllt sich, sobald der Agent die Pflichten erfasst."
+ },
+ "duplicates": {
+  "empty": "Bündel erscheinen, sobald der Abgleich läuft."
+ },
+ "diag": {
+  "snapshot": "Gesetzesstand",
+  "source": "Quelle",
+  "retrieved": "Abgerufen",
+  "archive": "Weg über das Tagesarchiv",
+  "links": "Paragrafen-Links",
+  "links_unchecked": "nicht geprüft",
+  "policy": "Netzwerk und Sicherheitsrichtlinie",
+  "policy_text": "Die Seite lädt nur ihre eigenen Dateien. Im Live-Modus spricht sie nur mit api.anthropic.com, im souveränen Modus nur mit dem konfigurierten Endpunkt.",
+  "csp": "Richtlinie dieser Seite",
+  "model": "Modell und Grenzen",
+  "caps": "Höchstens {calls} Modellaufrufe und {eur} je Lauf",
+  "fx": "Wechselkurs (Annahme)",
+  "version": "Version",
+  "assumptions": "Annahmen",
+  "assumptions_text": "Kostenparameter je Adressatengruppe; jeder Wert hat eine Quelle oder das Etikett Annahme.",
+  "col_field": "Feld",
+  "col_value": "Wert",
+  "col_source": "Quelle"
+ },
+ "table": {
+  "show": "Zahlen als Tabelle"
  }
 }
