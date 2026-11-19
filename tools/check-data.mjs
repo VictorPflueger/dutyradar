@@ -7,7 +7,9 @@
 //        node tools/check-data.mjs corpus     the law snapshot: every Norm file satisfies the contract,
 //                                             index.json and SNAPSHOT.md match the files
 //        node tools/check-data.mjs sources    every source key resolves (population, norm sentence,
-//                                             guide table)
+//                                             guide table), every table is used, and DATA_SOURCES.md
+//                                             names each document's address and digest, each table's
+//                                             annex and page, and each file that holds assumptions
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -126,7 +128,9 @@ function checkCorpus() {
 
 function checkSourceKeys() {
   const pops = new Set(json("data/params/populations.json").map((p) => p.id));
-  const tables = new Set(json("data/params/sources.json").tables.map((t) => t.key));
+  const register = json("data/params/sources.json");
+  const tables = new Set(register.tables.map((t) => t.key));
+  const used = new Set();
   const params = json("data/params/cost-params.json");
   const sentenceExists = (sid) => {
     const slug = sid.replace(/-(?:p|art)[0-9a-z]+-s\d+$/, "");
@@ -146,10 +150,26 @@ function checkSourceKeys() {
       else if (kind === "population" && p.population_id && p.population_id !== id) fail(`${where}: ${s.source} is not the duty's population ${p.population_id}`);
       else if (kind === "norm" && !sentenceExists(id)) fail(`${where}: ${s.source} names no sentence of the snapshot`);
       else if (kind === "leitfaden-2026" && !tables.has(s.source)) fail(`${where}: ${s.source} is not a table in data/params/sources.json`);
+      if (tables.has(s.source)) used.add(s.source);
       else if (["ondea", "dip"].includes(kind)) fail(`${where}: ${s.source} — no calibration source is bundled yet`);
     }
   }
-  return `SOURCES OK (${n} source keys resolved)`;
+  for (const t of tables) if (!used.has(t)) fail(`data/params/sources.json: table ${t} is used by no cost parameter`);
+
+  // DATA_SOURCES.md records each document, each table and each file of assumptions.
+  const md = readFileSync(path.join(ROOT, "DATA_SOURCES.md"), "utf8");
+  for (const d of register.documents) {
+    if (!md.includes(d.sha256)) fail(`DATA_SOURCES.md does not record the digest of ${d.id}`);
+    if (!md.includes(d.url)) fail(`DATA_SOURCES.md does not record the address of ${d.id}`);
+  }
+  for (const t of register.tables) {
+    const annex = t.title.match(/^Anhang \d+/)?.[0];
+    if (!annex || !md.includes(`${annex}, p. ${t.page}`)) fail(`DATA_SOURCES.md does not name ${t.key} as ${annex || "an annex"}, p. ${t.page}`);
+  }
+  const assumptionFiles = ["data/params/populations.json", "data/params/cost-params.json", "data/params/one-off.json"]
+    .filter((f) => /"Annahme|"assumption"\s*:\s*true/.test(readFileSync(path.join(ROOT, f), "utf8")));
+  for (const f of assumptionFiles) if (!md.includes(`| \`${f}\` |`)) fail(`DATA_SOURCES.md does not list ${f}, which holds assumptions`);
+  return `SOURCES OK (${n} source keys resolved; DATA_SOURCES.md records ${register.documents.length} document${register.documents.length === 1 ? "" : "s"}, ${register.tables.length} tables and ${assumptionFiles.length} files of assumptions)`;
 }
 
 const result = mode === "corpus" ? checkCorpus() : mode === "sources" ? checkSourceKeys() : checkData();

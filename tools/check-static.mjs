@@ -2,7 +2,8 @@
 // specification's (as tools/set-csp.mjs writes it), no inline script or style, no script, style, font
 // or image from another host, every storage key starts with "dr." (Vici's "vc-theme" is the one shared
 // key), no fixed-point string conversion in js/engine/, both language files with identical keys, and
-// no key-like string in any published file.
+// no key-like string and no unfinished-work marker (a to-do or fix-me note, placeholder text) in any
+// published file of the project (the law texts and Vici's files are others' and not searched for markers).
 // Usage: node tools/check-static.mjs
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
@@ -66,8 +67,12 @@ const diff = [...en.keys()].filter((k) => !de.has(k)).concat([...de.keys()].filt
 if (diff.length) fail(`js/i18n: keys only in one language: ${diff.join(", ")}`);
 for (const [lang, m] of [["en", en], ["de", de]]) for (const [k, v] of m) if (typeof v !== "string" || !v.trim()) fail(`js/i18n/${lang}.json: ${k} is empty`);
 
-// No key-like string anywhere in the published files.
+// No key-like string anywhere in the published files, and no unfinished-work marker in the project's own.
 const KEYLIKE = /sk-ant-[A-Za-z0-9_-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|\bghp_[A-Za-z0-9]{30,}|\bxox[abp]-[A-Za-z0-9-]{10,}/;
+// Spelled in parts, so this file does not match itself.
+const MARKER = new RegExp(`\\b(?:${["TO", "DO"].join("")}|${["FIX", "ME"].join("")}|${["X", "XX"].join("")}|${["T", "BD"].join("")})\\b|${["lorem", "ipsum"].join(" ")}`);
+const OTHERS = [`data${path.sep}corpus${path.sep}`, `vici${path.sep}`];
+let markerFiles = 0;
 (function scan(dir) {
   for (const name of readdirSync(path.join(ROOT, dir))) {
     if (name === "node_modules" || name === ".git") continue;
@@ -78,9 +83,14 @@ const KEYLIKE = /sk-ant-[A-Za-z0-9_-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|\b
     // The test harness's mock key is a deliberate fake, marked as such.
     const cleaned = text.replace(/sk-ant-test-MOCKKEY-[A-Za-z0-9]+/g, "");
     if (KEYLIKE.test(cleaned)) fail(`${rel}: holds a key-like string`);
+    if (!OTHERS.some((o) => rel.startsWith(o))) {
+      markerFiles += 1;
+      const m = text.match(MARKER);
+      if (m) fail(`${rel}: holds an unfinished-work marker ("${m[0]}")`);
+    }
   }
 })("");
 
 for (const p of problems) console.log(`FAIL ${p}`);
 if (problems.length) { console.log(`${problems.length} problem${problems.length === 1 ? "" : "s"}.`); process.exit(1); }
-console.log(`STATIC OK (${files.length} app files, ${en.size} strings per language)`);
+console.log(`STATIC OK (${files.length} app files, ${en.size} strings per language, ${markerFiles} files without an unfinished-work marker)`);

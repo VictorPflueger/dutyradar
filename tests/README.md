@@ -11,8 +11,8 @@
 | unit | Both language files: identical keys, no empty value, the copy tables exactly; ICU in de-DE and en-GB | AC-15 (from M1), AC-01 |
 | engine | Golden cases G1–G8 in both languages, coverage, fact auditor A01–A31, clusters K1–K9, options O1–O6, mappings, fact registry, sentence splitting and patterns, the gold set and the pattern stage's recall | AC-01–AC-07 |
 | snapshot | The snapshot script on `tests/fixtures/toc-sample.xml` and the two-norm fixture slice: stops on a missing slug or title, the Norm contract, the EU basis | AC-08, AC-34 |
-| data, corpus, sources | `tools/check-data.mjs`: the data files, the law snapshot, every source key | AC-09 |
-| static | `tools/check-static.mjs`: security policy, no inline code, storage keys, pure engines, language keys, no key-like strings | AC-14 (from M1) |
+| data, corpus, sources | `tools/check-data.mjs`: the data files, the law snapshot, every source key and table, and DATA_SOURCES.md's record of the guide, its tables and the files of assumptions | AC-09 |
+| static | `tools/check-static.mjs`: security policy, no inline code, storage keys, pure engines, language keys, no key-like strings, no unfinished-work marker | AC-14 (from M1) |
 | hygiene, docs | No relationship term or e-mail address in any published file; the documents complete, every path they name present | Definition of done |
 | smoke, i18n, layout | Boot offline, intro, views, drawer, Diagnostics, keyboard, a failed boot; English first and the switch, a failed boot reported in German; viewports from 1920 × 1080 to 1280 × 720, light and dark at 1920 × 1080 and 1280 × 720 with a screenshot each, nothing cut to an ellipsis, and 360 px | AC-25, AC-38 (parts) |
 
