@@ -27,7 +27,7 @@ Contents: [0 Summary](#0-phase-0-in-one-page) · [1 Findings and probes](#1-phas
 **What I need from you.**
 
 1. Enable GitHub Pages: Settings → Pages → Deploy from a branch → `main` / `/ (root)`. The session proxy refuses the Pages API to me (HTTP 403), and it is a repository setting.
-2. Add the repository secret `HYGIENE_TERMS` (Settings → Secrets and variables → Actions), one term per line, naming only what would reveal the relationship: people, meetings, units. Leave out the public bodies the prototype cites and their domains, because the check matches whole words in every file and has no allowlist. The proxy refuses the secrets API to me too.
+2. Add the repository secret `HYGIENE_TERMS` (Settings → Secrets and variables → Actions), one term per line: the private terms no published file may contain. Leave out the public bodies the prototype cites and their domains, because the check matches whole words in every file and has no allowlist. The proxy refuses the secrets API to me too.
 3. Attach the Destatis guide of February 2026 (PDF, about 4 MB) to the project, so that M1 takes wage rates and time values from its tables (D6).
 4. Optional: run the OnDEA probe in Appendix A and send me the console line (D4).
 5. Approve or change the decisions. Then I start M1.
@@ -561,7 +561,7 @@ As the specification lists them, with the English fields of section 4: `cost-par
 | --- | --- | --- |
 | tokens, hexagon, page-icon, vici-files | The four shared design tests, unchanged, with Duty Radar's values; the duty map's ramp and the gauges' pairs in both themes | AC-39 |
 | parity | The shell against Rebate Hunter's `main`; the four adapted modules listed | AC-39 |
-| hygiene, docs | No relationship term or e-mail address in any file; documents complete, every named path and cited section exists | Definition of done |
+| hygiene, docs | No term of the private list and no e-mail address in any file; documents complete, every named path and cited section exists | Definition of done |
 | unit | Streaming client, retries, cost with three models and the Haiku tier, both ICU checks, i18n parity and the copy tables | AC-11, AC-15, AC-01 (display) |
 | engine | Golden G1–G8 in both languages; audit A01–A31; cluster K1–K9; options O1–O6 with reasons in both languages; coverage; sentence splitting; patterns and the gold set; classification mappings; fact ids stable across replays and edits | AC-01–AC-07, AC-36, AC-37 |
 | snapshot | The snapshot script against the fixture table of contents and fixture norms | AC-08, AC-34 |
@@ -657,7 +657,7 @@ GATES.md is written from the milestone's criteria before the work starts. At the
 | The audience reads the slice coverage as national progress | The tooltip "Slice only, not the national target" on both gauges | `smoke`, `storyline` |
 | A protected or EU-based duty is offered for deletion | Option rules with codes; badges on the duty card | O4, O5 |
 | A shell change in a sister app goes unnoticed | `tests/parity.mjs` on every push | `parity` |
-| A relationship term lands in a public file | `tests/hygiene.mjs` with the secret list on every push | `hygiene` |
+| A private term lands in a public file | `tests/hygiene.mjs` with the secret list on every push | `hygiene` |
 | The live site differs from the commit | The live-site workflow after every Pages build | `live_site` |
 
 ---

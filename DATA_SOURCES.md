@@ -1,6 +1,6 @@
 # DATA_SOURCES — Duty Radar
 
-Every source with its address, retrieval date, terms and edition, and every assumption with its rationale. Version 0.1.0.
+Every source with its address, retrieval date, terms and edition, and every assumption with its rationale. Version 1.0.0; the sources have not changed since version 0.1.0.
 
 ## 1. Federal law texts
 
@@ -19,7 +19,7 @@ Every source with its address, retrieval date, terms and edition, and every assu
 ## 3. Calibration
 
 - **OnDEA**, the Destatis database of compliance-cost estimates: not used. It answered GitHub's runners but not the web-fetch tool of this build, and no export was available to transcribe (decision D4).
-- **DIP**, the Bundestag's documentation system: not used in version 0.1.0; it needs the public key and runs as an optional build step.
+- **DIP**, the Bundestag's documentation system: not used up to version 1.0.0; it needs the public key and runs as an optional build step.
 - Until a calibration exists, every population size, case number and frequency in `data/params/` is an assumption.
 
 ## 4. Assumptions and synthetic data

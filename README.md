@@ -26,11 +26,11 @@ The language model never computes a number: it classifies in categories, determi
 
 An agent orchestrates these steps through 16 tools (`js/tools/`): it reads, classifies, clusters, prices, drafts and asks for decisions, and the tools return engine figures as facts it can only cite. **Start agent** offers three modes:
 
-- **Simulation** replays one of three hand-authored runs offline: R1 the pitch run over the whole slice, R2 the rejection path (a split cluster, a blocked figure, a rejection, a duty kept with its justification), R3 one norm end to end. The engines recompute every figure; your decisions are your own, and the run pauses for each. ×1, ×2, ×4 and Pause set the pace.
-- **Live** runs the same agent against Claude with your API key, at most 40 model calls and €3 per run; the control bar shows calls and spend. The key stays in the tab.
+- **Simulation** replays one of three hand-authored runs offline: R1 the full slice, R2 the rejection path (a split cluster, a blocked figure, a rejection, a duty kept with its justification), R3 one norm end to end. The engines recompute every figure; your decisions are your own, and the run pauses for each. ×1, ×2, ×4 and Pause set the pace.
+- **Live** runs the same agent against Claude with your API key: at most 40 model calls, and no call starts once €3 are spent; the control bar shows calls and spend. The key stays in the tab.
 - **Sovereign** would run it against an OpenAI-compatible endpoint you operate; none is configured, so the mode is shown disabled with its reason.
 
-The screens: the duty map (norms × duty types, a cell opens its duty cards), the duplicates board, Options & review, the outbox with the relief dossier and four exports, the audit log, and Assumptions & diagnostics with the editable assumptions and the self-test. Every figure opens "Where does this figure come from?". Everything works by keyboard; below 900 px the views are one menu and the console a drawer; printing gives the dossier. [DEMO_SCRIPT.md](DEMO_SCRIPT.md) is the presenter's guide, with the talk track in English and German.
+The screens: the duty map (norms × duty types, a cell opens its duty cards), the duplicates board, Options & review, the outbox with the relief dossier and four exports, the audit log, and Assumptions & diagnostics with the editable assumptions and the self-test. Every figure the engines compute opens "Where does this figure come from?"; the other numbers on screen are ids, reason codes, § references, provenance lines and the benchmarks −⅓ and −½ the gauges are named after. Everything works by keyboard; below 900 px the views are one menu and the console a drawer; printing gives the dossier. [DEMO_SCRIPT.md](DEMO_SCRIPT.md) is the presenter's guide, with the talk track in English and German.
 
 ## What is real, assumed or synthetic
 
@@ -90,7 +90,7 @@ Address options: `?lang=de` opens in German, `?speed=n` (up to 1000) replays fas
 
 Victor confirmed the slice (D1), the gold-set labels and the German labels of version 0.1.0 on 19 November 2026. Decisions still open: the sovereign endpoint (D3, none configured), calibration with OnDEA and DIP (D4, not reachable from the build environment, so every population and case number stays an assumption) and the API key for recordings (D7, hand-authored runs until then). The website's card (D8) is proposed for version 1.0.0 in a pull request on Victor's website.
 
-**Known limits.** The law slice is one snapshot of 31 norms, consolidated texts and not the official version. Populations, case numbers, frequencies and the register retrieval's administration time are assumptions until calibration (D4). The three runs are hand-authored, not recorded from a model (D7); the classifier's precision needs a Live run (AC-29). Registers are simulated, complaints synthetic. Sovereign mode has no endpoint (D3). The prototype is tested at 1920 × 1080 to 1280 × 720 and at 360 px, in Chromium with every suite and in Firefox and WebKit with the storyline of R1 and the self-test.
+**Known limits.** The law slice is one snapshot of 31 norms, consolidated texts and not the official version. Populations, case numbers, frequencies and the register retrieval's administration time are assumptions until calibration (D4). The three runs are hand-authored, not recorded from a model (D7); the classifier's precision needs a Live run (AC-29). Registers are simulated, complaints synthetic. Sovereign mode has no endpoint (D3). The prototype is tested at 1920 × 1080 to 1280 × 720 and at 360 px, in Chromium with every suite and in Firefox and WebKit with the storyline of R1 and the self-test. At 1280 × 720 the open drawer leaves the console two or three lines and the duty map scrolls under it; **Hide** gives both the full height (TECH_NOTES §15). An assumption edit that makes an approved option ineligible lets its approval lapse: the dossier marks the item and stops counting it, and its target is open again (TECH_NOTES §12).
 
 ## Acceptance record
 
@@ -124,12 +124,12 @@ Automated criteria pass in CI; manual ones are recorded here with date, person a
 | AC-38 The switch on every screen without a reload; model text keeps its language and tag; `?lang=`; German at 1280 × 720 | `tests/i18n.mjs` | Pass |
 | AC-17 R1 replays offline in Chromium, Firefox and WebKit: it pauses, ends with the approved item in the dossier, and the tiles equal the engine's facts | `tests/storyline.mjs R1` (Chromium in the browser job, `--browser=firefox` and `--browser=webkit` in the browsers job), `tests/sims.mjs` | Pass |
 | AC-18 R2: the split in the audit, the blocked figure, the rejection, the duty kept with A1, no relief item; in both languages | `tests/storyline.mjs R2`, `tests/sims.mjs R2` | Pass |
-| AC-20 Every figure in the tiles, the option cards and the dossier opens "Where does this figure come from?"; in both languages | `tests/accept.mjs figures` | Pass |
-| AC-21 Editing an assumption recomputes facts, options and tiles and logs `parameter_changed` | `tests/accept.mjs assumptions` | Pass |
+| AC-20 Every figure the engines compute in the tiles, the option cards and the dossier opens "Where does this figure come from?", and no other number stands there but ids, reason codes, § references and the benchmarks' fractions; in both languages | `tests/accept.mjs figures` | Pass |
+| AC-21 Editing an assumption recomputes facts, options and tiles and logs `parameter_changed`; after an approval, an edit that withdraws the approved option lets the approval lapse in the tiles, the totals and the report | `tests/accept.mjs assumptions`, `tests/runs.mjs facts` | Pass |
 | AC-24 The exports download with the names of the active language; the CSV has semicolons, a byte order mark and the columns | `tests/accept.mjs exports` | Pass |
 | AC-25 A German browser's first visit opens in English; both disclosure lines on every screen; "Nothing is sent." and "Nichts wird versendet." | `tests/accept.mjs disclosures`, `tests/i18n.mjs` | Pass |
 | AC-26 axe-core finds no serious or critical violation on the six screens; the storyline by keyboard alone | `tests/a11y.mjs` (both themes, both languages) | Pass |
-| AC-27 At 360 px the console is a drawer, the views a select menu, the tiles two by two, nothing scrolls sideways | `tests/layout.mjs small` | Pass |
+| AC-27 At 360 px the console is a drawer, the views a select menu, the tiles two by two, nothing scrolls sideways | `tests/layout.mjs small` (no element exempt; the console drawer keeps the focus) | Pass |
 | AC-28 "Run all tests" shows the golden, auditor and cluster cases passing; in both languages | `tests/selftest.mjs` (Chromium, Firefox and WebKit) | Pass |
 | AC-33 Keep needs A1 to A4 or A6, closes the target's other options and lists the duty under the kept duties; in both languages | `tests/accept.mjs keep`, `tests/accept.mjs decisions` | Pass |
 | AC-35 A decision other than the recorded intention yields matching tiles, dossier and report, and no replayed text names the intended outcome | `tests/accept.mjs other`, `tests/runs.mjs` | Pass |
@@ -137,7 +137,6 @@ Automated criteria pass in CI; manual ones are recorded here with date, person a
 | AC-30 Live mode runs R3's norm end to end within the caps; the audit shows model, usage and cost | Manual: choose R3, Start agent, Live, paste a key; then the Audit tab and the cost meter. Rehearsed against the stand-in by `tests/accept.mjs live` | Pending with Victor |
 | AC-31 Sovereign runs one norm, or stays disabled with its reason | `tests/accept.mjs modes`: disabled with "No sovereign endpoint configured" | Pass (disabled while D3 is open); a run against an endpoint pending with Victor |
 | AC-40 An English Live run narrates and reports in English and a German one in German; law quotes and amendment wording stay German | Manual: R3 Live once with `?lang=en` and once with `?lang=de`, then the console's EN and DE tags and the draft wording | Pending with Victor |
-
 | AC-32 The storyline twice at ×1, once in English and once in German, without help; no federal eagle, logo or imitation of an official site | Manual: [DEMO_SCRIPT.md](DEMO_SCRIPT.md), one rehearsal per language | Pending with Victor |
 
 Victor watched R1 replay end to end before M2 was merged. The risk-class check with the Bundesnetzagentur's tool ([TECH_NOTES.md](TECH_NOTES.md) §14) and Victor's sign-off after the second rehearsal are pending with him too.
