@@ -7,7 +7,7 @@ Five minutes, five steps. The talk track is the same as in the guide's last chap
 1. Open <https://victorpflueger.github.io/dutyradar/> in a new tab: the guide opens by itself. For German, add `?lang=de`.
 2. `?guide=present` opens the talk track directly; `?guide=0` skips the guide.
 3. Close the guide with Start. Back to the start, the arrow right of the steps, clears a decision.
-4. Wherever the page waits, a bar under the story says “Your move” and holds the one button: it runs the agent to the next step and stops there. At the last step the bar asks for your decision.
+4. Wherever the page waits, a bar under the story says “Your turn” and holds the one button, which names where it leads, such as “Next: It reads”: it runs the agent to the next step and stops there. At the last step the bar asks for your decision. After a few seconds without a click the button pulses.
 5. Keys: 1 to 5 for the steps, the arrows, Space for the button in the bar, Home for the start.
 6. Once loaded the page needs no network: it talks to no server.
 
@@ -16,7 +16,7 @@ Five minutes, five steps. The talk track is the same as in the guide's last chap
 | Step | Do | Say |
 |---|---|---|
 | 1 The target | Point at the three figures. | "The target is a third fewer reporting duties. Where do we start?" |
-| 2 It reads | Press “It reads”, Duties found counts up. | "745 duties in 4,904 sentences, each with its sentence and section." |
+| 2 It reads | Press “Next: It reads”, Duties found counts up. | "745 duties in 4,904 sentences, each with its sentence and section." |
 | 3 Asked twice | Point at the same sentence in two laws. | "The same data, asked twice: 1.44 million reports a year." |
 | 4 It prices | Point at Relief a year. | "One report instead of two saves €4.07m a year. No figure without a source." |
 | 5 You decide | Click Approve merge. | "Only a person approves. Reporting duties cut: 1 of 107." |
@@ -28,7 +28,7 @@ To close: "47 more clusters are waiting. The agent finds them, people decide."
 | Schritt | Tun | Sagen |
 |---|---|---|
 | 1 Das Ziel | Auf die drei Kennzahlen zeigen. | „Das Ziel: ein Drittel weniger Meldepflichten. Wo fangen wir an?“ |
-| 2 Er liest | „Er liest“ drücken, Gefundene Pflichten zählt hoch. | „745 Pflichten in 4.904 Sätzen, jede mit Satz und Paragraf.“ |
+| 2 Er liest | „Weiter: Er liest“ drücken, Gefundene Pflichten zählt hoch. | „745 Pflichten in 4.904 Sätzen, jede mit Satz und Paragraf.“ |
 | 3 Doppelt gefragt | Auf denselben Satz in zwei Gesetzen zeigen. | „Dieselben Daten, doppelt gefragt: 1,44 Millionen Meldungen im Jahr.“ |
 | 4 Er bepreist | Auf Entlastung pro Jahr zeigen. | „Eine Meldung statt zwei spart 4,07 Mio. € im Jahr. Keine Zahl ohne Quelle.“ |
 | 5 Sie entscheiden | Zusammenlegen freigeben klicken. | „Nur ein Mensch gibt frei. Gestrichene Meldepflichten: 1 von 107.“ |

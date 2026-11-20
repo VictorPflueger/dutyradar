@@ -124,7 +124,7 @@ for (const lang of ["en", "de"]) {
 }
 const en = S.words(F, "en");
 const de = S.words(F, "de");
-const hints = [...html.matchAll(/<li class="vc-step" data-step="([^"]+)">[\s\S]*?<span class="step-name">([^<]+)<\/span><span class="vc-step__hint">([^<]+)<\/span>/g)];
+const hints = [...html.matchAll(/<li class="vc-step" data-step="([^"]+)"[^>]*>[\s\S]*?<span class="step-name">([^<]+)<\/span><span class="vc-step__hint">([^<]+)<\/span>/g)];
 check(hints.length === 5 && hints.every(([, id, name, hint]) => en.steps[id].label === name && en.steps[id].hint === hint.replace(/&nbsp;/g, " ")), `page: the five step buttons as js/story.js names them (${hints.map((h) => h[3]).join(", ")})`);
 const tile = (id) => { const m = html.match(new RegExp(`id="${id}"[^>]*>[\\s\\S]*?<p class="vc-stat__label">([^<]+)</p>[\\s\\S]*?<span class="kpi-main">([^<]+)</span>[\\s\\S]*?<p class="vc-stat__note kpi-note">([^<]+)</p>`)); return m && m.slice(1).map((x) => x.replace(/&nbsp;/g, " ")); };
 const first = S.kpisAt(F, 0, 0, null);

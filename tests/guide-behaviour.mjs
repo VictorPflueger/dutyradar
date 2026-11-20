@@ -177,12 +177,15 @@ try {
       await p.screenshot({ path: path.join(out, `375-${lang}.png`) });
     }
     await phone.close();
-    for (const [width, height] of [[1280, 720], [1366, 768]]) {
+    // Both sizes, both themes; 1280 × 720 once more with text set 1 % of an em wider, as another browser
+    // may set it (CI's Chromium did).
+    for (const [width, height, wider] of [[1280, 720, false], [1366, 768, false], [1280, 720, true]]) {
       for (const lang of ["en", "de"]) {
-        for (const theme of ["light", "dark"]) {
+        for (const theme of wider ? ["light"] : ["light", "dark"]) {
           const ctx = await context({ viewport: { width, height }, colorScheme: theme });
           await ctx.addInitScript((t) => { try { localStorage.setItem("vc-theme", t); } catch { /* blocked */ } }, theme);
           const p = await tab(ctx, `?guide=what${lang === "de" ? "&lang=de" : ""}`);
+          if (wider) await p.evaluate(() => { document.documentElement.style.letterSpacing = "0.01em"; });
           const over = await p.evaluate((l) => {
             const d = document.getElementById(`guide-${l}`);
             const scroller = d.querySelector(".vc-guide__chapters");
@@ -193,8 +196,8 @@ try {
               return { id: chapter.dataset.vcChapter, over: Math.max(scroller.scrollHeight - scroller.clientHeight, dialogOver()) };
             }).filter((x) => x.over > 1);
           }, lang);
-          check(!over.length, `fit: at ${width} × ${height}, ${theme}, every chapter of the ${lang === "en" ? "English" : "German"} guide fits without scrolling${over.length ? `; scrolls in ${over.map((x) => `"${x.id}" by ${x.over} px`).join(", ")}` : ""}`);
-          if (width === 1280 && theme === "light") {
+          check(!over.length, `fit: at ${width} × ${height}, ${theme}${wider ? ", text 1 % wider" : ""}, every chapter of the ${lang === "en" ? "English" : "German"} guide fits without scrolling${over.length ? `; scrolls in ${over.map((x) => `"${x.id}" by ${x.over} px`).join(", ")}` : ""}`);
+          if (width === 1280 && theme === "light" && !wider) {
             await p.click(`#guide-${lang} .vc-guide__rail .vc-step__button >> nth=-1`);
             await p.screenshot({ path: path.join(out, `1280x720-${lang}-talk-track.png`) });
           }

@@ -106,8 +106,10 @@ if (!dir) {
   // The copy comes from Vici's main branch, not from a branch that may never be merged.
   const onMain = ["origin/main", "main"].some((ref) => { try { execFileSync("git", ["-C", dir, "merge-base", "--is-ancestor", commit, ref], { stdio: "ignore" }); return true; } catch { return false; } });
   check(onMain, `vici: commit ${commit} is on ViciDesign's main branch`);
+  // The workflow names the full hash; it must be that very commit, not merely start like it.
   const workflowRef = (workflow.match(/repository:\s*VictorPflueger\/ViciDesign[\s\S]*?ref:\s*([0-9a-f]{40})/) || [])[1];
-  check(!!workflowRef && workflowRef.startsWith(commit), `vici: CI checks ViciDesign out at the same commit (${workflowRef ? workflowRef.slice(0, 7) : "none"})`);
+  const full = (() => { try { return execFileSync("git", ["-C", dir, "rev-parse", "--verify", "--quiet", `${commit}^{commit}`], { encoding: "utf8" }).trim(); } catch { return null; } })();
+  check(!!workflowRef && workflowRef === full, `vici: CI checks ViciDesign out at the same commit (${workflowRef ? workflowRef.slice(0, 7) : "none"}${workflowRef && workflowRef !== full ? `, but ${commit} is ${full}` : ""})`);
 }
 // What Vici ships, the app takes from Vici: the guide, the byline, the stepper, the pause icon.
 const appCss = read("css/app.css");

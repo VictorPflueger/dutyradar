@@ -91,7 +91,7 @@
       <li class="vc-step" data-step="reads"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">2</span><span class="vc-step__label"><span class="step-name">It reads</span><span class="vc-step__hint">745 duties</span></span></button></li>
       <li class="vc-step" data-step="twice"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">3</span><span class="vc-step__label"><span class="step-name">Asked twice</span><span class="vc-step__hint">48 clusters</span></span></button></li>
       <li class="vc-step" data-step="prices"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">4</span><span class="vc-step__label"><span class="step-name">It prices</span><span class="vc-step__hint">€4.07m a year</span></span></button></li>
-      <li class="vc-step" data-step="decide"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">5</span><span class="vc-step__label"><span class="step-name">You decide</span><span class="vc-step__hint">the dossier</span></span></button></li>
+      <li class="vc-step" data-step="decide" data-person="true"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">5</span><span class="vc-step__label"><span class="step-name">You decide</span><span class="vc-step__hint">the dossier</span></span></button></li>
     </ol>
     <span class="vc-tooltip-anchor">
       <button type="button" class="vc-icon-button restart" id="restart" aria-labelledby="tip-restart"><span class="vc-icon vc-icon--refresh" aria-hidden="true"></span></button>
@@ -123,12 +123,12 @@
            the one primary action, right under the step and in view however long it grows. Its button runs
            the agent's work up to the next step and stops there; at the last step the decision asks instead. -->
       <div class="ask" id="ask" data-state="waiting">
-        <p class="ask-text"><strong class="ask-lead" id="ask-lead">Your move:</strong> <span id="ask-what">Let the agent read the 31 laws.</span></p>
-        <button type="button" class="vc-button play" id="play" data-attention="true"><span class="vc-icon vc-icon--play play-icon" aria-hidden="true"></span><span class="play-text">It reads</span></button>
+        <p class="ask-text"><strong class="ask-lead" id="ask-lead">Your turn:</strong> <span id="ask-what">Let the agent read the 31 laws.</span></p>
+        <button type="button" class="vc-button play" id="play" data-attention="true"><span class="vc-icon vc-icon--play play-icon" aria-hidden="true"></span><span class="play-text">Next: It reads</span></button>
       </div>
       <div class="decision" id="decision" role="group" aria-labelledby="decision-ask" hidden>
         <div class="ask ask--decision" id="decision-bar">
-          <p class="ask-text" id="decision-ask"><strong class="ask-lead" data-i18n="decide.lead">Your decision:</strong> <span data-i18n="decide.ask">Approve one option or keep both.</span></p>
+          <p class="ask-text" id="decision-ask"><strong class="ask-lead" data-i18n="decide.lead">Your turn:</strong> <span data-i18n="decide.ask">Approve one option or keep both.</span></p>
           <div class="decision-actions">
             <button type="button" class="vc-button" id="decide-merge" data-choice="merge" data-attention="true"><span class="vc-icon vc-icon--check" aria-hidden="true"></span><span data-i18n="decide.merge">Approve merge</span></button>
             <button type="button" class="vc-button vc-button--outline" id="decide-register" data-choice="register_retrieval" data-i18n="decide.register_retrieval">Approve register retrieval</button>
@@ -192,10 +192,10 @@
       </section>
       <section class="vc-guide__chapter" data-vc-chapter="present" data-vc-nav="How to present">
         <h3>Show it in five minutes</h3>
-        <p class="vc-guide__lead">Five steps of a minute each. The button by “Your move” runs to the next step and stops there, so you can talk.</p>
+        <p class="vc-guide__lead">The button by “Your turn” runs to the next step and stops there, so you can talk.</p>
         <ol class="vc-guide__path">
           <li><strong>The target: point at the three figures.</strong> <span class="vc-guide__say">“The target is a third fewer reporting duties. Where do we start?”</span> <span class="vc-guide__time">1 min</span></li>
-          <li><strong>It reads: press “It reads”, Duties found counts up.</strong> <span class="vc-guide__say">“<span data-fig="duties">745</span> duties in <span data-fig="sentences">4,904</span> sentences, each with its sentence and section.”</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>It reads: press “Next: It reads”, Duties found counts up.</strong> <span class="vc-guide__say">“<span data-fig="duties">745</span> duties in <span data-fig="sentences">4,904</span> sentences, each with its sentence and section.”</span> <span class="vc-guide__time">1 min</span></li>
           <li><strong>Asked twice: point at the same sentence in two laws.</strong> <span class="vc-guide__say">“The same data, asked twice: <span data-fig="cases-words">1.44&nbsp;million</span> reports a year.”</span> <span class="vc-guide__time">1 min</span></li>
           <li><strong>It prices: point at Relief a year.</strong> <span class="vc-guide__say">“One report instead of two saves <span data-fig="merge">€4.07m</span> a year. No figure without a source.”</span> <span class="vc-guide__time">1 min</span></li>
           <li><strong>You decide: click Approve merge.</strong> <span class="vc-guide__say">“Only a person approves. Reporting duties cut: <span data-fig="removed">1</span> of <span data-fig="target">107</span>.”</span> <span class="vc-guide__time">1 min</span></li>
@@ -244,23 +244,23 @@
       </section>
       <section class="vc-guide__chapter" data-vc-chapter="real" data-vc-nav="Was echt ist">
         <h3>Echtes Recht und Methode des Bundes, Fallzahlen angenommen</h3>
-        <p class="vc-guide__lead">Die <span data-fig="laws">31</span> Gesetze sind echt, wie gesetze-im-internet.de sie am <span data-fig="retrieved">19. November 2026</span> veröffentlichte: konsolidierte Fassungen, nicht amtlich. Der Lauf des Agenten ist nachgespielt, die Fallzahlen sind bis zur Kalibrierung angenommen.</p>
+        <p class="vc-guide__lead">Die <span data-fig="laws">31</span> Gesetze sind echt, Stand gesetze-im-internet.de vom <span data-fig="retrieved">19. November 2026</span>: konsolidierte Fassungen, nicht amtlich. Der Agentenlauf ist nachgespielt, die Fallzahlen sind bis zur Kalibrierung angenommen.</p>
         <div class="vc-table-wrap"><table class="vc-table vc-table--compact">
           <caption>Woher die Zahlen kommen</caption>
           <tbody>
             <tr><th scope="row">Echt</th><td>Die Gesetzestexte und §-Zitate und die monatlichen Meldungen nach § 4 HdlDlStatG.</td></tr>
-            <tr><th scope="row">Mit Quelle</th><td><span data-fig="wage">38,60&nbsp;€</span> je Stunde für die Wirtschaft, <span data-fig="admin-wage">44,40&nbsp;€</span> für die Bundesverwaltung und <span data-fig="minutes">10&nbsp;min</span> je Meldung, aus dem Leitfaden zum Erfüllungsaufwand von Destatis (Februar 2026).</td></tr>
+            <tr><th scope="row">Mit Quelle</th><td><span data-fig="wage">38,60&nbsp;€</span> je Stunde in der Wirtschaft, <span data-fig="admin-wage">44,40&nbsp;€</span> in der Bundesverwaltung, <span data-fig="minutes">10&nbsp;min</span> je Meldung: Leitfaden zum Erfüllungsaufwand, Destatis, Februar 2026.</td></tr>
             <tr><th scope="row">Angenommen</th><td><span data-fig="businesses">60.000</span> Betriebe je Erhebung, <span data-fig="material">0,50&nbsp;€</span> je Meldung, <span data-fig="admin-minutes">2&nbsp;min</span> je Registerabruf und <span data-fig="one-off">250.000&nbsp;€</span> für die Anbindung des Registers.</td></tr>
-            <tr><th scope="row">Simuliert</th><td>Der Lauf des Agenten, nachgespielt aus Lauf R1 von Release 1.0.0, ohne Aufruf eines Modells, und das Unternehmensregister.</td></tr>
+            <tr><th scope="row">Simuliert</th><td>Der Agentenlauf, nachgespielt aus Lauf R1 von Release 1.0.0 ohne Modellaufruf, und das Unternehmensregister.</td></tr>
           </tbody>
         </table></div>
       </section>
       <section class="vc-guide__chapter" data-vc-chapter="present" data-vc-nav="So führen Sie vor">
         <h3>In fünf Minuten vorführen</h3>
-        <p class="vc-guide__lead">Fünf Schritte von je einer Minute. Der Knopf bei „Sie sind dran“ führt zum nächsten Schritt und hält dort, damit Sie erzählen können.</p>
+        <p class="vc-guide__lead">Der Knopf bei „Sie sind dran“ führt zum nächsten Schritt und hält dort, damit Sie erzählen können.</p>
         <ol class="vc-guide__path">
           <li><strong>Das Ziel: auf die drei Kennzahlen zeigen.</strong> <span class="vc-guide__say">„Das Ziel: ein Drittel weniger Meldepflichten. Wo fangen wir an?“</span> <span class="vc-guide__time">1 min</span></li>
-          <li><strong>Er liest: „Er liest“ drücken, Gefundene Pflichten zählt hoch.</strong> <span class="vc-guide__say">„<span data-fig="duties">745</span> Pflichten in <span data-fig="sentences">4.904</span> Sätzen, jede mit Satz und Paragraf.“</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>Er liest: „Weiter: Er liest“ drücken, Gefundene Pflichten zählt hoch.</strong> <span class="vc-guide__say">„<span data-fig="duties">745</span> Pflichten in <span data-fig="sentences">4.904</span> Sätzen, jede mit Satz und Paragraf.“</span> <span class="vc-guide__time">1 min</span></li>
           <li><strong>Doppelt gefragt: auf denselben Satz in zwei Gesetzen zeigen.</strong> <span class="vc-guide__say">„Dieselben Daten, doppelt gefragt: <span data-fig="cases-words">1,44&nbsp;Millionen</span> Meldungen im Jahr.“</span> <span class="vc-guide__time">1 min</span></li>
           <li><strong>Er bepreist: auf Entlastung pro Jahr zeigen.</strong> <span class="vc-guide__say">„Eine Meldung statt zwei spart <span data-fig="merge">4,07&nbsp;Mio.&nbsp;€</span> im Jahr. Keine Zahl ohne Quelle.“</span> <span class="vc-guide__time">1 min</span></li>
           <li><strong>Sie entscheiden: Zusammenlegen freigeben klicken.</strong> <span class="vc-guide__say">„Nur ein Mensch gibt frei. Gestrichene Meldepflichten: <span data-fig="removed">1</span> von <span data-fig="target">107</span>.“</span> <span class="vc-guide__time">1 min</span></li>

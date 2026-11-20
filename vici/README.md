@@ -1,7 +1,7 @@
 # Vici, copied into this prototype
 
 These files come unchanged from Vici, Victor Pflüger's design system
-(<https://victorpflueger.github.io/ViciDesign/index.html>), from its main branch at commit **`adafb78`**
+(<https://victorpflueger.github.io/ViciDesign/index.html>), from its main branch at commit **`12c72d2`**
 (20 November 2026), on the way to Vici 2.0. That commit brings the How it works guide (`vc-guide`)
 with one guide per language, the 2.0 byline, the key-figure rule, the struck-through old value of a
 key figure (`vc-stat__was`) and the pause icon this prototype uses; its files still call themselves

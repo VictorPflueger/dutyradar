@@ -12,7 +12,7 @@ Under PflichtenLichten, the federal and state governments want at least a third 
 
 ## How to show it
 
-The page opens with How it works, Vici's guide. Its last chapter is the talk track: five steps of a minute each. Close it, and wherever the page waits a bar under the story says “Your move” and holds the one button: it runs the agent to the next step and stops there, so you can talk. The steps under the header jump to any step.
+The page opens with How it works, Vici's guide. Its last chapter is the talk track: five steps of a minute each. Close it, and wherever the page waits a bar under the story says “Your turn” and holds the one button, which names where it leads: it runs the agent to the next step and stops there, so you can talk. The steps under the header jump to any step.
 
 | Step | The screen | The key figure to point at |
 |---|---|---|
@@ -71,7 +71,7 @@ Address options: `?lang=de` German, `?guide=0` without the guide, `?guide=presen
 | `js/` | Seven modules: start-up and controls (`main.js`), drawing (`view.js`), the steps' words and figures (`story.js`), the fixed words (`copy.js`), number formats (`format.js`), the language before start-up (`lang.js`), the theme (`theme.js`) |
 | `css/app.css` | The page around Vici |
 | `data/story.js` | The figures, generated from release 1.0.0 |
-| `vici/` | Vici, Victor's design system, unchanged at commit `adafb78` |
+| `vici/` | Vici, Victor's design system, unchanged at commit `12c72d2` |
 | `tools/build-story.mjs` | Builds and checks `data/story.js` |
 | `tests/` | The suites |
 | [DEMO_SCRIPT.md](DEMO_SCRIPT.md), [DESIGN.md](DESIGN.md), [DATA_SOURCES.md](DATA_SOURCES.md) | The presenter's guide, the design notes, the sources |

@@ -13,6 +13,8 @@ import { fillFigures, drawStepLabels, drawKpis, createLawMap, drawEvidence, draw
 const SEGMENT_MS = [9000, 4000, 5000];
 const SPEED = Math.min(20, Math.max(1, Number(new URL(window.location.href).searchParams.get("speed")) || 1));
 const LAST = STEP_IDS.length - 1;
+/** Idle time before the button to press starts to pulse. */
+const IDLE_MS = 4000;
 const $ = (id) => document.getElementById(id);
 
 boot().catch((err) => failBoot(err));
@@ -56,13 +58,13 @@ async function boot() {
     ui.ask.hidden = state.index === LAST;
     if (state.index === LAST) return;
     ui.ask.dataset.state = state.playing ? "working" : "waiting";
-    $("ask-lead").textContent = state.playing ? w.ask.working : w.ask.move;
+    $("ask-lead").textContent = state.playing ? w.ask.working : w.ask.turn;
     $("ask-what").textContent = state.playing ? "" : w.steps[STEP_IDS[state.index]].ask;
     const icon = ui.play.querySelector(".play-icon");
     icon.classList.toggle("vc-icon--pause", state.playing);
     icon.classList.toggle("vc-icon--play", !state.playing);
-    ui.play.querySelector(".play-text").textContent = state.playing ? w.ask.pause : w.steps[STEP_IDS[state.index + 1]].label;
-    // The button draws the eye until it is pressed.
+    ui.play.querySelector(".play-text").textContent = state.playing ? w.ask.pause : w.ask.next(w.steps[STEP_IDS[state.index + 1]].label);
+    // The button to press; it pulses once the page has been idle a few seconds (below).
     ui.play.dataset.attention = String(!state.playing);
   }
 
@@ -175,6 +177,17 @@ async function boot() {
   document.addEventListener("vc:guideclose", (e) => {
     if (e.target?.id?.startsWith("guide-") && e.detail?.returnValue === "done") (ui.ask.hidden ? $("story") : ui.play).focus();
   });
+
+  // After a few seconds without a click, a key or a scroll, the button to press pulses; any of them calms
+  // it again (Vici, Presenting step by step). The pulse itself is CSS, on :root[data-idle].
+  let idle = 0;
+  const calm = () => {
+    delete document.documentElement.dataset.idle;
+    clearTimeout(idle);
+    idle = setTimeout(() => { document.documentElement.dataset.idle = "true"; }, IDLE_MS);
+  };
+  for (const type of ["pointerdown", "keydown", "wheel", "scroll", "touchstart"]) window.addEventListener(type, calm, { capture: true, passive: true });
+  calm();
 
   // Below 960 px the bar is fixed to the bottom of the screen, and the page keeps room for it.
   const room = new ResizeObserver(() => {

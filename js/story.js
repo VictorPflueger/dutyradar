@@ -174,8 +174,9 @@ export function words(F, lang) {
       ask: de ? "Geben Sie eine Option frei oder behalten Sie beide." : "Approve one option or keep both."
     }
   };
-  // The ask bar's lead words: what the page waits for, said where the eye is.
-  const ask = { move: de ? "Sie sind dran:" : "Your move:", decision: de ? "Ihre Entscheidung:" : "Your decision:", working: de ? "Der Agent arbeitet." : "The agent is at work.", pause: de ? "Pause" : "Pause" };
+  // The bar's words: what the page waits for, said where the eye is, and the button that names where it
+  // leads (Vici, Presenting step by step).
+  const ask = { turn: de ? "Sie sind dran:" : "Your turn:", next: (step) => (de ? `Weiter: ${step}` : `Next: ${step}`), working: de ? "Der Agent arbeitet." : "The agent is at work.", pause: "Pause" };
   const reason = (type) => { const r = F.option[type].reason; return `${r.code} ${de ? r.de : r.en.toLowerCase()}`; };
   const o = F.outcome;
   const outcome = {

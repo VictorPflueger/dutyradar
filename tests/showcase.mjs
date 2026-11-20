@@ -3,11 +3,13 @@
 //             another site; a first visit in a German browser opens in English with the English guide
 //   steps     each of the five steps by click, by key (1 to 5, arrows, Home) and by address (?step=):
 //             its title, the step button marked current, the address following
-//   play      the bar under the story says what the page waits for ("Your move: …") and its button,
-//             named after the next step, runs the agent to that step and stops there; while the agent
-//             works the bar says so and the button pauses; the button draws the eye until pressed; from
-//             "It prices" it goes straight to the decision, where the decision's own bar asks instead and
-//             the focus moves to the story, not to an option; the same in German
+//   play      the bar under the story says what the page waits for ("Your turn: …") and its button,
+//             which names where it leads ("Next: It reads"), runs the agent to that step and stops there;
+//             while the agent works the bar says so and the button pauses; from "It prices" it goes
+//             straight to the decision, where the decision's own bar asks instead and the focus moves to
+//             the story, not to an option; the same in German; after four idle seconds the button pulses,
+//             a key calms it, and with reduced motion it gets a still ring instead; the person's step has
+//             a merlot marker
 //   kpis      the three key figures (data-vc-kpi), top right, with the values js/story.js computes at
 //             every step, before and after each decision
 //   decide    each of the three decisions: the outcome, the key figures, the dossier (the draft
@@ -130,9 +132,9 @@ try {
       en: [`Let the agent read the ${F.laws} laws.`, "See which duties ask for the same data twice.", "Let the agent price the options.", "Decide what goes into the dossier."],
       de: [`Lassen Sie den Agenten die ${F.laws} Gesetze lesen.`, "Sehen Sie, welche Pflichten dieselben Daten doppelt abfragen.", "Lassen Sie den Agenten die Optionen bepreisen.", "Entscheiden Sie, was ins Dossier kommt."]
     };
-    const NEXT = { en: ["It reads", "Asked twice", "It prices", "You decide"], de: ["Er liest", "Doppelt gefragt", "Er bepreist", "Sie entscheiden"] };
-    const LEAD = { en: "Your move:", de: "Sie sind dran:" };
-    const DECISION = { en: "Your decision: Approve one option or keep both.", de: "Ihre Entscheidung: Geben Sie eine Option frei oder behalten Sie beide." };
+    const NEXT = { en: ["Next: It reads", "Next: Asked twice", "Next: It prices", "Next: You decide"], de: ["Weiter: Er liest", "Weiter: Doppelt gefragt", "Weiter: Er bepreist", "Weiter: Sie entscheiden"] };
+    const LEAD = { en: "Your turn:", de: "Sie sind dran:" };
+    const DECISION = { en: "Your turn: Approve one option or keep both.", de: "Sie sind dran: Geben Sie eine Option frei oder behalten Sie beide." };
     for (const lang of ["en", "de"]) {
       const { page, ctx, errors } = await open(`?guide=0&speed=20&lang=${lang}`);
       const visits = [];
@@ -145,7 +147,7 @@ try {
         visits.push((await view(page)).index);
       }
       const last = await view(page);
-      check(asked.every(Boolean), `play: ${lang.toUpperCase()}: at each of the first four steps the bar says "${LEAD[lang]}" and what comes next, and its button, named after the next step, draws the eye (${asked.map((a) => (a ? "✓" : "✗")).join("")})`);
+      check(asked.every(Boolean), `play: ${lang.toUpperCase()}: at each of the first four steps the bar says "${LEAD[lang]}" and what to do, and its button names where it leads (${asked.map((a) => (a ? "✓" : "✗")).join("")})`);
       check(visits.join() === "1,2,3,4" && last.index === 4 && !last.playing && last.ask.hidden && last.decisionAsk === DECISION[lang] && last.focus === "story", `play: ${lang.toUpperCase()}: the button stops at each step (${visits.join(", ")}) and goes straight from the fourth to the decision, where the decision's own bar asks "${last.decisionAsk}" and the focus moves to the story (${last.focus || "nothing"}), not to an option`);
       await page.keyboard.press(" ");
       await page.waitForTimeout(150);
@@ -166,12 +168,33 @@ try {
     await p2.waitForTimeout(800);
     const still = await view(p2);
     const midway = Number(paused.duties.value.replace(/\D/g, ""));
-    check(!paused.playing && paused.index === 0 && paused.p > 0.2 && paused.p < 0.8 && midway > 0 && midway < F.duties && still.p === paused.p && paused.play === "It reads" && paused.ask.lead === "Your move:" && paused.ask.attention === "true", `play: Pause holds the reading at ${Math.round(paused.p * 100)} % with ${midway} duties found, and the bar asks again`);
+    check(!paused.playing && paused.index === 0 && paused.p > 0.2 && paused.p < 0.8 && midway > 0 && midway < F.duties && still.p === paused.p && paused.play === "Next: It reads" && paused.ask.lead === "Your turn:" && paused.ask.attention === "true", `play: Pause holds the reading at ${Math.round(paused.p * 100)} % with ${midway} duties found, and the bar asks again`);
     await p2.click("#play");
     await p2.waitForTimeout(600);
     check((await view(p2)).p > paused.p, "play: the button resumes where Pause left off");
     check(!errors.length, "play: no console error while playing");
     await c2.close();
+    // Idle: after four seconds without input the button to press pulses; a key calms it; with reduced
+    // motion it gets a still ring. The person's step has a merlot marker until it is reached.
+    const { page: p3, ctx: c3 } = await open("?guide=0");
+    const pulse = () => p3.evaluate(() => { const cs = getComputedStyle(document.getElementById("play")); return { idle: document.documentElement.dataset.idle === "true", animation: cs.animationName, ring: cs.boxShadow !== "none" }; });
+    await p3.keyboard.press("Shift");
+    const early = await pulse();
+    await p3.waitForTimeout(4600);
+    const late = await pulse();
+    await p3.keyboard.press("Shift");
+    const calmed = await pulse();
+    check(!early.idle && early.animation === "none" && late.idle && late.animation === "ask-attention" && !calmed.idle && calmed.animation === "none", `play: the button pulses only after four idle seconds (${early.animation} → ${late.animation}) and a key calms it (${calmed.animation})`);
+    await p3.emulateMedia({ reducedMotion: "reduce" });
+    await p3.waitForTimeout(4600);
+    const steady = await pulse();
+    check(steady.idle && steady.animation === "none" && steady.ring, "play: with reduced motion an idle button gets a still ring instead of the pulse");
+    const marker = await p3.evaluate(() => {
+      const color = (sel) => getComputedStyle(document.querySelector(sel), "::before").backgroundColor;
+      return { person: color('#steps [data-step="decide"] .vc-step__marker'), other: color('#steps [data-step="prices"] .vc-step__marker'), accent: getComputedStyle(document.documentElement).getPropertyValue("--vc-accent-text").trim() };
+    });
+    check(marker.person !== marker.other, `play: the person's step has a marker of its own colour (${marker.person}, the others ${marker.other})`);
+    await c3.close();
   }
 
   // ---- key figures, step by step ----------------------------------------------------------------------
@@ -271,18 +294,26 @@ try {
       const range = document.createRange(); range.selectNodeContents(document.querySelector(".strip-note")); const note = range.getBoundingClientRect();
       const by = document.querySelector(".app-strip .vc-byline").getBoundingClientRect();
       const footerOverlap = note.right > by.left + 0.5 && by.right > note.left + 0.5 && note.bottom > by.top + 0.5 && by.bottom > note.top + 0.5;
-      // One header row: the brand, the buttons and the key figures side by side.
+      // One header row: the brand, the buttons and the key figures side by side, and the buttons on one line.
       const parts = [".brand", ".header-actions", ".kpis"].map((sel) => document.querySelector(sel).getBoundingClientRect());
+      const mids = [...document.querySelector(".header-actions").children].filter((c) => c.getClientRects().length).map((c) => { const r = c.getBoundingClientRect(); return r.top + r.height / 2; });
+      const buttonsOneLine = Math.max(...mids) - Math.min(...mids) < 4;
       return {
         page: se.scrollHeight > innerHeight + 1 || se.scrollWidth > innerWidth + 1,
         stage: over(document.querySelector(".stage")), story: over(document.getElementById("story")),
-        cut, lawOut, hidden, askOut, asking: Boolean(bar), footerOverlap, oneRow: Math.max(...parts.map((r) => r.top)) < Math.min(...parts.map((r) => r.bottom))
+        cut, lawOut, hidden, askOut, asking: Boolean(bar), footerOverlap, buttonsOneLine, oneRow: Math.max(...parts.map((r) => r.top)) < Math.min(...parts.map((r) => r.bottom))
       };
     });
-    for (const [width, height] of VIEWPORTS) {
-      for (const lang of ["en", "de"]) {
-        for (const theme of width === 1366 ? ["light"] : ["light", "dark"]) {
+    // Every size in both languages, light and dark; the tightest size once more with text set 1 % of an
+    // em wider, as another browser may set it: CI's Chromium needed that room where Chrome here did not.
+    const runs = [];
+    for (const [width, height] of VIEWPORTS) for (const lang of ["en", "de"]) for (const theme of width === 1366 ? ["light"] : ["light", "dark"]) runs.push({ width, height, lang, theme, wider: false });
+    for (const lang of ["en", "de"]) runs.push({ width: 1280, height: 720, lang, theme: "light", wider: true });
+    for (const { width, height, lang, theme, wider } of runs) {
+      {
+        {
           const { page, ctx, errors } = await open(`?guide=0&lang=${lang}`, { width, height, theme });
+          if (wider) await page.evaluate(() => { document.documentElement.style.letterSpacing = "0.01em"; });
           const problems = [];
           const states = [...IDS.map((id, i) => [id, i, null]), ["decided", 4, "merge"]];
           for (const [name, i, decision] of states) {
@@ -299,10 +330,11 @@ try {
             if (m.askOut) problems.push(`${name}: the bar that asks is out of view`);
             if (m.asking === (name === "decided")) problems.push(`${name}: ${m.asking ? "a bar still asks after the decision" : "no bar asks"}`);
             if (!m.oneRow) problems.push(`${name}: the header wraps to a second row`);
+            if (!m.buttonsOneLine) problems.push(`${name}: the header's buttons wrap`);
             if (m.footerOverlap) problems.push(`${name}: the sentence under the header runs into the byline`);
-            if (theme === "light" && (name === "twice" || name === "decide" || name === "decided")) await page.screenshot({ path: path.join(out, `${width}x${height}-${lang}-${name}.png`) });
+            if (theme === "light" && !wider && (name === "twice" || name === "decide" || name === "decided")) await page.screenshot({ path: path.join(out, `${width}x${height}-${lang}-${name}.png`) });
           }
-          check(!problems.length && !errors.length, `layout: ${width} × ${height}, ${lang.toUpperCase()}, ${theme}: five steps and a decision fit without scrolling${problems.length ? `; ${problems.join("; ")}` : ""}${errors.length ? `; errors: ${errors.join("; ")}` : ""}`);
+          check(!problems.length && !errors.length, `layout: ${width} × ${height}, ${lang.toUpperCase()}, ${theme}${wider ? ", text 1 % wider" : ""}: five steps and a decision fit without scrolling${problems.length ? `; ${problems.join("; ")}` : ""}${errors.length ? `; errors: ${errors.join("; ")}` : ""}`);
           await ctx.close();
         }
       }
