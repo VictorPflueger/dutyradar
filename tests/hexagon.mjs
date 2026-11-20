@@ -7,20 +7,44 @@
 //   2. round drawing code in its HTML, CSS and JavaScript: <circle>, <ellipse>, a <rect> whose rx is
 //      at least half its height, "circle" or "ellipse" handed to anything that creates elements,
 //      L.circle and L.circleMarker, arc( and ellipse( on a canvas, and SVG path data with arc commands;
-//   3. the rendered app at the main states of a simulation run, in both themes: any element (or
-//      ::before and ::after) whose corner radius is at least half its height or width, round clip
-//      paths and radial gradients in the computed styles, and circle, ellipse, pill-shaped rect and
-//      arc-command path elements.
+//   3. the rendered app in every state a presentation passes through, in both themes and both
+//      languages: any element (or ::before and ::after) whose corner radius is at least half its
+//      height or width, round clip paths and radial gradients in the computed styles, and circle,
+//      ellipse, pill-shaped rect and arc-command path elements. The tour visits the guide's first
+//      chapter and its talk track, the five steps, the three decisions and the agent at work.
 // Each part first proves on planted examples that it catches every kind, and the test fails if one
-// slips through. vici/ is Vici's own (Vici checks it) and vendor/ holds other people's libraries; tests/
-// and tools/ are not part of the app. An exception needs its reason, written in EXCEPTIONS below.
-// The same file in all four prototypes; the states to visit are in tests/lib/prototype.mjs.
+// slips through. vici/ is Vici's own (Vici checks it); tests/ and tools/ are not part of the app. An
+// exception needs its reason, written in EXCEPTIONS below.
 // Usage: node tests/hexagon.mjs             (all three parts)
 //        node tests/hexagon.mjs files       (parts 1 and 2 only, no browser)
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { APP_ROOT, ONLY, launchBrowser, serveStatic, NETWORK_NOISE } from "./lib/harness.mjs";
-import { NAME, hexagonTour } from "./lib/prototype.mjs";
+
+const NAME = "Duty Radar";
+
+/** The states to look at: the guide's first and last chapters, the five steps, the decisions, Play. */
+async function hexagonTour(page, visit, lang) {
+  await page.waitForFunction(() => document.documentElement.dataset.boot === "ready", null, { timeout: 15000 });
+  await page.waitForTimeout(250);
+  await visit("guide, chapter 1");
+  await page.click(`#guide-${lang} .vc-guide__rail .vc-step__button >> nth=-1`);
+  await visit("guide, the talk track");
+  await page.keyboard.press("Escape");
+  for (const id of ["target", "reads", "twice", "prices", "decide"]) {
+    await page.click(`#steps [data-step="${id}"] button`);
+    await visit(id);
+  }
+  for (const choice of ["merge", "register_retrieval", "keep"]) {
+    await page.click(`#decision [data-choice="${choice}"]`);
+    await visit(`decided: ${choice}`);
+    await page.click("#restart");
+    await page.click('#steps [data-step="decide"] button');
+  }
+  await page.click('#steps [data-step="target"] button');
+  await page.click("#play");
+  await visit("the agent reading", { settle: 2500 });
+}
 
 /**
  * Allowed round things, each with its reason: { file or state, match (a substring of the finding),
@@ -28,7 +52,7 @@ import { NAME, hexagonTour } from "./lib/prototype.mjs";
  */
 const EXCEPTIONS = [];
 
-const SKIP_DIRS = new Set(["vici", "vendor", "tests", "tools", "node_modules", ".git", ".github"]);
+const SKIP_DIRS = new Set(["vici", "tests", "tools", "node_modules", ".git", ".github"]);
 const KINDS = { ".css": "css", ".html": "html", ".svg": "svg", ".js": "js", ".mjs": "js" };
 
 // ------------------------------------------------------------------------------- 1. round CSS
@@ -258,7 +282,7 @@ if (!filesOnly) {
     const port = 8790 + Math.floor(Math.random() * 300);
     const server = await serveStatic(APP_ROOT, port);
     try {
-      for (const theme of ["light", "dark"]) {
+      for (const [theme, lang] of [["light", "en"], ["dark", "en"], ["light", "de"], ["dark", "de"]]) {
         const context = await browser.newContext({ viewport: { width: 1600, height: 900 }, colorScheme: theme });
         await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, (route) => route.abort("blockedbyclient"));
         await context.addInitScript((t) => { try { localStorage.setItem("vc-theme", t); } catch { /* blocked storage */ } }, theme);
@@ -273,19 +297,19 @@ if (!filesOnly) {
           let bad = 0;
           for (const f of found) {
             const x = excepted(state, f);
-            if (x) report.push(`  allowed (${theme}, ${state}): ${f} (${x.reason})`);
-            else { failures.push(`${theme}, ${state}: ${f}`); bad += 1; }
+            if (x) report.push(`  allowed (${theme}, ${lang}, ${state}): ${f} (${x.reason})`);
+            else { failures.push(`${theme} ${lang}, ${state}: ${f}`); bad += 1; }
           }
           states.push(`${state}${bad ? ` (${bad})` : ""}`);
         };
         try {
-          await page.goto(server.base);
-          await hexagonTour(page, visit);
+          await page.goto(`${server.base}${lang === "de" ? "?lang=de" : ""}`);
+          await hexagonTour(page, visit, lang);
         } catch (e) {
-          failures.push(`${theme}: the tour stopped: ${String(e.message || e).split("\n")[0]}`);
+          failures.push(`${theme} ${lang}: the tour stopped: ${String(e.message || e).split("\n")[0]}`);
         }
-        for (const e of errors) failures.push(`${theme}: page error: ${e}`);
-        report.push(`${failures.some((f) => f.startsWith(`${theme},`) || f.startsWith(`${theme}:`)) ? "FAIL" : "PASS"}  rendered, ${theme} theme: ${states.join("; ")}`);
+        for (const e of errors) failures.push(`${theme} ${lang}: page error: ${e}`);
+        report.push(`${failures.some((f) => f.startsWith(`${theme} ${lang}`)) ? "FAIL" : "PASS"}  rendered, ${theme} theme, ${lang === "de" ? "German" : "English"}: ${states.join("; ")}`);
         await context.close();
       }
     } finally {
@@ -301,4 +325,4 @@ if (failures.length) {
   console.error(`\n${failures.map((f) => `✗ ${f}`).join("\n")}\n\n${failures.length} round thing(s) or failed self-test(s). Make them hexagons (Vici's --vc-hex, vc-hex, vc-capsule, vc-cell), or add an exception with its reason.`);
   process.exit(1);
 }
-console.log(`\nNothing round in ${NAME}.`);
+console.log(`\nNothing round in ${NAME}.\nHEXAGON OK`);

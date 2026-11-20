@@ -1,88 +1,51 @@
-// Runs every check in order and prints a summary. The app itself needs none of this.
-// Usage: node tests/run-all.mjs              (all suites)
-//        node tests/run-all.mjs unit engine  (only the named suites)
-//        node tests/run-all.mjs --node       (the Node suites: npm test)
-//        node tests/run-all.mjs --browser    (the browser suites: npm run e2e)
+// Runs every suite in order and prints a summary. The prototype itself needs none of this.
+// Usage: node tests/run-all.mjs               (all suites)
+//        node tests/run-all.mjs figures vici   (only the named suites)
+// Options after the suite names are passed on: --require-vici to the suites that use Vici's checks,
+// --require-legacy to the figures suite, as on GitHub Actions. There a failing suite's FAIL lines also
+// become error annotations on the check run.
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { APP_ROOT } from "./lib/harness.mjs";
 
 const SUITES = [
-  { id: "tokens", what: "colour system on Vici's tokens, light and dark: contrast, colour-blind separation", file: "tests/tokens.mjs", browser: false },
-  { id: "page-icon", what: "page icon: favicon, header and loading screen, as on the website's card", file: "tests/page-icon.mjs", browser: false },
-  { id: "vici-files", what: "vici/ holds exactly the files its README lists, unchanged", file: "tests/vici-files.mjs", browser: false },
-  { id: "unit", what: "language files (identical keys, the copy tables exactly) and ICU number formats", file: "tests/unit.mjs", browser: false },
-  { id: "engine", what: "golden cases, fact auditor, clustering, option rules, coverage, patterns, gold set, the number parser", file: "tests/engine.mjs", browser: false },
-  { id: "tools", what: "AC-10 the 16 tools, strict schemas within the limits, AC-37 classification, AC-13 the fixture slice", file: "tests/tools.mjs", browser: false },
-  { id: "live", what: "AC-11 the Live loop's requests, stop rules and errors, the caps, AC-12 the Sovereign adapter", file: "tests/live.mjs", browser: false },
-  { id: "runs", what: "the run checker's guards, AC-36 fact binding, R1 to R3 replayed headless with any decision", file: "tests/runs.mjs", browser: false },
-  { id: "check-runs", what: "AC-16 the recorded runs pass the checker and replay in both languages", file: "tools/check-runs.mjs", browser: false },
-  { id: "snapshot", what: "the snapshot script on the fixture table of contents and the two-norm fixture slice", file: "tests/snapshot.mjs", browser: false },
-  { id: "data", what: "the bundled data files: sources or assumptions, synthetic and simulated labels, the slice", file: "tools/check-data.mjs", browser: false },
-  { id: "corpus", what: "the law snapshot: the Norm contract, index.json and SNAPSHOT.md", file: "tools/check-data.mjs", args: ["corpus"], browser: false },
-  { id: "sources", what: "every source key of the cost parameters resolves, every table is used, DATA_SOURCES.md records them", file: "tools/check-data.mjs", args: ["sources"], browser: false },
-  { id: "static", what: "security policy, no inline code, storage keys, engines pure, language keys, no key-like strings or unfinished work", file: "tools/check-static.mjs", browser: false },
-  { id: "hygiene", what: "no term of the private list and no e-mail address in any published file", file: "tests/hygiene.mjs", browser: false },
-  { id: "docs", what: "documentation set complete, every path and section it names exists", file: "tests/docs.mjs", browser: false },
-  { id: "parity", what: "shared shell identical to the sister app's (needs a Rebate Hunter checkout)", file: "tests/parity.mjs", browser: false, optional: true },
-  { id: "smoke", what: "boot offline, intro, views, drawer, Diagnostics, the mode dialog, keyboard, a failed boot", file: "tests/smoke.mjs", browser: true },
-  { id: "sims", what: "R1 to R3 replayed in Chromium in both languages: pauses, recorded reviews, tiles equal to the engines' facts", file: "tests/sims.mjs", browser: true },
-  { id: "storyline", what: "AC-17, AC-18 the eight-minute storyline as the audience sees it, R1 and R2 in both languages, every figure from the engines", file: "tests/storyline.mjs", browser: true },
-  { id: "accept", what: "AC-19 decisions, AC-22 caps, AC-23 the key, a Live run, AC-31 modes, AC-24 exports, AC-20 figures, AC-21 assumptions, AC-33 keep, AC-35 another decision, AC-25 disclosures, print, run figures", file: "tests/accept.mjs", browser: true },
-  { id: "selftest", what: "AC-28 Run all tests in the browser on the fixture files, in both languages, and a changed fixture fails", file: "tests/selftest.mjs", browser: true },
-  { id: "i18n", what: "English first, the switch without a reload on every screen of a run, model text keeps its language, ?lang=, German at 1280 × 720", file: "tests/i18n.mjs", browser: true },
-  { id: "layout", what: "viewports from 1920 × 1080 to 1280 × 720 in both languages and themes with sixteen screenshots, the ink ramp; AC-27 at 360 px the view menu, the console drawer, the tiles two by two", file: "tests/layout.mjs", browser: true },
-  { id: "design", what: "the colour grammar in both themes: merlot for the reviewer, lilac for the AI, fjord for checking, state colours with words, the ink ramp", file: "tests/design.mjs", browser: true },
-  { id: "a11y", what: "AC-26 axe-core on the six screens in both themes and languages, and the storyline by keyboard alone", file: "tests/a11y.mjs", browser: true },
-  { id: "hexagon", what: "nothing round: the app's files, and the rendered app in both themes", file: "tests/hexagon.mjs", browser: true }
+  { id: "figures", what: "every euro again from the cost method, the counts, the key figures per step, every figure in the page and the docs; the data is 1.0.0's", file: "tests/figures.mjs", browser: false, legacy: true },
+  { id: "files", what: "the page's files, the modules' imports, no lab left, vici/ unchanged", file: "tests/files.mjs", browser: false, vici: true },
+  { id: "lean", what: "how small the app stays: modules, lines, buttons, no live-mode code, no connection, short docs", file: "tests/lean.mjs", browser: false },
+  { id: "vici", what: "Vici's own guide, byline and writing checks on the page in both languages, every sentence and the docs", file: "tests/vici.mjs", browser: false, vici: true },
+  { id: "showcase", what: "the five steps by click, key and link, the bar that asks, the three decisions, the language switch, three window sizes, both themes", file: "tests/showcase.mjs", browser: true },
+  { id: "guide", what: "the guide of the page's language opens once per tab, focus and keys, ?guide=0 and ?guide=present, fits 1280 × 720", file: "tests/guide-behaviour.mjs", browser: true },
+  { id: "contrast", what: "every visible text in the five steps and both guides meets WCAG 2.2 AA, light and dark", file: "tests/contrast.mjs", browser: true },
+  { id: "hexagon", what: "nothing round in the app's files or the rendered page, light and dark", file: "tests/hexagon.mjs", browser: true }
 ];
 
 const args = process.argv.slice(2);
-const only = args.filter((a) => !a.startsWith("--"));
-const kind = args.includes("--node") ? false : args.includes("--browser") ? true : null;
-const chosen = SUITES.filter((s) => (!only.length || only.includes(s.id)) && (kind === null || s.browser === kind));
+const only = args.filter((a) => !a.startsWith("-"));
+const pass = args.filter((a) => a.startsWith("-"));
+const unknown = only.filter((id) => !SUITES.some((s) => s.id === id));
+if (unknown.length) {
+  console.error(`Unknown suite${unknown.length === 1 ? "" : "s"}: ${unknown.join(", ")}. Available: ${SUITES.map((s) => s.id).join(", ")}.`);
+  process.exit(1);
+}
+const chosen = SUITES.filter((s) => !only.length || only.includes(s.id));
 const summary = [];
-// In GitHub Actions a failed suite also becomes an annotation with its FAIL lines, readable in the
-// run's summary and through the API without the full log.
-const CI = process.env.GITHUB_ACTIONS === "true";
-const annotate = (s, out) => {
-  // Each FAIL line with the indented detail lines under it; otherwise the last lines of the output.
-  const lines = out.split("\n").filter((l) => l.trim());
-  const picked = [];
-  lines.forEach((l, i) => {
-    if (!/^(FAIL|Error|AssertionError|TypeError)|failed|exceeded/i.test(l.trim())) return;
-    picked.push(l.trim());
-    for (let j = i + 1; j < lines.length && /^\s+(-|at |\S)/.test(lines[j]) && j <= i + 8; j++) picked.push(lines[j].trim());
-  });
-  const text = (picked.length ? picked : lines.slice(-12).map((l) => l.trim())).join(" ⏎ ").slice(0, 6000);
-  console.log(`::error title=${s.id} suite failed::${text}`);
-};
+const ci = process.env.GITHUB_ACTIONS === "true";
 for (const s of chosen) {
   console.log(`\n=== ${s.id}: ${s.what} ===`);
   const started = Date.now();
-  const r = spawnSync(process.execPath, [path.join(APP_ROOT, s.file), ...(s.args || [])], { cwd: APP_ROOT, stdio: CI ? ["inherit", "pipe", "pipe"] : "inherit", env: process.env, encoding: "utf8", maxBuffer: 256 * 1024 * 1024 });
-  if (CI) {
-    process.stdout.write(r.stdout || "");
-    process.stderr.write(r.stderr || "");
-    if (r.status !== 0 && !(s.optional && r.status === 2)) annotate(s, `${r.stdout || ""}\n${r.stderr || ""}`);
+  const extra = pass.filter((a) => (a === "--require-vici" ? s.vici : a === "--require-legacy" ? s.legacy : true));
+  const r = spawnSync(process.execPath, [path.join(APP_ROOT, s.file), ...extra], { cwd: APP_ROOT, stdio: ci ? ["inherit", "pipe", "inherit"] : "inherit", env: process.env, maxBuffer: 64 * 1024 * 1024 });
+  if (ci) {
+    const text = String(r.stdout || "");
+    process.stdout.write(text);
+    if (r.status !== 0) for (const line of text.split("\n").filter((l) => /^FAIL\b/.test(l)).slice(0, 10)) console.log(`::error title=${s.id}::${line.slice(0, 3000).replace(/%/g, "%25")}`);
   }
-  // An optional suite without what it needs (parity without a sister-app checkout) exits 2: skipped.
-  if (s.optional && r.status === 2) {
-    summary.push({ ...s, ok: true, skipped: true, code: r.status, seconds: Math.round((Date.now() - started) / 1000) });
-    continue;
-  }
-  summary.push({ ...s, ok: r.status === 0, code: r.status, seconds: Math.round((Date.now() - started) / 1000) });
-  if (r.status === 2 && s.browser) {
-    console.log("Playwright is missing; browser suites are skipped. See tests/README.md.");
-    break;
-  }
+  summary.push({ ...s, ok: r.status === 0, seconds: Math.round((Date.now() - started) / 1000) });
+  if (r.status === 2) { console.log("Playwright is missing; the browser suites are skipped. See tests/README.md."); break; }
 }
 
 console.log("\n=== Summary ===");
-for (const s of summary) console.log(`${s.skipped ? "SKIP" : s.ok ? "PASS" : "FAIL"}  ${s.id.padEnd(10)} ${String(s.seconds).padStart(4)} s  ${s.what}`);
-const skipped = chosen.length - summary.length;
-if (skipped) console.log(`(${skipped} suite${skipped === 1 ? "" : "s"} not run)`);
-const allPassed = summary.length === chosen.length && summary.every((s) => s.ok);
-// The success line names a run of every suite, none skipped (a partial run or a skipped suite says so above).
-if (allPassed && !only.length && kind === null && summary.every((s) => !s.skipped)) console.log(`ALL SUITES PASSED (${summary.length} of ${SUITES.length})`);
-process.exit(allPassed ? 0 : 1);
+for (const s of summary) console.log(`${s.ok ? "PASS" : "FAIL"}  ${s.id.padEnd(8)} ${String(s.seconds).padStart(4)} s  ${s.what}`);
+const ok = summary.length === chosen.length && summary.every((s) => s.ok);
+if (!ok) { console.log(`\n${summary.filter((s) => !s.ok).length || chosen.length - summary.length} suite(s) failed or did not run.`); process.exit(1); }
+console.log(`\nAll ${chosen.length} suites passed.${chosen.length === SUITES.length ? "\nALL SUITES PASSED" : ""}`);
