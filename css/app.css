@@ -377,7 +377,7 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
   .target { padding: 6px 12px 8px; }
   .target-share { font-size: 1.9rem; }
   .opt-value { font-size: 1.1rem; }
-  .story { gap: 12px; padding: 14px 18px 16px; }
+  .story { gap: 10px; padding: 12px 18px; }
   .story-title { font-size: 1.35rem; }
   .story-text { font-size: 1rem; }
   .agent { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: baseline; column-gap: 10px; padding: 8px 12px 10px; }

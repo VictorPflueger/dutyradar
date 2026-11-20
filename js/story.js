@@ -156,7 +156,7 @@ export function words(F, lang) {
       hint: de ? `${m(F.merge)} im Jahr` : `${m(F.merge)} a year`,
       title: de ? `Eine Meldung statt zwei spart ${m(F.merge)} im Jahr` : `One report instead of two saves ${m(F.merge)} a year`,
       text: de
-        ? `Der Agent bepreist drei Optionen nach der Methode des Bundes zum Erfüllungsaufwand. Die Entlastung pro Jahr bleibt bei ${money(0, lang)}, bis ein Mensch eine freigibt.`
+        ? `Der Agent bepreist drei Optionen nach dem Erfüllungsaufwand-Leitfaden. Die Entlastung pro Jahr bleibt bei ${money(0, lang)}, bis ein Mensch eine freigibt.`
         : `The agent prices three options with the federal compliance-cost method. Relief a year stays at ${money(0, lang)} until a person approves one.`,
       agent: de
         ? `Mein erster Entwurf nannte eine Frist von ${F.D.check.tokens[0]} Tagen ohne Quelle. Der Faktenprüfer blockierte sie, ich habe sie gestrichen.`
