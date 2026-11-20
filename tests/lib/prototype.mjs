@@ -57,7 +57,9 @@ export const SEPARATIONS = [
  * replayed at ?speed=1000 with the duplicates board waiting for its review, the options waiting for a
  * decision, the duty map with its duty cards, "Where does this figure come from?", the closing report in
  * the console, the outbox with the kept duty, the audit log and Assumptions & diagnostics with the run's
- * parameters. The page has just been opened, without SKIP_INTRO, so the intro opens by itself.
+ * parameters; then version 1.0.0's parts: the self-test with its results, the dossier as printed, and at
+ * 360 px the view menu and the console's drawer. The page has just been opened, without SKIP_INTRO, so
+ * the intro opens by itself.
  * visit(name, { settle }) checks the page as it is, settle ms (250) after the step.
  */
 export async function hexagonTour(page, visit) {
@@ -135,7 +137,23 @@ export async function hexagonTour(page, visit) {
   await page.click("#btn-diagnostics");
   await page.waitForSelector(".diag-modal .param-input", { timeout: 5000 });
   await visit("assumptions and diagnostics with the run's parameters", { settle: 400 });
+  await page.click("#btn-selftest");
+  await page.waitForSelector('#selftest-status[data-tone="success"]', { timeout: 30000 });
+  await visit("the self-test with its results");
   await page.keyboard.press("Escape");
+  await page.waitForSelector(".diag-modal", { state: "detached", timeout: 5000 });
+  await page.emulateMedia({ media: "print" });
+  await visit("the dossier as printed");
+  await page.emulateMedia({ media: "screen" });
+  const size = page.viewportSize();
+  await page.setViewportSize({ width: 360, height: 740 });
+  await page.waitForSelector("#view-select", { state: "visible", timeout: 5000 });
+  await visit("360 px with the view menu");
+  await page.click("#btn-console");
+  await page.waitForSelector("#console .console-close", { state: "visible", timeout: 5000 });
+  await visit("360 px with the console's drawer");
+  await page.keyboard.press("Escape");
+  await page.setViewportSize(size);
 }
 
 /**

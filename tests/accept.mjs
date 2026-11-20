@@ -11,9 +11,29 @@
 //              and cost per call; the stand-in finds no protocol violation
 //   modes      AC-31: the mode dialog offers Simulation, Live and Sovereign; Sovereign stays disabled
 //              with "No sovereign endpoint configured"
-//   exports    the four exports download with the names of the active language; the duty list has a
-//              byte order mark, semicolons, the listed columns and decimal commas; the dossier holds
-//              the approved item and the kept duties
+//   exports    AC-24: the four exports download with the names of the active language; the duty list
+//              has a byte order mark, semicolons, the listed columns and decimal commas; the dossier
+//              holds the approved item and the kept duties
+//   figures    AC-20: every figure in the tiles, the option cards and the dossier opens "Where does this
+//              figure come from?" with the engine's value, its label and its inputs; in both languages
+//   assumptions AC-21: editing an assumption in Assumptions & diagnostics recomputes the facts, the
+//              option cards and the tiles to the engine's values (an option that becomes ineligible
+//              shows "no longer applies") and logs parameter_changed; in both languages
+//   keep       AC-33: keep needs A1 to A4 or A6, closes the target's other options ("Target decided")
+//              and lists the duty, or every member of a cluster, with code, comment and data uses
+//              under the kept duties; in both languages
+//   other      AC-35: a decision other than the recorded intention yields the engine's tiles, dossier
+//              and closing report for that decision, and no text after it names the intended outcome
+//   disclosures AC-25: a browser set to German opens in English; both disclosure lines show on each of
+//              the six screens in the active language; the outbox says "Nothing is sent." in English
+//              and "Nichts wird versendet." in German
+//   print      printing gives the relief dossier (items, totals, kept duties, the footnote, the notice)
+//              and the disclosure lines without the controls, the console, the drawer or the tiles,
+//              whichever tab is open and with the drawer closed
+//   runfigures the Diagnostics' run figures: duplicate data requests found, duties inventoried, minutes
+//              per review decision and the acceptance rate, aggregated over the run
+// Every expected figure comes from the engines, replayed in Node with the same decisions
+// (tests/lib/story-node.mjs).
 // Usage: node tests/accept.mjs [section…]
 import { readFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
@@ -25,7 +45,8 @@ import { createFakeClaude, toolUse } from "./lib/fake-claude.mjs";
 import { liveScript } from "./lib/live-script.mjs";
 import { usageCostUsd } from "../js/cost.js";
 import { FX_USD_EUR } from "../js/config.js";
-import { formatEur, formatCount } from "../js/engine/format.js";
+import { formatEur, formatCount, formatShare, formatNumber } from "../js/engine/format.js";
+import { replayStory, plain as plainText } from "./lib/story-node.mjs";
 
 const strings = { en: JSON.parse(readFileSync(path.join(APP_ROOT, "js/i18n/en.json"), "utf8")), de: JSON.parse(readFileSync(path.join(APP_ROOT, "js/i18n/de.json"), "utf8")) };
 const tr = (lang, key, params = {}) => key.split(".").reduce((o, k) => o?.[k], strings[lang]).replace(/\{(\w+)\}/g, (m, n) => (params[n] ?? m));
@@ -258,6 +279,320 @@ try {
       check("the German dossier lists the kept duty with A1", md.text.includes("Beibehaltene Pflichten") && /A1 EU-rechtlich vorgegeben/.test(md.text) && md.text.includes("Nichts wird versendet."));
       check("the same CSV columns in German", csv.text.split("\r\n")[0].replace(/^﻿/, "") === "id;norm;paragraph;type;addressee;trigger;frequency_per_year;recipient;data_items;confidence;status;html_url");
       check("no errors (R2)", problems.length === 0, problems.join("; "));
+      await ctx.close();
+    }
+  });
+
+  // ---------------------------------------------------------------------------------- figures
+  await section("figures", "FIGURES OK", async () => {
+    /** Opens every figure under `scope` in turn and checks the dialog against the engine's facts at that moment. */
+    async function openEach(page, scope, lang, details, where) {
+      const n = (await page.$$(`${scope} .fact-ref`)).length;
+      check(`${where}: figures to open`, n > 0, scope);
+      for (let i = 0; i < n; i++) {
+        const btn = (await page.$$(`${scope} .fact-ref`))[i];
+        const id = await btn.getAttribute("data-fact");
+        const want = details[id];
+        const text = plainText(await btn.textContent());
+        check(`${where}: ${id} shows the engine's value`, want && text === want.text, `${text} vs ${want?.text}`);
+        await btn.click();
+        await page.waitForSelector(".fact-modal", { timeout: 5000 });
+        check(`${where}: ${id} opens "${tr(lang, "fact.where")}"`, plainText(await textOf(page, ".fact-modal .vc-dialog__title")) === tr(lang, "fact.where"));
+        check(`${where}: ${id}'s dialog shows its value`, plainText(await textOf(page, ".fact-modal .fact-value")) === text);
+        check(`${where}: ${id}'s dialog shows its label`, plainText(await textOf(page, ".fact-modal .fact-head strong")) === plainText(want?.label), `${await textOf(page, ".fact-modal .fact-head strong")} vs ${want?.label}`);
+        const inputs = await page.$$eval(".fact-modal .fact-inputs li", (els) => els.map((e) => ({ text: e.textContent, basis: Boolean(e.querySelector("code, .vc-tag")) })));
+        if (want?.inputs.length) {
+          check(`${where}: ${id}'s dialog lists its inputs`, inputs.length === want.inputs.length, `${inputs.length} vs ${want.inputs.length}`);
+          check(`${where}: each input of ${id} names its source or Assumption`, want.inputs.every((inp, k) => !inp.startsWith("param:") || inputs[k]?.basis));
+        } else check(`${where}: ${id} says it has no inputs`, inputs.length === 0 && plainText(await textOf(page, ".fact-modal .vc-dialog__body")).includes(tr(lang, "fact.no_inputs")));
+        await page.keyboard.press("Escape");
+        await page.waitForSelector(".fact-modal", { state: "detached", timeout: 5000 });
+      }
+      return n;
+    }
+    for (const lang of ["en", "de"]) {
+      const story = await replayStory("R1", lang);
+      const pause = story.pauses.find((p) => p.kind === "option");
+      const { page, ctx, problems } = await openApp(browser, server.base, { skipIntro: true, query: `?lang=${lang}&speed=1000`, viewport: { width: 1600, height: 1000 } });
+      await startRun(page, { run: "R1" });
+      await waitDecision(page);
+      const a = await openEach(page, "#kpis", lang, pause.before.details, `${lang} tiles`);
+      const b = await openEach(page, "#panel-options .option-cards", lang, pause.before.details, `${lang} option cards`);
+      const c = pause.choice;
+      await decide(page, { option: c.option_id, code: c.reason_code, comment: c.comment });
+      await waitTone(page, "done");
+      await page.click("#tab-outbox");
+      const d = await openEach(page, "#panel-outbox", lang, story.final.details, `${lang} dossier`);
+      await openEach(page, "#kpis", lang, story.final.details, `${lang} tiles at the end`);
+      check(`${lang}: the dossier's totals open their figures too`, (await page.$$("#panel-outbox .dossier-totals .fact-ref")).length === 3);
+      check(`${lang}: figures opened in tiles, cards and dossier`, a >= 6 && b >= 6 && d >= 4, `${a}, ${b}, ${d}`);
+      check(`${lang}: no errors`, problems.length === 0, problems.join("; "));
+      await ctx.close();
+    }
+  });
+
+  // ---------------------------------------------------------------------------------- assumptions
+  await section("assumptions", "ASSUMPTIONS OK", async () => {
+    const duty = "D-enstatg_2017-p10-1";
+    const base = await replayStory("R3", "en");
+    const minutes = base.state.paramsFor(duty).minutes_per_case;
+    const edits = [{ atPause: 0, duty, field: "minutes_per_case", value: minutes + 15 }, { atPause: 0, duty, field: "frequency_per_year", value: 1 }];
+    for (const lang of ["en", "de"]) {
+      // The run ends with keep: the edit took lower frequency out of the options.
+      const story = await replayStory("R3", lang, { edits, choose: (req) => ({ option_id: req.option_ids.find((id) => id.endsWith("-keep")), decision: "approved", reason_code: "A3", comment: "" }) });
+      const pause = story.pauses[0];
+      const { page, ctx, problems } = await openApp(browser, server.base, { skipIntro: true, query: `?lang=${lang}&speed=1000`, viewport: { width: 1600, height: 1000 } });
+      await startRun(page, { run: "R3" });
+      await waitDecision(page);
+      await page.click("#btn-diagnostics");
+      await page.waitForSelector(".diag-modal #diag-assumptions .param-input", { timeout: 10000 });
+      for (const [k, e] of edits.entries()) {
+        const input = `.diag-modal #diag-assumptions tr[data-duty="${e.duty}"][data-field="${e.field}"] input`;
+        await page.fill(input, String(e.value).replace(".", lang === "de" ? "," : "."));
+        await page.press(input, "Enter");
+        const ch = pause.edits[k].change;
+        await page.waitForFunction((s) => document.querySelector(".diag-modal #diag-assumptions .diag-msg")?.dataset.tone === "success" && document.querySelector(".diag-modal #diag-assumptions .diag-msg").textContent === s, tr(lang, "diag.edited", { changed: formatCount(ch.changed.length, lang), retired: formatCount(ch.retired.length, lang) }), { timeout: 5000 })
+          .then(() => check(`${lang}: edit ${k + 1} reports the engine's recomputation`, true), async () => check(`${lang}: edit ${k + 1} reports the engine's recomputation`, false, await textOf(page, ".diag-modal #diag-assumptions .diag-msg")));
+      }
+      check(`${lang}: the edited fields are marked as changed`, (await page.$$(`.diag-modal #diag-assumptions tr[data-duty="${duty}"] .vc-tag--accent`)).length === edits.length);
+      await page.keyboard.press("Escape");
+      await page.waitForSelector(".diag-modal", { state: "detached", timeout: 5000 });
+      await page.waitForTimeout(150);
+      const cards = await page.$$eval("#panel-options article.option-card", (els) => els.map((c) => ({ id: c.id.replace(/^option-/, ""), figures: [...c.querySelectorAll(".fact-ref")].map((b) => `${b.dataset.fact}=${b.textContent.replace(/[  ]/g, " ").replace(/\s+/g, " ").trim()}`).sort() })));
+      for (const c of pause.afterEdit.cards) {
+        const want = Object.values(c.figures).map((f) => `${f.id}=${f.text}`).sort();
+        const got = cards.find((x) => x.id === c.id)?.figures || [];
+        check(`${lang}: option ${c.type} recomputed to the engine's figures`, JSON.stringify(got) === JSON.stringify(want), `${got.join(", ")} vs ${want.join(", ")}`);
+      }
+      // The option the edit made ineligible leaves the cards with its reason; its retired facts say "no longer applies".
+      const gone = pause.before.cards.filter((c) => !pause.afterEdit.cards.some((x) => x.id === c.id));
+      const target = story.state.targets.get(pause.target);
+      check(`${lang}: the edit makes an option ineligible in the engine`, gone.length === 1 && pause.edits.some((e) => e.change.retired.length > 0), gone.map((c) => c.type).join());
+      for (const c of gone) {
+        check(`${lang}: ${c.type} leaves the option cards`, !cards.some((x) => x.id === c.id));
+        const reason = target.ineligible?.find((x) => x.type === c.type)?.reason;
+        check(`${lang}: ${c.type} is listed as ineligible with the engine's reason`, Boolean(reason) && plainText(await textOf(page, "#panel-options .ineligible")).includes(`${tr(lang, `option_type.${c.type}`)}: ${tr(lang, `reason.${reason}`)}`), `${reason} / ${await textOf(page, "#panel-options .ineligible").catch(() => "none")}`);
+      }
+      const retiredIds = pause.edits.flatMap((e) => e.change.retired);
+      const shownRetired = await page.$$eval(".fact-ref", (bs, ids) => bs.filter((b) => ids.includes(b.dataset.fact)).map((b) => b.textContent.trim()), retiredIds);
+      check(`${lang}: a figure that no longer applies says "${tr(lang, "fact.retired")}" wherever it is cited`, shownRetired.every((x) => x === tr(lang, "fact.retired")), shownRetired.join(", "));
+      const consoleFigures = await page.$$eval(".log .fact-ref", (bs) => bs.map((b) => [b.dataset.fact, b.textContent]));
+      const stale = consoleFigures.filter(([id, text]) => plainText(text) !== pause.afterEdit.facts[id]);
+      check(`${lang}: every figure in the console shows the engine's value after the edits`, consoleFigures.length > 0 && stale.length === 0, stale.map(([id, text]) => `${id}=${text} vs ${pause.afterEdit.facts[id]}`).join(", "));
+      const tileText = async (sel) => plainText(await textOf(page, sel));
+      check(`${lang}: the pending figure recomputed`, ((await page.$("#kpi-cost .kpi-pending .fact-ref")) ? await tileText("#kpi-cost .kpi-pending .fact-ref") : null) === pause.afterEdit.tiles.pending, `${pause.afterEdit.tiles.pending}`);
+      check(`${lang}: the duties tile is the engine's`, (await tileText("#kpi-duties .kpi-value")) === pause.afterEdit.tiles.duties);
+      await page.click("#tab-audit");
+      const rows = await page.$$eval('#panel-audit tbody tr[data-event="parameter_changed"]', (els) => els.map((r) => r.dataset.actor));
+      check(`${lang}: each edit is logged as parameter_changed by the reviewer`, rows.length === edits.length && rows.every((a) => a === "human"), rows.join());
+      check(`${lang}: no errors`, problems.length === 0, problems.join("; "));
+      await ctx.close();
+    }
+  });
+
+  // ---------------------------------------------------------------------------------- keep
+  await section("keep", "KEEP OK", async () => {
+    const keepWith = (code, comment) => (req) => ({ option_id: req.option_ids.find((id) => id.endsWith("-keep")), decision: "approved", reason_code: code, comment });
+    const cases = [
+      { lang: "en", run: "R3", code: "A3", comment: "Needed for the energy balance." },
+      { lang: "de", run: "R3", code: "A3", comment: "Für die Energiebilanz notwendig." },
+      { lang: "en", run: "R1", code: "A2", comment: "" }
+    ];
+    for (const k of cases) {
+      const where = `${k.run} ${k.lang}`;
+      const story = await replayStory(k.run, k.lang, { choose: keepWith(k.code, k.comment) });
+      const pause = story.pauses.find((p) => p.kind === "option");
+      const keep = pause.choice.option_id;
+      const { page, ctx, problems } = await openApp(browser, server.base, { skipIntro: true, query: `?lang=${k.lang}&speed=1000`, viewport: { width: 1600, height: 1000 } });
+      await startRun(page, { run: k.run });
+      await waitDecision(page);
+      const err = async () => (await page.$("#panel-options .field-msg")) ? textOf(page, "#panel-options .field-msg") : "";
+      for (const bad of ["Z2", "A5", "I1"]) {
+        await decide(page, { option: keep, code: bad, comment: "x" });
+        check(`${where}: keep with ${bad} is refused`, (await page.getAttribute(`#option-${keep}`, "data-status")) !== "approved" && (await err()) !== "", await err());
+      }
+      await decide(page, { option: keep, code: k.code, comment: k.comment });
+      await waitTone(page, "done");
+      check(`${where}: keep with ${k.code} is approved`, (await page.getAttribute(`#option-${keep}`, "data-status")) === "approved");
+      for (const id of pause.option_ids.filter((x) => x !== keep)) {
+        check(`${where}: ${id} says "${tr(k.lang, "options.target_decided")}"`, plainText(await textOf(page, `#option-${id} .option-head .vc-tag`)) === tr(k.lang, "options.target_decided"));
+        check(`${where}: ${id} can no longer be chosen`, await page.isDisabled(`#option-${id} input[name="option-choice"]`));
+      }
+      await page.click("#tab-outbox");
+      check(`${where}: no relief item`, (await page.$$("#panel-outbox .dossier-item")).length === 0);
+      const kept = await page.$$eval("#panel-outbox .kept-item", (els) => els.map((e) => ({ id: e.id.replace(/^kept-/, ""), text: e.textContent.replace(/\s+/g, " ") })));
+      check(`${where}: the kept duties are the engine's`, JSON.stringify(kept.map((x) => x.id)) === JSON.stringify(story.final.kept.map((x) => x.duty_id)) && kept.length >= 1, `${kept.map((x) => x.id)} vs ${story.final.kept.map((x) => x.duty_id)}`);
+      for (const want of story.final.kept) {
+        const got = kept.find((x) => x.id === want.duty_id)?.text || "";
+        check(`${where}: ${want.duty_id} shows its code, comment and data uses`, got.includes(`${k.code} ${tr(k.lang, `code.${k.code}`)}`) && (!k.comment || got.includes(k.comment)) && (want.uses.length ? want.uses.every((u) => got.includes(u)) : got.includes(tr(k.lang, "outbox.no_uses"))), got);
+      }
+      const tiles = { duties: plainText(await textOf(page, "#kpi-duties .kpi-value")), cost: plainText(await textOf(page, "#kpi-cost .kpi-value")), repShare: plainText(await textOf(page, "#kpi-reporting .kpi-gauge")) };
+      check(`${where}: the tiles are the engine's`, tiles.duties === story.final.tiles.duties && tiles.cost === story.final.tiles.cost && tiles.repShare === story.final.tiles.repShare, `${JSON.stringify(tiles)} vs ${JSON.stringify(story.final.tiles)}`);
+      check(`${where}: no errors`, problems.length === 0, problems.join("; "));
+      await ctx.close();
+    }
+  });
+
+  // ---------------------------------------------------------------------------------- other
+  await section("other", "OTHER DECISION OK", async () => {
+    const cases = [
+      { lang: "en", run: "R1", choose: (req) => ({ option_id: req.option_ids.find((id) => id.endsWith("-register_retrieval")), decision: "approved", reason_code: "Z2", comment: "" }) },
+      { lang: "de", run: "R3", choose: (req) => ({ option_id: req.intended.option_id, decision: "rejected", reason_code: "A3", comment: "" }) }
+    ];
+    for (const k of cases) {
+      const where = `${k.run} ${k.lang}`;
+      const story = await replayStory(k.run, k.lang, { choose: k.choose });
+      const pause = story.pauses.find((p) => p.kind === "option");
+      const choice = pause.choice;
+      const intent = pause.intended;
+      check(`${where}: the decision differs from the recording's intention`, choice.option_id !== intent.option_id || choice.decision !== intent.decision);
+      const { page, ctx, problems } = await openApp(browser, server.base, { skipIntro: true, query: `?lang=${k.lang}&speed=1000`, viewport: { width: 1600, height: 1000 } });
+      await startRun(page, { run: k.run });
+      await waitDecision(page);
+      await decide(page, { option: choice.option_id, code: choice.reason_code, comment: choice.comment, button: choice.decision === "approved" ? "approve" : "reject" });
+      await waitTone(page, "done");
+      const tiles = {
+        duties: plainText(await textOf(page, "#kpi-duties .kpi-value")), cost: plainText(await textOf(page, "#kpi-cost .kpi-value")),
+        repShare: plainText(await textOf(page, "#kpi-reporting .kpi-gauge")), repAtt: plainText(await textOf(page, "#kpi-reporting .kpi-bench .fact-ref")),
+        docShare: plainText(await textOf(page, "#kpi-documentation .kpi-gauge")), docAtt: plainText(await textOf(page, "#kpi-documentation .kpi-bench .fact-ref"))
+      };
+      for (const t of Object.keys(tiles)) check(`${where}: tile ${t} is the engine's for this decision`, tiles[t] === story.final.tiles[t], `${tiles[t]} vs ${story.final.tiles[t]}`);
+      await page.click("#tab-outbox");
+      const items = await page.$$eval("#panel-outbox .dossier-item", (els) => els.map((e) => e.id.replace(/^dossier-/, "")));
+      check(`${where}: the dossier holds what was decided`, JSON.stringify(items) === JSON.stringify(story.final.items), `${items} vs ${story.final.items}`);
+      const report = await page.$eval('.log .narration[data-kind="report"]', (p) => p.textContent);
+      check(`${where}: the closing report is the engine's for this decision`, plainText(report).endsWith(story.report), `${plainText(report)}\n  vs ${story.report}`);
+      // Nothing after the decision names the intended outcome.
+      const after = await page.$$eval(".log .entry", (es) => { const i = es.findIndex((e) => e.dataset.type === "decision_recorded"); return es.slice(i + 1).map((e) => e.textContent.replace(/\s+/g, " ")); });
+      const intendedOption = story.state.options.get(intent.option_id);
+      const banned = [intent.option_id, `${intent.reason_code} ${tr(k.lang, `code.${intent.reason_code}`)}`];
+      if (intent.decision !== choice.decision || intent.option_id !== choice.option_id) banned.push(`${tr(k.lang, `option_type.${intendedOption.type}`)} · ${pause.target}`);
+      const hits = after.filter((x) => banned.some((b) => x.includes(b)));
+      check(`${where}: no text after the decision names the intended outcome`, after.length >= 1 && hits.length === 0, hits.join(" | "));
+      const md = await (async () => { const [d] = await Promise.all([page.waitForEvent("download", { timeout: 10000 }), page.click("#export-dossier_md")]); return readFile(await d.path(), "utf8"); })();
+      check(`${where}: the exported dossier does not name the intended outcome`, !md.includes(intent.option_id) && !md.includes(`${intent.reason_code} ${tr(k.lang, `code.${intent.reason_code}`)}`));
+      check(`${where}: no errors`, problems.length === 0, problems.join("; "));
+      await ctx.close();
+    }
+  });
+
+  // ---------------------------------------------------------------------------------- disclosures
+  await section("disclosures", "DISCLOSURES OK", async () => {
+    {
+      const { page, ctx, problems } = await openApp(browser, server.base, { locale: "de-DE" });
+      check("a German browser's first visit opens in English", (await page.getAttribute("html", "lang")) === "en" && (await textOf(page, ".brand-sub")) === tr("en", "app.subtitle") && (await textOf(page, ".intro-modal .vc-dialog__title")) === tr("en", "intro.title"));
+      check("no errors (first visit)", problems.length === 0, problems.join("; "));
+      await ctx.close();
+    }
+    for (const lang of ["en", "de"]) {
+      const { page, ctx, problems } = await openApp(browser, server.base, { skipIntro: true, query: `?lang=${lang}&speed=1000`, viewport: { width: 1600, height: 1000 } });
+      const lines = async (screen) => {
+        for (const [sel, key] of [[".ai-disclosure", "disclosure.ai"], [".proto-disclosure", "disclosure.proto"]]) {
+          const box = await page.locator(sel).boundingBox();
+          const vh = page.viewportSize().height;
+          check(`${lang} ${screen}: "${tr(lang, key)}" shows`, await page.isVisible(sel) && plainText(await textOf(page, sel)) === tr(lang, key) && box && box.y >= 0 && box.y + box.height <= vh, `${await textOf(page, sel)} ${JSON.stringify(box)}`);
+        }
+      };
+      await lines("Start");
+      await startRun(page, { run: "R1" });
+      await waitDecision(page);
+      await page.click('.centre-tab[data-view="dutymap"]');
+      await lines("Duty map");
+      await page.click('.centre-tab[data-view="duplicates"]');
+      await lines("Duplicates");
+      await page.click("#tab-options");
+      if ((await page.getAttribute("#tab-options", "aria-selected")) !== "true") await page.click("#tab-options");
+      await lines("Options & review");
+      await decide(page, { option: "merge", code: "Z1" });
+      await waitTone(page, "done");
+      await page.click("#tab-outbox");
+      await lines("Outbox");
+      check(`${lang}: the outbox says "${tr(lang, "outbox.notice")}"`, plainText(await textOf(page, "#panel-outbox .outbox-notice")) === tr(lang, "outbox.notice") && tr(lang, "outbox.notice") === (lang === "de" ? "Nichts wird versendet." : "Nothing is sent."));
+      await page.click("#btn-diagnostics");
+      await page.waitForSelector(".diag-modal", { timeout: 5000 });
+      await lines("Assumptions & diagnostics");
+      check(`${lang}: no errors`, problems.length === 0, problems.join("; "));
+      await ctx.close();
+    }
+  });
+
+  // ---------------------------------------------------------------------------------- print
+  await section("print", "PRINT OK", async () => {
+    for (const [lang, run] of [["en", "R1"], ["de", "R2"]]) {
+      const story = await replayStory(run, lang);
+      const { page, ctx, problems } = await openApp(browser, server.base, { skipIntro: true, query: `?lang=${lang}&speed=1000`, viewport: { width: 1280, height: 720 } });
+      await startRun(page, { run });
+      for (const p of story.pauses) {
+        if (p.kind === "review") {
+          await page.waitForSelector('.cluster-card[data-pending="true"]', { timeout: 60000 });
+          const buttons = await page.$$('.cluster-card[data-pending="true"] .cluster-actions button');
+          await buttons[p.action === "split" ? 1 : 0].click();
+          continue;
+        }
+        await waitDecision(page);
+        await decide(page, { option: p.choice.option_id, code: p.choice.reason_code, comment: p.choice.comment, button: p.choice.decision === "approved" ? "approve" : "reject" });
+        await page.waitForFunction((id) => !document.querySelector(`#option-${id}[data-status="proposed"], #option-${id}[data-status="under_review"]`), p.choice.option_id, { timeout: 10000 });
+      }
+      await waitTone(page, "done");
+      // Another tab open and then the drawer closed: printing still gives the dossier.
+      await page.click("#tab-audit");
+      for (const closed of [false, true]) {
+        if (closed) await page.evaluate(() => document.querySelector(".drawer-toggle")?.click());
+        await page.emulateMedia({ media: "print" });
+        const where = `${lang} ${run}${closed ? " with the drawer closed" : " with the audit tab open"}`;
+        const shownSel = ["#print-dossier .outbox-title", "#print-dossier .dossier-totals", "#print-dossier .dossier-footnote", "#print-dossier .outbox-notice", ".brand-name", ".ai-disclosure", ".proto-disclosure"];
+        if (story.final.items.length) shownSel.push("#print-dossier .dossier-item");
+        if (story.final.kept.length) shownSel.push("#print-dossier .kept-item");
+        for (const sel of shownSel) check(`${where}: ${sel} prints`, await page.isVisible(sel));
+        for (const sel of ["#controls", "#console", "#drawer", "#centre", "#kpis", ".header-badges", ".skip-link", "#print-dossier button"]) check(`${where}: ${sel} does not print`, !(await page.isVisible(sel)));
+        const printed = await page.$$eval("#print-dossier .dossier-item, #print-dossier .kept-item", (els) => els.map((e) => e.dataset.option || e.dataset.duty));
+        check(`${where}: the printed dossier holds the engine's items and kept duties`, JSON.stringify(printed) === JSON.stringify([...story.final.items, ...story.final.kept.map((k) => k.duty_id)]), `${printed} vs ${story.final.items} ${story.final.kept.map((k) => k.duty_id)}`);
+        check(`${where}: the printed totals are the engine's`, plainText(await textOf(page, "#print-dossier .dossier-totals")) === story.final.totals);
+        check(`${where}: the printed dossier repeats no id of the screen`, await page.evaluate(() => [...document.querySelectorAll("#print-dossier [id]")].length === 0));
+        const width = await page.evaluate(() => document.querySelector("#print-dossier").getBoundingClientRect().width / document.documentElement.clientWidth);
+        check(`${where}: the dossier takes the page's width`, width > 0.9, String(width));
+        await page.emulateMedia({ media: "screen" });
+      }
+      check(`${lang}: on screen the print copy stays hidden`, !(await page.isVisible("#print-dossier")));
+      check(`${lang}: back on screen the controls are there again`, await page.isVisible("#controls") && await page.isVisible("#console"));
+      check(`${lang}: no errors`, problems.length === 0, problems.join("; "));
+      await ctx.close();
+    }
+  });
+
+  // ---------------------------------------------------------------------------------- runfigures
+  await section("runfigures", "RUN FIGURES OK", async () => {
+    for (const [lang, run] of [["de", "R2"], ["en", "R1"]]) {
+      const story = await replayStory(run, lang);
+      const relief = story.state.decisions.filter((d) => story.state.options.get(d.option_id)?.type !== "keep");
+      const rate = relief.length ? plainText(formatShare(relief.filter((d) => d.decision === "approved").length / relief.length, lang)) : "–";
+      const { page, ctx, problems } = await openApp(browser, server.base, { skipIntro: true, query: `?lang=${lang}&speed=1000`, viewport: { width: 1600, height: 1000 } });
+      await startRun(page, { run });
+      for (const p of story.pauses) {
+        if (p.kind === "review") {
+          await page.waitForSelector('.cluster-card[data-pending="true"]', { timeout: 60000 });
+          const buttons = await page.$$('.cluster-card[data-pending="true"] .cluster-actions button');
+          await buttons[p.action === "split" ? 1 : 0].click();
+          continue;
+        }
+        await waitDecision(page);
+        await page.waitForTimeout(300);
+        await decide(page, { option: p.choice.option_id, code: p.choice.reason_code, comment: p.choice.comment, button: p.choice.decision === "approved" ? "approve" : "reject" });
+        await page.waitForFunction((id) => !document.querySelector(`#option-${id}[data-status="proposed"], #option-${id}[data-status="under_review"]`), p.choice.option_id, { timeout: 10000 });
+      }
+      await waitTone(page, "done");
+      await page.click("#btn-diagnostics");
+      await page.waitForSelector(".diag-modal #diag-run", { timeout: 5000 });
+      const rows = Object.fromEntries(await page.$$eval(".diag-modal #diag-run tr", (trs) => trs.map((r) => [r.querySelector("th")?.textContent.trim(), r.querySelector("td")?.textContent.replace(/[  ]/g, " ").replace(/\s+/g, " ").trim()])));
+      const row = (key) => rows[tr(lang, key)];
+      check(`${lang} ${run}: duplicate data requests found`, row("diag.fig_clusters") === story.final.clusters, `${row("diag.fig_clusters")} vs ${story.final.clusters}`);
+      check(`${lang} ${run}: duties inventoried`, row("diag.fig_duties") === story.final.duties, `${row("diag.fig_duties")} vs ${story.final.duties}`);
+      check(`${lang} ${run}: acceptance rate`, row("diag.fig_acceptance") === rate, `${row("diag.fig_acceptance")} vs ${rate}`);
+      const minutes = row("diag.fig_minutes") || "";
+      const pattern = new RegExp(`^${tr(lang, "diag.fig_minutes_value", { minutes: "§" }).replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace("§", lang === "de" ? "\\d+(,\\d)?" : "\\d+(\\.\\d)?")}$`);
+      check(`${lang} ${run}: minutes per review decision, the median`, pattern.test(minutes), minutes);
+      check(`${lang} ${run}: the figures are aggregated, never per person`, plainText(await textOf(page, ".diag-modal #diag-run .diag-note")) === tr(lang, "diag.fig_note"));
+      check(`${lang}: no errors`, problems.length === 0, problems.join("; "));
       await ctx.close();
     }
   });

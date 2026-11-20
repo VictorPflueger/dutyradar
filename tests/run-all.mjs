@@ -27,9 +27,13 @@ const SUITES = [
   { id: "parity", what: "shared shell identical to the sister app's (needs a Rebate Hunter checkout)", file: "tests/parity.mjs", browser: false, optional: true },
   { id: "smoke", what: "boot offline, intro, views, drawer, Diagnostics, the mode dialog, keyboard, a failed boot", file: "tests/smoke.mjs", browser: true },
   { id: "sims", what: "R1 to R3 replayed in Chromium in both languages: pauses, recorded reviews, tiles equal to the engines' facts", file: "tests/sims.mjs", browser: true },
-  { id: "accept", what: "AC-19 decisions, AC-22 caps, AC-23 the key, a Live run end to end, AC-31 the modes, the exports", file: "tests/accept.mjs", browser: true },
+  { id: "storyline", what: "AC-17, AC-18 the eight-minute storyline as the audience sees it, R1 and R2 in both languages, every figure from the engines", file: "tests/storyline.mjs", browser: true },
+  { id: "accept", what: "AC-19 decisions, AC-22 caps, AC-23 the key, a Live run, AC-31 modes, AC-24 exports, AC-20 figures, AC-21 assumptions, AC-33 keep, AC-35 another decision, AC-25 disclosures, print, run figures", file: "tests/accept.mjs", browser: true },
+  { id: "selftest", what: "AC-28 Run all tests in the browser on the fixture files, in both languages, and a changed fixture fails", file: "tests/selftest.mjs", browser: true },
   { id: "i18n", what: "English first, the switch without a reload on every screen of a run, model text keeps its language, ?lang=, German at 1280 × 720", file: "tests/i18n.mjs", browser: true },
-  { id: "layout", what: "viewports from 1920 × 1080 to 1280 × 720 in both languages, idle and with a run waiting, both themes with sixteen screenshots, the ink ramp, and 360 px", file: "tests/layout.mjs", browser: true },
+  { id: "layout", what: "viewports from 1920 × 1080 to 1280 × 720 in both languages and themes with sixteen screenshots, the ink ramp; AC-27 at 360 px the view menu, the console drawer, the tiles two by two", file: "tests/layout.mjs", browser: true },
+  { id: "design", what: "the colour grammar in both themes: merlot for the reviewer, lilac for the AI, fjord for checking, state colours with words, the ink ramp", file: "tests/design.mjs", browser: true },
+  { id: "a11y", what: "AC-26 axe-core on the six screens in both themes and languages, and the storyline by keyboard alone", file: "tests/a11y.mjs", browser: true },
   { id: "hexagon", what: "nothing round: the app's files, and the rendered app in both themes", file: "tests/hexagon.mjs", browser: true }
 ];
 

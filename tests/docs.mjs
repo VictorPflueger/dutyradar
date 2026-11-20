@@ -12,6 +12,7 @@ import { APP_ROOT } from "./lib/harness.mjs";
 
 const DOCS = {
   "README.md": { words: 900, sections: ["What it is", "How it works", "What is real, assumed or synthetic", "The law snapshot", "Measured recall", "Run it", "Tests", "Status", "Acceptance record", "Files"] },
+  "DEMO_SCRIPT.md": { words: 1500, sections: ["Before the talk", "Checking the venue", "Talk track in English", "Gesprächsleitfaden auf Deutsch", "Offline fallback", "After the talk", "Questions and short answers", "Fragen und kurze Antworten"] },
   "DESIGN.md": { words: 450, numbered: 6 },
   "TECH_NOTES.md": { words: 1200, numbered: 8 },
   "DATA_SOURCES.md": { words: 450, numbered: 4 },
