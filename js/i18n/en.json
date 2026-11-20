@@ -546,10 +546,13 @@
    "aborted": "Run aborted.",
    "error": "Run ended with an error.",
    "incomplete": "Run ended incomplete."
-  }
+  },
+  "open": "Console",
+  "close": "Close the console"
  },
  "view": {
-  "tabs": "Views"
+  "tabs": "Views",
+  "menu": "View"
  },
  "dutymap": {
   "empty": "The map fills once the agent inventories the duties.",
@@ -622,7 +625,28 @@
   "calls": "Model calls",
   "checker": "Run checker",
   "checker_ok": "{run} keeps the fact auditor's rules.",
-  "checker_failed": "{n} problems, first: {first}"
+  "checker_failed": "{n} problems, first: {first}",
+  "selftest": "Self-test",
+  "selftest_text": "Runs the golden cases, the fact auditor's cases and the cluster cases from the same fixture files as the unit tests, here in this browser.",
+  "selftest_running": "Running the tests…",
+  "selftest_passed": "All {n} cases passed.",
+  "selftest_failed": "{failed} of {n} cases failed.",
+  "selftest_error": "The fixture files could not be loaded: {message}",
+  "selftest_group": {
+   "golden": "Golden cases of the cost engine",
+   "audit": "Fact auditor cases",
+   "cluster": "Cluster cases"
+  },
+  "selftest_group_count": "{passed} of {n} passed",
+  "case_pass": "passed",
+  "case_fail": "failed",
+  "case_detail": "{id}: {field} expected {expected}, got {actual}",
+  "fig_clusters": "Duplicate data requests found",
+  "fig_duties": "Duties inventoried",
+  "fig_minutes": "Minutes per review decision (median)",
+  "fig_minutes_value": "{minutes} min",
+  "fig_acceptance": "Acceptance rate of relief options",
+  "fig_note": "Aggregated over the run, never per person."
  },
  "table": {
   "show": "Figures as a table"

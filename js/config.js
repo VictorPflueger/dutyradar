@@ -4,7 +4,7 @@ export const APP = {
   id: "dr",
   name: "Duty Radar",
   fullName: "Duty Radar (Pflichten-Radar)",
-  version: "0.2.0"
+  version: "1.0.0"
 };
 
 export const ANTHROPIC = {

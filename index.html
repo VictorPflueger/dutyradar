@@ -22,6 +22,8 @@
   <link rel="stylesheet" href="css/drawer.css">
   <link rel="stylesheet" href="css/modals.css">
   <link rel="stylesheet" href="css/app.css">
+  <!-- On paper: the relief dossier with the disclosure lines, without the workspace (css/print.css). -->
+  <link rel="stylesheet" href="css/print.css" media="print">
 
   <!-- The theme before the page is drawn (light unless the visitor chose dark), then Vici's script. -->
   <script src="js/theme.js"></script>
@@ -81,6 +83,9 @@
   </main>
 
   <section id="drawer" class="drawer" aria-label="Options, outbox and audit log"></section>
+
+  <!-- The relief dossier as it is printed; not shown on screen (css/print.css). -->
+  <section id="print-dossier" class="print-dossier" aria-label="Relief dossier (draft)" data-i18n-attr="aria-label:outbox.title"></section>
 
   <div id="banners" class="banner-stack"></div>
 

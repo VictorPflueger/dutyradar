@@ -1,8 +1,9 @@
 // The control bar (PLAN.md 3.2 and P-4): Start agent (it opens the mode dialog), the run, the slice and
 // the Live model, the replay speeds and Pause, the run's status, the cost meter in Live and Sovereign
 // mode ("N of 40 calls · €x.xx of €3"), Record run with ?record=1, Abort, Reset and Assumptions &
-// diagnostics. Built once per language; update() sets what changes while a run goes on, so an open
-// menu is never rebuilt under the presenter's pointer.
+// diagnostics; below 900 px also Console, which opens the console as a drawer (css/app.css). Built once
+// per language; update() sets what changes while a run goes on, so an open menu is never rebuilt under
+// the presenter's pointer.
 
 import { h, clear, setDisabled, isDisabled, withTooltip } from "./dom.js";
 import { icon } from "./icons.js";
@@ -17,7 +18,8 @@ const TONE = { idle: "idle", running: "active", awaiting_decision: "waiting", aw
 
 /**
  * handlers: { onStart, onRunChange(id), onModelChange(id), onSpeed(n), onPause(), onAbort(), onReset(),
- * onRecord(), onDiagnostics() }. get(): { run, status, runId, model, speed, cost, recording, slice }.
+ * onRecord(), onDiagnostics(), onConsole() }. get(): { run, status, runId, model, speed, cost,
+ * recording, slice, consoleOpen }.
  */
 export function createControls(root, handlers, get) {
   let el = {};
@@ -59,9 +61,12 @@ export function createControls(root, handlers, get) {
     guard(reset.b, handlers.onReset);
     const diag = button("btn-diagnostics", "pulse", t("screen.diagnostics"));
     diag.b.addEventListener("click", handlers.onDiagnostics);
+    const consoleBtn = button("btn-console", "console", t("console.open"));
+    consoleBtn.b.setAttribute("aria-controls", "console");
+    consoleBtn.b.addEventListener("click", () => handlers.onConsole?.());
     const field = (labelKey, select, hiddenLabel = false) => h("label", { class: "control-group control-field" }, h("span", { class: hiddenLabel ? "control-label speed-label" : "control-label" }, t(labelKey)), select);
     root.append(
-      h("div", { class: "control-group" }, start.anchor),
+      h("div", { class: "control-group" }, start.anchor, h("span", { class: "console-toggle" }, consoleBtn.anchor)),
       field("controls.run", runSelect),
       // One slice: its menu needs no visible label (the label stays for screen readers, the id in the tooltip).
       field("controls.slice", sliceSelect, true),
@@ -72,7 +77,7 @@ export function createControls(root, handlers, get) {
       meter,
       h("div", { class: "control-group", id: "record-group", hidden: true }, record.anchor),
       h("div", { class: "control-group" }, abort.anchor, reset.anchor, diag.anchor));
-    el = { start: start.b, runSelect, modelSelect, speeds, speedGroup: root.querySelector("#speed-group"), pause: pause.b, pill, meter, record: record.b, recordGroup: root.querySelector("#record-group"), abort: abort.b, reset: reset.b };
+    el = { start: start.b, runSelect, modelSelect, speeds, speedGroup: root.querySelector("#speed-group"), pause: pause.b, pill, meter, record: record.b, recordGroup: root.querySelector("#record-group"), abort: abort.b, reset: reset.b, console: consoleBtn.b };
     update();
   }
 
@@ -113,6 +118,7 @@ export function createControls(root, handlers, get) {
     el.recordGroup.hidden = !(s.recording && metered);
     setDisabled(el.abort, !active, t("controls.nothing_running"));
     setDisabled(el.reset, !run, t("controls.nothing_running"));
+    el.console.setAttribute("aria-expanded", String(Boolean(s.consoleOpen)));
   }
 
   build();

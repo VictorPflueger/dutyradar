@@ -4,8 +4,8 @@
    intro and Assumptions & diagnostics; from version 0.2.0 the run screens: figures that open their
    source, the control bar's cost meter, the duty map's ink ramp and duty cards, the duplicates board,
    Options & review, the outbox, the audit tab, the console's run lines and the mode and key dialogs;
-   and the small-screen rules. Vici's tokens only; hexagons where a shape would be round
-   (tests/hexagon.mjs). */
+   from version 1.0.0 the self-test, the small-screen layout and the print copy's screen rule. Vici's
+   tokens only; hexagons where a shape would be round (tests/hexagon.mjs). */
 
 /* ---- header ------------------------------------------------------------------------------- */
 .lang-switch {
@@ -244,6 +244,8 @@ button.map-count[aria-pressed="true"] { outline: 2px solid var(--vc-text); outli
 .option-card[data-status="rejected"] { opacity: 0.75; }
 .option-head { display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap; }
 .option-pick { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+/* The app's own radios and checkboxes show the keyboard focus as Vici's buttons do (AC-26). */
+:is(.option-pick, .check-field) input:focus-visible { outline: var(--vc-stroke-focus) solid var(--vc-focus); outline-offset: 2px; }
 .option-delta { font-size: 1rem; font-weight: var(--vc-weight-semibold); }
 .option-by { display: flex; flex-wrap: wrap; gap: 2px 10px; color: var(--vc-text-muted); }
 .keep-basis ul { margin: 2px 0 0; padding-inline-start: 1.1rem; }
@@ -334,6 +336,26 @@ button.map-count[aria-pressed="true"] { outline: 2px solid var(--vc-text); outli
 .diag-msg { min-height: 1.2em; margin: 4px 0; font-size: var(--vc-font-size-sm); }
 .diag-msg[data-tone="danger"] { color: var(--vc-danger-text); }
 .diag-msg[data-tone="success"] { color: var(--vc-success-text); }
+/* Scrolling regions the keyboard reaches show where the focus is. */
+:is(.slice-table-wrap, .diag-scroll, .audit-wrap):focus-visible { outline: var(--vc-stroke-focus) solid var(--vc-focus); outline-offset: 2px; }
+/* The duty map's filters keep their visible labels where the control bar's labels give way (style.css). */
+.map-filters .control-label { display: inline; }
+.diag-note { margin: 6px 0 0; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); }
+/* The self-test: one hexagon-cornered tag per case, passed in success, failed in danger, each with
+   its word for screen readers and the group's count in words. */
+.selftest-run { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.selftest-run .diag-msg { margin: 0; }
+.selftest-group h4 { margin: 12px 0 6px; font-size: var(--vc-font-size-sm); font-weight: var(--vc-weight-semibold); }
+.selftest-cases { display: flex; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.selftest-case .vc-tag { gap: 4px; font-variant-numeric: tabular-nums; }
+.selftest-detail { margin: 4px 0; font-size: var(--vc-font-size-sm); color: var(--vc-danger-text); }
+
+/* The dossier as it is printed lives beside the drawer and shows only on paper (css/print.css). */
+.print-dossier { display: none; }
+/* The duty card panel's heading takes the focus when a cell opens it. */
+.card-panel-head h3:focus-visible { outline: var(--vc-stroke-focus) solid var(--vc-focus); outline-offset: 2px; }
+.dossier-totals { margin: 0 0 8px; font-weight: var(--vc-weight-semibold); }
+.dossier-footnote { margin: 8px 0 0; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); }
 
 /* ---- small screens ----------------------------------------------------------------------- */
 @media (max-width: 1400px) {
@@ -351,15 +373,44 @@ button.map-count[aria-pressed="true"] { outline: 2px solid var(--vc-text); outli
   .app-header > .disclosure { grid-column: 1 / -1; }
   .app-header > .kpis { grid-row: 3; grid-column: 1 / -1; }
 }
+/* Below 900 px (AC-27): the four tiles sit two by two; the views are one select menu instead of the
+   centre's tabs and the drawer's tab list; the console is a drawer over the right side, opened from the
+   Console button in the control bar and closed by its own button or Escape (js/ui.js). */
+.view-menu, .console-toggle, .console-close { display: none; }
 @media (max-width: 899px) {
   .kpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi.vc-stat { min-width: 0; max-width: none; }
   .disclosure { flex-basis: 100%; }
   .mode-cards { grid-template-columns: minmax(0, 1fr); }
   .options-layout { grid-template-columns: minmax(0, 1fr); }
+  .view-menu { display: flex; align-items: center; }
+  .view-menu .vc-select { max-width: none; min-width: 12rem; }
+  .centre-tabs { display: none; }
+  .drawer-tabs .drawer-tablist { display: none; }
+  .drawer-tabs { grid-template-columns: minmax(0, 1fr); }
+  .drawer-tabs .drawer-end { grid-row: 1; grid-column: 1; justify-content: space-between; }
+  .drawer-tabs .vc-byline { grid-row: 2; grid-column: 1; }
+  .console-toggle { display: inline-flex; }
+  .workspace { grid-template-columns: minmax(0, 1fr); }
+  .map-panel { border-right: 0; }
+  .console-panel {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: var(--vc-z-overlay);
+    width: min(100vw, 28rem); height: auto;
+    border-left: 1px solid var(--vc-border); box-shadow: var(--vc-shadow-xl);
+  }
+  .console-panel:not([data-open="true"]) { display: none; }
+  .console-close { display: inline-flex; }
 }
-/* Phones: one column; the control bar wraps (the console drawer and the select menu of the six screens
-   follow with the small-screen layout of version 1.0.0). */
+/* Phones: one column; the control bar wraps; the audit table keeps the panel's width, its columns
+   share it and their text wraps, so nothing scrolls sideways (AC-27). */
 @media (max-width: 600px) {
+  .audit-table { table-layout: fixed; }
+  .audit-table th, .audit-table td { padding: 3px 4px; overflow-wrap: anywhere; }
+  .audit-table th:nth-child(1), .audit-table td:nth-child(1) { width: 19%; }
+  .audit-table th:nth-child(2), .audit-table td:nth-child(2) { width: 23%; }
+  .audit-table th:nth-child(3), .audit-table td:nth-child(3) { width: 18%; }
+  .audit-table th:nth-child(5), .audit-table td:nth-child(5) { width: 15%; }
+  .audit-time, .audit-id { white-space: normal; }
   .app-shell { grid-template-columns: minmax(0, 1fr); }
   .app-header { grid-template-columns: minmax(0, 1fr); }
   .app-header > .brand { grid-row: 1; grid-column: 1; }

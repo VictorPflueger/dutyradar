@@ -445,7 +445,7 @@
   "tablist": "Entscheidungsleiste",
   "show": "Anzeigen",
   "hide": "Ausblenden",
-  "toggle": "Leiste ein- oder ausblenden",
+  "toggle": "Leiste anzeigen oder ausblenden",
   "note": "Nichts wird versendet."
  },
  "rail": {
@@ -546,10 +546,13 @@
    "aborted": "Lauf abgebrochen.",
    "error": "Lauf mit einem Fehler beendet.",
    "incomplete": "Lauf unvollständig beendet."
-  }
+  },
+  "open": "Konsole",
+  "close": "Konsole schließen"
  },
  "view": {
-  "tabs": "Ansichten"
+  "tabs": "Ansichten",
+  "menu": "Ansicht"
  },
  "dutymap": {
   "empty": "Die Karte füllt sich, sobald der Agent die Pflichten erfasst.",
@@ -622,7 +625,28 @@
   "calls": "Modellaufrufe",
   "checker": "Laufprüfer",
   "checker_ok": "{run} hält die Regeln des Faktenprüfers ein.",
-  "checker_failed": "{n} Probleme, zuerst: {first}"
+  "checker_failed": "{n} Probleme, zuerst: {first}",
+  "selftest": "Selbsttest",
+  "selftest_text": "Führt die Golden Cases, die Fälle des Faktenprüfers und die Bündelfälle aus denselben Fixture-Dateien wie die Unit-Tests aus, hier in diesem Browser.",
+  "selftest_running": "Tests laufen …",
+  "selftest_passed": "Alle {n} Fälle bestanden.",
+  "selftest_failed": "{failed} von {n} Fällen fehlgeschlagen.",
+  "selftest_error": "Die Fixture-Dateien ließen sich nicht laden: {message}",
+  "selftest_group": {
+   "golden": "Golden Cases der Kosten-Engine",
+   "audit": "Fälle des Faktenprüfers",
+   "cluster": "Bündelfälle"
+  },
+  "selftest_group_count": "{passed} von {n} bestanden",
+  "case_pass": "bestanden",
+  "case_fail": "fehlgeschlagen",
+  "case_detail": "{id}: {field} erwartet {expected}, erhalten {actual}",
+  "fig_clusters": "Gefundene Doppelerhebungen",
+  "fig_duties": "Erfasste Pflichten",
+  "fig_minutes": "Minuten je Prüfentscheidung (Median)",
+  "fig_minutes_value": "{minutes} Min.",
+  "fig_acceptance": "Annahmequote der Entlastungsoptionen",
+  "fig_note": "Über den Lauf zusammengefasst, nie je Person."
  },
  "table": {
   "show": "Zahlen als Tabelle"

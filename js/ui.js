@@ -1,9 +1,12 @@
-// The workspace (version 0.2.0): the header with the mode badge and the four KPI tiles, the control bar,
-// the centrepiece (start view, duty map, duplicates), the agent console with the role strip, the drawer
-// (Options & review, Outbox, Audit) and the dialogs. One run at a time comes from js/run_controller.js;
-// every view reads the run state and re-renders when it changes, the console appends the RunEvents as
-// they arrive. Every string comes from js/i18n/*.json; a language switch re-renders every view without
-// a reload, while model text keeps the language it was written in.
+// The workspace: the header with the mode badge and the four KPI tiles, the control bar, the centrepiece
+// (start view, duty map, duplicates), the agent console with the role strip, the drawer (Options &
+// review, Outbox, Audit), the print copy of the dossier and the dialogs. One run at a time comes from
+// js/run_controller.js; every view reads the run state and re-renders when it changes, the console
+// appends the RunEvents as they arrive. A re-render keeps the keyboard focus on the same control, so
+// the storyline works by keyboard alone while a run goes on (AC-26). Below 900 px the views are one
+// select menu and the console is a drawer behind a Console button (AC-27). Every string comes from
+// js/i18n/*.json; a language switch re-renders every view without a reload, while model text keeps the
+// language it was written in.
 
 import { h, clear } from "./dom.js";
 import { icon } from "./icons.js";
@@ -28,6 +31,7 @@ import { renderAuditPanel } from "./audit_panel.js";
 import { exportFile } from "./exports.js";
 import { recordingEnabled } from "./recorder.js";
 import { DecisionError } from "./state.js";
+import { factText } from "./placeholders.js";
 
 /** The seven roles of the agent team, in the order of the role strip (PLAN.md section 3.6). */
 export const ROLES = [
@@ -61,6 +65,45 @@ const editing = (root) => {
   return a.tagName === "TEXTAREA" || a.tagName === "SELECT" || (a.tagName === "INPUT" && !["radio", "checkbox", "button"].includes(a.type));
 };
 
+/** The controls a keyboard reaches, in the order Tab visits them. */
+const FOCUSABLE = 'button, [href], input, select, textarea, summary, [tabindex]:not([tabindex="-1"])';
+
+/** How to find a focused control again after its view was drawn anew. */
+function focusKey(el, root) {
+  if (el.id) return { sel: `#${CSS.escape(el.id)}` };
+  if (el.type === "radio" && el.name) return { sel: `input[name="${CSS.escape(el.name)}"][value="${CSS.escape(el.value)}"]` };
+  if (el.dataset.key) return { sel: `[data-key="${CSS.escape(el.dataset.key)}"]` };
+  if (el.dataset.view) return { sel: `[data-view="${CSS.escape(el.dataset.view)}"]` };
+  const all = [...root.querySelectorAll(FOCUSABLE)];
+  return { index: all.indexOf(el), tag: el.tagName, text: el.textContent };
+}
+
+/**
+ * Draws a view anew and keeps the keyboard focus: when the focus was inside `root`, it goes to the same
+ * control in the new drawing (by id, radio value, key, or position with the same tag and text).
+ */
+function keepFocus(root, draw) {
+  const a = document.activeElement;
+  const key = a && a !== document.body && root.contains(a) ? focusKey(a, root) : null;
+  draw();
+  if (!key) return;
+  const now = document.activeElement;
+  if (now && now !== document.body && root.contains(now)) return;
+  let next = null;
+  if (key.sel) next = root.querySelector(key.sel);
+  else if (key.index >= 0) {
+    const cand = [...root.querySelectorAll(FOCUSABLE)][key.index];
+    if (cand && cand.tagName === key.tag && cand.textContent === key.text) next = cand;
+  }
+  next?.focus({ preventScroll: true });
+}
+
+/** Below 900 px the views are a select menu and the console is a drawer (css/app.css). */
+const narrow = () => Boolean(globalThis.matchMedia?.("(max-width: 899px)").matches);
+
+/** The select menu of the views on small screens: the centrepiece's two views and the drawer's three tabs. */
+const VIEW_MENU = [["dutymap", "screen.dutymap"], ["duplicates", "screen.duplicates"], ["options", "screen.options"], ["outbox", "screen.outbox"], ["audit", "drawer.tab.audit"]];
+
 export function initUI({ corpusIndex, slice }) {
   const store = createDataStore(getJson);
   let sovereign = null;
@@ -76,7 +119,8 @@ export function initUI({ corpusIndex, slice }) {
     view: "start", cell: null, reading: null, runId: "R1",
     model: MODELS.some((m) => m.id === storedModel) ? storedModel : DEFAULT_MODEL,
     speed: SPEEDS.includes(storedSpeed) || (urlSpeed > 0 && urlSpeed <= 1000) ? storedSpeed : 1,
-    status: "idle", cost: null, request: null, review: null, reviewError: null, options: freshOptions()
+    status: "idle", cost: null, request: null, review: null, reviewError: null, options: freshOptions(),
+    consoleOpen: false, focusCard: false, focusCell: null
   };
   controller.setSpeed(ui.speed);
   const run = () => controller.current();
@@ -110,8 +154,9 @@ export function initUI({ corpusIndex, slice }) {
     onAbort: () => controller.abort(),
     onReset: () => controller.reset(),
     onRecord: () => { const r = run(); if (r) exportFile("run", r).then(schedule); },
-    onDiagnostics: () => store.load([]).then((data) => openDiagnostics({ index: corpusIndex, data, run: run(), cost: ui.cost, sovereign })).catch((e) => notice("notice.error", { message: e.message }))
-  }, () => ({ run: run(), status: ui.status, runId: ui.runId, model: ui.model, speed: ui.speed, cost: ui.cost, recording, slice: sliceInfo }));
+    onDiagnostics: () => store.load([]).then((data) => openDiagnostics({ index: corpusIndex, data, run: run(), cost: ui.cost, sovereign })).catch((e) => notice("notice.error", { message: e.message })),
+    onConsole: () => setConsole(!ui.consoleOpen)
+  }, () => ({ run: run(), status: ui.status, runId: ui.runId, model: ui.model, speed: ui.speed, cost: ui.cost, recording, slice: sliceInfo, consoleOpen: ui.consoleOpen }));
 
   /** The norms a Live run of a scripted run reads, for the mode dialog. */
   function liveNorms(runId) {
@@ -127,21 +172,35 @@ export function initUI({ corpusIndex, slice }) {
     if (!force && editing(centre)) { dirty.add("centre"); return; }
     dirty.delete("centre");
     const scroll = centre.scrollTop;
-    clear(centre);
-    const tabs = h("div", { class: "centre-tabs", role: "group", "aria-label": t("view.tabs") },
-      ["start", "dutymap", "duplicates"].map((v) => h("button", { type: "button", class: "centre-tab", dataset: { view: v }, "aria-pressed": String(v === ui.view) }, t(`screen.${v}`))));
-    centre.append(h("div", { class: "centre-head" }, h("h2", { class: "centre-title", id: "centre-title" }, t(`screen.${ui.view}`)), tabs));
-    const body = h("div", { class: "centre-body" });
-    centre.append(body);
-    const r = run();
-    if (ui.view === "dutymap") {
-      if (r) renderDutyMap(body, r, { slice, selected: ui.cell, reading: r.status === "running" ? ui.reading : null, onSelect: (key) => { ui.cell = key; renderCentre({ force: true }); } });
-      else body.append(emptyState("dutymap.empty", "layers"));
-    } else if (ui.view === "duplicates") {
-      if (r) renderDuplicates(body, r, { review: ui.review ? { cluster_id: ui.review.cluster_id, recorded: r.review?.cluster_id === ui.review.cluster_id ? r.review.recorded : null } : null, onReview, error: ui.reviewError });
-      else body.append(emptyState("duplicates.empty", "link"));
-    } else body.append(startView(corpusIndex, slice));
+    keepFocus(centre, () => {
+      clear(centre);
+      const tabs = h("div", { class: "centre-tabs", role: "group", "aria-label": t("view.tabs") },
+        ["start", "dutymap", "duplicates"].map((v) => h("button", { type: "button", class: "centre-tab", dataset: { view: v }, "aria-pressed": String(v === ui.view) }, t(`screen.${v}`))));
+      centre.append(h("div", { class: "centre-head" }, h("h2", { class: "centre-title", id: "centre-title" }, t(`screen.${ui.view}`)), tabs, viewMenu()));
+      const body = h("div", { class: "centre-body" });
+      centre.append(body);
+      const r = run();
+      if (ui.view === "dutymap") {
+        if (r) renderDutyMap(body, r, { slice, selected: ui.cell, reading: r.status === "running" ? ui.reading : null, onSelect: (key, keep) => selectCell(key, keep) });
+        else body.append(emptyState("dutymap.empty", "layers"));
+      } else if (ui.view === "duplicates") {
+        if (r) renderDuplicates(body, r, { review: ui.review ? { cluster_id: ui.review.cluster_id, recorded: r.review?.cluster_id === ui.review.cluster_id ? r.review.recorded : null } : null, onReview, error: ui.reviewError });
+        else body.append(emptyState("duplicates.empty", "link"));
+      } else body.append(startView(corpusIndex, slice));
+    });
     centre.scrollTop = scroll;
+    // A cell just opened: its duty cards take the focus; a closed panel gives it back to its cell.
+    if (ui.focusCard) { ui.focusCard = false; centre.querySelector(".card-panel h3")?.focus(); }
+    if (ui.focusCell) { const key = ui.focusCell; ui.focusCell = null; centre.querySelector(`button.map-count[data-key="${CSS.escape(key)}"]`)?.focus(); }
+  }
+  /** Opens a cell's duty cards (key) or closes them (null); keep: a filter changed, the panel stays. */
+  function selectCell(key, keep = false) {
+    if (!keep) {
+      if (key) ui.focusCard = true;
+      else if (ui.cell) ui.focusCell = ui.cell;
+    }
+    ui.cell = key;
+    renderCentre({ force: true });
   }
   centre.addEventListener("click", (e) => {
     const btn = e.target.closest(".centre-tab[data-view]");
@@ -149,6 +208,35 @@ export function initUI({ corpusIndex, slice }) {
     ui.view = btn.dataset.view;
     renderCentre({ force: true });
   });
+  // Escape closes the duty cards and gives the focus back to their cell.
+  centre.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || e.defaultPrevented || !ui.cell || ui.view !== "dutymap") return;
+    e.preventDefault();
+    selectCell(null);
+  });
+
+  /** The views as one select menu (shown below 900 px): what it shows follows the drawer and the centre. */
+  function viewMenu() {
+    const select = h("select", { class: "vc-select control-select", id: "view-select" },
+      h("option", { value: "start", hidden: true, disabled: true }, t("screen.start")),
+      VIEW_MENU.map(([v, key]) => h("option", { value: v }, t(key))));
+    select.value = currentView();
+    select.addEventListener("change", () => chooseView(select.value));
+    return h("label", { class: "view-menu" }, h("span", { class: "vc-visually-hidden" }, t("view.menu")), select);
+  }
+  const currentView = () => (drawer?.isOpen() ? drawer.active() : ui.view);
+  function chooseView(v) {
+    if (v === "dutymap" || v === "duplicates") {
+      ui.view = v;
+      drawer.setOpen(false);
+      renderCentre({ force: true });
+    } else drawer.show(v);
+    syncViewMenu();
+  }
+  function syncViewMenu() {
+    const select = document.getElementById("view-select");
+    if (select && document.activeElement !== select) select.value = currentView();
+  }
 
   function onReview({ cluster_id, action, separate_ids = [] }) {
     const r = run();
@@ -182,9 +270,28 @@ export function initUI({ corpusIndex, slice }) {
       size.setAttribute("aria-pressed", String(consoleEl.dataset.text === "large"));
       try { localStorage.setItem(STORAGE.consoleText, consoleEl.dataset.text); } catch { /* storage blocked */ }
     });
-    clear(consoleHead).append(h("div", { class: "console-title" }, h("h2", {}, t("console.title"))), h("div", { class: "console-head-actions" }, size));
+    // Below 900 px the console is a drawer, closed by this button or Escape.
+    const close = h("button", { class: "vc-icon-button console-close", type: "button", "aria-label": t("console.close"), title: t("console.close") }, icon("x", 20));
+    close.addEventListener("click", () => setConsole(false));
+    clear(consoleHead).append(h("div", { class: "console-title" }, h("h2", {}, t("console.title"))), h("div", { class: "console-head-actions" }, size, close));
     clear(watermark).append(t("mode.simulation"), " ", h("span", {}, t("console.sim_note")));
   }
+  /** Opens or closes the console's drawer (small screens); the focus goes in, and back to Console. */
+  function setConsole(open) {
+    ui.consoleOpen = open;
+    consoleEl.dataset.open = String(open);
+    controls.update();
+    if (open) consoleEl.focus();
+    else if (narrow()) document.getElementById("btn-console")?.focus();
+  }
+  consoleEl.dataset.open = "false";
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || e.defaultPrevented || !ui.consoleOpen || !narrow()) return;
+    e.preventDefault();
+    setConsole(false);
+  });
+  // The skip link leads to the console; on a small screen it opens its drawer first.
+  document.querySelector(".skip-link")?.addEventListener("click", () => { if (narrow() && !ui.consoleOpen) setConsole(true); });
   const consoleEmpty = () => h("div", { class: "log-empty" },
     h("p", {}, t("console.empty")),
     h("ul", { class: "run-list" }, RUNS.map((r) => h("li", {}, h("strong", {}, t(`run.${r}`)), " ", t(`run.${r}_desc`)))));
@@ -192,16 +299,37 @@ export function initUI({ corpusIndex, slice }) {
   log.append(consoleEmpty());
   const consoleView = createConsole(log, {
     ctx: () => ({ state: run()?.state, data: run()?.data, lang: lang(), mode: run()?.mode }),
+    // "Review options" and "Open the review" lead there and take the focus along (AC-26).
     onOpen: (kind, id) => {
-      if (kind === "cluster") { ui.view = "duplicates"; renderCentre({ force: true }); document.getElementById(`cluster-${id}`)?.scrollIntoView({ block: "nearest" }); }
-      else drawer.show("options");
+      if (narrow() && ui.consoleOpen) setConsole(false);
+      if (kind === "cluster") {
+        ui.view = "duplicates";
+        drawer.setOpen(false);
+        renderCentre({ force: true });
+        const card = document.getElementById(`cluster-${id}`);
+        card?.scrollIntoView({ block: "nearest" });
+        (card?.querySelector('.cluster-actions button:not([aria-disabled="true"])') || card?.querySelector("h3"))?.focus();
+      } else {
+        drawer.show("options");
+        const p = drawer.panel("options");
+        (p.querySelector('input[name="option-choice"]:checked:not([disabled])') || p.querySelector('input[name="option-choice"]:not([disabled])') || p.querySelector("h3"))?.focus();
+      }
     }
   });
   const notice = (code, params = {}, level = "error") => bus.emit("notice", { level, code, params, text: t(code, params) });
 
   // ---- drawer ---------------------------------------------------------------------------------
   const drawerEl = document.getElementById("drawer");
-  const drawer = createDrawer(drawerEl, { tabs: [{ id: "options", labelKey: "screen.options" }, { id: "outbox", labelKey: "screen.outbox" }, { id: "audit", labelKey: "drawer.tab.audit" }] });
+  const drawer = createDrawer(drawerEl, { tabs: [{ id: "options", labelKey: "screen.options" }, { id: "outbox", labelKey: "screen.outbox" }, { id: "audit", labelKey: "drawer.tab.audit" }], onToggle: () => syncViewMenu() });
+  // Escape closes the drawer and gives the focus to its tab (or its toggle where the tabs are a menu).
+  drawerEl.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || e.defaultPrevented || !drawer.isOpen()) return;
+    e.preventDefault();
+    const tab = document.getElementById(`tab-${drawer.active()}`);
+    drawer.setOpen(false);
+    (tab && tab.getClientRects().length ? tab : drawerEl.querySelector(".drawer-toggle"))?.focus();
+  });
+  const printCopy = document.getElementById("print-dossier");
   const doExport = (kind) => { const r = run(); if (r) exportFile(kind, r).then(schedule).catch((e) => notice("notice.error", { message: e.message })); };
   function renderDrawer() {
     drawerEl.setAttribute("aria-label", `${t("screen.options")}, ${t("screen.outbox")}, ${t("drawer.tab.audit")}`);
@@ -216,9 +344,11 @@ export function initUI({ corpusIndex, slice }) {
       if (editing(p)) { dirty.add(id); continue; }
       dirty.delete(id);
       const scroll = p.scrollTop;
-      render(p);
+      keepFocus(p, () => render(p));
       p.scrollTop = scroll;
     }
+    // The dossier as it is printed (css/print.css), kept current with the outbox.
+    if (printCopy) renderOutbox(printCopy, r, { onExport: doExport, forPrint: true });
     const open = ui.request ? ui.request.option_ids.filter((id) => ["proposed", "under_review"].includes(r?.state.options.get(id)?.status)).length : 0;
     drawer.setCount("options", open, Boolean(ui.request));
     drawer.setCount("outbox", r ? r.state.dossier.items.length + r.state.dossier.kept.length : 0);
@@ -228,10 +358,24 @@ export function initUI({ corpusIndex, slice }) {
   // ---- rendering --------------------------------------------------------------------------------
   function renderAll() {
     renderBadge();
-    renderKpis(kpis, run());
+    keepFocus(kpis, () => renderKpis(kpis, run()));
     controls.update();
     renderCentre();
     renderDrawer();
+    refreshConsoleFigures();
+    syncViewMenu();
+  }
+  /**
+   * The console keeps its lines, but not stale figures: after an assumption edit every figure in it
+   * shows the fact's current value, or "no longer applies" (AC-21, AC-36).
+   */
+  function refreshConsoleFigures() {
+    const r = run();
+    if (!r) return;
+    for (const b of log.querySelectorAll(".fact-ref[data-fact]")) {
+      const text = factText(r.state.facts, b.dataset.fact, b.dataset.lang || lang());
+      if (b.textContent !== text) b.textContent = text;
+    }
   }
   let timer = null;
   function schedule() {
@@ -372,7 +516,8 @@ function startView(index, slice) {
         h("h3", { id: "slice-title" }, t("start.slice_title"), " ",
           slice.status === "provisional" ? h("span", { class: "vc-tag vc-tag--warning vc-tag--sm slice-status" }, t("slice.provisional")) : null),
         h("p", { class: "slice-meta" }, t("start.slice_meta", { norms: formatCount(index.norms.length, lang()), paragraphs: formatCount(total("paragraphs"), lang()), sentences: formatCount(total("sentences"), lang()), date: longDate(index.retrieved_at) })),
-        h("div", { class: "slice-table-wrap" },
+        // A scrolling region the keyboard can reach and scroll (axe: scrollable-region-focusable).
+        h("div", { class: "slice-table-wrap", tabindex: "0", role: "region", "aria-label": t("start.table_caption") },
           h("table", { class: "vc-table slice-table" },
             h("caption", { class: "vc-visually-hidden" }, t("start.table_caption")),
             h("thead", {}, h("tr", {}, ["start.col_norm", "start.col_title", "start.col_paragraphs", "start.col_sentences", "start.col_eu"].map((k) => h("th", { scope: "col" }, t(k))))),

@@ -1,6 +1,7 @@
 // The duty map: norms (rows, grouped by family) × the six duty types, the count of duty cards in each
 // cell on Vici's ink ramp (seven steps, the count printed), filters for addressee, minimum confidence
-// and "needs review". A cell opens its duty cards in a panel over the map's right side.
+// and "needs review". A cell opens its duty cards in a panel over the map's right side; the panel takes
+// the focus, and its close button or Escape (js/ui.js) gives it back to the cell.
 
 import { h, clear } from "./dom.js";
 import { t, lang } from "./i18n.js";
@@ -48,7 +49,7 @@ export function renderDutyMap(root, run, { slice, onSelect, selected = null, rea
         const key = `${n.id}|${d}`;
         const label = `${n.abbr}, ${t(`duty_type.${d}`)}: ${formatCount(c, l)}`;
         return h("td", { class: "map-cell" }, c
-          ? h("button", { type: "button", class: "map-count", dataset: { ink: String(step(c, max)) }, "aria-label": label, "aria-pressed": String(selected === key), on: { click: () => onSelect(key) } }, formatCount(c, l))
+          ? h("button", { type: "button", class: "map-count", dataset: { ink: String(step(c, max)), key }, "aria-label": label, "aria-pressed": String(selected === key), on: { click: () => onSelect(key) } }, formatCount(c, l))
           : h("span", { class: "map-count", dataset: { ink: "0" }, "aria-label": label }, scanned.has(n.id) ? "0" : "·"));
       });
       rows.push(h("tr", { dataset: { norm: n.id, reading: String(reading === n.id) } }, h("th", { scope: "row" }, n.abbr), cells));
@@ -61,7 +62,7 @@ export function renderDutyMap(root, run, { slice, onSelect, selected = null, rea
     const cards = duties.filter((d) => d.norm_id === normId && d.type === type);
     const norm = index.norms.find((x) => x.id === normId);
     layout.append(h("aside", { class: "card-panel", "aria-label": t("dutycard.panel", { norm: norm?.abbr || normId, type: t(`duty_type.${type}`) }) },
-      h("div", { class: "card-panel-head" }, h("h3", {}, `${norm?.abbr || normId} · ${t(`duty_type.${type}`)}`),
+      h("div", { class: "card-panel-head" }, h("h3", { tabindex: "-1" }, `${norm?.abbr || normId} · ${t(`duty_type.${type}`)}`),
         h("button", { type: "button", class: "vc-button vc-button--ghost vc-button--sm", on: { click: () => onSelect(null) } }, t("dutycard.close"))),
       h("div", { class: "card-list" }, cards.map((d) => renderDutyCard(d, run)))));
   }

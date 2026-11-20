@@ -47,7 +47,7 @@ export function renderAuditPanel(panel, run, { onExport }) {
     h("td", {}, actor(e.actor)),
     h("td", { class: "audit-detail" }, detail(e)),
     h("td", { class: "audit-id" }, e.id)));
-  panel.append(h("div", { class: "audit-wrap" }, h("table", { class: "vc-table audit-table" },
+  panel.append(h("div", { class: "audit-wrap", tabindex: "0", role: "region", "aria-label": t("audit.title") }, h("table", { class: "vc-table audit-table" },
     h("caption", { class: "vc-visually-hidden" }, t("audit.title")),
     h("thead", {}, h("tr", {}, ["audit.col_time", "audit.col_event", "audit.col_actor", "audit.col_detail", "audit.col_id"].map((k) => h("th", { scope: "col" }, t(k))))),
     h("tbody", {}, rows))));
