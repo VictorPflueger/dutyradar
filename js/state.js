@@ -262,11 +262,14 @@ export function createRunState({ data, lang = "en", runId = "R1", mode = "simula
     if (!res.ok) return res;
     const prev = s.targets.get(targetId);
     const nowIds = new Set(res.options.map((o) => o.id));
-    // Options that no longer apply (after an assumption edit) are withdrawn; their facts retire.
+    // Options that no longer apply (after an assumption edit) are withdrawn; their facts retire. An
+    // approval rests on the figures it was given: when an edit withdraws its option, the approval lapses
+    // (lapse below), so nothing counts a figure that no longer applies.
     for (const id of prev?.option_ids || []) {
       if (nowIds.has(id)) continue;
       const old = s.options.get(id);
-      if (!old) continue;
+      if (!old || old.status === "withdrawn") continue;
+      if (old.status === "approved") lapse(old);
       old.status_before_withdrawal = old.status;
       old.status = "withdrawn";
       for (const k of old.fact_keys || []) facts.retire(k);
@@ -289,13 +292,33 @@ export function createRunState({ data, lang = "en", runId = "R1", mode = "simula
         audit: old?.audit || { failures: 0, passed: o.type === "keep" ? true : false, flag: null, last: null },
         target_decided: old?.target_decided || false
       };
-      if (old?.status === "withdrawn") merged.status = old.status_before_withdrawal === "approved" ? "approved" : o.status;
+      // An option that applies again comes back as a proposal when its wording had passed the audit
+      // (the figures are placeholders, so the wording still holds), else as it was: a lapsed approval
+      // does not return by itself, and a new decision rests on the new figures.
+      if (old?.status === "withdrawn") merged.status = old.audit?.passed ? "proposed" : old.status_before_withdrawal || o.status;
       s.options.set(o.id, merged);
     }
     s.targets.set(targetId, { kind: t.kind, option_ids: res.options.map((o) => o.id), ineligible: res.ineligible, decided: prev?.decided || null });
     notify({ type: "options", target: targetId });
     return { ok: true, options: res.options.map((o) => s.options.get(o.id)), ineligible: res.ineligible };
   };
+
+  /**
+   * An approval whose option an assumption edit withdrew: its dossier item stops counting (it stays in
+   * the dossier, marked), and every target it decided is open again, so a new decision can be taken.
+   */
+  let lapsedByEdit = null;
+  function lapse(o) {
+    const item = s.dossier.items.find((x) => x.option_id === o.id && !x.lapsed);
+    if (item) item.lapsed = true;
+    lapsedByEdit?.push(o.id);
+    for (const t of s.targets.values()) {
+      if (t.decided !== o.id) continue;
+      t.decided = null;
+      for (const id of t.option_ids) { const x = s.options.get(id); if (x) x.target_decided = false; }
+    }
+    emit("dossier_updated", { items: s.dossier.items.filter((x) => !x.lapsed).map((x) => x.option_id), kept: s.dossier.kept.map((x) => x.duty_id), lapsed: [o.id] });
+  }
 
   s.setDraft = (optionId, { wording, gist_en }) => {
     const o = s.options.get(optionId);
@@ -315,6 +338,8 @@ export function createRunState({ data, lang = "en", runId = "R1", mode = "simula
     duties: { has: (id) => s.duties.has(id) || s.candidates.has(id), get: (id) => s.duties.get(id) || s.candidates.get(id) },
     clusters: s.clusters,
     complaints: data.complaintsById,
+    options: s.options,
+    decisions: { has: (id) => s.decisions.some((d) => d.id === id) },
     dates: new Set([data.retrievedDate].filter(Boolean))
   });
   s.audit = (text) => auditText(text, s.auditContext());
@@ -374,7 +399,7 @@ export function createRunState({ data, lang = "en", runId = "R1", mode = "simula
     o.decision_id = d.id;
     if (decision === "approved") applyApproval(o, d);
     emit("decision_recorded", { decision: d });
-    if (decision === "approved") emit("dossier_updated", { items: s.dossier.items.map((x) => x.option_id), kept: s.dossier.kept.map((x) => x.duty_id) });
+    if (decision === "approved") emit("dossier_updated", { items: s.dossier.items.filter((x) => !x.lapsed).map((x) => x.option_id), kept: s.dossier.kept.map((x) => x.duty_id) });
     notify({ type: "decision", id: d.id });
     return d;
   };
@@ -394,6 +419,9 @@ export function createRunState({ data, lang = "en", runId = "R1", mode = "simula
         if (o.target.kind === "cluster") markDecided(id, o.id);
       }
     } else {
+      // Approved again after its approval lapsed: the new approval replaces the lapsed item.
+      const stale = s.dossier.items.findIndex((x) => x.option_id === o.id && x.lapsed);
+      if (stale >= 0) s.dossier.items.splice(stale, 1);
       s.dossier.items.push({ option_id: o.id, target: targetId, type: o.type, decision_id: d.id, reason_code: d.reason_code, comment: d.comment, fact_ids: { ...o.facts }, removed_duty_ids: [...(o.removed_duty_ids || [])], wording: o.draft?.wording || null, gist_en: o.draft?.gist_en || null, paragraph_ids: paragraphsOf(targetId) });
       // A cluster option decides the members it changes; a duty option decides its clusters.
       if (o.target.kind === "cluster") for (const id of o.removed_duty_ids || []) markDecided(id, o.id);
@@ -439,14 +467,19 @@ export function createRunState({ data, lang = "en", runId = "R1", mode = "simula
     const affected = [dutyId, ...[...s.clusters.values()].filter((c) => c.duty_ids.includes(dutyId) && c.status !== "split").map((c) => c.id)];
     const live = new Set(facts.all().filter((f) => !f.retired).map((f) => f.id));
     const valuesBefore = new Map(facts.all().map((f) => [f.id, f.value]));
+    lapsedByEdit = [];
     for (const t of affected) {
       if (s.estimates.has(t)) s.estimate(t);
-      if (s.targets.has(t)) s.draftOptions(t);
+      // Only targets whose options were drafted: a decision on a cluster marks its members decided
+      // without drafting their own options, and an edit does not draft them either.
+      if (s.targets.get(t)?.option_ids.length) s.draftOptions(t);
     }
+    const lapsed = lapsedByEdit;
+    lapsedByEdit = null;
     const after = facts.all();
     const retired = after.filter((f) => f.retired && live.has(f.id)).map((f) => f.id);
     const changed = after.filter((f) => !f.retired && valuesBefore.has(f.id) && valuesBefore.get(f.id) !== f.value).map((f) => f.id);
-    const change = { event: "parameter_changed", duty_id: dutyId, field, previous, value, changed, retired };
+    const change = { event: "parameter_changed", duty_id: dutyId, field, previous, value, changed, retired, lapsed };
     emit("parameter_changed", change);
     notify({ type: "parameter_changed", duty_id: dutyId });
     return change;
@@ -458,7 +491,8 @@ export function createRunState({ data, lang = "en", runId = "R1", mode = "simula
     const confirmed = s.confirmedDuties();
     const byType = {};
     for (const d of confirmed) byType[d.type] = (byType[d.type] || 0) + 1;
-    const approved = s.decisions.filter((d) => d.decision === "approved").map((d) => s.options.get(d.option_id)).filter(Boolean);
+    // The relief options approved and still standing: a lapsed approval (lapse) counts no more.
+    const approved = s.dossier.items.filter((x) => !x.lapsed).map((x) => s.options.get(x.option_id)).filter((o) => o && o.status === "approved");
     const removed = new Set(approved.flatMap((o) => o.removed_duty_ids || []));
     const count = (type) => confirmed.filter((d) => d.type === type && removed.has(d.id)).length;
     const cov = sliceCoverage({ reporting_total: byType.MELDEPFLICHT || 0, reporting_removed: count("MELDEPFLICHT"), documentation_total: byType.DOKUMENTATIONSPFLICHT || 0, documentation_removed: count("DOKUMENTATIONSPFLICHT") });

@@ -38,7 +38,8 @@ export function renderOptions(panel, run, { request, ui, onChange }) {
       const b = o.details?.justification_basis || {};
       rows.push(h("div", { class: "keep-basis" }, h("p", {}, h("strong", {}, t("options.keep_basis"))),
         h("ul", {},
-          h("li", {}, t("options.uses", { n: String((b.data_uses || []).length) }), (b.data_uses || []).map((u) => ` ${l === "de" ? u.user : u.user_en || u.user}`).join(",")),
+          // The uses by name (a count here would be a figure without a source).
+          h("li", {}, t("options.uses", { uses: (b.data_uses || []).length ? b.data_uses.map((u) => (l === "de" ? u.user : u.user_en || u.user)).join(", ") : t("options.uses_none") })),
           h("li", {}, b.eu_related ? t("badge.eu") : t("options.no_eu")),
           h("li", {}, b.protected_standard ? `${t("badge.protected")}: ${t(`protected.${b.protected_standard}`)}` : t("options.no_standard")))));
     }

@@ -46,14 +46,20 @@ export function createRunController({ store, fetchJson, onKeyRejected }) {
     const state = createRunState({ data, lang: l, runId: liveId, mode });
     const audit = createAuditLog({ runId: liveId, mode });
     const model = mode === "live" ? settings.orchestrator_model || RUN_DEFAULTS.orchestrator_model : mode === "sovereign" ? sovereign?.model || null : null;
-    run = { id: runId, runId: liveId, mode, lang: l, state, audit, data, recording, normIds, model, subcalls: mode === "simulation" ? null : createSubcallLog(l), status: "running", paused: false, review: null, aborter: new AbortController(), events: [] };
+    run = { id: runId, runId: liveId, mode, lang: l, state, audit, data, recording, normIds, model, subcalls: mode === "simulation" ? null : createSubcallLog(l), status: "running", paused: false, review: null, aborter: new AbortController(), events: [], reviewMs: [], requestedAt: null };
     const r = run;
     state.onChange(() => { if (run === r) bus.emit("state_changed", {}); });
     const mine = (ev) => run === r && ev.run_id === r.runId;
     const offs = [
       bus.onAny((ev) => { if (mine(ev)) r.events.push({ type: ev.type, payload: ev.payload, agent: ev.agent, seq: ev.seq, t_ms: ev.t_ms }); }),
+      // The time from a request to the reviewer's decision, for the median in the run figures.
+      bus.on("decision_requested", (ev) => { if (mine(ev) && ev.payload.kind !== "cluster") r.requestedAt = Date.now(); }),
       // The reviewer's decisions and cluster splits are logged here for every mode.
-      bus.on("decision_recorded", (ev) => { if (mine(ev)) audit.record("decision_recorded", { actor: "human", details: ev.payload.decision }); }),
+      bus.on("decision_recorded", (ev) => {
+        if (!mine(ev)) return;
+        if (r.requestedAt !== null) { r.reviewMs.push(Date.now() - r.requestedAt); r.requestedAt = null; }
+        audit.record("decision_recorded", { actor: "human", details: ev.payload.decision });
+      }),
       bus.on("cluster_split", (ev) => { if (mine(ev)) audit.record("cluster_split", { actor: "human", details: ev.payload }); })
     ];
     r.off = () => { for (const off of offs) off(); };

@@ -16,7 +16,9 @@ const VICI = {
   error: "error", warning: "warning", success: "success", clock: "clock",
   // Duty Radar: the page icon and the seven roles of the role strip (PLAN.md section 3.6).
   filter: "filter", book: "book", search: "search", link: "link", chart: "chart-bar", bell: "bell",
-  edit: "edit", layers: "layers", users: "users", lock: "lock", flag: "flag"
+  edit: "edit", layers: "layers", users: "users", lock: "lock", flag: "flag",
+  // The console's drawer on small screens.
+  console: "code"
 };
 
 /** The app's own drawings (static, trusted strings; never built from data). */

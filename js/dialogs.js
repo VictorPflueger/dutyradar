@@ -11,6 +11,7 @@ import { openModal } from "./modal.js";
 import { STORAGE, RUN_DEFAULTS, ANTHROPIC } from "./config.js";
 import { formatCount, formatEur } from "./engine/format.js";
 import { getKey, setKey, forgetKey, looksLikeKey, maskKey } from "./keystore.js";
+import { getSovereignKey, setSovereignKey, forgetSovereignKey } from "./sovereign_key.js";
 import { checkKey, networkMessage } from "./anthropic.js";
 import { sovereignStatus } from "./llm/openai-compat.js";
 
@@ -82,7 +83,7 @@ export function openModeDialog({ runId, norms, sovereign, onStart }) {
   sovBtn.addEventListener("click", () => {
     if (!sov.enabled) return;
     close();
-    if (sovereign.requires_key && !getKey()) openKeyDialog({ variant: "sovereign", onAccepted: () => onStart({ mode: "sovereign" }) });
+    if (sovereign.requires_key && !getSovereignKey()) openKeyDialog({ variant: "sovereign", onAccepted: () => onStart({ mode: "sovereign" }) });
     else onStart({ mode: "sovereign" });
   });
 }
@@ -90,7 +91,10 @@ export function openModeDialog({ runId, norms, sovereign, onStart }) {
 /** The key dialog: paste, check with GET /v1/models, start. variant "sovereign" stores without the check. */
 export function openKeyDialog({ onAccepted, variant = "anthropic" }) {
   const input = h("input", { class: "vc-input key-input", id: "api-key", type: "password", autocomplete: "off", spellcheck: "false", "aria-describedby": "key-msg key-privacy" });
-  const stored = getKey();
+  // Each variant has its own slot: the Sovereign endpoint never sees the Anthropic key, and back.
+  const sov = variant === "sovereign";
+  const read = sov ? getSovereignKey : getKey;
+  const stored = read();
   if (stored) input.placeholder = maskKey(stored);
   const show = h("button", { type: "button", class: "vc-icon-button", "aria-label": t("key.show"), "aria-pressed": "false" }, icon("eye", 18));
   show.addEventListener("click", () => {
@@ -116,13 +120,13 @@ export function openKeyDialog({ onAccepted, variant = "anthropic" }) {
     footer: [forget, h("button", { type: "button", class: "vc-button vc-button--ghost", on: { click: () => close() } }, t("mode.cancel")), check]
   });
   const say = (text, tone = "") => { msg.textContent = text; msg.dataset.tone = tone; };
-  forget.addEventListener("click", () => { forgetKey(); keyAccepted = false; input.placeholder = ""; forget.hidden = true; say(t("key.forgotten")); });
+  forget.addEventListener("click", () => { if (sov) forgetSovereignKey(); else { forgetKey(); keyAccepted = false; } input.placeholder = ""; forget.hidden = true; say(t("key.forgotten")); });
   input.addEventListener("keydown", (e) => { if (e.key === "Enter") check.click(); });
   check.addEventListener("click", async () => {
-    const raw = input.value.trim() || getKey() || "";
-    if (variant === "sovereign") {
+    const raw = input.value.trim() || read() || "";
+    if (sov) {
       if (!raw) { say(t("key.empty"), "danger"); return; }
-      setKey(raw); input.value = "";
+      setSovereignKey(raw); input.value = "";
       close(); onAccepted(); return;
     }
     if (!looksLikeKey(raw)) { say(t("key.format"), "danger"); return; }

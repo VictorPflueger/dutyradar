@@ -5,8 +5,9 @@
 import { t, lang } from "./i18n.js";
 import { renderPlaceholders, citeText } from "./placeholders.js";
 import { downloadText } from "./dom.js";
-import { APP, RUN_DEFAULTS } from "./config.js";
+import { RUN_DEFAULTS } from "./config.js";
 import { recordedRun } from "./recorder.js";
+import { dossierMeta } from "./outbox.js";
 
 const pad = (n) => String(n).padStart(2, "0");
 export function stamp(d = new Date(), withTime = true) {
@@ -36,6 +37,7 @@ function dossierModel(run) {
   const items = state.dossier.items.map((x) => {
     const o = state.options.get(x.option_id);
     return {
+      lapsed: Boolean(x.lapsed),
       title: `${t(`option_type.${o.type}`)} · ${x.target}`,
       cites: x.paragraph_ids.map((p) => citeText(data, p)).join(", "),
       delta: r(`{{fact:${o.facts.net_delta}}}`),
@@ -54,7 +56,7 @@ function dossierModel(run) {
   }));
   return {
     title: t("outbox.title"),
-    meta: t("outbox.meta", { run: run.runId, mode: t(`mode.${run.mode}`), app: `${APP.name} ${APP.version}`, date: new Date().toLocaleString(l === "de" ? "de-DE" : "en-GB") }),
+    meta: dossierMeta(run),
     totals: t("outbox.totals", { ea: r(`{{fact:${k.fact_ids.ea_addressed}}}`), reporting: r(`{{fact:${k.fact_ids.reporting_share}}}`), documentation: r(`{{fact:${k.fact_ids.documentation_share}}}`) }),
     items, kept,
     footnote: t("outbox.footnote"),
@@ -67,7 +69,9 @@ export function dossierMarkdown(run) {
   const out = [`# ${m.title}`, "", m.meta, "", `**${m.totals}**`, ""];
   if (!m.items.length) out.push(t("outbox.empty"), "");
   for (const x of m.items) {
-    out.push(`## ${x.title}`, "", `- ${t("outbox.cites")}: ${x.cites}`, `- ${t("options.delta")} ${x.delta} ${t("options.per_year")}${x.by ? ` (${x.by})` : ""}`);
+    out.push(`## ${x.title}`, "");
+    if (x.lapsed) out.push(`*${t("outbox.lapsed")}*`, "");
+    out.push(`- ${t("outbox.cites")}: ${x.cites}`, `- ${t("options.delta")} ${x.delta} ${t("options.per_year")}${x.by ? ` (${x.by})` : ""}`);
     if (x.oneOff) out.push(`- ${t("options.one_off")} ${x.oneOff}`);
     out.push(`- ${t("outbox.removed")}: ${x.removed}`, `- ${t("outbox.reason")}: ${x.reason}`, "");
     if (x.wording) out.push(`> ${x.wording}`, "");
@@ -84,7 +88,7 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 
 export function dossierHtml(run) {
   const m = dossierModel(run);
-  const items = m.items.map((x) => `<section><h2>${esc(x.title)}</h2><ul><li>${esc(t("outbox.cites"))}: ${esc(x.cites)}</li><li>${esc(t("options.delta"))} ${esc(x.delta)} ${esc(t("options.per_year"))}${x.by ? ` (${esc(x.by)})` : ""}</li>${x.oneOff ? `<li>${esc(t("options.one_off"))} ${esc(x.oneOff)}</li>` : ""}<li>${esc(t("outbox.removed"))}: ${esc(x.removed)}</li><li>${esc(t("outbox.reason"))}: ${esc(x.reason)}</li></ul>${x.wording ? `<blockquote lang="de">${esc(x.wording)}</blockquote>` : ""}${x.gist ? `<p><em>${esc(t("options.gist"))}</em> ${esc(x.gist)}</p>` : ""}</section>`).join("");
+  const items = m.items.map((x) => `<section><h2>${esc(x.title)}</h2>${x.lapsed ? `<p><em>${esc(t("outbox.lapsed"))}</em></p>` : ""}<ul><li>${esc(t("outbox.cites"))}: ${esc(x.cites)}</li><li>${esc(t("options.delta"))} ${esc(x.delta)} ${esc(t("options.per_year"))}${x.by ? ` (${esc(x.by)})` : ""}</li>${x.oneOff ? `<li>${esc(t("options.one_off"))} ${esc(x.oneOff)}</li>` : ""}<li>${esc(t("outbox.removed"))}: ${esc(x.removed)}</li><li>${esc(t("outbox.reason"))}: ${esc(x.reason)}</li></ul>${x.wording ? `<blockquote lang="de">${esc(x.wording)}</blockquote>` : ""}${x.gist ? `<p><em>${esc(t("options.gist"))}</em> ${esc(x.gist)}</p>` : ""}</section>`).join("");
   const kept = m.kept.length ? `<ul>${m.kept.map((x) => `<li>${esc(x.title)}: ${esc(x.reason)}; ${esc(t("outbox.uses"))}: ${esc(x.uses)}</li>`).join("")}</ul>` : `<p>${esc(t("outbox.none_kept"))}</p>`;
   return `<!DOCTYPE html><html lang="${lang()}"><head><meta charset="utf-8"><title>${esc(m.title)}</title><style>body{font:15px/1.5 system-ui,sans-serif;max-width:52rem;margin:2rem auto;padding:0 1rem;color:#250010}h1,h2{line-height:1.2}blockquote{border-left:3px solid #8f2f42;margin:0;padding:.25rem 1rem;background:#fbf7f5}small{color:#5b4b4e}</style></head><body><h1>${esc(m.title)}</h1><p><small>${esc(m.meta)}</small></p><p><strong>${esc(m.totals)}</strong></p>${m.items.length ? items : `<p>${esc(t("outbox.empty"))}</p>`}<h2>${esc(t("dossier.kept"))}</h2>${kept}<p><small>${esc(m.footnote)}</small></p><p>${esc(m.notice)}</p></body></html>\n`;
 }

@@ -67,7 +67,9 @@ function builder(runId, pace = 1) {
     events,
     plan: (text, dt = 1500) => push("plan", "orchestrator", { text }, dt),
     tool: (tool, input, { dt = 1200, intended = null, expectError = false } = {}) => push("tool_call", "orchestrator", { tool, tool_use_id: `${runId}-tu-${String(++n).padStart(3, "0")}`, input, ...(intended ? { intended } : {}), ...(expectError ? { expect_error: true } : {}) }, dt),
-    say: (step, agent, message, { focus = null, dt = 3500 } = {}) => push("tool_call", "orchestrator", { tool: "ui_progress", tool_use_id: `${runId}-tu-${String(++n).padStart(3, "0")}`, input: { step, agent, message, ...(focus ? { focus } : {}) } }, dt),
+    // forRequest: the target of the decision request this narration announces; the replay skips it
+    // when the presenter's earlier decision has decided that target (js/simulation.js).
+    say: (step, agent, message, { focus = null, dt = 3500, forRequest = null } = {}) => push("tool_call", "orchestrator", { tool: "ui_progress", tool_use_id: `${runId}-tu-${String(++n).padStart(3, "0")}`, input: { step, agent, message, ...(focus ? { focus } : {}) }, ...(forRequest ? { for_request: forRequest } : {}) }, dt),
     review: (clusterId, action, separate = []) => {
       push("tool_call", "orchestrator", { tool: "ui_request_decision", tool_use_id: `${runId}-tu-${String(++n).padStart(3, "0")}`, input: { cluster_id: clusterId } }, 2500);
       push(action === "split" ? "cluster_split" : "cluster_confirmed", "human", { cluster_id: clusterId, ...(action === "split" ? { separate_ids: separate } : {}) }, 400);
@@ -98,7 +100,7 @@ function inventory(b, data, w, normIds, { dtExtract = 900, dtClassify = 1400 } =
 
 const STORIES = {
   R1: {
-    title: T("R1 Pitch run", "R1 Pitch-Lauf"),
+    title: T("R1 Full slice", "R1 Ganzer Ausschnitt"),
     pace: 1.5,
     norms: (data) => data.index.norms.map((n) => n.id),
     edit_case: { duty_id: "D-prodgewstatg-p9-1", field: "frequency_per_year", value: 4 },
@@ -114,7 +116,7 @@ const STORIES = {
     script(b, data, w) {
       const C = w.clusterWith(["D-hdldlstatg-p11-1", "D-prodgewstatg-p9-1"]);
       if (!C) throw new Error("R1: the storyline cluster did not form");
-      b.plan(T("Plan: read the slice, find the duties, cluster duplicate data requests, price the largest cluster and propose relief for it.", "Plan: den Ausschnitt lesen, die Pflichten finden, doppelte Datenanforderungen bündeln, das größte Bündel bepreisen und dafür Entlastung vorschlagen."));
+      b.plan(T("Plan: read the slice, find the duties, cluster duplicate data requests, price the most promising cluster and propose relief for it.", "Plan: den Ausschnitt lesen, die Pflichten finden, doppelte Datenanforderungen bündeln, das vielversprechendste Bündel bepreisen und dafür Entlastung vorschlagen."));
       b.tool("law_list", { slice_id: data.sliceId });
       b.say("inventory", "corpus", T("I read the norms of the slice, family by family.", "Ich lese die Normen des Ausschnitts, Familie für Familie."));
       inventory(b, data, w, this.norms(data));
@@ -176,7 +178,7 @@ const STORIES = {
       b.tool("draft_amendment", { option_id: `O-${P}-merge` }, { dt: 4000 });
       b.tool("audit_check", { option_id: `O-${P}-merge` }, { dt: 2500 });
       b.tool("ui_request_decision", { target: P, option_ids: [`O-${P}-register_retrieval`, `O-${P}-merge`, `O-${P}-keep`] }, { dt: 3000, intended: { option_id: `O-${P}-register_retrieval`, decision: "rejected", reason_code: "A1" } });
-      b.say("decide", "drafting", T(`I put keeping the registrations under {{cite:milog-p16}} and {{cite:aentg_2009-p18}} to a decision, with its justification basis.`, `Ich lege die Beibehaltung der Anmeldungen nach {{cite:milog-p16}} und {{cite:aentg_2009-p18}} mit ihrer Begründungsgrundlage zur Entscheidung vor.`), { focus: P, dt: 4000 });
+      b.say("decide", "drafting", T(`I put keeping the registrations under {{cite:milog-p16}} and {{cite:aentg_2009-p18}} to a decision, with its justification basis.`, `Ich lege die Beibehaltung der Anmeldungen nach {{cite:milog-p16}} und {{cite:aentg_2009-p18}} mit ihrer Begründungsgrundlage zur Entscheidung vor.`), { focus: P, dt: 4000, forRequest: P });
       b.tool("ui_request_decision", { target: P, option_ids: [`O-${P}-keep`] }, { dt: 2500, intended: { option_id: `O-${P}-keep`, decision: "approved", reason_code: "A1" } });
       return C;
     }

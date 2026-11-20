@@ -21,6 +21,7 @@ try {
   await page.keyboard.press("Escape");
   await page.waitForSelector(".intro-modal", { state: "detached", timeout: 5000 });
   check("intro closes with Escape and is remembered", (await page.evaluate(() => localStorage.getItem("dr.introSeen"))) === "1");
+  check("the page has one top-level heading, the product's name", await page.evaluate(() => document.querySelectorAll("h1").length === 1 && document.querySelector("h1").textContent.trim() === "Duty Radar"));
   check("name and subtitle", (await page.textContent(".brand-name")) === "Duty Radar" && (await page.textContent(".brand-sub")) === "Find, cluster and price duties");
   check("both disclosure lines", (await page.textContent(".ai-disclosure")).includes("You are interacting with an AI system.") && (await page.textContent(".proto-disclosure")) === "Prototype – not an official federal government service");
   check("four KPI tiles, two gauges at 0", (await page.$$(".kpi")).length === 4 && (await page.$$eval(".kpi-gauge", (g) => g.map((x) => x.getAttribute("aria-valuenow")).join())) === "0,0");
@@ -38,8 +39,18 @@ try {
   await page.waitForSelector(".diag-table", { timeout: 5000 });
   const diag = await page.textContent(".diag-modal");
   check("diagnostics: snapshot source and policy", diag.includes("gii-toc.xml") && diag.includes("connect-src 'self' https://api.anthropic.com"));
+  check("diagnostics checks the page's policy against the specification's", (await page.getAttribute(".diag-policy-check", "data-tone")) === "success" && (await page.textContent(".diag-policy-check")) === "Checked: it is the specification's policy for this configuration.");
   await page.keyboard.press("Escape");
   await page.waitForSelector(".diag-table", { state: "detached", timeout: 5000 });
+  // The control: a policy that allows another host is reported as differing.
+  const original = await page.getAttribute('meta[http-equiv="Content-Security-Policy"]', "content");
+  await page.evaluate(() => { const m = document.querySelector('meta[http-equiv="Content-Security-Policy"]'); m.setAttribute("content", m.getAttribute("content").replace("connect-src 'self'", "connect-src 'self' https://elsewhere.example")); });
+  await page.click("#btn-diagnostics");
+  await page.waitForSelector(".diag-table", { timeout: 5000 });
+  check("control: a policy with another host is reported as differing", (await page.getAttribute(".diag-policy-check", "data-tone")) === "danger");
+  await page.keyboard.press("Escape");
+  await page.waitForSelector(".diag-table", { state: "detached", timeout: 5000 });
+  await page.evaluate((c) => document.querySelector('meta[http-equiv="Content-Security-Policy"]').setAttribute("content", c), original);
   // Start agent opens the mode dialog with its three modes; Escape closes it without starting a run.
   check("Start agent is enabled", (await page.getAttribute("#btn-start", "aria-disabled")) !== "true");
   await page.click("#btn-start");
@@ -62,6 +73,7 @@ try {
   const broken = await openApp(browser, server.base, { waitBoot: false, skipIntro: true });
   await broken.page.waitForSelector('html[data-boot="failed"]', { timeout: 15000 });
   check("a missing data file is reported on the boot screen", /data file failed to load/.test(await broken.page.textContent("#boot-detail")));
+  check("the failed boot screen stops its spinner and shows its help", (await broken.page.getAttribute("#boot", "data-state")) === "failed" && !(await broken.page.isVisible("#boot .boot-status .vc-spinner")) && await broken.page.isVisible("#boot .boot-help"));
   server.blockLocal.clear();
   await broken.ctx.close();
 } finally {

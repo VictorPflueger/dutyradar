@@ -8,7 +8,7 @@ import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { splitSentences } from "../js/engine/sentences.js";
-import { formatEur, formatHours, formatShare, plain } from "../js/engine/format.js";
+import { formatEur, formatHours, formatShare, plain, parseLocalNumber } from "../js/engine/format.js";
 import { dutyCost, deleteDelta, lowerFrequencyDelta, registerDelta, mergeDelta, sliceCoverage, removedByType } from "../js/engine/cost.js";
 import { auditText } from "../js/engine/auditor.js";
 import { clusterDuties, splitCluster, bestRegister } from "../js/engine/cluster.js";
@@ -123,6 +123,19 @@ if (run("coverage")) {
   end("COVERAGE OK");
 }
 
+// ---- AC-21: an assumption typed in the active language --------------------------------------------
+if (run("parse")) {
+  begin("parse");
+  const cases = [
+    ["de", "9.000", 9000], ["de", "9 000", 9000], ["de", "9\u202F000", 9000], ["de", "1.234.567,5", 1234567.5], ["de", "1,5", 1.5], ["de", "45", 45], ["de", " 0,25 ", 0.25],
+    ["en", "9,000", 9000], ["en", "9 000", 9000], ["en", "1,234,567.5", 1234567.5], ["en", "1.5", 1.5], ["en", "45", 45],
+    ["de", "1.5", null], ["en", "1,5", null], ["de", "9.00", null], ["en", "9,00", null], ["de", "9.000.0", null], ["en", "1.000,5", null],
+    ["de", "-3", null], ["en", "abc", null], ["en", "", null], ["de", "1,5,2", null], ["en", "1e3", null], ["en", "12 34", null]
+  ];
+  for (const [lang, text, want] of cases) check(`${lang} "${text}" → ${want}`, parseLocalNumber(text, lang) === want, String(parseLocalNumber(text, lang)));
+  end("PARSE OK");
+}
+
 // ---- AC-02: fact-auditor cases A01–A31 -------------------------------------------------------------
 if (run("audit")) {
   begin("audit");
@@ -158,11 +171,24 @@ if (run("audit")) {
     ["That is thirteen reports.", false, ["thirteen"]],
     ["Two thirds of the duties stay.", false, ["Two thirds"]],
     ["Die Daten bleiben außer Acht.", true, []],
-    ["Lauf R1 zeigt {{fact:F-0412}}.", true, []]
+    ["Lauf R1 zeigt {{fact:F-0412}}.", true, []],
+    // German compounds count as numbers; "einmal", "einfach", "achten" and frequency words do not.
+    ["Das spart zweihundert Euro bei fünfundzwanzig Meldungen.", false, ["zweihundert", "fünfundzwanzig"]],
+    ["Hunderttausende Betriebe melden zweimal, dreitausend davon dreifach.", false, ["Hunderttausende", "zweimal", "dreitausend", "dreifach"]],
+    ["Ein Dutzend Register, Dutzende Meldungen, einhundert Felder.", false, ["Dutzend", "Dutzende", "einhundert"]],
+    ["Die Meldung entfällt einmal; das ist einfach, und die Länder achten darauf, halbjährlich wie zweijährlich.", true, []],
+    ["It is filed twice a year by a dozen offices, a tenfold burden.", false, ["twice", "dozen", "tenfold"], "en"],
+    ["That saves zweihundert euros.", false, ["zweihundert"], "en"],
+    // A number dressed as an id is a number; an id must name something the run holds.
+    ["Option O-1500000 entfällt.", false, ["1500000"]],
+    ["Die Entscheidung DEC-2026 gilt.", false, ["DEC-2026"]],
+    ["Die Entscheidung DEC-0001 gilt für O-C-007-merge.", true, []],
+    ["Die Option O-C-008-merge gilt.", false, ["O-C-008-merge"]]
   ];
-  for (const [text, pass, tokens] of extra) {
-    const lang = /^(That|Two)/.test(text) ? "en" : "de";
-    const r = auditText(text, { ...ctx, lang });
+  const runCtx = { ...ctx, options: new Set(["O-C-007-merge"]), decisions: new Set(["DEC-0001"]) };
+  for (const [text, pass, tokens, language] of extra) {
+    const lang = language || (/^(That|Two)/.test(text) ? "en" : "de");
+    const r = auditText(text, { ...runCtx, lang });
     const got = r.violations.map((v) => v.token);
     check(`extra "${text}"`, r.pass === pass && JSON.stringify(got) === JSON.stringify(tokens), `expected ${pass} ${JSON.stringify(tokens)}, got ${r.pass} ${JSON.stringify(got)}`);
   }

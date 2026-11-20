@@ -94,6 +94,12 @@ if (run("cases")) {
     check(`${c.tool}: the invalid input returns is_error`, bad?.isError === true, bad?.content);
     check(`${c.tool}: with the instruction "${c.error}"`, typeof bad?.content === "string" && bad.content.includes(c.error), bad?.content);
   }
+  // The console shows a search query only when it passes the fact auditor.
+  const plainQuery = await env.tb.execute("law_search", { query: "zu melden", limit: 1 });
+  const numberQuery = await env.tb.execute("law_search", { query: "zweihundert Euro", limit: 1 });
+  const digitQuery = await env.tb.execute("law_search", { query: "45 Minuten", limit: 1 });
+  check("a search query passes to the console's summary", plainQuery.summary?.code === "tool.law_search" && plainQuery.summary.params.query === "zu melden", JSON.stringify(plainQuery.summary));
+  check("a query with a number word or a digit is not shown, its match count is", [numberQuery, digitQuery].every((x) => x.summary?.code === "tool.law_search_hidden" && !("query" in x.summary.params) && typeof x.summary.params.matches === "number"), JSON.stringify([numberQuery.summary, digitQuery.summary]));
   // A tool that is not in the catalogue is answered as an error, too.
   const unknown = await env.tb.execute("law_delete", {});
   check("an unknown tool returns is_error with the tool list", unknown.isError === true && unknown.content.includes("law_list"));

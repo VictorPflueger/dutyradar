@@ -22,9 +22,9 @@ export function richText(text, ctx) {
   return frag;
 }
 
-/** A figure that opens its source; value in the given language. */
+/** A figure that opens its source; value in the given language (kept as data-lang for a later refresh). */
 export function factButton(id, ctx, lng) {
-  const btn = h("button", { type: "button", class: "fact-ref", dataset: { fact: id } }, factText(ctx.state?.facts, id, lng));
+  const btn = h("button", { type: "button", class: "fact-ref", dataset: { fact: id, lang: lng } }, factText(ctx.state?.facts, id, lng));
   btn.addEventListener("click", () => openFactDetails(id, ctx));
   return btn;
 }

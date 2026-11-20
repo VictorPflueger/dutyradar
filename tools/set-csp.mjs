@@ -6,19 +6,11 @@ import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-export const POLICY = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.anthropic.com SOVEREIGN_ORIGIN; base-uri 'self'; form-action 'none'; object-src 'none'";
+import { policyFor } from "../js/policy.js";
 
-/** The policy for a sovereign configuration: its origin, or nothing when it is disabled or empty. */
-export function policyFor(sovereign) {
-  let origin = "";
-  if (sovereign?.enabled && sovereign.base_url) {
-    const u = new URL(sovereign.base_url);
-    if (u.protocol !== "https:" && u.hostname !== "localhost" && u.hostname !== "127.0.0.1") throw new Error(`The sovereign endpoint must use https: ${sovereign.base_url}`);
-    origin = u.origin;
-  }
-  return POLICY.replace(" SOVEREIGN_ORIGIN", origin ? ` ${origin}` : "");
-}
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+// The policy itself lives in js/policy.js, which Assumptions & diagnostics checks the page against too.
+export { POLICY, policyFor } from "../js/policy.js";
 
 const META = /(<meta http-equiv="Content-Security-Policy" content=")([^"]*)(">)/;
 

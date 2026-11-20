@@ -19,8 +19,8 @@ export const MIME = {
 
 export const CORS = { "access-control-allow-origin": "*", "access-control-expose-headers": "*" };
 
-/** Case names given on the command line (empty: run all cases). */
-export const ONLY = process.argv.slice(2);
+/** Case names given on the command line (empty: run all cases); options such as --browser= are not cases. */
+export const ONLY = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 export const wanted = (name) => ONLY.length === 0 || ONLY.includes(name);
 
 /** Where screenshots, downloads and result files go (outside the app folder by default). */
@@ -45,10 +45,18 @@ export function loadPlaywright() {
   process.exit(2);
 }
 
-/** Chromium from Playwright, or the browser at CHROME_PATH. */
-export async function launchBrowser() {
-  const { chromium } = loadPlaywright();
-  return chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
+/**
+ * The browser a suite runs in: --browser=firefox or --browser=webkit on the command line, else the
+ * environment variable DR_BROWSER, else Chromium (AC-17 replays R1 in all three).
+ */
+export const BROWSER_NAME = (process.argv.find((a) => a.startsWith("--browser="))?.slice(10) || process.env.DR_BROWSER || "chromium").toLowerCase();
+
+/** Chromium from Playwright, or the browser at CHROME_PATH; Firefox or WebKit from Playwright. */
+export async function launchBrowser(name = BROWSER_NAME) {
+  const pw = loadPlaywright();
+  if (!["chromium", "firefox", "webkit"].includes(name)) throw new Error(`Unknown browser "${name}": use chromium, firefox or webkit.`);
+  if (name === "chromium") return pw.chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
+  return pw[name].launch();
 }
 
 /**

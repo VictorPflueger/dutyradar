@@ -19,6 +19,7 @@ import { AGENT, FX_USD_EUR, RUN_DEFAULTS, MODELS } from "./config.js";
 import { streamMessage, withRetry, ApiError } from "./anthropic.js";
 import { usageCostUsd } from "./cost.js";
 import { getKey, forgetKey } from "./keystore.js";
+import { getSovereignKey, forgetSovereignKey } from "./sovereign_key.js";
 import { createToolbox, TOOL_DEFS, ORDER_FREE } from "./tools/registry.js";
 import { createSubcalls } from "./subcalls.js";
 import { systemPrompt, openingMessage, SOFT_NOTE } from "./prompt.js";
@@ -178,7 +179,7 @@ export function createLiveAgent({ hooks = {} } = {}) {
   async function exchange(r, kind, model, body) {
     await r.audit.record("model_request", { actor: "agent", input: stripForDigest(body), model, details: { kind } });
     const out = await withRetry(
-      () => (r.sov ? callChat({ config: r.sov, key: r.sov.requires_key ? getKey() : null, body, signal: r.ac.signal }).then((message) => ({ message, incomplete: new Set(), requestId: null })) : streamMessage({ key: getKey(), body, signal: r.ac.signal, idleMs: AGENT.idleTimeoutMs })),
+      () => (r.sov ? callChat({ config: r.sov, key: r.sov.requires_key ? getSovereignKey() : null, body, signal: r.ac.signal }).then((message) => ({ message, incomplete: new Set(), requestId: null })) : streamMessage({ key: getKey(), body, signal: r.ac.signal, idleMs: AGENT.idleTimeoutMs })),
       { retries: 2, signal: r.ac.signal, onRetry: ({ attempt, waitMs }) => notice(r, "warn", "notice.retry", { attempt, seconds: Math.round(waitMs / 1000) }) }
     );
     if (r.cancelled) throw ABORT;
@@ -271,7 +272,8 @@ export function createLiveAgent({ hooks = {} } = {}) {
     const params = { message: redact(e?.message || String(e)) };
     if (e instanceof ApiError || (e && typeof e.status === "number")) {
       params.status = e.status;
-      if (e.status === 401) { code = "notice.key_rejected"; forgetKey(); hooks.onKeyRejected?.(); }
+      // A rejected key is forgotten from its own slot: the endpoint's in Sovereign mode, else Anthropic's.
+      if (e.status === 401) { code = "notice.key_rejected"; if (r.sov) forgetSovereignKey(); else { forgetKey(); hooks.onKeyRejected?.(); } }
       else if (e.spendLimit || e.status === 402) code = "notice.spend_limit";
       else if (e.status === 404) code = "notice.model_unavailable";
       else if (e.status === 400) code = "notice.bad_request";

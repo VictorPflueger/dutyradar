@@ -69,7 +69,8 @@ function hideBoot() {
 function failBoot(err) {
   const el = document.getElementById("boot");
   const detail = document.getElementById("boot-detail");
-  if (el) el.dataset.state = "error";
+  // "failed" is the state the shell's stylesheet knows: the spinner stops and the help shows.
+  if (el) el.dataset.state = "failed";
   if (detail) {
     detail.hidden = false;
     detail.textContent = String(err?.message || err);

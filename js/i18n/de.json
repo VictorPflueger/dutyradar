@@ -65,7 +65,8 @@
   "duty_count": "Änderung der Zahl der Pflichten:",
   "one_off": "Einmaliger Umstellungsaufwand:",
   "keep_basis": "Begründungsgrundlage",
-  "uses": "Bekannte Datennutzungen: {n}",
+  "uses": "Bekannte Datennutzungen: {uses}",
+  "uses_none": "keine",
   "no_eu": "Kein EU-Bezug",
   "no_standard": "Kein Schutzstandard",
   "draft_title": "Entwurfstext auf Deutsch, so wie er das deutsche Recht ändert",
@@ -76,7 +77,7 @@
   "reason": "Begründungscode",
   "reason_choose": "Code wählen",
   "codes_approve": "Zur Freigabe",
-  "codes_reject": "Zur Ablehnung oder zum Beibehalten",
+  "codes_reject": "Zur Ablehnung; zum Beibehalten alle außer A5",
   "codes_info": "Zur Rückfrage",
   "comment": "Kommentar",
   "comment_help": "Pflicht bei Z5 und A6; höchstens 500 Zeichen.",
@@ -141,7 +142,8 @@
   "export_none": "Die Exporte gibt es, sobald ein Lauf begonnen hat.",
   "meta": "Lauf {run} · {mode} · {app} · {date}",
   "totals": "Adressierter Erfüllungsaufwand: {ea} pro Jahr; Meldepflichten im Ausschnitt: {reporting}; Dokumentationspflichten im Ausschnitt: {documentation}",
-  "footnote": "Zahlen aus den Engines von Pflichten-Radar auf den gebündelten Daten; Annahmen sind in der App gekennzeichnet. Entwurfstexte sind Vorschläge, kein geltendes Recht."
+  "footnote": "Zahlen aus den Engines von Pflichten-Radar auf den gebündelten Daten; Annahmen sind in der App gekennzeichnet. Entwurfstexte sind Vorschläge, kein geltendes Recht.",
+  "lapsed": "Zählt nicht mehr: Eine Änderung der Annahmen hat diese Option zurückgezogen."
  },
  "badge": {
   "assumption": "Annahme",
@@ -294,10 +296,10 @@
  },
  "run": {
   "handwritten": "handgeschrieben",
-  "R1": "R1 Pitch-Lauf",
+  "R1": "R1 Ganzer Ausschnitt",
   "R2": "R2 Ablehnungspfad",
   "R3": "R3 Einzelne Norm",
-  "R1_desc": "Ganzer Ausschnitt: Inventar, Bündel, Optionen für das größte Bündel, eine Entscheidung, Dossier.",
+  "R1_desc": "Ganzer Ausschnitt: Inventar, Bündel, Optionen für das Bündel mit der größten möglichen Entlastung, eine Entscheidung, Dossier.",
   "R2_desc": "Ein Bündel wird aufgeteilt, eine Zahl ohne Beleg blockiert, ein Vorschlag abgelehnt und die Pflicht mit Begründung beibehalten.",
   "R3_desc": "Eine Norm von Anfang bis Ende, mit derselben Werkzeugfolge wie ein Live-Lauf."
  },
@@ -445,7 +447,7 @@
   "tablist": "Entscheidungsleiste",
   "show": "Anzeigen",
   "hide": "Ausblenden",
-  "toggle": "Leiste ein- oder ausblenden",
+  "toggle": "Leiste anzeigen oder ausblenden",
   "note": "Nichts wird versendet."
  },
  "rail": {
@@ -546,10 +548,15 @@
    "aborted": "Lauf abgebrochen.",
    "error": "Lauf mit einem Fehler beendet.",
    "incomplete": "Lauf unvollständig beendet."
-  }
+  },
+  "report_updated": "Abschlussbericht, nach der Änderung der Annahmen neu erstellt:",
+  "superseded": "überholt",
+  "open": "Konsole",
+  "close": "Konsole schließen"
  },
  "view": {
-  "tabs": "Ansichten"
+  "tabs": "Ansichten",
+  "menu": "Ansicht"
  },
  "dutymap": {
   "empty": "Die Karte füllt sich, sobald der Agent die Pflichten erfasst.",
@@ -582,6 +589,8 @@
   "policy": "Netzwerk und Sicherheitsrichtlinie",
   "policy_text": "Die Seite lädt nur ihre eigenen Dateien. Im Live-Modus spricht sie nur mit api.anthropic.com, im souveränen Modus nur mit dem konfigurierten Endpunkt.",
   "csp": "Richtlinie dieser Seite",
+  "csp_ok": "Geprüft: Sie entspricht der Richtlinie der Spezifikation für diese Konfiguration.",
+  "csp_differs": "Geprüft: Sie weicht von der Richtlinie der Spezifikation ab. Diese lautet: {policy}",
   "model": "Modell und Grenzen",
   "caps": "Höchstens {calls} Modellaufrufe und {eur} je Lauf",
   "fx": "Wechselkurs (Annahme)",
@@ -622,7 +631,29 @@
   "calls": "Modellaufrufe",
   "checker": "Laufprüfer",
   "checker_ok": "{run} hält die Regeln des Faktenprüfers ein.",
-  "checker_failed": "{n} Probleme, zuerst: {first}"
+  "checker_failed": "{n} Probleme, zuerst: {first}",
+  "selftest": "Selbsttest",
+  "selftest_text": "Führt die Golden Cases, die Fälle des Faktenprüfers und die Bündelfälle aus denselben Fixture-Dateien wie die Unit-Tests aus, hier in diesem Browser.",
+  "selftest_running": "Tests laufen …",
+  "selftest_passed": "Alle {n} Fälle bestanden.",
+  "selftest_failed": "{failed} von {n} Fällen fehlgeschlagen.",
+  "selftest_error": "Die Fixture-Dateien ließen sich nicht laden: {message}",
+  "selftest_group": {
+   "golden": "Golden Cases der Kosten-Engine",
+   "audit": "Fälle des Faktenprüfers",
+   "cluster": "Bündelfälle"
+  },
+  "selftest_group_count": "{passed} von {n} bestanden",
+  "case_pass": "bestanden",
+  "case_fail": "fehlgeschlagen",
+  "case_detail": "{id}: {field} erwartet {expected}, erhalten {actual}",
+  "fig_clusters": "Gefundene Doppelerhebungen",
+  "fig_duties": "Erfasste Pflichten",
+  "fig_minutes": "Minuten je Prüfentscheidung (Median)",
+  "fig_minutes_value": "{minutes} Min.",
+  "fig_acceptance": "Annahmequote der Entlastungsoptionen",
+  "fig_note": "Über den Lauf zusammengefasst, nie je Person.",
+  "edited_lapsed": "Die Freigabe von {options} gilt nicht mehr; ihr Ziel ist wieder offen."
  },
  "table": {
   "show": "Zahlen als Tabelle"
@@ -635,12 +666,13 @@
  },
  "report": {
   "inventory": "Pflichten-Radar hat in diesem Ausschnitt {duties} Pflichten erfasst und {clusters} Bündel doppelter Datenanforderungen gefunden.",
-  "approved": "Die Referentin hat Entlastungen von {ea} Erfüllungsaufwand pro Jahr freigegeben; im Ausschnitt entfallen damit {reporting} der Meldepflichten und {documentation} der Dokumentationspflichten.",
+  "approved": "Die Referentin hat Entlastungen freigegeben, die den Erfüllungsaufwand um {ea} pro Jahr verändern; im Ausschnitt entfallen damit {reporting} der Meldepflichten und {documentation} der Dokumentationspflichten.",
   "none": "In diesem Lauf wurde keine Entlastungsoption freigegeben.",
   "kept": "Beibehaltene Pflichten stehen mit ihrer Begründung im Dossier.",
   "capped_calls": "Der Lauf hat seine Grenze an Modellaufrufen erreicht; offene Punkte bleiben offen.",
   "capped_cost": "Der Lauf hat seine Kostengrenze erreicht; offene Punkte bleiben offen.",
-  "close": "Nichts wird versendet."
+  "close": "Nichts wird versendet.",
+  "lapsed": "Eine Änderung der Annahmen hat {options} zurückgezogen; die Freigabe ist entfallen und zählt nicht mehr."
  },
  "error": {
   "decision": {
@@ -675,7 +707,8 @@
   "model_unavailable": "Dieses Modell steht dem API-Schlüssel nicht zur Verfügung. Bitte ein anderes wählen.",
   "bad_request": "Die API hat die Anfrage abgelehnt (400): {message}",
   "network": "Die API ist von diesem Browser aus nicht erreichbar: {message}",
-  "busy": "Die API ist gerade überlastet, auch nach zwei weiteren Versuchen. Bitte später erneut versuchen oder die Simulation nutzen."
+  "busy": "Die API ist gerade überlastet, auch nach zwei weiteren Versuchen. Bitte später erneut versuchen oder die Simulation nutzen.",
+  "lapsed": "Nach der Änderung der Annahmen gilt die Freigabe von {options} nicht mehr; Kacheln, Dossier und Summen folgen der Änderung."
  },
  "decision": {
   "approved": "freigegeben",
@@ -735,7 +768,8 @@
   "ui_report": "Abschlussbericht gezeigt.",
   "ui_request_decision": "{target}: {decision} ({reason}).",
   "ui_request_review": "{cluster}: {action}.",
-  "error": "Fehler ({code})."
+  "error": "Fehler ({code}).",
+  "law_search_hidden": "{matches} Treffer; die Suchanfrage enthält eine Zahl und wird nicht angezeigt."
  },
  "dutycard": {
   "panel": "Pflichtenkarten: {norm}, {type}",

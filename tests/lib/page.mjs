@@ -4,7 +4,7 @@ import { NETWORK_NOISE } from "./harness.mjs";
 
 /**
  * Opens the app. opts: { viewport, locale, colorScheme, theme ("dark" stores Vici's choice), skipIntro,
- * lang (stored choice), query }.
+ * lang (stored choice), query, initScripts ([{ path } | { content }] run before the app) }.
  * Returns { page, ctx, problems } where problems lists console errors, page errors, CSP violations
  * and requests to other hosts.
  */
@@ -20,6 +20,9 @@ export async function openApp(browser, base, opts = {}) {
   if (opts.skipIntro) await ctx.addInitScript(() => { try { localStorage.setItem("dr.introSeen", "1"); } catch { /* blocked */ } });
   if (opts.lang) await ctx.addInitScript((l) => { try { localStorage.setItem("dr.lang", l); } catch { /* blocked */ } }, opts.lang);
   if (opts.theme) await ctx.addInitScript((t) => { try { localStorage.setItem("vc-theme", t); } catch { /* blocked */ } }, opts.theme);
+  // Scripts a suite needs in the page before the app (axe-core for the a11y suite): an init script is
+  // injected by the browser's automation, so the page's security policy does not apply to it.
+  for (const script of opts.initScripts || []) await ctx.addInitScript(script);
   await ctx.addInitScript(() => {
     window.__csp = [];
     document.addEventListener("securitypolicyviolation", (e) => window.__csp.push(`${e.violatedDirective} ${e.blockedURI}`));
