@@ -1,9 +1,0 @@
-[
- {
-  "option_type": "register_retrieval",
-  "eur": 250000,
-  "assumption": true,
-  "rationale": "Anbindung eines Registers, bis zur Kalibrierung angenommen",
-  "rationale_en": "Connecting a register, assumed until calibration"
- }
-]
