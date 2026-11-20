@@ -464,12 +464,15 @@ button.map-count[aria-pressed="true"] { outline: 2px solid var(--vc-text); outli
   .slice-table thead th:nth-child(5) { width: 22%; }
   /* The count and EU columns turn their headers on their side, like the duty map's. */
   .slice-table thead th:nth-child(n+3) { writing-mode: vertical-rl; transform: rotate(180deg); text-align: start; vertical-align: bottom; height: 6.5rem; letter-spacing: 0; hyphens: manual; }
-  .diag-params thead th:nth-child(1) { width: 26%; }
+  .diag-params thead th:nth-child(1) { width: 23%; }
   .diag-params thead th:nth-child(2) { width: 21%; }
-  .diag-params thead th:nth-child(3) { width: 19%; }
-  .param-input { width: 100%; min-width: 0; }
+  .diag-params thead th:nth-child(3) { width: 22%; }
+  .param-input { width: 100%; min-width: 0; padding-inline: 4px; font-size: var(--vc-font-size-xs); }
+  /* Assumptions & diagnostics takes the phone's whole width, so its four columns keep whole words. */
+  dialog.diag-modal { width: 100vw; max-width: 100vw; margin-inline: 0; }
+  .diag-modal .vc-dialog__body { padding-inline: 10px; }
   /* A tag in these tables keeps less room beside its hexagon's points, so it fits its column. */
-  :is(.slice-table, .diag-params) .vc-tag { padding-inline: 8px; max-width: 100%; white-space: normal; }
+  :is(.slice-table, .diag-params) .vc-tag { padding-inline: 7px; max-width: 100%; white-space: normal; }
   .app-shell { grid-template-columns: minmax(0, 1fr); }
   .app-header { grid-template-columns: minmax(0, 1fr); }
   .app-header > .brand { grid-row: 1; grid-column: 1; }
