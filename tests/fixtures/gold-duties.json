@@ -1,8 +1,9 @@
 {
  "version": 1,
- "status": "unconfirmed",
+ "status": "confirmed",
  "labelled_by": "builder",
- "confirmed_by": null,
+ "confirmed_by": "Victor Pflüger",
+ "confirmed_on": "2026-11-19",
  "note": "Sixty sentences of the slice, labelled by hand: 40 duties and 20 non-duties. A sentence is a duty when it obliges its addressee to report or notify, prove, inform or give information, document or keep records, evaluate a law's effects, or check; an authority's duty stated in the present tense counts. Substantive duties (pay, hand over, design, insure), permissions, definitions, scope and form rules are not duties here. The labels await confirmation.",
  "method": "Sentences of data/corpus were ordered within each family of config/slice.json by SHA-256 of \"2026|<paragraph id>|<sentence text>\", the families interleaved in slice order, and every sentence was labelled in that order until 40 duties and 20 non-duties were found; later non-duties were skipped. The sample index records each sentence's place in that order.",
  "corpus": {

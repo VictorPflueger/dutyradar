@@ -35,3 +35,18 @@ export async function openApp(browser, base, opts = {}) {
   }
   return { page, ctx, problems, csp: () => page.evaluate(() => window.__csp || []) };
 }
+
+/**
+ * For page.evaluate: every visible element whose text the browser cuts (an ellipsis, or a line clamp
+ * that hides lines), as "tag#id.class "text"".
+ */
+export function cutText() {
+  return [...document.querySelectorAll("body *")].filter((el) => {
+    if (!el.getClientRects().length) return false;
+    const s = getComputedStyle(el);
+    if (s.visibility === "hidden") return false;
+    const ellipsis = s.textOverflow === "ellipsis" && s.overflowX !== "visible" && el.scrollWidth > el.clientWidth + 1;
+    const clamp = s.webkitLineClamp && s.webkitLineClamp !== "none" && el.scrollHeight > el.clientHeight + 1;
+    return ellipsis || clamp;
+  }).map((el) => `${el.tagName.toLowerCase()}${el.id ? `#${el.id}` : ""}${typeof el.className === "string" && el.className.trim() ? `.${el.className.trim().split(/\s+/).join(".")}` : ""} "${el.textContent.trim().slice(0, 40)}"`);
+}

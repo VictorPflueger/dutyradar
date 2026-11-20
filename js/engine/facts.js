@@ -51,6 +51,8 @@ export function createFactRegistry() {
     },
     get: (id) => byId.get(id) || null,
     has: (id) => byId.has(id),
+    /** The key an id belongs to, also for an id bound by a recording that this run never produced. */
+    keyOf: (id) => byId.get(id)?.key || reserved.get(id) || null,
     idForKey: (key) => idByKey.get(key) || null,
     all: () => [...byId.values()].sort((a, b) => (a.id < b.id ? -1 : 1)),
     /** id → key for every fact, as a recording stores it. */

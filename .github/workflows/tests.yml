@@ -30,7 +30,7 @@ jobs:
       - run: npm ci
       # The hygiene check reads its private term list from the HYGIENE_TERMS secret if the repository
       # has one; without it only the generic checks run (tests/hygiene.mjs).
-      - run: node tests/run-all.mjs tokens page-icon vici-files unit engine snapshot data corpus sources static hygiene docs
+      - run: node tests/run-all.mjs tokens page-icon vici-files unit engine tools live runs check-runs snapshot data corpus sources static hygiene docs
         env:
           HYGIENE_TERMS: ${{ secrets.HYGIENE_TERMS }}
       # The shared shell is compared with the sister app's (public) repository.
@@ -53,7 +53,7 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-1.56.0-chromium-${{ runner.os }}
       - run: npm install -g playwright@1.56.0 && npx playwright install --with-deps chromium
-      - run: NODE_PATH="$(npm root -g)" node tests/run-all.mjs smoke i18n layout hexagon
+      - run: NODE_PATH="$(npm root -g)" node tests/run-all.mjs smoke sims accept i18n layout hexagon
         env:
           DR_TEST_OUT: ${{ runner.temp }}/duty-radar-tests
       - if: failure()

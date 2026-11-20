@@ -16,7 +16,7 @@ const storage = () => {
 };
 
 /** The language to start with: ?lang= wins (and is stored), then the stored choice, then English. */
-export function initialLang(search = location.search) {
+export function initialLang(search = globalThis.location?.search ?? "") {
   const asked = new URLSearchParams(search).get("lang");
   if (LANGS.includes(asked)) {
     try { storage()?.setItem(STORAGE.lang, asked); } catch { /* storage blocked */ }
@@ -37,7 +37,7 @@ export async function loadI18n(fetchFn = fetch) {
   strings.en = en;
   strings.de = de;
   current = initialLang();
-  document.documentElement.lang = current;
+  if (typeof document !== "undefined") document.documentElement.lang = current;
   return current;
 }
 

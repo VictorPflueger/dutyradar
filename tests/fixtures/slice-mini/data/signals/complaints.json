@@ -1,0 +1,18 @@
+[
+ {
+  "id": "K-012",
+  "category": "Einmal genügt",
+  "text": "Wir melden dieselben Beschäftigtenzahlen jedes Quartal an zwei verschiedene Stellen.",
+  "text_en": "We report the same employee numbers to two different offices every quarter.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ },
+ {
+  "id": "K-013",
+  "category": "Steuern",
+  "text": "Die Steuererklärung kostet uns jedes Jahr viel Zeit.",
+  "text_en": "The tax return costs us a lot of time every year.",
+  "synthetic": true,
+  "matched_duty_ids": []
+ }
+]

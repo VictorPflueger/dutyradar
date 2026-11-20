@@ -84,10 +84,12 @@ export function emitRunEvent(ev) {
     case "cap_reached":
       bus.emit("state_change", { state: "stopped" });
       break;
-    case "run_finished":
-      bus.emit("run_end", { status: ev.payload?.status || "done" });
-      bus.emit("state_change", { state: ev.payload?.status === "aborted" ? "aborted" : "done" });
+    case "run_finished": {
+      const status = ev.payload?.status || "done";
+      bus.emit("run_end", { status });
+      bus.emit("state_change", { state: RUN_STATES[status] || status === "incomplete" ? status : "done" });
       break;
+    }
     case "error":
       bus.emit("state_change", { state: "error" });
       break;

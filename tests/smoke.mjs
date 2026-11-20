@@ -1,6 +1,7 @@
 // Smoke suite (browser): the app boots offline with every other host blocked, without a console
 // error, a page error or a policy violation; the intro on a first visit, the views, the drawer, the
-// Diagnostics dialog, the keyboard path to the language switch, and a boot failure reported on screen.
+// Diagnostics dialog, the mode dialog behind Start agent, the keyboard path to the language switch,
+// and a boot failure reported on screen.
 // Usage: node tests/smoke.mjs
 import { APP_ROOT, launchBrowser, serveStatic } from "./lib/harness.mjs";
 import { openApp } from "./lib/page.mjs";
@@ -39,7 +40,14 @@ try {
   check("diagnostics: snapshot source and policy", diag.includes("gii-toc.xml") && diag.includes("connect-src 'self' https://api.anthropic.com"));
   await page.keyboard.press("Escape");
   await page.waitForSelector(".diag-table", { state: "detached", timeout: 5000 });
-  check("the start button waits for version 0.2.0", (await page.getAttribute("#btn-start", "aria-disabled")) === "true");
+  // Start agent opens the mode dialog with its three modes; Escape closes it without starting a run.
+  check("Start agent is enabled", (await page.getAttribute("#btn-start", "aria-disabled")) !== "true");
+  await page.click("#btn-start");
+  await page.waitForSelector(".mode-modal", { timeout: 5000 });
+  check("Start agent opens the mode dialog with three modes", (await page.$$(".mode-modal .mode-card")).length === 3);
+  await page.keyboard.press("Escape");
+  await page.waitForSelector(".mode-modal", { state: "detached", timeout: 5000 });
+  check("closing the dialog starts no run", (await page.getAttribute("#mode-badge", "data-mode")) === "none" && (await page.textContent("#status-pill .text")) === "Ready");
   // Keyboard: the language switch is reachable and works with Enter.
   await page.focus('.lang-option[data-lang="de"]');
   await page.keyboard.press("Enter");

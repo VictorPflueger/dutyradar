@@ -13,6 +13,10 @@ const SUITES = [
   { id: "vici-files", what: "vici/ holds exactly the files its README lists, unchanged", file: "tests/vici-files.mjs", browser: false },
   { id: "unit", what: "language files (identical keys, the copy tables exactly) and ICU number formats", file: "tests/unit.mjs", browser: false },
   { id: "engine", what: "golden cases, fact auditor, clustering, option rules, coverage, patterns, gold set", file: "tests/engine.mjs", browser: false },
+  { id: "tools", what: "AC-10 the 16 tools, strict schemas within the limits, AC-37 classification, AC-13 the fixture slice", file: "tests/tools.mjs", browser: false },
+  { id: "live", what: "AC-11 the Live loop's requests, stop rules and errors, the caps, AC-12 the Sovereign adapter", file: "tests/live.mjs", browser: false },
+  { id: "runs", what: "the run checker's guards, AC-36 fact binding, R1 to R3 replayed headless with any decision", file: "tests/runs.mjs", browser: false },
+  { id: "check-runs", what: "AC-16 the recorded runs pass the checker and replay in both languages", file: "tools/check-runs.mjs", browser: false },
   { id: "snapshot", what: "the snapshot script on the fixture table of contents and the two-norm fixture slice", file: "tests/snapshot.mjs", browser: false },
   { id: "data", what: "the bundled data files: sources or assumptions, synthetic and simulated labels, the slice", file: "tools/check-data.mjs", browser: false },
   { id: "corpus", what: "the law snapshot: the Norm contract, index.json and SNAPSHOT.md", file: "tools/check-data.mjs", args: ["corpus"], browser: false },
@@ -21,9 +25,11 @@ const SUITES = [
   { id: "hygiene", what: "no client, contact or meeting named in any published file", file: "tests/hygiene.mjs", browser: false },
   { id: "docs", what: "documentation set complete, every path and section it names exists", file: "tests/docs.mjs", browser: false },
   { id: "parity", what: "shared shell identical to the sister app's (needs a Rebate Hunter checkout)", file: "tests/parity.mjs", browser: false, optional: true },
-  { id: "smoke", what: "boot offline, intro, views, drawer, Diagnostics, keyboard, a failed boot", file: "tests/smoke.mjs", browser: true },
-  { id: "i18n", what: "English first, the switch without a reload, ?lang=, stored choice, German at 1280 × 720, a failed boot in German", file: "tests/i18n.mjs", browser: true },
-  { id: "layout", what: "viewports from 1920 × 1080 to 1280 × 720 in both languages, both themes with eight screenshots, and 360 px", file: "tests/layout.mjs", browser: true },
+  { id: "smoke", what: "boot offline, intro, views, drawer, Diagnostics, the mode dialog, keyboard, a failed boot", file: "tests/smoke.mjs", browser: true },
+  { id: "sims", what: "R1 to R3 replayed in Chromium in both languages: pauses, recorded reviews, tiles equal to the engines' facts", file: "tests/sims.mjs", browser: true },
+  { id: "accept", what: "AC-19 decisions, AC-22 caps, AC-23 the key, a Live run end to end, AC-31 the modes, the exports", file: "tests/accept.mjs", browser: true },
+  { id: "i18n", what: "English first, the switch without a reload on every screen of a run, model text keeps its language, ?lang=, German at 1280 × 720", file: "tests/i18n.mjs", browser: true },
+  { id: "layout", what: "viewports from 1920 × 1080 to 1280 × 720 in both languages, idle and with a run waiting, both themes with sixteen screenshots, the ink ramp, and 360 px", file: "tests/layout.mjs", browser: true },
   { id: "hexagon", what: "nothing round: the app's files, and the rendered app in both themes", file: "tests/hexagon.mjs", browser: true }
 ];
 

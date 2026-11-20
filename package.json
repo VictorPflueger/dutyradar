@@ -1,6 +1,6 @@
 {
   "name": "dutyradar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Duty Radar: a browser-only prototype that inventories, clusters and prices reporting and documentation duties in a slice of federal law. The app has no runtime dependency; these packages serve the build-time tools and the tests.",
   "type": "module",

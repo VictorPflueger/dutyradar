@@ -1,0 +1,12 @@
+[
+ {
+  "id": "pop-gewerbebetriebe",
+  "label": "Gewerbebetriebe mit Beschäftigten",
+  "label_en": "Trade businesses with employees",
+  "addressee": "wirtschaft",
+  "units": 10000,
+  "assumption": true,
+  "rationale": "Bis zur Kalibrierung angenommen",
+  "rationale_en": "Assumed until calibration"
+ }
+]

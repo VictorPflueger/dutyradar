@@ -1,0 +1,135 @@
+{
+ "note": "Recorded sub-call outputs for the two-norm fixture slice (AC-13): the classifier's categories per candidate and the drafted wording per option. Texts the model writes in the run's language carry both languages; the amendment wording is German.",
+ "classifications": {
+  "D-beispielg-p20-1": {
+   "candidate_id": "D-beispielg-p20-1",
+   "is_duty": true,
+   "type": "MELDEPFLICHT",
+   "addressee": "wirtschaft",
+   "trigger": "periodisch",
+   "frequency_term": "vierteljährlich",
+   "population_id": "pop-gewerbebetriebe",
+   "recipient": "zuständige Stelle",
+   "data_items": [
+    "beschaeftigte",
+    "unternehmensstammdaten"
+   ],
+   "protected_standard": null,
+   "certainty": "hoch",
+   "rationale": {
+    "de": "Periodische Meldung an eine Behörde",
+    "en": "Periodic report to an authority"
+   }
+  },
+  "D-beispielg-p20-2": {
+   "candidate_id": "D-beispielg-p20-2",
+   "is_duty": false,
+   "type": "MELDEPFLICHT",
+   "addressee": "wirtschaft",
+   "trigger": "periodisch",
+   "frequency_term": "vierteljährlich",
+   "population_id": "pop-gewerbebetriebe",
+   "recipient": "zuständige Stelle",
+   "data_items": [
+    "beschaeftigte"
+   ],
+   "protected_standard": null,
+   "certainty": "hoch",
+   "rationale": {
+    "de": "Inhalt und Frist der Meldung nach Absatz 1, keine eigene Pflicht",
+    "en": "Content and deadline of the report under subsection 1, not a duty of its own"
+   }
+  },
+  "D-beispielg-p21-1": {
+   "candidate_id": "D-beispielg-p21-1",
+   "is_duty": true,
+   "type": "DOKUMENTATIONSPFLICHT",
+   "addressee": "wirtschaft",
+   "trigger": "anlassbezogen",
+   "frequency_term": null,
+   "population_id": "pop-gewerbebetriebe",
+   "recipient": "keine Stelle (Aufbewahrung im Betrieb)",
+   "data_items": [
+    "other:Aufzeichnungen"
+   ],
+   "protected_standard": null,
+   "certainty": "mittel",
+   "rationale": {
+    "de": "Aufbewahrung der Aufzeichnungen im Betrieb",
+    "en": "Keeping the records on the premises"
+   }
+  },
+  "D-beispielg-p23a-1": {
+   "candidate_id": "D-beispielg-p23a-1",
+   "is_duty": true,
+   "type": "INFORMATIONSPFLICHT",
+   "addressee": "verwaltung",
+   "trigger": "anlassbezogen",
+   "frequency_term": null,
+   "population_id": null,
+   "recipient": "Öffentlichkeit",
+   "data_items": [
+    "other:Ergebnisse"
+   ],
+   "protected_standard": null,
+   "certainty": "mittel",
+   "rationale": {
+    "de": "Veröffentlichung durch die Behörde",
+    "en": "Publication by the authority"
+   }
+  },
+  "D-musterv-p3-1": {
+   "candidate_id": "D-musterv-p3-1",
+   "is_duty": true,
+   "type": "MELDEPFLICHT",
+   "addressee": "wirtschaft",
+   "trigger": "periodisch",
+   "frequency_term": "jährlich",
+   "population_id": "pop-gewerbebetriebe",
+   "recipient": "Statistikamt",
+   "data_items": [
+    "umsatz"
+   ],
+   "protected_standard": null,
+   "certainty": "hoch",
+   "rationale": {
+    "de": "Jährliche Meldung des Umsatzes",
+    "en": "Yearly report of turnover"
+   }
+  },
+  "D-musterv-p3-2": {
+   "candidate_id": "D-musterv-p3-2",
+   "is_duty": true,
+   "type": "MELDEPFLICHT",
+   "addressee": "wirtschaft",
+   "trigger": "periodisch",
+   "frequency_term": "vierteljährlich",
+   "population_id": "pop-gewerbebetriebe",
+   "recipient": "Statistikamt",
+   "data_items": [
+    "Name und Anschrift des Unternehmens",
+    "Zahl der Beschäftigten"
+   ],
+   "protected_standard": null,
+   "certainty": "hoch",
+   "rationale": {
+    "de": "Periodische Übermittlung an das Statistikamt",
+    "en": "Periodic transmission to the statistics office"
+   }
+  }
+ },
+ "amendments": {
+  "O-C-001-register_retrieval": {
+   "wording": "In {{cite:beispielg-p20}} Absatz 1 werden die Wörter „vierteljährlich die Zahl der Beschäftigten zu melden“ gestrichen; in {{cite:musterv-p3}} Absatz 2 werden die Wörter „Name und Anschrift des Unternehmens und die Zahl der Beschäftigten zu übermitteln“ gestrichen. Die Stellen rufen die Daten aus dem Register ab. [Entwurf, rechtlich zu prüfen]",
+   "gist_en": "Both reports of company details and persons employed are struck; the authorities retrieve the data from the register."
+  },
+  "O-C-001-merge": {
+   "wording": "{{cite:musterv-p3}} Absatz 2 wird aufgehoben; die Angaben werden mit der Meldung nach {{cite:beispielg-p20}} Absatz 1 übermittelt. [Entwurf, rechtlich zu prüfen]",
+   "gist_en": "The second report is repealed; its data is sent with the first one."
+  },
+  "O-D-beispielg-p20-1-delete": {
+   "wording": "{{cite:beispielg-p20}} wird aufgehoben. [Entwurf, rechtlich zu prüfen]",
+   "gist_en": "The section is repealed."
+  }
+ }
+}
