@@ -3,7 +3,9 @@
 // key-like string or a thinking block; when it holds an event that depends on an option decision
 // (decision_recorded, dossier_updated, a ui_report call) or outcome words after a decision request;
 // when a text lacks a language or the two languages differ in their placeholders; when a decision
-// request lacks its intention; or when the run is not marked hand-authored (or recorded with a model).
+// request lacks its intention; when narration after a decision request announces a later request
+// without naming its target (for_request), so it would play after any decision; or when the run is
+// not marked hand-authored (or recorded with a model).
 // Texts inside audit_failed events and amendment attempts marked expect_audit "fail" are what the UI
 // never shows; the latter must fail the audit, or the checker says so.
 
@@ -62,6 +64,13 @@ export function checkRun(run, { data }) {
     const input = e.payload?.input || {};
     if (tool === "ui_report") problems.push(`${label}: a recording holds no ui_report call`);
     if (tool === "ui_progress") checkText(input.message, label, { outcomeGuard: afterDecision });
+    if (tool === "ui_progress" && e.payload.for_request !== undefined) {
+      const next = (run.events || []).slice(i + 1).find((x) => x.type === "tool_call" && x.payload?.tool === "ui_request_decision" && x.payload.input?.option_ids);
+      if (next?.payload.input.target !== e.payload.for_request) problems.push(`${label}: for_request ${e.payload.for_request} is not the target of the next decision request`);
+    }
+    // Narration that names the next request's step ("decide") after a request on the same target
+    // depends on that request's outcome; it must say so with for_request.
+    if (tool === "ui_progress" && afterDecision && input.step === "decide" && e.payload.for_request === undefined) problems.push(`${label}: announces a decision request after a decision without for_request`);
     if (tool === "audit_check" && typeof input.text !== "string" && input.text !== undefined) checkText(input.text, label);
     if (tool === "ui_request_decision" && input.option_ids) {
       const it = e.payload.intended;

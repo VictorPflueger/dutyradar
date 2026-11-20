@@ -47,6 +47,23 @@ export function formatNumber(value, lang = "en", maxDigits = 2) {
   return nf(lang, { maximumFractionDigits: maxDigits }).format(value);
 }
 
+/**
+ * A number typed in the active language, or null. German: "9.000" and "9 000" are nine thousand, "1,5"
+ * is one and a half; English: "9,000" and "1.5". Group separators come in threes; a separator that
+ * would be read the other way ("1.5" in German, "1,5" in English) is refused, never guessed. Only
+ * non-negative numbers (every editable assumption is one).
+ */
+export function parseLocalNumber(text, lang = "en") {
+  const s = String(text ?? "").trim().replace(/[\u00A0\u202F]/g, " ");
+  const [group, decimal] = lang === "de" ? [".", ","] : [",", "."];
+  const esc = (c) => c.replace(".", "\\.");
+  const grouped = new RegExp(`^\\d{1,3}(?:(?:${esc(group)}\\d{3})+|(?: \\d{3})+)(?:${esc(decimal)}\\d+)?$`);
+  const bare = new RegExp(`^\\d+(?:${esc(decimal)}\\d+)?$`);
+  if (!grouped.test(s) && !bare.test(s)) return null;
+  const n = Number(s.split(group).join("").replace(/ /g, "").replace(decimal, "."));
+  return Number.isFinite(n) ? n : null;
+}
+
 /** A fact's value for its unit; a retired fact has no value and renders as null. */
 export function formatFactValue(fact, lang = "en") {
   if (!fact || fact.value === null || fact.value === undefined) return null;

@@ -13,7 +13,7 @@ import { icon } from "./icons.js";
 import { t, lang } from "./i18n.js";
 import { openModal } from "./modal.js";
 import { APP, AGENT, FX_USD_EUR, RUN_DEFAULTS } from "./config.js";
-import { formatCount, formatEur, formatNumber, formatShare } from "./engine/format.js";
+import { formatCount, formatEur, formatNumber, formatShare, parseLocalNumber } from "./engine/format.js";
 import { PARAM_FIELDS } from "./state.js";
 import { citeText } from "./placeholders.js";
 import { getKey, maskKey } from "./keystore.js";
@@ -22,6 +22,9 @@ import { modelLabel } from "./agent.js";
 import { checkRun } from "./run_check.js";
 import { runSelfTest } from "./selftest.js";
 import { factText } from "./placeholders.js";
+import { bus } from "./events.js";
+import { buildClosingReport } from "./report.js";
+import { policyFor } from "./policy.js";
 
 const longDate = (iso) => new Intl.DateTimeFormat(lang() === "de" ? "de-DE" : "en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(iso));
 const row = (k, v) => h("tr", {}, h("th", { scope: "row" }, k), h("td", {}, v));
@@ -29,11 +32,6 @@ const table = (...rows) => h("table", { class: "vc-table diag-table" }, h("tbody
 const section = (id, titleKey, ...body) => h("section", { class: "diag-section", id: `diag-${id}` }, h("h3", {}, t(titleKey)), body);
 
 /** "0,5" or "0.5" → 0.5; null when it is not a number of at least zero. */
-export function parseLocalNumber(text) {
-  const s = String(text).trim().replace(/\s/g, "");
-  if (!/^\d+([.,]\d+)?$/.test(s)) return null;
-  return Number(s.replace(",", "."));
-}
 const inputValue = (v) => (typeof v === "number" ? String(v).replace(".", lang() === "de" ? "," : ".") : "");
 
 function basis(src) {
@@ -60,13 +58,26 @@ function assumptions(run, data, rerender) {
     for (const f of PARAM_FIELDS.filter((x) => typeof p[x] === "number")) {
       const input = h("input", { class: "vc-input vc-input--sm param-input", type: "text", inputmode: "decimal", value: inputValue(p[f]), "aria-label": t("diag.edit_label", { field: t(`param.${f}`), duty: dutyId }), dataset: { duty: dutyId, field: f } });
       const commit = () => {
-        const value = parseLocalNumber(input.value);
+        const value = parseLocalNumber(input.value, lang());
         if (value === null) { msg.textContent = t("diag.edit_invalid"); msg.dataset.tone = "danger"; input.value = inputValue(run.state.paramsFor(dutyId)[f]); return; }
         if (value === run.state.paramsFor(dutyId)[f]) return;
         const change = run.state.editParam(dutyId, f, value);
         if (!change) return;
         run.audit.record("parameter_changed", { actor: "human", details: change });
-        rerender(t("diag.edited", { changed: formatCount(change.changed.length, lang()), retired: formatCount(change.retired.length, lang()) }));
+        const lapsed = change.lapsed || [];
+        // An approval the edit withdrew lapses: the dialog and the console say so, and a closing report
+        // already written is rewritten from the engines (by the app, not by a model), so the latest
+        // report in the console counts no relief that lapsed.
+        if (lapsed.length) {
+          const meta = { agent: "ui", t_ms: run.events.at(-1)?.t_ms || 0 };
+          bus.emit("notice", { level: "warn", code: "notice.lapsed", params: { options: lapsed.join(", ") }, text: t("notice.lapsed", { options: lapsed.join(", ") }) }, meta);
+          if (run.state.report) {
+            const text = buildClosingReport(run.state);
+            run.state.setReport({ text, source: "template", lang: run.state.lang, updated: true });
+            bus.emit("agent_text", { kind: "report", text, lang: run.state.lang, source: "template", updated: true }, meta);
+          }
+        }
+        rerender([t("diag.edited", { changed: formatCount(change.changed.length, lang()), retired: formatCount(change.retired.length, lang()) }), lapsed.length ? t("diag.edited_lapsed", { options: lapsed.join(", ") }) : null].filter(Boolean).join(" "));
       };
       input.addEventListener("change", commit);
       input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); commit(); } });
@@ -77,7 +88,7 @@ function assumptions(run, data, rerender) {
         h("td", {}, basis((p.sources || []).find((x) => x.field === f)))));
     }
   }
-  return [h("p", {}, t("diag.assumptions_text")), msg, h("div", { class: "diag-scroll" }, h("table", { class: "vc-table diag-params" }, head, h("tbody", {}, rows)))];
+  return [h("p", {}, t("diag.assumptions_text")), msg, h("div", { class: "diag-scroll", role: "region", "aria-label": t("diag.assumptions") }, h("table", { class: "vc-table diag-params" }, head, h("tbody", {}, rows)))];
 }
 
 /** The median of a list of numbers, or null for an empty list. */
@@ -171,6 +182,10 @@ function selfTest() {
 /** Opens the dialog. ctx: { index, data (base data loaded), run, cost, sovereign }. */
 export function openDiagnostics({ index, data, run, cost, sovereign }) {
   const policy = document.querySelector('meta[http-equiv="Content-Security-Policy"]')?.content || "";
+  // The policy the page carries, checked against the specification's for this sovereign configuration.
+  let expected = null;
+  try { expected = policyFor(sovereign); } catch { expected = null; }
+  const policyOk = Boolean(expected) && policy === expected;
   const tv = index.transport || {};
   const l = lang();
   const sov = sovereignStatus(sovereign);
@@ -199,7 +214,8 @@ export function openDiagnostics({ index, data, run, cost, sovereign }) {
         table(
           row(t("diag.key"), getKey() ? t("diag.key_set", { key: maskKey() }) : t("diag.key_none")),
           row(t("diag.sovereign"), sov.enabled ? `${sovereign.label || sovereign.base_url} · ${sovereign.model}` : t(sov.reason))),
-        h("p", { class: "diag-label" }, t("diag.csp")), h("code", { class: "diag-code" }, policy)),
+        h("p", { class: "diag-label" }, t("diag.csp")), h("code", { class: "diag-code" }, policy),
+        h("p", { class: "diag-msg diag-policy-check", dataset: { tone: policyOk ? "success" : "danger" } }, policyOk ? t("diag.csp_ok") : t("diag.csp_differs", { policy: expected || "–" }))),
       section("model", "diag.model", table(
         row(t("diag.version"), `${APP.name} ${APP.version}`),
         row(t("diag.orchestrator"), t("diag.model_effort", { model: modelLabel(RUN_DEFAULTS.orchestrator_model), effort: t(`effort.${RUN_DEFAULTS.orchestrator_effort}`) })),

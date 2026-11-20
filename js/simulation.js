@@ -90,6 +90,9 @@ export async function replayRun({ run, data, state, lang, wait = async () => {},
     const tool = e.payload.tool;
     const input = localize(e.payload.input || {}, lang);
     if (tool === "ui_request_decision" && input.target && state.targets.get(input.target)?.decided) continue;
+    // Narration that announces a later decision request plays only when that request will: once the
+    // presenter's decision has decided its target, neither does.
+    if (tool === "ui_progress" && e.payload.for_request && state.targets.get(e.payload.for_request)?.decided) continue;
     if (tool === "ui_request_decision" && input.cluster_id) pendingReview = recordedReview(events, i, input.cluster_id);
     const role = roleOfTool(tool);
     out("tool_call", { tool, tool_use_id: e.payload.tool_use_id, input }, role);

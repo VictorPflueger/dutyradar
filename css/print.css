@@ -44,6 +44,7 @@ html, body, body.app-shell {
 /* The dossier. */
 .print-dossier { display: block; width: 100%; }
 .print-dossier .outbox-title { margin: 0 0 6pt; font-size: 16pt; }
+.print-dossier .dossier-meta-line { margin: 0 0 8pt; color: var(--vc-text-muted); font-size: 9pt; }
 .print-dossier .outbox-sub { margin: 12pt 0 4pt; font-size: 12pt; }
 .print-dossier .dossier-items { margin: 0; padding-left: 16pt; }
 .print-dossier .dossier-item.vc-card { margin: 0 0 8pt; padding: 6pt 8pt; border: 1px solid var(--vc-border); box-shadow: none; background: none; break-inside: avoid; }

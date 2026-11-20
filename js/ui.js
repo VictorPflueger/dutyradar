@@ -276,15 +276,38 @@ export function initUI({ corpusIndex, slice }) {
     clear(consoleHead).append(h("div", { class: "console-title" }, h("h2", {}, t("console.title"))), h("div", { class: "console-head-actions" }, size, close));
     clear(watermark).append(t("mode.simulation"), " ", h("span", {}, t("console.sim_note")));
   }
+  // On a small screen the open console is a modal dialog over the page: the rest of the page is inert,
+  // so the focus stays in the console until Escape or its close button (AC-26, AC-27).
+  const OUTSIDE_CONSOLE = [".skip-link", ".app-header", "#controls", ".map-panel", "#drawer", "#banners"];
+  function applyConsoleModal() {
+    const modal = ui.consoleOpen && narrow();
+    if (modal) { consoleEl.setAttribute("role", "dialog"); consoleEl.setAttribute("aria-modal", "true"); }
+    else { consoleEl.removeAttribute("role"); consoleEl.removeAttribute("aria-modal"); }
+    for (const sel of OUTSIDE_CONSOLE) { const el = document.querySelector(sel); if (el) el.inert = modal; }
+  }
   /** Opens or closes the console's drawer (small screens); the focus goes in, and back to Console. */
   function setConsole(open) {
     ui.consoleOpen = open;
     consoleEl.dataset.open = String(open);
+    applyConsoleModal();
     controls.update();
     if (open) consoleEl.focus();
     else if (narrow()) document.getElementById("btn-console")?.focus();
   }
   consoleEl.dataset.open = "false";
+  // A window that widens past the drawer's breakpoint gives the page back; one that narrows again
+  // with the console open makes it modal again.
+  globalThis.matchMedia?.("(max-width: 899px)").addEventListener?.("change", applyConsoleModal);
+  // Inert keeps the page out of reach; Tab and Shift+Tab also wrap at the console's edges, so the
+  // focus does not leave the document either.
+  consoleEl.addEventListener("keydown", (e) => {
+    if (e.key !== "Tab" || !(ui.consoleOpen && narrow())) return;
+    const items = [...consoleEl.querySelectorAll(FOCUSABLE)].filter((el) => !el.disabled && el.getClientRects().length > 0);
+    if (!items.length) { e.preventDefault(); return; }
+    const at = document.activeElement;
+    if (e.shiftKey && (at === items[0] || at === consoleEl)) { e.preventDefault(); items.at(-1).focus(); }
+    else if (!e.shiftKey && at === items.at(-1)) { e.preventDefault(); items[0].focus(); }
+  });
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape" || e.defaultPrevented || !ui.consoleOpen || !narrow()) return;
     e.preventDefault();
@@ -330,6 +353,8 @@ export function initUI({ corpusIndex, slice }) {
     (tab && tab.getClientRects().length ? tab : drawerEl.querySelector(".drawer-toggle"))?.focus();
   });
   const printCopy = document.getElementById("print-dossier");
+  // Drawn again just before printing, so its provenance line carries the time of printing.
+  globalThis.addEventListener?.("beforeprint", () => { if (printCopy) renderOutbox(printCopy, run(), { onExport: doExport, forPrint: true }); });
   const doExport = (kind) => { const r = run(); if (r) exportFile(kind, r).then(schedule).catch((e) => notice("notice.error", { message: e.message })); };
   function renderDrawer() {
     drawerEl.setAttribute("aria-label", `${t("screen.options")}, ${t("screen.outbox")}, ${t("drawer.tab.audit")}`);
@@ -351,7 +376,8 @@ export function initUI({ corpusIndex, slice }) {
     if (printCopy) renderOutbox(printCopy, r, { onExport: doExport, forPrint: true });
     const open = ui.request ? ui.request.option_ids.filter((id) => ["proposed", "under_review"].includes(r?.state.options.get(id)?.status)).length : 0;
     drawer.setCount("options", open, Boolean(ui.request));
-    drawer.setCount("outbox", r ? r.state.dossier.items.length + r.state.dossier.kept.length : 0);
+    // What the dossier counts: an approval an assumption edit made lapse is listed, marked, but not counted.
+    drawer.setCount("outbox", r ? r.state.dossier.items.filter((x) => !x.lapsed).length + r.state.dossier.kept.length : 0);
     drawer.setCount("audit", r ? r.audit.events().length : 0);
   }
 
@@ -498,8 +524,9 @@ function startView(index, slice) {
     rows.push(h("tr", { class: "family-row" }, h("th", { colspan: "5", scope: "colgroup" }, famLabel(f))));
     for (const n of index.norms.filter((x) => x.family === f)) {
       rows.push(h("tr", {},
-        h("th", { scope: "row" }, n.abbr),
-        h("td", { class: "slice-title" }, n.title),
+        // The law's abbreviation and title are German in either language.
+        h("th", { scope: "row", lang: "de" }, n.abbr),
+        h("td", { class: "slice-title", lang: "de" }, n.title),
         h("td", { class: "num" }, formatCount(n.paragraphs, lang())),
         h("td", { class: "num" }, formatCount(n.sentences, lang())),
         h("td", {}, n.eu_basis.length ? h("span", { class: "vc-tag vc-tag--sm", title: n.eu_basis.join(", ") }, t("badge.eu")) : "–")));

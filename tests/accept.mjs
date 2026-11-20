@@ -15,15 +15,22 @@
 //              has a byte order mark, semicolons, the listed columns and decimal commas; the dossier
 //              holds the approved item and the kept duties
 //   figures    AC-20: every figure in the tiles, the option cards and the dossier opens "Where does this
-//              figure come from?" with the engine's value, its label and its inputs; in both languages
+//              figure come from?" with the engine's value, its label and its inputs, and no other number
+//              stands there (only ids, reason codes, § references, audited wording and the benchmark
+//              labels' fractions); in both languages
 //   assumptions AC-21: editing an assumption in Assumptions & diagnostics recomputes the facts, the
 //              option cards and the tiles to the engine's values (an option that becomes ineligible
-//              shows "no longer applies") and logs parameter_changed; in both languages
+//              shows "no longer applies") and logs parameter_changed; in both languages. After a
+//              decision: an edit that withdraws the approved option lapses its approval; the tiles, the
+//              dossier's totals and a rewritten closing report follow the engines, the item is marked,
+//              its target is open again and the console says so
 //   keep       AC-33: keep needs A1 to A4 or A6, closes the target's other options ("Target decided")
 //              and lists the duty, or every member of a cluster, with code, comment and data uses
 //              under the kept duties; in both languages
 //   other      AC-35: a decision other than the recorded intention yields the engine's tiles, dossier
-//              and closing report for that decision, and no text after it names the intended outcome
+//              and closing report for that decision, and no text after it names the intended outcome;
+//              in R2 the narration that announces the second request does not play once the first
+//              decision has decided the target
 //   disclosures AC-25: a browser set to German opens in English; both disclosure lines show on each of
 //              the six screens in the active language; the outbox says "Nothing is sent." in English
 //              and "Nichts wird versendet." in German
@@ -40,13 +47,13 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { APP_ROOT, launchBrowser, serveStatic, MOCK_KEY } from "./lib/harness.mjs";
 import { openApp } from "./lib/page.mjs";
-import { startRun, waitDecision, waitTone, decide, textOf, routeFakeClaude, enterKey } from "./lib/run-page.mjs";
+import { startRun, waitDecision, waitReview, waitTone, decide, textOf, routeFakeClaude, enterKey } from "./lib/run-page.mjs";
 import { createFakeClaude, toolUse } from "./lib/fake-claude.mjs";
 import { liveScript } from "./lib/live-script.mjs";
 import { usageCostUsd } from "../js/cost.js";
-import { FX_USD_EUR } from "../js/config.js";
+import { FX_USD_EUR, APP } from "../js/config.js";
 import { formatEur, formatCount, formatShare, formatNumber } from "../js/engine/format.js";
-import { replayStory, plain as plainText } from "./lib/story-node.mjs";
+import { replayStory, readRun, plain as plainText } from "./lib/story-node.mjs";
 
 const strings = { en: JSON.parse(readFileSync(path.join(APP_ROOT, "js/i18n/en.json"), "utf8")), de: JSON.parse(readFileSync(path.join(APP_ROOT, "js/i18n/de.json"), "utf8")) };
 const tr = (lang, key, params = {}) => key.split(".").reduce((o, k) => o?.[k], strings[lang]).replace(/\{(\w+)\}/g, (m, n) => (params[n] ?? m));
@@ -310,12 +317,37 @@ try {
       }
       return n;
     }
+    /** Numbers under `scope` outside the figure buttons, once ids, reason codes, § references and the
+        benchmark labels' fractions (the specification's targets) are set aside. */
+    const bareNumbers = (page, scope) => page.evaluate((scope) => {
+      const allowed = [/§§?\s*\d+[a-z]?/g, /\b(?:Absatz|Satz|Nummer|Abs\.|Nr\.)\s*\d+[a-z]?/g, /\b(?:DEC|[ODCFK])-[A-Za-z0-9_-]+/g, /\bR[1-3]\b/g, /\b(?:Z[1-5]|A[1-6]|I1)\b/g];
+      const out = [];
+      for (const root of document.querySelectorAll(scope)) {
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          if (n.parentElement.closest(".fact-ref, .vc-visually-hidden")) continue;
+          let text = n.textContent;
+          if (n.parentElement.closest(".kpi-label")) text = text.replace(/−[⅓½]/g, "");
+          for (const re of allowed) text = text.replace(re, "");
+          if (/\p{N}/u.test(text)) out.push(n.textContent.trim().slice(0, 80));
+        }
+      }
+      return out;
+    }, scope);
     for (const lang of ["en", "de"]) {
       const story = await replayStory("R1", lang);
       const pause = story.pauses.find((p) => p.kind === "option");
       const { page, ctx, problems } = await openApp(browser, server.base, { skipIntro: true, query: `?lang=${lang}&speed=1000`, viewport: { width: 1600, height: 1000 } });
       await startRun(page, { run: "R1" });
       await waitDecision(page);
+      // A control: the scan finds a number planted in a card.
+      await page.evaluate(() => document.querySelector("#panel-options .option-card .option-head").append(Object.assign(document.createElement("span"), { id: "planted-number", textContent: " 42" })));
+      check(`${lang}: the scan finds a number planted outside a figure`, (await bareNumbers(page, "#panel-options .option-cards")).some((x) => x.includes("42")));
+      await page.evaluate(() => document.getElementById("planted-number")?.remove());
+      for (const [scope, what] of [["#kpis", "tiles"], ["#panel-options .option-cards", "option cards"]]) {
+        const bare = await bareNumbers(page, scope);
+        check(`${lang}: no number in the ${what} stands outside a figure that opens its source`, bare.length === 0, bare.join(" | "));
+      }
       const a = await openEach(page, "#kpis", lang, pause.before.details, `${lang} tiles`);
       const b = await openEach(page, "#panel-options .option-cards", lang, pause.before.details, `${lang} option cards`);
       const c = pause.choice;
@@ -323,6 +355,8 @@ try {
       await waitTone(page, "done");
       await page.click("#tab-outbox");
       const d = await openEach(page, "#panel-outbox", lang, story.final.details, `${lang} dossier`);
+      const bareDossier = await bareNumbers(page, "#panel-outbox");
+      check(`${lang}: no number in the dossier stands outside a figure that opens its source`, bareDossier.length === 0, bareDossier.join(" | "));
       await openEach(page, "#kpis", lang, story.final.details, `${lang} tiles at the end`);
       check(`${lang}: the dossier's totals open their figures too`, (await page.$$("#panel-outbox .dossier-totals .fact-ref")).length === 3);
       check(`${lang}: figures opened in tiles, cards and dossier`, a >= 6 && b >= 6 && d >= 4, `${a}, ${b}, ${d}`);
@@ -388,6 +422,64 @@ try {
       check(`${lang}: no errors`, problems.length === 0, problems.join("; "));
       await ctx.close();
     }
+
+    // After the decision: R1's edit case makes the approved merge ineligible, so its approval lapses.
+    const edit = readRun("R1").meta.edit_case;
+    for (const lang of ["en", "de"]) {
+      const where = `R1 ${lang} after the approval`;
+      const story = await replayStory("R1", lang, { after: [{ duty: edit.duty_id, field: edit.field, value: edit.value }] });
+      const pause = story.pauses.find((p) => p.kind === "option");
+      const choice = pause.choice;
+      const after = story.afterEdits;
+      const change = after.changes[0];
+      check(`${where}: in the engine the edit lapses the approval`, choice.decision === "approved" && JSON.stringify(change.lapsed) === JSON.stringify([choice.option_id]), JSON.stringify(change.lapsed));
+      const { page, ctx, problems } = await openApp(browser, server.base, { skipIntro: true, query: `?lang=${lang}&speed=1000`, viewport: { width: 1600, height: 1000 } });
+      await startRun(page, { run: "R1" });
+      await waitDecision(page);
+      await decide(page, { option: choice.option_id, code: choice.reason_code, comment: choice.comment });
+      await waitTone(page, "done");
+      await page.click("#btn-diagnostics");
+      const input = `.diag-modal #diag-assumptions tr[data-duty="${edit.duty_id}"][data-field="${edit.field}"] input`;
+      await page.waitForSelector(input, { timeout: 10000 });
+      await page.fill(input, String(edit.value));
+      await page.press(input, "Enter");
+      const message = [tr(lang, "diag.edited", { changed: formatCount(change.changed.length, lang), retired: formatCount(change.retired.length, lang) }), tr(lang, "diag.edited_lapsed", { options: choice.option_id })].join(" ");
+      await page.waitForFunction((m) => document.querySelector(".diag-modal #diag-assumptions .diag-msg")?.textContent === m, message, { timeout: 5000 })
+        .then(() => check(`${where}: Diagnostics reports the recomputation and the lapsed approval`, true), async () => check(`${where}: Diagnostics reports the recomputation and the lapsed approval`, false, `${await textOf(page, ".diag-modal #diag-assumptions .diag-msg")} vs ${message}`));
+      await page.keyboard.press("Escape");
+      await page.waitForSelector(".diag-modal", { state: "detached", timeout: 5000 });
+      await page.waitForTimeout(150);
+      const tiles = {
+        duties: plainText(await textOf(page, "#kpi-duties .kpi-value")), cost: plainText(await textOf(page, "#kpi-cost .kpi-value")),
+        repShare: plainText(await textOf(page, "#kpi-reporting .kpi-gauge")), repAtt: plainText(await textOf(page, "#kpi-reporting .kpi-bench .fact-ref")),
+        docShare: plainText(await textOf(page, "#kpi-documentation .kpi-gauge")), docAtt: plainText(await textOf(page, "#kpi-documentation .kpi-bench .fact-ref")),
+        pending: (await page.$("#kpi-cost .kpi-pending .fact-ref")) ? plainText(await textOf(page, "#kpi-cost .kpi-pending .fact-ref")) : null
+      };
+      for (const k of Object.keys(tiles)) check(`${where}: tile ${k} follows the edit`, tiles[k] === after.tiles[k], `${tiles[k]} vs ${after.tiles[k]}`);
+      check(`${where}: the relief tile counts the lapsed approval no more`, after.tiles.cost !== story.final.tiles.cost, `${after.tiles.cost} / ${story.final.tiles.cost}`);
+      // The console: the notice, then the closing report rewritten by the app (no AI label), the first one marked.
+      const notices = await page.$$eval('.log .entry[data-type="notice"]', (es) => es.map((e) => ({ tone: e.dataset.tone, text: e.textContent })));
+      check(`${where}: the console warns that the approval no longer applies`, notices.some((n) => n.tone === "warning" && plainText(n.text).endsWith(plainText(tr(lang, "notice.lapsed", { options: choice.option_id })))), JSON.stringify(notices));
+      const reports = await page.$$eval('.log .narration[data-kind="report"]', (ps) => ps.map((p) => ({ text: p.textContent, updated: p.dataset.updated === "true", superseded: p.dataset.superseded === "true", ai: Boolean(p.querySelector(".ai-chip")) })));
+      const last = reports.at(-1);
+      check(`${where}: the console ends with the rewritten closing report, the engines' after the edit`, reports.length === 2 && last.updated && plainText(last.text).endsWith(after.report) && plainText(last.text).includes(tr(lang, "console.report_updated")), `${JSON.stringify(reports.map((r) => plainText(r.text)))}\n  vs ${after.report}`);
+      check(`${where}: the rewritten report carries no AI label (no model wrote it); the first is marked superseded`, !last.ai && reports[0].ai && reports[0].superseded && !last.superseded);
+      // The dossier: the item stays, marked; the totals are the engines' after the edit.
+      await page.click("#tab-outbox");
+      check(`${where}: the dossier item is marked as no longer counted`, (await page.getAttribute(`#dossier-${choice.option_id}`, "data-lapsed")) === "true" && plainText(await textOf(page, `#dossier-${choice.option_id} .dossier-lapsed`)) === tr(lang, "outbox.lapsed"));
+      check(`${where}: the dossier's totals follow the edit`, plainText(await textOf(page, "#panel-outbox .dossier-totals")) === after.totals, `${plainText(await textOf(page, "#panel-outbox .dossier-totals"))} vs ${after.totals}`);
+      const [md] = await Promise.all([page.waitForEvent("download", { timeout: 10000 }), page.click("#export-dossier_md")]);
+      const mdText = await readFile(await md.path(), "utf8");
+      check(`${where}: the exported dossier marks the item and carries the totals after the edit`, mdText.includes(`*${tr(lang, "outbox.lapsed")}*`) && plainText(mdText).includes(after.totals));
+      // The target is open again: its options no longer say "Target decided".
+      await page.click("#tab-options");
+      const target = story.state.targets.get(pause.target);
+      const heads = await page.$$eval("#panel-options article.option-card", (cs) => cs.map((c) => ({ id: c.id.replace(/^option-/, ""), tag: c.querySelector(".option-head .vc-tag").textContent.trim() })));
+      check(`${where}: the target's options are open again, as in the engine`, target.decided === null && heads.length === target.option_ids.length && heads.every((x) => target.option_ids.includes(x.id) && x.tag !== tr(lang, "options.target_decided")), JSON.stringify(heads));
+      check(`${where}: the withdrawn merge is listed as ineligible`, (await page.$("#panel-options .ineligible")) !== null && plainText(await textOf(page, "#panel-options .ineligible")).includes(tr(lang, `option_type.${story.state.options.get(choice.option_id).type}`)));
+      check(`${where}: no errors`, problems.length === 0, problems.join("; "));
+      await ctx.close();
+    }
   });
 
   // ---------------------------------------------------------------------------------- keep
@@ -437,7 +529,8 @@ try {
   await section("other", "OTHER DECISION OK", async () => {
     const cases = [
       { lang: "en", run: "R1", choose: (req) => ({ option_id: req.option_ids.find((id) => id.endsWith("-register_retrieval")), decision: "approved", reason_code: "Z2", comment: "" }) },
-      { lang: "de", run: "R3", choose: (req) => ({ option_id: req.intended.option_id, decision: "rejected", reason_code: "A3", comment: "" }) }
+      { lang: "de", run: "R3", choose: (req) => ({ option_id: req.intended.option_id, decision: "rejected", reason_code: "A3", comment: "" }) },
+      { lang: "en", run: "R2", choose: (req) => ({ option_id: req.option_ids.find((id) => id.endsWith("-merge")), decision: "approved", reason_code: "Z1", comment: "" }) }
     ];
     for (const k of cases) {
       const where = `${k.run} ${k.lang}`;
@@ -448,9 +541,26 @@ try {
       check(`${where}: the decision differs from the recording's intention`, choice.option_id !== intent.option_id || choice.decision !== intent.decision);
       const { page, ctx, problems } = await openApp(browser, server.base, { skipIntro: true, query: `?lang=${k.lang}&speed=1000`, viewport: { width: 1600, height: 1000 } });
       await startRun(page, { run: k.run });
+      // A recorded cluster review first (R2's split), as the recording has it.
+      for (const review of story.pauses.filter((p) => p.kind === "review")) {
+        await waitReview(page);
+        const [confirmBtn, splitBtn] = await page.$$(`#cluster-${review.cluster_id} .cluster-actions button`);
+        await (review.action === "split" ? splitBtn : confirmBtn).click();
+      }
       await waitDecision(page);
       await decide(page, { option: choice.option_id, code: choice.reason_code, comment: choice.comment, button: choice.decision === "approved" ? "approve" : "reject" });
       await waitTone(page, "done");
+      check(`${where}: one decision request, as in the engines' replay`, story.pauses.filter((p) => p.kind === "option").length === 1);
+      // The narration after the decision is the engines' replay's, so nothing announces a request that never comes.
+      const narrated = await page.$$eval(".log .entry", (es) => { const i = es.findIndex((e) => e.dataset.type === "decision_recorded"); return es.slice(i + 1).filter((e) => e.querySelector('.narration[data-kind="narration"]')).length; });
+      const replayed = story.events.slice(story.events.findIndex((e) => e.type === "decision_recorded") + 1).filter((e) => e.type === "agent_text" && (e.payload.kind || "narration") === "narration").length;
+      check(`${where}: the console narrates after the decision what the engines' replay narrates`, narrated === replayed, `${narrated} vs ${replayed}`);
+      const announcing = readRun(k.run).events.find((e) => e.payload?.for_request);
+      if (announcing) {
+        const text = plainText(announcing.payload.input.message[k.lang].replace(/\{\{cite:[^}]+\}\}/g, " ")).split(" ").slice(0, 4).join(" ");
+        const log = plainText(await textOf(page, ".log"));
+        check(`${where}: the narration that announces the second request does not play`, !log.includes(text), text);
+      }
       const tiles = {
         duties: plainText(await textOf(page, "#kpi-duties .kpi-value")), cost: plainText(await textOf(page, "#kpi-cost .kpi-value")),
         repShare: plainText(await textOf(page, "#kpi-reporting .kpi-gauge")), repAtt: plainText(await textOf(page, "#kpi-reporting .kpi-bench .fact-ref")),
@@ -540,7 +650,9 @@ try {
         if (closed) await page.evaluate(() => document.querySelector(".drawer-toggle")?.click());
         await page.emulateMedia({ media: "print" });
         const where = `${lang} ${run}${closed ? " with the drawer closed" : " with the audit tab open"}`;
-        const shownSel = ["#print-dossier .outbox-title", "#print-dossier .dossier-totals", "#print-dossier .dossier-footnote", "#print-dossier .outbox-notice", ".brand-name", ".ai-disclosure", ".proto-disclosure"];
+        const meta = tr(lang, "outbox.meta", { run, mode: tr(lang, "mode.simulation"), app: `${APP.name} ${APP.version}`, date: "\u0000" }).split("\u0000")[0];
+        check(`${where}: the printed dossier says where it comes from: run, mode, version and time`, plainText(await textOf(page, "#print-dossier .dossier-meta-line")).startsWith(plainText(meta)) && /\d/.test((await textOf(page, "#print-dossier .dossier-meta-line")).slice(meta.length)), `${await textOf(page, "#print-dossier .dossier-meta-line")} vs ${meta}`);
+        const shownSel = ["#print-dossier .outbox-title", "#print-dossier .dossier-meta-line", "#print-dossier .dossier-totals", "#print-dossier .dossier-footnote", "#print-dossier .outbox-notice", ".brand-name", ".ai-disclosure", ".proto-disclosure"];
         if (story.final.items.length) shownSel.push("#print-dossier .dossier-item");
         if (story.final.kept.length) shownSel.push("#print-dossier .kept-item");
         for (const sel of shownSel) check(`${where}: ${sel} prints`, await page.isVisible(sel));

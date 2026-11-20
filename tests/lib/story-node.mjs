@@ -18,6 +18,7 @@ const { createRunState } = await import("../../js/state.js");
 const { replayRun } = await import("../../js/simulation.js");
 const { formatFactValue } = await import("../../js/engine/format.js");
 const { renderPlaceholders, citeText, factText } = await import("../../js/placeholders.js");
+const { buildClosingReport } = await import("../../js/report.js");
 await loadI18n(async (p) => new Response(readFileSync(path.join(APP_ROOT, p))));
 
 export { t, citeText };
@@ -115,10 +116,11 @@ export function evidence(state, data, dutyId) {
  * Replays run `runId` in `lang`. choose(req, state) returns the presenter's decision for an option
  * request ({ option_id, decision, reason_code, comment }); by default the recorded intention. A cluster
  * review takes the recorded action (Simulation allows no other). edits: [{ atPause, duty, field, value }]
- * applied before the decision of that pause, as an assumption edit in Diagnostics.
- * Returns { run, data, state, pauses, final, report, events }.
+ * applied before the decision of that pause, as an assumption edit in Diagnostics; after: the same,
+ * applied once the run has ended ({ duty, field, value }).
+ * Returns { run, data, state, pauses, final, report, events, afterEdits }.
  */
-export async function replayStory(runId, lang, { choose = intended, edits = [] } = {}) {
+export async function replayStory(runId, lang, { choose = intended, edits = [], after = [] } = {}) {
   const run = readRun(runId);
   const data = loadBundled(run.meta.norm_ids);
   const state = createRunState({ data, lang, runId, mode: "simulation" });
@@ -147,9 +149,18 @@ export async function replayStory(runId, lang, { choose = intended, edits = [] }
     }
   });
   const reportEv = events.find((e) => e.type === "agent_text" && e.payload.kind === "report");
+  const final = snapshot();
+  const changes = after.map((e) => state.editParam(e.duty, e.field, e.value));
   return {
-    run, data, state, pauses, events,
-    final: {
+    run, data, state, pauses, events, final,
+    report: reportEv ? plain(renderPlaceholders(reportEv.payload.text, { facts: state.facts, lang, data })) : null,
+    // The report the app rewrites once an edit lapses an approval, as the console shows it.
+    afterEdits: after.length ? { ...snapshot(), changes, report: plain(renderPlaceholders(buildClosingReport(state), { facts: state.facts, lang, data })) } : null
+  };
+
+  /** What the screen shows now: tiles, facts, the dossier with its totals and the kept duties. */
+  function snapshot() {
+    return {
       tiles: tiles(state, lang),
       facts: factsSnapshot(state, lang),
       details: factDetails(state, lang),
@@ -157,12 +168,11 @@ export async function replayStory(runId, lang, { choose = intended, edits = [] }
       kept: state.dossier.kept.map((x) => ({ duty_id: x.duty_id, reason_code: x.reason_code, comment: x.comment, uses: x.data_uses.map((u) => (lang === "de" ? u.user : u.user_en || u.user)) })),
       dossier: state.dossier.items.map((x) => {
         const o = state.options.get(x.option_id);
-        return { option_id: x.option_id, type: x.type, target: x.target, cites: x.paragraph_ids.map((p) => citeText(data, p)), net: shown(state, o.facts.net_delta, lang), wording: x.wording ? plain(renderPlaceholders(x.wording, { facts: state.facts, lang: "de", data })) : null };
+        return { option_id: x.option_id, type: x.type, target: x.target, lapsed: Boolean(x.lapsed), cites: x.paragraph_ids.map((p) => citeText(data, p)), net: shown(state, o.facts.net_delta, lang), wording: x.wording ? plain(renderPlaceholders(x.wording, { facts: state.facts, lang: "de", data })) : null };
       }),
       totals: plain(t("outbox.totals", { ea: shown(state, state.kpis().fact_ids.ea_addressed, lang), reporting: shown(state, state.kpis().fact_ids.reporting_share, lang), documentation: shown(state, state.kpis().fact_ids.documentation_share, lang) }, lang)),
       clusters: shown(state, state.kpis().fact_ids.clusters_found, lang),
       duties: shown(state, state.kpis().fact_ids.duties_confirmed, lang)
-    },
-    report: reportEv ? plain(renderPlaceholders(reportEv.payload.text, { facts: state.facts, lang, data })) : null
-  };
+    };
+  }
 }

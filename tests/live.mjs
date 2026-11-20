@@ -27,6 +27,7 @@ globalThis.location = { search: "" };
 const { bus } = await import("../js/events.js");
 const { loadI18n } = await import("../js/i18n.js");
 const { setKey, getKey } = await import("../js/keystore.js");
+const { setSovereignKey, getSovereignKey, forgetSovereignKey } = await import("../js/sovereign_key.js");
 const { createRunState } = await import("../js/state.js");
 const { createAuditLog } = await import("../js/audit.js");
 const { createLiveAgent } = await import("../js/agent.js");
@@ -211,7 +212,22 @@ if (want("sovereign")) {
   check("the run finishes after ui_report", r.result?.status === "done", JSON.stringify(r.result));
   check("no request went to api.anthropic.com in Sovereign mode", r.fake.requests.length === 0);
   check("the endpoint's usage is priced with its own euro prices", r.audit.events().filter((e) => e.event === "model_response").every((e) => Math.abs(e.cost_eur - (1200 * 0.5 + 300 * 1.5) / 1e6) < 1e-9));
-  end("SOVEREIGN OK", `${openai.requests.length} requests`);
+  // An endpoint that needs a key gets its own, from its own slot; the Anthropic key (set by liveRun)
+  // never travels to it, and a 401 from it forgets the endpoint's key, not Anthropic's.
+  const SOV_KEY = "sovereign-test-key-0123456789";
+  setSovereignKey(SOV_KEY);
+  const keyed = { ...sovereign, requires_key: true };
+  const openai2 = createFakeOpenAi([{ content: null, tool_calls: [call("call_1", "ui_report", { text: "Done for {{cite:beispielg-p20}}." })] }, { content: "Fertig." }]);
+  const r2 = await liveRun([], { mode: "sovereign", sovereign: keyed, openai: openai2 });
+  const auths = openai2.requests.map((x) => x.headers?.authorization || x.headers?.Authorization || null);
+  check("an endpoint that needs a key receives the Sovereign key as a bearer token", auths.length > 0 && auths.every((a) => a === `Bearer ${SOV_KEY}`), JSON.stringify(auths));
+  check("the Anthropic key never reaches the endpoint", openai2.requests.every((x) => !JSON.stringify(x).includes(KEY)) && getKey() === KEY);
+  check("the two keys keep separate slots", sessionStorage.getItem("dr.sovereign.key") === SOV_KEY && sessionStorage.getItem("dr.anthropic.key") === KEY);
+  const rejecting = { handle: () => ({ status: 401, body: JSON.stringify({ error: { message: "bad key" } }) }), requests: [], violations: [] };
+  await liveRun([], { mode: "sovereign", sovereign: keyed, openai: rejecting });
+  check("a 401 from the endpoint forgets the endpoint's key and keeps the Anthropic key", getSovereignKey() === null && getKey() === KEY, `${getSovereignKey()} / ${getKey() ? "anthropic kept" : "anthropic gone"}`);
+  forgetSovereignKey();
+  end("SOVEREIGN OK", `${openai.requests.length + openai2.requests.length} requests`);
 }
 
 console.log(failed ? `${failed} of ${checks} checks failed.` : `All ${checks} checks passed.`);

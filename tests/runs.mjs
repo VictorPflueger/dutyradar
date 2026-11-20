@@ -16,11 +16,12 @@ globalThis.sessionStorage = memoryStorage();
 globalThis.localStorage = memoryStorage();
 globalThis.location = { search: "" };
 
-const { loadI18n } = await import("../js/i18n.js");
+const { loadI18n, t } = await import("../js/i18n.js");
 const { createRunState } = await import("../js/state.js");
 const { replayRun } = await import("../js/simulation.js");
 const { checkRun } = await import("../js/run_check.js");
 const { renderPlaceholders } = await import("../js/placeholders.js");
+const { buildClosingReport } = await import("../js/report.js");
 await loadI18n(async (p) => new Response(readFileSync(path.join(ROOT, p))));
 
 const ONLY = process.argv.slice(2);
@@ -88,7 +89,22 @@ if (want("checker")) {
     const problems = checkRun(broken, { data });
     check(`the checker fails on ${what}`, problems.length > 0, "no problem reported");
   }
-  end("CHECKER CONTROLS OK", `${Object.keys(breakers).length} faults`);
+  // R2's narration that announces the keep request carries the request's target (for_request).
+  const r2 = readRun("R2");
+  const r2data = dataFor(r2);
+  check("R2 passes the checker as it is (the control)", checkRun(r2, { data: r2data }).length === 0, checkRun(r2, { data: r2data }).join("; "));
+  const announcing = (r) => r.events.find((e) => e.payload?.tool === "ui_progress" && e.payload.for_request);
+  check("R2 marks the narration that announces its second decision request", announcing(r2)?.payload.for_request === "C-001-a" && announcing(r2).payload.input.step === "decide");
+  const r2breakers = {
+    "narration after a decision that announces a request without for_request": (r) => { delete announcing(r).payload.for_request; },
+    "for_request naming another target than the next request's": (r) => { announcing(r).payload.for_request = "C-046"; }
+  };
+  for (const [what, breakIt] of Object.entries(r2breakers)) {
+    const broken = clone(r2);
+    breakIt(broken);
+    check(`the checker fails on ${what}`, checkRun(broken, { data: r2data }).length > 0, "no problem reported");
+  }
+  end("CHECKER CONTROLS OK", `${Object.keys(breakers).length + Object.keys(r2breakers).length} faults`);
 }
 
 // ---- AC-36 ----------------------------------------------------------------------------------------
@@ -101,15 +117,29 @@ if (want("facts")) {
   const kb = keysOf(b.state);
   check("two replays produce the same facts with the same ids", JSON.stringify(ka) === JSON.stringify(kb) && Object.keys(ka).length > 0, `${Object.keys(ka).length} vs ${Object.keys(kb).length}`);
   for (const [id, key] of Object.entries(a.run.facts)) check(`recorded ${id} is bound to ${key}`, ka[id] === key, ka[id]);
-  // An assumption edit that makes an option ineligible: the duty becomes yearly, so lowering its
-  // frequency no longer applies (the ladder's next step below 1 does not exist).
+  // An assumption edit that makes an option ineligible: the second member of C-046 is set to report
+  // quarterly, so the two members no longer share a frequency and the merge no longer applies.
   const target = a.run.meta.edit_case;
   check("R1 names an edit case for this test", Boolean(target?.duty_id && target.field && target.value !== undefined));
   const before = keysOf(a.state);
+  const eaApproved = a.state.kpis().ea_addressed_eur;
   const change = a.state.editParam(target.duty_id, target.field, target.value);
   check("the edit recomputes facts and options and reports parameter_changed", change?.event === "parameter_changed" && change.retired.length > 0, JSON.stringify(change));
   const after = keysOf(a.state);
   check("every fact id keeps its key after the edit", Object.entries(before).every(([id, key]) => after[id] === key));
+  // The merge was approved (R1's intention): the edit withdraws it, so its approval lapses.
+  const k = a.state.kpis();
+  const item = a.state.dossier.items.find((x) => x.option_id === "O-C-046-merge");
+  check("the edit reports the approval it lapsed", JSON.stringify(change.lapsed) === JSON.stringify(["O-C-046-merge"]), JSON.stringify(change.lapsed));
+  check("a lapsed approval counts no more: no compliance cost addressed, no duty removed", k.ea_addressed_eur === 0 && k.coverage.reporting.removed === 0 && k.coverage.documentation.removed === 0, JSON.stringify({ ea: k.ea_addressed_eur, rep: k.coverage.reporting.removed }));
+  check("the dossier keeps the item, marked as lapsed", item?.lapsed === true);
+  const tg = a.state.targets.get("C-046");
+  check("its target is open again: the other options can be decided", tg.decided === null && tg.option_ids.every((id) => !a.state.options.get(id).target_decided) && tg.option_ids.every((id) => ["proposed", "under_review"].includes(a.state.options.get(id).status)), JSON.stringify(tg));
+  check("every target the merge decided is open again, its members' included", [...a.state.targets.values()].every((x) => x.decided !== "O-C-046-merge"));
+  check("the edit drafts no options for a member whose own options were never drafted", [...a.state.options.keys()].every((id) => !id.startsWith("O-D-hdldlstatg-p11-1") && !id.startsWith("O-D-prodgewstatg-p9-1")), [...a.state.options.keys()].filter((id) => id.startsWith("O-D-")).join());
+  const report = buildClosingReport(a.state);
+  const approvedLine = t("report.approved", {}, "en").split("{")[0];
+  check("a closing report written now names the lapsed approval and no approved relief", report.includes(t("report.lapsed", { options: "O-C-046-merge" }, "en")) && !report.includes(approvedLine) && !report.includes(t("report.none", {}, "en")), report);
   const retired = a.state.facts.get(change.retired[0]);
   check("a retired fact keeps its id and has no value", retired?.retired === true && retired.value === null);
   const en = renderPlaceholders(`{{fact:${change.retired[0]}}}`, { facts: a.state.facts, lang: "en", data: a.data, format: "text" });
@@ -120,6 +150,12 @@ if (want("facts")) {
   const kc = keysOf(c.state);
   check("a replay after the edit binds the recorded ids to the same keys", Object.entries(c.run.facts).every(([id, key]) => !kc[id] || kc[id] === key));
   check("facts the edited replay no longer produces render as no longer applies", Object.keys(c.run.facts).filter((id) => !kc[id] || c.state.facts.get(id)?.retired).every((id) => renderPlaceholders(`{{fact:${id}}}`, { facts: c.state.facts, lang: "en", data: c.data, format: "text" }) === "no longer applies"));
+  // The same edit undone: the merge applies again, as a proposal; the lapsed approval does not return by itself.
+  const back = a.state.editParam(target.duty_id, target.field, change.previous);
+  check("undoing the edit brings the merge back as a proposal, not as an approval", a.state.options.get("O-C-046-merge").status === "proposed" && a.state.kpis().ea_addressed_eur === 0 && back.lapsed.length === 0, a.state.options.get("O-C-046-merge").status);
+  const again = a.state.decide({ option_id: "O-C-046-merge", decision: "approved", reason_code: "Z1", comment: "" });
+  const items = a.state.dossier.items.filter((x) => x.option_id === "O-C-046-merge");
+  check("approving it again replaces the lapsed item: one item, counted, the figures of the new approval", again.decision === "approved" && items.length === 1 && !items[0].lapsed && eaApproved !== 0 && a.state.kpis().ea_addressed_eur === eaApproved, JSON.stringify({ items: items.length, ea: a.state.kpis().ea_addressed_eur, eaApproved }));
   end("FACT BINDING OK", `${Object.keys(ka).length} facts`);
 }
 
@@ -159,7 +195,14 @@ if (want("replay")) {
   check("then the dossier holds no relief item and the KPIs stay at zero", other.state.dossier.items.length === 0 && other.state.kpis().ea_addressed_eur === 0);
   const report = renderPlaceholders(other.state.report.text, { facts: other.state.facts, lang: "en", data: other.data, format: "text" });
   check("and the closing report says nothing was approved", /no relief option was approved/i.test(report), report);
+  // R2 with the merge approved at its first request: the target is decided, so neither the keep
+  // request nor the narration that announces it plays.
+  const merged = await replay("R2", { decide: (req, state) => state.decide({ option_id: req.option_ids.find((o) => o.endsWith("-merge")), decision: "approved", reason_code: "Z1", comment: "" }) });
+  const after = merged.events.slice(merged.events.findIndex((e) => e.type === "decision_recorded") + 1);
+  check("R2 with the merge approved ends after one decision", merged.result?.status === "done" && merged.state.decisions.length === 1 && merged.state.dossier.items.map((x) => x.option_id).join() === "O-C-001-a-merge", JSON.stringify(merged.state.decisions));
+  check("and no narration announces the keep request after it", !after.some((e) => e.type === "agent_text" && e.payload.step === "decide") && !after.some((e) => e.type === "decision_requested"), after.filter((e) => e.type === "agent_text").map((e) => e.payload.text).join(" | "));
   const r2 = await replay("R2");
+  check("R2 with its intended rejection still announces the keep request", r2.events.some((e) => e.type === "agent_text" && e.payload.step === "decide" && /keeping the registrations/.test(e.payload.text)));
   check("R2 records the split, a blocked figure, the rejection and the duty kept with A1",
     r2.events.some((e) => e.type === "cluster_split") && r2.events.some((e) => e.type === "audit_failed") && r2.state.decisions.some((d) => d.decision === "rejected") && r2.state.dossier.kept.some((x) => x.reason_code === "A1") && r2.state.dossier.items.length === 0);
   end("REPLAY OK", `${RUNS.length} runs × 2 languages`);

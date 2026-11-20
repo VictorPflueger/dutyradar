@@ -62,8 +62,10 @@ export function createConsole(root, { ctx, onOpen }) {
             h("p", { class: "reasoning-text", lang: textLang }, text)));
           break;
         }
-        body.append(h("p", { class: "narration", dataset: { kind }, lang: textLang }, ai(), " ", tag(textLang), " ",
-          kind === "report" ? h("strong", {}, `${t("console.report")} `) : null,
+        // A report the app rewrote after an assumption edit carries no AI label: no model wrote it.
+        const updated = kind === "report" && ev.payload.updated === true;
+        body.append(h("p", { class: "narration", dataset: updated ? { kind, updated: "true" } : { kind }, lang: textLang }, updated ? null : [ai(), " "], tag(textLang), " ",
+          kind === "report" ? h("strong", {}, `${t(updated ? "console.report_updated" : "console.report")} `) : null,
           richText(text, { ...c, lang: textLang })));
         break;
       }
@@ -130,6 +132,13 @@ export function createConsole(root, { ctx, onOpen }) {
     }
     const entry = line(ev);
     if (!entry) return;
+    // A newer closing report supersedes the earlier ones; they stay in the log, marked.
+    if (ev.type === "agent_text" && ev.payload?.kind === "report") {
+      for (const p of root.querySelectorAll('.narration[data-kind="report"]:not([data-superseded])')) {
+        p.dataset.superseded = "true";
+        p.querySelector("strong")?.after(h("span", { class: "vc-tag vc-tag--sm superseded-tag" }, t("console.superseded")), " ");
+      }
+    }
     if (ev.type === "tool_call") byCall.set(ev.payload.tool_use_id, entry);
     root.querySelector(".log-empty")?.remove();
     root.append(entry);

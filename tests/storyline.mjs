@@ -1,7 +1,7 @@
 // Storyline suite (browser): the eight-minute storyline as the audience sees it (DEMO_SCRIPT.md), in
 // English and in German, with every figure the test expects worked out by the engines in Node from the
 // same recording and the same decisions (tests/lib/story-node.mjs). AC-17 and AC-18.
-//   R1  the pitch run: the intro asks the question and both gauges stand at 0 % with the note "Slice
+//   R1  the full slice: the intro asks the question and both gauges stand at 0 % with the note "Slice
 //       only, not the national target"; Start agent opens the mode dialog and the run is labelled
 //       SIMULATION throughout; every role of the team takes its turn, the duty map fills and the duties
 //       tile counts up; a cell opens a duty card with the highlighted trigger phrase, the § link and the
@@ -124,6 +124,7 @@ async function r1Story(browser, server, lang) {
   check(`${where}: the duty card highlights the trigger phrase`, (await txt(page, `${card} mark.trigger`)) === plain(ev.phrase), `${await txt(page, `${card} mark.trigger`)} vs ${ev.phrase}`);
   check(`${where}: the duty card links the paragraph`, (await page.getAttribute(`${card} .duty-cite a`, "href")) === ev.href && (await txt(page, `${card} .duty-cite a`)) === plain(ev.cite));
   check(`${where}: the duty card says the text is not the official version`, (await txt(page, `${card} .cite-notice`)) === t("cite.notice", {}, lang));
+  check(`${where}: the duty card's rationale is marked as model text in the run's language`, (await page.$(`${card} .duty-rationale .ai-chip`)) !== null && (await page.getAttribute(`${card} .duty-rationale .rationale-text`, "lang")) === lang && (await txt(page, `${card} .duty-rationale .lang-tag`)) === lang.toUpperCase());
   // ---- 3:00 Duplicate: the board leads with the top cluster.
   await page.click(`.centre-tab[data-view="duplicates"]`);
   const top = pause.before.top;

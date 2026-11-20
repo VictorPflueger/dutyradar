@@ -48,8 +48,12 @@ export function renderDutyCard(d, run) {
     h("p", { class: "duty-cite" }, para?.html_url ? h("a", { href: para.html_url, target: "_blank", rel: "noopener noreferrer" }, citeText(data, d.paragraph_id), " ", icon("external", 14)) : citeText(data, d.paragraph_id)),
     h("p", { class: "cite-notice" }, icon("info", 14), t("cite.notice")),
     h("dl", { class: "duty-facts" }, rows.flatMap(([k, v]) => [h("dt", {}, k), h("dd", {}, v)])),
+    // The rationale is model text: the AI label, and the language it was written in (the run's), as in
+    // the console; it keeps that language when the page switches.
     h("p", { class: "duty-rationale" }, h("span", { class: "ai-chip" }, t("console.ai")), " ",
-      blocked("rationale") ? t("audit.text_blocked") : d.classification?.rationale || "–"),
+      blocked("rationale") || !d.classification?.rationale
+        ? (blocked("rationale") ? t("audit.text_blocked") : "–")
+        : [h("span", { class: "vc-tag vc-tag--sm lang-tag", title: t(`lang.${state.lang}_name`) }, state.lang.toUpperCase()), " ", h("span", { class: "rationale-text", lang: state.lang }, d.classification.rationale)]),
     (d.warnings || []).length ? h("p", { class: "vc-tag vc-tag--warning vc-tag--sm" }, d.warnings.map((w) => t(`warning.${w}`)).join(" · ")) : null,
     signals.length ? h("p", { class: "duty-signals" }, t("dutycard.signals", { count: formatCount(signals.length, l), ids: signals.join(", ") })) : null,
     h("p", { class: "duty-provenance" }, t("dutycard.provenance", { tool: d.provenance?.tool || "–", run: d.provenance?.run_id || "–", method: d.classification?.model ? d.classification.model : t("dutycard.recorded") })));

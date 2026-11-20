@@ -65,7 +65,8 @@
   "duty_count": "Change in the number of duties:",
   "one_off": "One-off implementation cost:",
   "keep_basis": "Justification basis",
-  "uses": "Known data uses: {n}",
+  "uses": "Known data uses: {uses}",
+  "uses_none": "none",
   "no_eu": "No EU basis",
   "no_standard": "No protected standard",
   "draft_title": "Draft wording in German, as it amends German law",
@@ -76,10 +77,10 @@
   "reason": "Reason code",
   "reason_choose": "Choose a code",
   "codes_approve": "To approve",
-  "codes_reject": "To reject, or to keep a duty",
+  "codes_reject": "To reject; to keep a duty, all but A5",
   "codes_info": "To ask for information",
   "comment": "Comment",
-  "comment_help": "Required for Z5 and A6; at most 500 characters.",
+  "comment_help": "Needed for Z5 and A6; up to 500 characters.",
   "no_request": "The agent is not asking for a decision on these options right now."
  },
  "audit": {
@@ -141,7 +142,8 @@
   "export_none": "The exports are available once a run has started.",
   "meta": "Run {run} · {mode} · {app} · {date}",
   "totals": "Compliance cost addressed: {ea} per year; reporting duties in the slice: {reporting}; documentation duties in the slice: {documentation}",
-  "footnote": "Figures from Duty Radar's engines on the bundled data; assumptions are marked in the app. Draft wording is a proposal, not law in force."
+  "footnote": "Figures from Duty Radar's engines on the bundled data; assumptions are marked in the app. Draft wording is a proposal, not law in force.",
+  "lapsed": "No longer counted: an assumption edit withdrew this option."
  },
  "badge": {
   "assumption": "Assumption",
@@ -294,10 +296,10 @@
  },
  "run": {
   "handwritten": "hand-authored",
-  "R1": "R1 Pitch run",
+  "R1": "R1 Full slice",
   "R2": "R2 Rejection path",
   "R3": "R3 Single norm",
-  "R1_desc": "Full slice: inventory, clusters, options for the top cluster, one decision, dossier.",
+  "R1_desc": "Full slice: inventory, clusters, options for the cluster with the most relief in view, one decision, dossier.",
   "R2_desc": "A cluster is split, an unsourced figure blocked, a proposal rejected and the duty kept with its justification.",
   "R3_desc": "One norm end to end, with the same tool sequence as a live run."
  },
@@ -547,6 +549,8 @@
    "error": "Run ended with an error.",
    "incomplete": "Run ended incomplete."
   },
+  "report_updated": "Closing report, rewritten after the assumption edit:",
+  "superseded": "superseded",
   "open": "Console",
   "close": "Close the console"
  },
@@ -585,6 +589,8 @@
   "policy": "Network & security policy",
   "policy_text": "The page loads only its own files. In Live mode it talks only to api.anthropic.com, in Sovereign mode only to the configured endpoint.",
   "csp": "This page's policy",
+  "csp_ok": "Checked: it is the specification's policy for this configuration.",
+  "csp_differs": "Checked: it differs from the specification's policy, which reads: {policy}",
   "model": "Model & caps",
   "caps": "At most {calls} model calls and {eur} per run",
   "fx": "Exchange rate (assumption)",
@@ -646,7 +652,8 @@
   "fig_minutes": "Minutes per review decision (median)",
   "fig_minutes_value": "{minutes} min",
   "fig_acceptance": "Acceptance rate of relief options",
-  "fig_note": "Aggregated over the run, never per person."
+  "fig_note": "Aggregated over the run, never per person.",
+  "edited_lapsed": "The approval of {options} no longer applies; its target is open again."
  },
  "table": {
   "show": "Figures as a table"
@@ -659,12 +666,13 @@
  },
  "report": {
   "inventory": "Duty Radar inventoried {duties} duties in this slice and found {clusters} clusters of duplicate data requests.",
-  "approved": "The reviewer approved relief of {ea} in compliance cost per year; in the slice this removes {reporting} of the reporting duties and {documentation} of the documentation duties.",
+  "approved": "The reviewer approved relief that changes compliance cost by {ea} per year; in the slice this removes {reporting} of the reporting duties and {documentation} of the documentation duties.",
   "none": "No relief option was approved in this run.",
   "kept": "Kept duties are listed in the dossier with their justification.",
   "capped_calls": "The run reached its limit of model calls; open items stay open.",
   "capped_cost": "The run reached its cost limit; open items stay open.",
-  "close": "Nothing is sent."
+  "close": "Nothing is sent.",
+  "lapsed": "An assumption edit withdrew {options}; its approval lapsed and no longer counts."
  },
  "error": {
   "decision": {
@@ -699,7 +707,8 @@
   "model_unavailable": "This model is not available to the API key. Please choose another.",
   "bad_request": "The API refused the request (400): {message}",
   "network": "The API cannot be reached from this browser: {message}",
-  "busy": "The API is busy right now, even after two retries. Try again later or use the Simulation."
+  "busy": "The API is busy right now, even after two retries. Try again later or use the Simulation.",
+  "lapsed": "After the assumption edit the approval of {options} no longer applies; the tiles, the dossier and its totals follow the edit."
  },
  "decision": {
   "approved": "approved",
@@ -759,7 +768,8 @@
   "ui_report": "Closing report shown.",
   "ui_request_decision": "{target}: {decision} ({reason}).",
   "ui_request_review": "{cluster}: {action}.",
-  "error": "Error ({code})."
+  "error": "Error ({code}).",
+  "law_search_hidden": "{matches} matches; the query holds a number and is not shown."
  },
  "dutycard": {
   "panel": "Duty cards: {norm}, {type}",

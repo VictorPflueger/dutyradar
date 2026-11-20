@@ -11,6 +11,13 @@ import { icon } from "./icons.js";
 import { t, lang } from "./i18n.js";
 import { citeText, factText, renderPlaceholders } from "./placeholders.js";
 import { factButton, richText } from "./rich.js";
+import { APP } from "./config.js";
+
+/** The dossier's provenance: the run, its mode, the app's version and the time (exports and print). */
+export function dossierMeta(run) {
+  const l = lang();
+  return t("outbox.meta", { run: run.runId, mode: t(`mode.${run.mode}`), app: `${APP.name} ${APP.version}`, date: new Date().toLocaleString(l === "de" ? "de-DE" : "en-GB") });
+}
 
 const EXPORTS = [["dossier_md", "outbox.export_md"], ["dossier_html", "outbox.export_html"], ["audit", "outbox.export_audit"], ["duties", "outbox.export_csv"]];
 
@@ -23,6 +30,8 @@ export function renderOutbox(panel, run, { onExport, forPrint = false }) {
   const l = lang();
   const id = (value) => (forPrint ? null : value);
   panel.append(h("h3", { class: "outbox-title" }, t("outbox.title")));
+  // On paper the dossier says where it comes from, as the exports do.
+  if (forPrint && run) panel.append(h("p", { class: "dossier-meta-line" }, dossierMeta(run)));
   const ctx = run ? { state: run.state, data: run.data, lang: l } : null;
   // A figure on screen opens its source; on paper it is the figure.
   const figure = (factId) => (forPrint ? h("span", { class: "fact-print" }, factText(run.state.facts, factId, l)) : factButton(factId, ctx, l));
@@ -43,8 +52,9 @@ export function renderOutbox(panel, run, { onExport, forPrint = false }) {
     panel.append(h("ol", { class: "dossier-items" }, items.map((x) => {
       const o = run.state.options.get(x.option_id);
       const by = ["wirtschaft", "verwaltung", "buerger"].filter((a) => o?.facts?.[`${a}_delta`]);
-      return h("li", { class: "vc-card dossier-item", id: id(`dossier-${x.option_id}`), dataset: { type: x.type, option: x.option_id } },
+      return h("li", { class: "vc-card dossier-item", id: id(`dossier-${x.option_id}`), dataset: { type: x.type, option: x.option_id, lapsed: String(Boolean(x.lapsed)) } },
         h("p", { class: "dossier-head" }, h("strong", {}, t(`option_type.${x.type}`)), ` · ${x.target}`),
+        x.lapsed ? h("p", { class: "vc-tag vc-tag--warning vc-tag--sm dossier-lapsed" }, t("outbox.lapsed")) : null,
         h("p", { class: "dossier-delta" }, t("options.delta"), " ", figure(o.facts.net_delta), ` ${t("options.per_year")}`,
           by.length ? h("span", { class: "dossier-by" }, " (", by.map((a, i) => [i ? " · " : "", `${t(`addressee.${a}`)} `, figure(o.facts[`${a}_delta`])]), ")") : null),
         o.facts.one_off ? h("p", {}, t("options.one_off"), " ", figure(o.facts.one_off)) : null,

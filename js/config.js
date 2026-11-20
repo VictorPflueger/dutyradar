@@ -78,6 +78,7 @@ export const FX_USD_EUR = 0.894;
 const P = `${APP.id}.`;
 export const STORAGE = {
   apiKey: `${P}anthropic.key`,          // sessionStorage: this tab only
+  sovereignKey: `${P}sovereign.key`,    // sessionStorage: the Sovereign endpoint's own key, never the Anthropic one
   lang: `${P}lang`,                     // localStorage: the chosen language
   introSeen: `${P}introSeen`,           // localStorage: the intro opens by itself only on a first visit
   consoleText: `${P}consoleText`,       // localStorage: larger console text for projectors

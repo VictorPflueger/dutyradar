@@ -9,7 +9,8 @@
 // is cut on purpose.
 // Section small (AC-27), at 360 × 740 and 820 × 1000 in both languages: the views are one select menu
 // (Duty map, Duplicates, Options & review, Outbox, Audit) that switches the centrepiece and opens the
-// drawer's panels; the console is a drawer opened from a Console button (Escape closes it and gives the
+// drawer's panels; the console is a modal drawer opened from a Console button (the focus stays inside
+// it, the rest of the page is inert; Escape closes it and gives the
 // focus back); the four tiles sit two by two; nothing scrolls sideways, idle, in a run waiting for its
 // decision, with the console open and in every view; a screenshot of each state in light and dark.
 // Usage: node tests/layout.mjs [wide] [small]
@@ -17,7 +18,7 @@ import path from "node:path";
 import { statSync } from "node:fs";
 import { APP_ROOT, ONLY, launchBrowser, outDir, serveStatic } from "./lib/harness.mjs";
 import { openApp } from "./lib/page.mjs";
-import { startRun, waitDecision } from "./lib/run-page.mjs";
+import { startRun, waitDecision, decide, waitTone } from "./lib/run-page.mjs";
 import { readFileSync } from "node:fs";
 const EN = JSON.parse(readFileSync(path.join(APP_ROOT, "js/i18n/en.json"), "utf8"));
 const DE = JSON.parse(readFileSync(path.join(APP_ROOT, "js/i18n/de.json"), "utf8"));
@@ -129,12 +130,15 @@ try {
         check(`${rwhere}: no sideways scrolling`, await run.page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         const rcut = await run.page.evaluate(cutText);
         check(`${rwhere}: no text cut to an ellipsis`, rcut.length === 0, rcut.join("; "));
-        const rboxes = await run.page.evaluate(() => Object.fromEntries(["header", "#controls", ".map-panel", "#console", ".drawer-tabs", "#btn-approve"].map((sel) => {
+        const rboxes = await run.page.evaluate(() => Object.fromEntries(["header", "#controls", ".map-panel", "#console", ".drawer-tabs", "#btn-approve", "#btn-reject", "#btn-info"].map((sel) => {
           const r = document.querySelector(sel)?.getBoundingClientRect();
           return [sel, r ? { top: r.top, bottom: r.bottom, left: r.left, right: r.right, height: r.height } : null];
         })));
         for (const [sel, r] of Object.entries(rboxes)) check(`${rwhere}: ${sel} on screen`, r && r.height > 0 && r.top >= 0 && r.bottom <= height + 1 && r.left >= 0 && r.right <= width + 1, JSON.stringify(r));
         check(`${rwhere}: the control bar keeps one row`, (await run.page.evaluate(() => document.querySelector("#controls").getBoundingClientRect().height)) <= 72);
+        // Beside the decision the console keeps its log in view: at least two lines of entries.
+        const logView = await run.page.evaluate(() => { const l = document.querySelector("#console .log"); const s = getComputedStyle(l); return { content: l.clientHeight - parseFloat(s.paddingTop) - parseFloat(s.paddingBottom), line: parseFloat(getComputedStyle(l.querySelector(".entry-body p") || l).lineHeight) || 20 }; });
+        check(`${rwhere}: the console log shows at least two lines beside the open drawer`, logView.content >= 2 * logView.line, JSON.stringify(logView));
         if (lang === "en") {
           const ink = await run.page.evaluate(inkContrast);
           for (const [step, ratio] of Object.entries(ink)) check(`${rwhere}: ink step ${step} keeps its count at 4.5:1`, ratio >= 4.5, ratio.toFixed(2));
@@ -163,8 +167,14 @@ try {
   if (want("small")) {
     const before = failed;
     const VIEWS = ["dutymap", "duplicates", "options", "outbox", "audit"];
-    const sideways = (page) => page.evaluate(() => ({ doc: document.documentElement.scrollWidth, vw: innerWidth, wide: [...document.querySelectorAll("body *")].filter((e) => { if (!e.getClientRects().length) return false; const r = e.getBoundingClientRect(); return r.width > 0 && r.right > innerWidth + 1 && !e.closest(".vc-visually-hidden, .map-wrap, .slice-table-wrap, .diag-scroll, .audit-scroll, dialog"); }).slice(0, 5).map((e) => `${e.tagName.toLowerCase()}${e.id ? `#${e.id}` : ""}.${String(e.className).split(" ")[0]} ${Math.round(e.getBoundingClientRect().right)}`) }));
-    const noSideways = async (page, where) => { const r = await sideways(page); check(`${where}: nothing scrolls sideways`, r.doc <= r.vw && r.wide.length === 0, JSON.stringify(r)); };
+    // Nothing reaches past the window's right edge (the duty map, the slice table, Diagnostics and the
+    // audit table included), and no scroll region scrolls sideways inside it.
+    const sideways = (page) => page.evaluate(() => ({
+      doc: document.documentElement.scrollWidth, vw: innerWidth,
+      wide: [...document.querySelectorAll("body *")].filter((e) => { if (!e.getClientRects().length) return false; const r = e.getBoundingClientRect(); return r.width > 0 && r.right > innerWidth + 1 && !e.closest(".vc-visually-hidden"); }).slice(0, 5).map((e) => `${e.tagName.toLowerCase()}${e.id ? `#${e.id}` : ""}.${String(e.className).split(" ")[0]} ${Math.round(e.getBoundingClientRect().right)}`),
+      scrolls: [...document.querySelectorAll(".map-wrap, .slice-table-wrap, .diag-scroll, .audit-scroll, .audit-wrap, .log, .drawer-panel")].filter((e) => e.getClientRects().length && e.scrollWidth > e.clientWidth + 1).map((e) => `${e.className.split(" ")[0]} ${e.scrollWidth}/${e.clientWidth}`)
+    }));
+    const noSideways = async (page, where) => { const r = await sideways(page); check(`${where}: nothing scrolls sideways`, r.doc <= r.vw && r.wide.length === 0 && r.scrolls.length === 0, JSON.stringify(r)); };
     const shot = async (page, name) => { const file = path.join(OUT, `small-${name}.png`); await page.screenshot({ path: file, fullPage: false }); if (statSync(file, { throwIfNoEntry: false })?.size > 0) smallShots.push(file); };
     for (const [width, height] of [[360, 740], [820, 1000]]) {
       for (const theme of width === 360 ? ["light", "dark"] : ["light"]) {
@@ -213,14 +223,32 @@ try {
           check(`${where}: the console drawer fits the screen`, box && box.x >= 0 && box.x + box.width <= width + 1 && box.height > height / 2, JSON.stringify(box));
           await noSideways(page, `${where} console open`);
           if (width === 360 && lang === "en") await shot(page, `console-${theme}`);
+          // A modal drawer: a dialog, the page behind it inert, the focus kept inside both ways.
+          check(`${where}: the open console is a modal dialog`, (await page.getAttribute("#console", "role")) === "dialog" && (await page.getAttribute("#console", "aria-modal")) === "true");
+          check(`${where}: the page behind the console is inert`, await page.evaluate(() => [".app-header", "#controls", ".map-panel", "#drawer", ".skip-link"].every((s) => document.querySelector(s)?.inert === true)));
+          const escaped = [];
+          for (const key of [...Array(14).fill("Tab"), ...Array(14).fill("Shift+Tab")]) {
+            await page.keyboard.press(key);
+            const inside = await page.evaluate(() => Boolean(document.activeElement?.closest("#console")));
+            if (!inside) escaped.push(`${key} → ${await page.evaluate(() => `${document.activeElement?.tagName}#${document.activeElement?.id}.${document.activeElement?.className}`)}`);
+          }
+          check(`${where}: Tab and Shift+Tab keep the focus in the console`, escaped.length === 0, escaped.slice(0, 3).join("; "));
           await page.keyboard.press("Escape");
           await page.waitForTimeout(150);
           check(`${where}: Escape closes the console`, !(await page.isVisible("#console")) && (await page.getAttribute("#btn-console", "aria-expanded")) === "false");
           check(`${where}: the focus goes back to the Console button`, await page.evaluate(() => document.activeElement?.id === "btn-console"));
+          check(`${where}: closed, the console is no dialog and the page is live again`, (await page.getAttribute("#console", "role")) === null && await page.evaluate(() => [".app-header", "#controls", ".map-panel", "#drawer"].every((s) => document.querySelector(s)?.inert === false)));
           // The console's close button.
           await page.click("#btn-console");
           await page.click("#console .console-close");
           check(`${where}: the console's close button closes it`, !(await page.isVisible("#console")));
+          // With relief approved the largest figures stand in the tiles: every text stays inside its tile.
+          await page.selectOption("#view-select", "options");
+          await decide(page, { option: "O-C-046-merge", code: "Z1" });
+          await waitTone(page, "done");
+          const spill = await page.evaluate(() => [...document.querySelectorAll("#kpis .kpi *")].filter((e) => e.children.length === 0 && e.textContent.trim() && e.getClientRects().length).filter((e) => { const tile = e.closest(".kpi").getBoundingClientRect(); const r = e.getBoundingClientRect(); return e.scrollWidth > e.clientWidth + 1 || r.right > tile.right + 1 || r.left < tile.left - 1; }).map((e) => `"${e.textContent.trim()}" ${Math.round(e.getBoundingClientRect().right)}`));
+          check(`${where}: every label and figure stays inside its tile`, spill.length === 0, spill.join("; "));
+          if (width === 360 && lang === "de") { await page.evaluate(() => { document.activeElement?.blur(); scrollTo(0, 0); document.querySelector("#kpis").scrollIntoView({ block: "start" }); }); await shot(page, `tiles-${theme}`); }
           // Diagnostics fits too.
           await page.click("#btn-diagnostics");
           await page.waitForSelector(".diag-modal", { timeout: 5000 });
@@ -235,9 +263,17 @@ try {
     {
       const { page, ctx } = await openApp(browser, server.base, { viewport: { width: 1280, height: 720 }, skipIntro: true });
       check("1280 px: the tabs and the console stay, the menu and the Console button are not shown", await page.isVisible(".centre-tabs") && await page.isVisible(".drawer-tablist") && await page.isVisible("#console") && !(await page.isVisible("#view-select")) && !(await page.isVisible("#btn-console")));
+      // A window that widens with the console drawer open gives the page back.
+      await page.setViewportSize({ width: 360, height: 740 });
+      await page.click("#btn-console");
+      await page.waitForTimeout(100);
+      const modal = await page.evaluate(() => document.querySelector(".app-header").inert);
+      await page.setViewportSize({ width: 1280, height: 720 });
+      await page.waitForTimeout(150);
+      check("a console drawer open at 360 px is modal, and no longer once the window is 1280 px wide", modal === true && await page.evaluate(() => !document.querySelector(".app-header").inert && !document.getElementById("console").hasAttribute("role")));
       await ctx.close();
     }
-    check("small-screen screenshots written", smallShots.length === 12, `${smallShots.length}`);
+    check("small-screen screenshots written", smallShots.length === 14, `${smallShots.length}`);
     console.log(failed > before ? "SMALL SCREEN FAILED" : `SMALL SCREEN OK (${smallShots.length} screenshots in ${OUT})`);
   }
 } finally {

@@ -7,9 +7,12 @@
 //    {{cite:…}} in the same text; "Absatz", "Satz", "Nummer" (in English also "subsection",
 //    "sentence", "number", "no.") references directly after such a citation; German quotes „…“ that
 //    appear verbatim in a cited paragraph; ISO dates of the snapshot; reason codes; and the ids of
-//    duties, clusters, options, facts, complaints, decisions and runs.
+//    duties, clusters, options, facts, complaints, decisions and runs. An id has its exact shape and
+//    names something the run holds, so a number dressed as an id ("O-1500000", "DEC-2026") is a number.
 // 4. Number words count as numbers, except inside verbatim quotes. German text is checked against the
-//    German list, English text against the English list and the German one.
+//    German list, English text against the English list and the German one. German compounds of
+//    number words count too ("zweihundert", "fünfundzwanzig", "Hunderttausende", "zweimal",
+//    "Dutzende"); "einmal", "einfach", "vierteljährlich" and "außer Acht" do not.
 // 6. A sentence that names a duty or a cluster must cite one of its paragraphs; an unknown cite, duty,
 //    cluster or complaint id is a violation.
 // Each violation carries the offending token and an English message for the model.
@@ -32,6 +35,42 @@ const DE_WORDS = [
 ];
 const DE_RE = new RegExp(`${B}(?:${DE_WORDS.join("|")})${E}|${B}(?:Mio|Mrd)\\.`, "giu");
 
+// German compounds: a word made only of number morphemes, with an optional suffix ("mal", "fach", an
+// inflection). "ein", "eins" and "und" join a compound but make none on their own ("einmal",
+// "einfach"), and "und" only joins; an inflection follows only the words that take one as numbers
+// ("Hunderte", "Tausenden", "Dutzende"), so "achten" (to heed) and "elfen" stay words.
+const DE_MORPHS = [
+  "dreizehn", "vierzehn", "fünfzehn", "sechzehn", "siebzehn", "achtzehn", "neunzehn",
+  "zwanzig", "dreißig", "vierzig", "fünfzig", "sechzig", "siebzig", "achtzig", "neunzig",
+  "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn", "elf", "zwölf",
+  "hundert", "tausend", "millionen", "million", "milliarden", "milliarde", "dutzend", "eins", "ein", "und"
+];
+const DE_JOINERS = new Set(["ein", "eins", "und"]);
+const DE_INFLECTED = new Set(["hundert", "tausend", "dutzend", "million", "millionen", "milliarde", "milliarden"]);
+const DE_SUFFIX_RE = /^(?:mal(?:ig(?:e|en|er|es)?)?|fach(?:e|en|er|es)?|prozentig(?:e|en|er|es)?|e|en|er|es|n|s)$/u;
+const DE_INFLECTION_RE = /^(?:e|en|er|es|n|s)$/u;
+const WORD_RE = /(?<![\p{L}\p{N}])\p{L}+(?![\p{L}\p{N}])/gu;
+
+/** The morphemes and suffix of a German number compound, or null. */
+export function deCompound(word) {
+  const w = String(word).toLocaleLowerCase("de-DE");
+  const walk = (at, morphs) => {
+    if (at === w.length) return morphs.length ? { morphs, suffix: "" } : null;
+    for (const m of DE_MORPHS) {
+      if (!w.startsWith(m, at)) continue;
+      const r = walk(at + m.length, [...morphs, m]);
+      if (r) return r;
+    }
+    if (morphs.length && DE_SUFFIX_RE.test(w.slice(at))) return { morphs, suffix: w.slice(at) };
+    return null;
+  };
+  const r = walk(0, []);
+  if (!r || r.morphs.every((m) => DE_JOINERS.has(m))) return null;
+  if (r.morphs[0] === "und" || r.morphs.at(-1) === "und") return null;
+  if (DE_INFLECTION_RE.test(r.suffix) && !DE_INFLECTED.has(r.morphs.at(-1))) return null;
+  return r;
+}
+
 // English number words (brief §5.4), plus the teens and tens.
 const EN_BASE = [
   "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
@@ -44,6 +83,8 @@ const SP = "[ \\u00A0]+";
 const SPH = "[ \\u00A0-]+";
 const EN_RE = new RegExp([
   `${B}(?:${EN_BASE.join("|")})s?${E}`,
+  `${B}(?:${EN_BASE.join("|")})fold${E}`,
+  `${B}(?:twice|thrice|dozens?)${E}`,
   `${B}(?:${EN_TENS_PLURAL.join("|")})${E}`,
   `${B}(?:bn|mn|percent)${E}`,
   `${B}per${SP}cent${E}`,
@@ -54,9 +95,12 @@ const EN_RE = new RegExp([
 const FRACTION_RE = new RegExp(`${B}(?:(?:a|one)${SPH}(?:third|quarter)|two${SPH}thirds|three${SPH}quarters)${E}`, "giu");
 const FRACTION_EXCEPT_AFTER = new RegExp(`^${SPH}(?:party|parties|country|countries)${E}`, "iu");
 
-// Option ids come first: they contain a duty id ("O-D-beispielg-p20-1-delete").
+// Option ids come first: they contain a duty id ("O-D-beispielg-p20-1-delete") or a cluster id
+// ("O-C-001-a-merge"), then the option type.
+const DUTY_ID = "D-[a-z0-9_-]+?-(?:p|art)[0-9]+[a-z]?-\\d+";
+const CLUSTER_ID = "C-\\d{3}(?:-[a-z])?";
 const ID_RES = [
-  { kind: "option", re: new RegExp(`${B}O-[A-Za-z0-9_-]+${E}`, "gu") },
+  { kind: "option", re: new RegExp(`${B}O-(?:${CLUSTER_ID}|${DUTY_ID})-[a-z_]+${E}`, "gu") },
   { kind: "duty", re: new RegExp(`(?<![\\p{L}\\p{N}-])D-[a-z0-9_-]+?-(?:p|art)[0-9]+[a-z]?-\\d+${E}`, "gu") },
   { kind: "cluster", re: new RegExp(`(?<![\\p{L}\\p{N}-])C-\\d{3}(?:-[a-z])?${E}`, "gu") },
   { kind: "fact", re: new RegExp(`${B}F-\\d{4}${E}`, "gu") },
@@ -152,7 +196,10 @@ export function auditText(text, ctx = {}) {
     for (const m of s.matchAll(re)) {
       if (isMasked(m.index, m.index + m[0].length)) continue;
       mask(m.index, m.index + m[0].length);
-      const known = kind === "duty" ? has(ctx.duties, m[0]) : kind === "cluster" ? has(ctx.clusters, m[0]) : kind === "complaint" ? has(ctx.complaints, m[0]) : kind === "fact" ? has(ctx.facts, m[0]) : true;
+      // Options are checked when the run's options are given (a recording's texts name none); a
+      // decision id must name a decision of the run.
+      const known = kind === "duty" ? has(ctx.duties, m[0]) : kind === "cluster" ? has(ctx.clusters, m[0]) : kind === "complaint" ? has(ctx.complaints, m[0]) : kind === "fact" ? has(ctx.facts, m[0])
+        : kind === "option" ? (ctx.options ? has(ctx.options, m[0]) : true) : kind === "decision" ? has(ctx.decisions, m[0]) : true;
       if (!known) violate(kind === "fact" ? 2 : 6, kind === "fact" ? "unknown_fact" : "unknown_id", m[0], m.index);
       else if (kind === "duty" || kind === "cluster") named.push({ kind, id: m[0], start: m.index });
     }
@@ -167,8 +214,13 @@ export function auditText(text, ctx = {}) {
     words.push({ start: m.index, token: m[0] });
   }
   if (lang === "en") for (const m of s.matchAll(EN_RE)) words.push({ start: m.index, token: m[0] });
+  const ausserAcht = (start, token) => /^acht$/i.test(token) && /außer[ \u00A0\u202F]+$/i.test(s.slice(Math.max(0, start - 8), start));
   for (const m of s.matchAll(DE_RE)) {
-    if (/^acht$/i.test(m[0]) && /außer[  ]+$/i.test(s.slice(Math.max(0, m.index - 8), m.index))) continue;
+    if (ausserAcht(m.index, m[0])) continue;
+    words.push({ start: m.index, token: m[0] });
+  }
+  for (const m of s.matchAll(WORD_RE)) {
+    if (ausserAcht(m.index, m[0]) || !deCompound(m[0])) continue;
     words.push({ start: m.index, token: m[0] });
   }
   words.sort((a, b) => a.start - b.start || b.token.length - a.token.length);

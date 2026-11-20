@@ -10,7 +10,9 @@
 //   fjord   checking: the norm being read, an active role, the auditor's passed check, figure links,
 //           citations and the highlighted trigger phrase
 //   state   danger for a blocked figure, success for an approved option, each with its word
-//   ink     the duty map's ramp, six steps of the text colour into the surface; SIMULATION's tape
+//   ink     the duty map's ramp, seven steps (the surface, then six of the text colour mixed into
+//           it); SIMULATION's tape;
+//           the data items of a duty and of a cluster (facts, not the reviewer's: never merlot)
 // Usage: node tests/design.mjs [light|dark]
 import { APP_ROOT, ONLY, launchBrowser, serveStatic } from "./lib/harness.mjs";
 import { openApp } from "./lib/page.mjs";
@@ -43,7 +45,9 @@ const RULES = {
   evidence: [
     ["fjord", "the duty card's § link", ".card-panel .duty-cite a", "color", "var(--vc-info-text)"],
     ["fjord", "the highlighted trigger phrase", ".card-panel mark.trigger", "backgroundColor", "var(--vc-info-bg)"],
-    ["lilac", "the classifier's rationale", ".card-panel .duty-rationale", "color", "var(--vc-feature-text)"]
+    ["lilac", "the classifier's rationale", ".card-panel .duty-rationale", "color", "var(--vc-feature-text)"],
+    ["ink", "a duty's data items", ".card-panel .chips .vc-chip", "color", "var(--vc-text)"],
+    ["ink", "the ground of a duty's data items", ".card-panel .chips .vc-chip", "backgroundColor", "var(--vc-neutral-bg)", null, null, "::before"]
   ],
   after: [
     ["merlot", "the decision in the console", '.log .entry[data-type="decision_recorded"] .entry-body strong', "color", "var(--vc-accent-text)"],
@@ -55,7 +59,8 @@ const RULES = {
   ],
   review: [
     ["merlot", "the cluster under review", '.cluster-card[data-pending="true"]', "borderTopColor", "var(--vc-accent)"],
-    ["merlot", "Confirm cluster", '.cluster-card[data-pending="true"] .cluster-actions .vc-button:first-child', "backgroundColor", "var(--vc-accent)"]
+    ["merlot", "Confirm cluster", '.cluster-card[data-pending="true"] .cluster-actions .vc-button:first-child', "backgroundColor", "var(--vc-accent)"],
+    ["ink", "the shared data items of a cluster", ".cluster-card .chips .vc-chip", "backgroundColor", "var(--vc-neutral-bg)", null, null, "::before"]
   ]
 };
 
