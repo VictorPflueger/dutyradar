@@ -1,7 +1,8 @@
 # Runs the test suites on every push and pull request. The app itself has no build step and no
-# runtime dependencies; npm ci installs the development dependencies of the build-time tools (the XML
-# parser and the zip library of the snapshot script), and Playwright is installed here only for the
-# browser suites (tests/README.md).
+# runtime dependencies; npm ci installs the development dependencies (the XML parser and the zip library
+# of the snapshot script, axe-core for the accessibility suite), and Playwright is installed here only
+# for the browser suites (tests/README.md). A third job replays R1 and runs the self-test in Firefox and
+# WebKit (AC-17, AC-28).
 name: tests
 
 on:
@@ -28,6 +29,9 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
+      # The page icon is compared with Duty Radar's card on the website (VictorPflueger/VIP, public),
+      # checked out next to this repository: the card's branch while its pull request is open, else main.
+      - run: git clone --depth 1 --branch duty-radar-card https://github.com/VictorPflueger/VIP ../VIP || git clone --depth 1 https://github.com/VictorPflueger/VIP ../VIP
       # The hygiene check reads its private term list from the HYGIENE_TERMS secret if the repository
       # has one; without it only the generic checks run (tests/hygiene.mjs).
       - run: node tests/run-all.mjs tokens page-icon vici-files unit engine tools live runs check-runs snapshot data corpus sources static hygiene docs
@@ -40,6 +44,35 @@ jobs:
   browser:
     name: Browser suites (Playwright, Chromium)
     runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    needs: node
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # axe-core for the accessibility suite comes from the development dependencies.
+      - run: npm ci
+      - name: Cache the Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-1.56.0-chromium-${{ runner.os }}
+      - run: npm install -g playwright@1.56.0 && npx playwright install --with-deps chromium
+      - run: NODE_PATH="$(npm root -g)" node tests/run-all.mjs smoke sims storyline accept selftest i18n layout design a11y hexagon
+        env:
+          DR_TEST_OUT: ${{ runner.temp }}/duty-radar-tests
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-screenshots
+          path: ${{ runner.temp }}/duty-radar-tests
+
+  # AC-17 asks for R1 in Firefox and WebKit; the plan put this job on main only. It runs on pull
+  # requests too, so a change that breaks either browser is seen before it is merged (TECH_NOTES).
+  browsers:
+    name: R1 and the self-test in Firefox and WebKit (Playwright)
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     needs: node
     steps:
@@ -51,13 +84,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-1.56.0-chromium-${{ runner.os }}
-      - run: npm install -g playwright@1.56.0 && npx playwright install --with-deps chromium
-      - run: NODE_PATH="$(npm root -g)" node tests/run-all.mjs smoke sims accept i18n layout hexagon
-        env:
-          DR_TEST_OUT: ${{ runner.temp }}/duty-radar-tests
-      - if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-screenshots
-          path: ${{ runner.temp }}/duty-radar-tests
+          key: playwright-1.56.0-firefox-webkit-${{ runner.os }}
+      - run: npm install -g playwright@1.56.0 && npx playwright install --with-deps firefox webkit
+      - run: NODE_PATH="$(npm root -g)" node tests/storyline.mjs R1 --browser=firefox
+      - run: NODE_PATH="$(npm root -g)" node tests/selftest.mjs --browser=firefox
+      - run: NODE_PATH="$(npm root -g)" node tests/storyline.mjs R1 --browser=webkit
+      - run: NODE_PATH="$(npm root -g)" node tests/selftest.mjs --browser=webkit

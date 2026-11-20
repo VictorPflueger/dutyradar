@@ -30,7 +30,7 @@ An agent orchestrates these steps through 16 tools (`js/tools/`): it reads, clas
 - **Live** runs the same agent against Claude with your API key, at most 40 model calls and €3 per run; the control bar shows calls and spend. The key stays in the tab.
 - **Sovereign** would run it against an OpenAI-compatible endpoint you operate; none is configured, so the mode is shown disabled with its reason.
 
-The screens: the duty map (norms × duty types, a cell opens its duty cards), the duplicates board, Options & review, the outbox with the relief dossier and four exports, the audit log, and Assumptions & diagnostics. Every figure opens "Where does this figure come from?".
+The screens: the duty map (norms × duty types, a cell opens its duty cards), the duplicates board, Options & review, the outbox with the relief dossier and four exports, the audit log, and Assumptions & diagnostics with the editable assumptions and the self-test. Every figure opens "Where does this figure come from?". Everything works by keyboard; below 900 px the views are one menu and the console a drawer; printing gives the dossier. [DEMO_SCRIPT.md](DEMO_SCRIPT.md) is the presenter's guide, with the talk track in English and German.
 
 ## What is real, assumed or synthetic
 
@@ -66,7 +66,7 @@ The site is static: HTML, CSS and JavaScript modules, no build step and no runti
 npm run serve          # tools/serve.mjs, a dependency-free server at http://localhost:8080
 ```
 
-The build-time tools need Node 22 or later and the development dependencies (`npm ci`): the XML parser and zip library of the snapshot script, and axe-core for the accessibility checks to come.
+The build-time tools need Node 22 or later and the development dependencies (`npm ci`): the XML parser and zip library of the snapshot script, and axe-core for the accessibility suite.
 
 ```sh
 npm run snapshot -- --archive <checkout of the archive's data branch>   # rebuild data/corpus/
@@ -78,17 +78,19 @@ Address options: `?lang=de` opens in German, `?speed=n` (up to 1000) replays fas
 
 ## Tests
 
-`node tests/run-all.mjs` runs every suite; `npm test` the Node suites and `npm run e2e` the browser suites. [tests/README.md](tests/README.md) lists them and the setup for Playwright. GitHub Actions runs the Node suites, the parity check against Rebate Hunter's shell and the browser suites in Chromium on every push and pull request (`.github/workflows/tests.yml`).
+`node tests/run-all.mjs` runs every suite; `npm test` the Node suites and `npm run e2e` the browser suites. [tests/README.md](tests/README.md) lists them and the setup for Playwright. GitHub Actions runs the Node suites, the parity check against Rebate Hunter's shell, the page icon against the website's card and the browser suites in Chromium on every push and pull request, and replays R1 and runs the self-test in Firefox and WebKit (`.github/workflows/tests.yml`). After every GitHub Pages build, `.github/workflows/live-site.yml` checks that the published site serves the commit and replays R1 there with every other host blocked (`tests/live_site.mjs`). In the browser, **Assumptions & diagnostics → Run all tests** runs the golden, auditor and cluster cases from the same fixture files.
 
 ## Status
 
 | Milestone | Version | Scope | State |
 | --- | --- | --- | --- |
 | M1 Foundations | 0.1.0 | Snapshot, engines and fixtures, data files, gold set, shell in two languages, design tests, parity, CI | Done |
-| M2 Agents and screens | 0.2.0 | The 16 tools, the Live loop with its caps, the Sovereign adapter, the six screens, R1 to R3 | This version |
-| M3 Hardening and demo | 1.0.0 | End-to-end suites, accessibility, small screens, print, self-test, demo script, review | Next |
+| M2 Agents and screens | 0.2.0 | The 16 tools, the Live loop with its caps, the Sovereign adapter, the six screens, R1 to R3 | Done |
+| M3 Hardening and demo | 1.0.0 | End-to-end suites in three browsers, accessibility, small screens, print, self-test, the demo script, an independent review, the live-site check, the website's card | This version |
 
-Victor confirmed the slice (D1), the gold-set labels and the German labels of version 0.1.0 on 19 November 2026. Decisions still open: the sovereign endpoint (D3, none configured), calibration with OnDEA and DIP (D4, not reachable from the build environment, so every population and case number stays an assumption), the API key for recordings (D7, hand-authored runs until then) and the website card (D8).
+Victor confirmed the slice (D1), the gold-set labels and the German labels of version 0.1.0 on 19 November 2026. Decisions still open: the sovereign endpoint (D3, none configured), calibration with OnDEA and DIP (D4, not reachable from the build environment, so every population and case number stays an assumption) and the API key for recordings (D7, hand-authored runs until then). The website's card (D8) is proposed for version 1.0.0 in a pull request on Victor's website.
+
+**Known limits.** The law slice is one snapshot of 31 norms, consolidated texts and not the official version. Populations, case numbers, frequencies and the register retrieval's administration time are assumptions until calibration (D4). The three runs are hand-authored, not recorded from a model (D7); the classifier's precision needs a Live run (AC-29). Registers are simulated, complaints synthetic. Sovereign mode has no endpoint (D3). The prototype is tested at 1920 × 1080 to 1280 × 720 and at 360 px, in Chromium with every suite and in Firefox and WebKit with the storyline of R1 and the self-test.
 
 ## Acceptance record
 
@@ -106,7 +108,7 @@ Automated criteria pass in CI; manual ones are recorded here with date, person a
 | AC-08 Snapshot stops on a missing slug or title; Norm contract | `tests/snapshot.mjs` | Pass |
 | AC-09 Sources, synthetic and simulated labels, 25 to 35 norms | `tools/check-data.mjs` | Pass |
 | AC-34 EU basis from the footnote | `tests/snapshot.mjs eu` | Pass |
-| AC-39 Shared design tests, parity, adapted modules listed | `tests/tokens.mjs`, `tests/hexagon.mjs`, `tests/page-icon.mjs`, `tests/vici-files.mjs`, `tests/parity.mjs` | Pass (the page icon compared with the website's card from version 1.0.0) |
+| AC-39 Shared design tests, parity, adapted modules listed | `tests/tokens.mjs`, `tests/hexagon.mjs`, `tests/page-icon.mjs`, `tests/vici-files.mjs`, `tests/parity.mjs` | Pass (the page icon compared with the website's card in CI) |
 | AC-10 Each tool's valid and invalid fixture input | `tests/tools.mjs cases` | Pass |
 | AC-11 The Live loop's requests: version, browser header, strict tools, `tool_choice`, no sampling parameters, results first, thinking unchanged | `tests/live.mjs request` | Pass |
 | AC-12 The Sovereign adapter's function format, `tool_calls`, `tool` messages | `tests/live.mjs sovereign` | Pass |
@@ -120,12 +122,25 @@ Automated criteria pass in CI; manual ones are recorded here with date, person a
 | AC-36 Fact ids bound to their keys across replays and after an edit; "no longer applies" | `tests/runs.mjs facts` | Pass |
 | AC-37 The classification tool takes no number; code sets frequency, confidence and `eu_related` | `tests/tools.mjs classify` | Pass |
 | AC-38 The switch on every screen without a reload; model text keeps its language and tag; `?lang=`; German at 1280 × 720 | `tests/i18n.mjs` | Pass |
+| AC-17 R1 replays offline in Chromium, Firefox and WebKit: it pauses, ends with the approved item in the dossier, and the tiles equal the engine's facts | `tests/storyline.mjs R1` (Chromium in the browser job, `--browser=firefox` and `--browser=webkit` in the browsers job), `tests/sims.mjs` | Pass |
+| AC-18 R2: the split in the audit, the blocked figure, the rejection, the duty kept with A1, no relief item; in both languages | `tests/storyline.mjs R2`, `tests/sims.mjs R2` | Pass |
+| AC-20 Every figure in the tiles, the option cards and the dossier opens "Where does this figure come from?"; in both languages | `tests/accept.mjs figures` | Pass |
+| AC-21 Editing an assumption recomputes facts, options and tiles and logs `parameter_changed` | `tests/accept.mjs assumptions` | Pass |
+| AC-24 The exports download with the names of the active language; the CSV has semicolons, a byte order mark and the columns | `tests/accept.mjs exports` | Pass |
+| AC-25 A German browser's first visit opens in English; both disclosure lines on every screen; "Nothing is sent." and "Nichts wird versendet." | `tests/accept.mjs disclosures`, `tests/i18n.mjs` | Pass |
+| AC-26 axe-core finds no serious or critical violation on the six screens; the storyline by keyboard alone | `tests/a11y.mjs` (both themes, both languages) | Pass |
+| AC-27 At 360 px the console is a drawer, the views a select menu, the tiles two by two, nothing scrolls sideways | `tests/layout.mjs small` | Pass |
+| AC-28 "Run all tests" shows the golden, auditor and cluster cases passing; in both languages | `tests/selftest.mjs` (Chromium, Firefox and WebKit) | Pass |
+| AC-33 Keep needs A1 to A4 or A6, closes the target's other options and lists the duty under the kept duties; in both languages | `tests/accept.mjs keep`, `tests/accept.mjs decisions` | Pass |
+| AC-35 A decision other than the recorded intention yields matching tiles, dossier and report, and no replayed text names the intended outcome | `tests/accept.mjs other`, `tests/runs.mjs` | Pass |
 | AC-29 Pattern plus classification reaches at least 85 % precision on the gold set in one Live run | Manual: open the site with `?record=1`, run R1 in Live mode with a key, press Record run, then `node tools/measure-precision.mjs <the downloaded file>` | Pending with Victor |
 | AC-30 Live mode runs R3's norm end to end within the caps; the audit shows model, usage and cost | Manual: choose R3, Start agent, Live, paste a key; then the Audit tab and the cost meter. Rehearsed against the stand-in by `tests/accept.mjs live` | Pending with Victor |
 | AC-31 Sovereign runs one norm, or stays disabled with its reason | `tests/accept.mjs modes`: disabled with "No sovereign endpoint configured" | Pass (disabled while D3 is open); a run against an endpoint pending with Victor |
 | AC-40 An English Live run narrates and reports in English and a German one in German; law quotes and amendment wording stay German | Manual: R3 Live once with `?lang=en` and once with `?lang=de`, then the console's EN and DE tags and the draft wording | Pending with Victor |
 
-Victor also watches R1 replay end to end before M2 is merged (Start agent, Simulation, ×1).
+| AC-32 The storyline twice at ×1, once in English and once in German, without help; no federal eagle, logo or imitation of an official site | Manual: [DEMO_SCRIPT.md](DEMO_SCRIPT.md), one rehearsal per language | Pending with Victor |
+
+Victor watched R1 replay end to end before M2 was merged. The risk-class check with the Bundesnetzagentur's tool ([TECH_NOTES.md](TECH_NOTES.md) §14) and Victor's sign-off after the second rehearsal are pending with him too.
 
 ## Files
 
@@ -138,7 +153,9 @@ Victor also watches R1 replay end to end before M2 is merged (Start agent, Simul
 | `config/` | The slice, the run defaults and the sovereign endpoint |
 | `data/` | The law snapshot, the cost parameters, populations, one-off costs, the vocabulary, registers, data uses, complaints, patterns and the runs R1 to R3 (`data/runs/`) |
 | `tools/` | The snapshot script, the run author and checker, the data, static and policy checks, the local server |
-| `tests/` | The suites, their fixtures and helpers |
-| [DESIGN.md](DESIGN.md), [TECH_NOTES.md](TECH_NOTES.md), [DATA_SOURCES.md](DATA_SOURCES.md), [SNAPSHOT.md](SNAPSHOT.md), [REVIEW.md](REVIEW.md), [PLAN.md](PLAN.md) | Design, technical decisions, sources, the snapshot, the shell's parity, the build plan |
+| `tests/` | The suites, their fixtures and helpers; `tests/live_site.mjs` and `tests/remote_head.mjs` check the published site |
+| `.github/workflows/` | The tests, the live-site check after every Pages build, the snapshot |
+| [DEMO_SCRIPT.md](DEMO_SCRIPT.md) | The presenter's guide: preparation, the venue check, the talk track in English and German, the offline fallback, short answers |
+| [DESIGN.md](DESIGN.md), [TECH_NOTES.md](TECH_NOTES.md), [DATA_SOURCES.md](DATA_SOURCES.md), [SNAPSHOT.md](SNAPSHOT.md), [REVIEW.md](REVIEW.md), [PLAN.md](PLAN.md) | Design, technical decisions, sources, the snapshot, the shell's parity and the independent review, the build plan |
 
 No licence file yet: all rights reserved until one is chosen.

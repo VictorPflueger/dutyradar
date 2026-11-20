@@ -1,6 +1,6 @@
 # DESIGN — Duty Radar
 
-How Duty Radar uses Vici, Victor's design system, through the sister apps' shell. Version 0.2.0.
+How Duty Radar uses Vici, Victor's design system, through the sister apps' shell. Version 1.0.0.
 
 ## 1. Vici and the colour grammar
 
@@ -47,4 +47,14 @@ Hexagons replace circles everywhere, with no exception (`tests/hexagon.mjs` chec
 
 ## 8. Small screens
 
-From 1920 × 1080 down to 1280 × 720 the layout is tested in both languages, idle and with a run waiting for a decision (`tests/layout.mjs`). With the drawer open at 720 px the centrepiece and the console get short and scroll; Hide gives the height back, and the console's header, tape and role strip tighten below 800 px. Below 900 px the tiles sit two by two; below 600 px the header stacks, the control bar wraps and the drawer bar takes two rows, so nothing scrolls sideways at 360 px. The console as a drawer and the screens as a select menu follow with version 1.0.0.
+From 1920 × 1080 down to 1280 × 720 the layout is tested in both languages, idle and with a run waiting for a decision (`tests/layout.mjs`). With the drawer open at 720 px the centrepiece and the console get short and scroll; Hide gives the height back, and the console's header, tape and role strip tighten below 800 px.
+
+Below 900 px the tiles sit two by two, and the views become one select menu in the centrepiece's head (Duty map, Duplicates, Options & review, Outbox, Audit): the first two switch the centrepiece, the other three open the drawer at their panel, and the menu follows when a decision opens the options. The console becomes a drawer over the right side of the screen, with its full height, opened by **Console** in the control bar and closed by its own close button or Escape; the focus goes into it and back to the button. Below 600 px the header stacks, the control bar wraps, the drawer bar takes two rows and the audit table's columns share the width and wrap, so nothing scrolls sideways at 360 px in any view (`tests/layout.mjs small`).
+
+## 9. Focus and keyboard
+
+Every control is reached by Tab and shows Vici's focus outline (merlot, 2 px, 2 px off), radios and checkboxes included; scrolling tables without controls of their own are a stop of their own, so the keyboard can scroll them. A screen redrawn while a run goes on keeps the focus on the same control. A cell's duty cards take the focus and give it back to the cell; Escape closes them, the drawer, the console's drawer and every dialog (`tests/a11y.mjs keyboard`).
+
+## 10. Print
+
+Printing gives the relief dossier, not the workspace: the name, the two disclosure lines, the dossier's title, totals, items with their figures, citations and open draft wording, the kept duties, the footnote on assumptions and "Nothing is sent.". Paper is light in either theme, figures are plain text, and cards do not break across pages (`css/print.css`).
