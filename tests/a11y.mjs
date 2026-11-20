@@ -23,8 +23,13 @@ let checks = 0;
 let sectionFailed = 0;
 const check = (label, ok, detail = "") => { checks += 1; if (!ok) { failed += 1; sectionFailed += 1; console.log(`FAIL ${label}${detail ? `\n  - ${String(detail).slice(0, 900)}` : ""}`); } };
 
-/** Runs axe in the page: the serious and critical violations as "rule (impact): target". */
+/**
+ * Runs axe in the page: the serious and critical violations as "rule (impact): target". It waits for
+ * every animation that ends (a console line fades in for a quarter second), so a colour is measured as
+ * it stays, not half-way through a fade; endless pulses keep the text solid (css/app.css).
+ */
 const axeRun = async (page) => page.evaluate(async () => {
+  await Promise.all(document.getAnimations().filter((a) => a.effect?.getComputedTiming?.().endTime !== Infinity).map((a) => a.finished.catch(() => {})));
   const res = await window.axe.run(document, { resultTypes: ["violations"] });
   return res.violations.filter((v) => ["serious", "critical"].includes(v.impact)).flatMap((v) => v.nodes.slice(0, 4).map((n) => `${v.id} (${v.impact}): ${n.target.join(" ")} – ${(n.failureSummary || "").split("\n").slice(1, 3).join(" ").trim()}`));
 });

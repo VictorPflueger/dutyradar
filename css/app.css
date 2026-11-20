@@ -176,10 +176,12 @@
 .map-table thead th { position: sticky; top: 0; z-index: 1; background: var(--vc-surface); text-align: center; white-space: nowrap; }
 .map-table thead th:first-child, .map-table tbody th { text-align: start; white-space: nowrap; }
 .map-table .family-row th { background: var(--vc-bg-sunken); font-weight: var(--vc-weight-semibold); }
-/* The norm the agent reads: the fjord of checking, pulsing at the row's start. */
-.map-table tr[data-reading="true"] th[scope="row"] { box-shadow: inset 4px 0 0 var(--vc-info-solid); color: var(--vc-info-text); }
+/* The norm the agent reads: the fjord of checking, a bar at the row's start that pulses; the name
+   itself stays solid, so its contrast never drops with the pulse. */
+.map-table tr[data-reading="true"] th[scope="row"] { position: relative; color: var(--vc-info-text); }
+.map-table tr[data-reading="true"] th[scope="row"]::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--vc-info-solid); }
 @media (prefers-reduced-motion: no-preference) {
-  .map-table tr[data-reading="true"] th[scope="row"] { animation: livePulse 1.2s ease-in-out infinite; }
+  .map-table tr[data-reading="true"] th[scope="row"]::before { animation: livePulse 1.2s ease-in-out infinite; }
 }
 .map-cell { text-align: center; }
 .map-count {
