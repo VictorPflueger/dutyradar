@@ -45,24 +45,25 @@
       </div>
     </div>
 
-    <!-- The three key figures. data-vc-kpi names each in English, data-vc-kpi-de in German; each guide
-         explains them in a row of its How it works chapter, and the talk track points at them. When the
-         decision moves a figure, its tile keeps the old value struck through (vc-stat__was). -->
+    <!-- The three key figures answer first: from the first screen they show what the case puts at stake,
+         and only the decision moves them. data-vc-kpi names each in English, data-vc-kpi-de in German;
+         each guide explains them in a row of its How it works chapter, and the talk track points at them.
+         When the decision moves a figure, its tile keeps the old value struck through (vc-stat__was). -->
     <div class="kpis" role="group" aria-label="Key figures" data-i18n-attr="aria-label:kpis.label">
-      <div class="kpi vc-stat" id="kpi-duties" data-vc-kpi="Duties found" data-vc-kpi-de="Gefundene Pflichten">
-        <p class="vc-stat__label">Duties found</p>
-        <p class="vc-stat__value kpi-value"><span class="kpi-main">0</span></p>
-        <p class="vc-stat__note kpi-note">in 31 laws</p>
+      <div class="kpi vc-stat" id="kpi-twice" data-vc-kpi="Asked twice" data-vc-kpi-de="Doppelt gefragt">
+        <p class="vc-stat__label">Asked twice</p>
+        <p class="vc-stat__value kpi-value"><span class="kpi-main">203</span><span class="kpi-of"> of 745</span></p>
+        <p class="vc-stat__note kpi-note">duties in 31 laws</p>
       </div>
-      <div class="kpi vc-stat" id="kpi-relief" data-vc-kpi="Relief a year" data-vc-kpi-de="Entlastung pro Jahr">
-        <p class="vc-stat__label">Relief a year</p>
-        <p class="vc-stat__value kpi-value"><s class="vc-stat__was" hidden></s><span class="kpi-main">€0</span></p>
-        <p class="vc-stat__note kpi-note">approved so far</p>
+      <div class="kpi vc-stat" id="kpi-stake" data-vc-kpi="Relief at stake a year" data-vc-kpi-de="Offene Entlastung pro Jahr">
+        <p class="vc-stat__label">Relief at stake a year</p>
+        <p class="vc-stat__value kpi-value"><s class="vc-stat__was" hidden></s><span class="kpi-main">€4.07m</span></p>
+        <p class="vc-stat__note kpi-note">if a person approves the merge</p>
       </div>
       <div class="kpi vc-stat" id="kpi-cut" data-vc-kpi="Reporting duties cut" data-vc-kpi-de="Gestrichene Meldepflichten">
         <p class="vc-stat__label">Reporting duties cut</p>
-        <p class="vc-stat__value kpi-value"><s class="vc-stat__was" hidden></s><span class="kpi-main">0</span><span class="kpi-of" hidden></span></p>
-        <p class="vc-stat__note kpi-note">target: a third fewer</p>
+        <p class="vc-stat__value kpi-value"><s class="vc-stat__was" hidden></s><span class="kpi-main">0</span><span class="kpi-of"> of 107</span></p>
+        <p class="vc-stat__note kpi-note">target: a third of 320</p>
       </div>
     </div>
   </header>
@@ -121,17 +122,18 @@
       <div class="evidence" id="evidence" hidden></div>
       <!-- What the page waits for, asked where the eye is (Vici, Presenting step by step): one sentence and
            the one primary action, right under the step and in view however long it grows. Its button runs
-           the agent's work up to the next step and stops there; at the last step the decision asks instead. -->
+           the agent's work up to the next step and stops there; at the last step the decision asks instead,
+           and once the person has decided the bar says the story is over and offers a new start. -->
       <div class="ask" id="ask" data-state="waiting">
         <p class="ask-text"><strong class="ask-lead" id="ask-lead">Your turn:</strong> <span id="ask-what">Let the agent read the 31 laws.</span></p>
-        <button type="button" class="vc-button play" id="play" data-attention="true"><span class="vc-icon vc-icon--play play-icon" aria-hidden="true"></span><span class="play-text">Next: It reads</span></button>
+        <button type="button" class="vc-button play vc-attention" id="play"><span class="vc-icon vc-icon--play play-icon" aria-hidden="true"></span><span class="play-text">Next: It reads</span></button>
       </div>
       <div class="decision" id="decision" role="group" aria-labelledby="decision-ask" hidden>
         <div class="ask ask--decision" id="decision-bar">
-          <p class="ask-text" id="decision-ask"><strong class="ask-lead" data-i18n="decide.lead">Your turn:</strong> <span data-i18n="decide.ask">Approve one option or keep both.</span></p>
+          <p class="ask-text" id="decision-ask"><strong class="ask-lead" data-i18n="decide.lead">Your turn:</strong> <span data-i18n="decide.ask">Approve an option and one reporting duty goes.</span></p>
           <div class="decision-actions">
-            <button type="button" class="vc-button" id="decide-merge" data-choice="merge" data-attention="true"><span class="vc-icon vc-icon--check" aria-hidden="true"></span><span data-i18n="decide.merge">Approve merge</span></button>
-            <button type="button" class="vc-button vc-button--outline" id="decide-register" data-choice="register_retrieval" data-i18n="decide.register_retrieval">Approve register retrieval</button>
+            <button type="button" class="vc-button vc-attention" id="decide-merge" data-choice="merge"><span class="vc-icon vc-icon--check" aria-hidden="true"></span><span data-i18n="decide.merge">Approve merge</span></button>
+            <button type="button" class="vc-button vc-button--outline" id="decide-register" data-choice="register_retrieval" data-i18n="decide.register_retrieval">Approve register lookup</button>
             <button type="button" class="vc-button vc-button--outline" id="decide-keep" data-choice="keep" data-i18n="decide.keep">Keep both</button>
           </div>
         </div>
@@ -160,7 +162,7 @@
             <tr><th scope="row">Found</th><td><span data-fig="duties">745</span> duties, <span data-fig="reporting">320</span> of them reporting duties</td></tr>
             <tr><th scope="row">Asked twice</th><td><span data-fig="clustered">203</span> duties in <span data-fig="clusters">48</span> clusters</td></tr>
             <tr><th scope="row">Priced</th><td>The most promising cluster: <span data-fig="cluster-cost">€9.98m</span> a year for businesses</td></tr>
-            <tr><th scope="row">Decided</th><td>By a person, with a reason code. Nothing is sent.</td></tr>
+            <tr><th scope="row">Decided</th><td>By a person, with a reason. Nothing is sent.</td></tr>
           </tbody>
         </table></div>
       </section>
@@ -171,8 +173,8 @@
           <caption>Key figures</caption>
           <thead><tr><th scope="col">Figure</th><th scope="col">What it measures</th><th scope="col" class="vc-num">In this run</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Duties found</th><td>Duties the agent finds in the <span data-fig="laws">31</span> laws; <span data-fig="clustered">203</span> of them ask for data another duty already collects</td><td class="vc-num"><span data-fig="duties">745</span></td></tr>
-            <tr><th scope="row">Relief a year</th><td>What an approved option saves businesses a year. One report costs <span data-fig="businesses">60,000</span> businesses × <span data-fig="per-year">12</span> × (<span data-fig="minutes">10&nbsp;min</span> at <span data-fig="wage">€38.60</span> an hour + <span data-fig="material">€0.50</span>) = <span data-fig="report-cost">€4.99m</span></td><td class="vc-num"><span data-fig="merge">€4.07m</span></td></tr>
+            <tr><th scope="row">Asked twice</th><td>Duties that ask for data another duty already collects, of the <span data-fig="duties">745</span> the agent finds in the <span data-fig="laws">31</span> laws</td><td class="vc-num"><span data-fig="clustered">203</span> of <span data-fig="duties">745</span></td></tr>
+            <tr><th scope="row">Relief at stake a year</th><td>What the merge saves businesses a year, until a person approves it. One report costs <span data-fig="businesses">60,000</span> businesses × <span data-fig="per-year">12</span> × (<span data-fig="minutes">10&nbsp;min</span> at <span data-fig="wage">€38.60</span> an hour + <span data-fig="material">€0.50</span>) = <span data-fig="report-cost">€4.99m</span></td><td class="vc-num"><span data-fig="merge">€4.07m</span></td></tr>
             <tr><th scope="row">Reporting duties cut</th><td>Reporting duties an approval removes, against the target: a third of the <span data-fig="reporting">320</span> in these laws</td><td class="vc-num"><span data-fig="removed">1</span> of <span data-fig="target">107</span></td></tr>
           </tbody>
         </table></div>
@@ -194,10 +196,10 @@
         <h3>Show it in five minutes</h3>
         <p class="vc-guide__lead">The button by “Your turn” runs to the next step and stops there, so you can talk.</p>
         <ol class="vc-guide__path">
-          <li><strong>The target: point at the three figures.</strong> <span class="vc-guide__say">“The target is a third fewer reporting duties. Where do we start?”</span> <span class="vc-guide__time">1 min</span></li>
-          <li><strong>It reads: press “Next: It reads”, Duties found counts up.</strong> <span class="vc-guide__say">“<span data-fig="duties">745</span> duties in <span data-fig="sentences">4,904</span> sentences, each with its sentence and section.”</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>The target: point at the three figures.</strong> <span class="vc-guide__say">“The target: a third fewer reporting duties. At stake: <span data-fig="stake">€4.07m</span> a year.”</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>It reads: press “Next: It reads”, the laws fill in.</strong> <span class="vc-guide__say">“<span data-fig="duties">745</span> duties in <span data-fig="sentences">4,904</span> sentences, each with its sentence and section.”</span> <span class="vc-guide__time">1 min</span></li>
           <li><strong>Asked twice: point at the same sentence in two laws.</strong> <span class="vc-guide__say">“The same data, asked twice: <span data-fig="cases-words">1.44&nbsp;million</span> reports a year.”</span> <span class="vc-guide__time">1 min</span></li>
-          <li><strong>It prices: point at Relief a year.</strong> <span class="vc-guide__say">“One report instead of two saves <span data-fig="merge">€4.07m</span> a year. No figure without a source.”</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>It prices: point at Relief at stake a year.</strong> <span class="vc-guide__say">“One report instead of two saves <span data-fig="merge">€4.07m</span> a year. No figure without a source.”</span> <span class="vc-guide__time">1 min</span></li>
           <li><strong>You decide: click Approve merge.</strong> <span class="vc-guide__say">“Only a person approves. Reporting duties cut: <span data-fig="removed">1</span> of <span data-fig="target">107</span>.”</span> <span class="vc-guide__time">1 min</span></li>
         </ol>
       </section>
@@ -225,19 +227,19 @@
             <tr><th scope="row">Gefunden</th><td><span data-fig="duties">745</span> Pflichten, davon <span data-fig="reporting">320</span> Meldepflichten</td></tr>
             <tr><th scope="row">Doppelt gefragt</th><td><span data-fig="clustered">203</span> Pflichten in <span data-fig="clusters">48</span> Bündeln</td></tr>
             <tr><th scope="row">Bepreist</th><td>Das vielversprechendste Bündel: <span data-fig="cluster-cost">9,98&nbsp;Mio.&nbsp;€</span> im Jahr für die Betriebe</td></tr>
-            <tr><th scope="row">Entschieden</th><td>Von einem Menschen, mit Begründungscode. Nichts wird versendet.</td></tr>
+            <tr><th scope="row">Entschieden</th><td>Von einem Menschen, mit Begründung. Nichts wird versendet.</td></tr>
           </tbody>
         </table></div>
       </section>
       <section class="vc-guide__chapter" data-vc-chapter="how" data-vc-nav="So arbeitet er">
-        <h3>Der Agent liest und entwirft, Engines rechnen jede Zahl</h3>
-        <p class="vc-guide__lead">Ein Sprachmodell ordnet die Pflichten und entwirft die Optionen, schreibt aber nie eine Zahl. Engines rechnen jede Zahl, ein Faktenprüfer blockiert jede ohne Quelle. Die drei Kennzahlen oben zeigen das Ergebnis.</p>
+        <h3>Der Agent entwirft, Rechenmodule ermitteln jede Zahl</h3>
+        <p class="vc-guide__lead">Ein Sprachmodell ordnet die Pflichten und entwirft die Optionen, schreibt aber nie eine Zahl. Rechenmodule ermitteln jede Zahl, ein Faktenprüfer blockiert jede ohne Quelle. Die drei Kennzahlen oben zeigen das Ergebnis.</p>
         <div class="vc-table-wrap"><table class="vc-table vc-table--compact">
           <caption>Kennzahlen</caption>
           <thead><tr><th scope="col">Kennzahl</th><th scope="col">Was sie misst</th><th scope="col" class="vc-num">In diesem Lauf</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Gefundene Pflichten</th><td>Pflichten, die der Agent in den <span data-fig="laws">31</span> Gesetzen findet; <span data-fig="clustered">203</span> davon fragen Daten ab, die eine andere Pflicht schon erhebt</td><td class="vc-num"><span data-fig="duties">745</span></td></tr>
-            <tr><th scope="row">Entlastung pro Jahr</th><td>Was eine freigegebene Option den Betrieben im Jahr spart. Eine Meldung kostet <span data-fig="businesses">60.000</span> Betriebe × <span data-fig="per-year">12</span> × (<span data-fig="minutes">10&nbsp;min</span> zu <span data-fig="wage">38,60&nbsp;€</span> die Stunde + <span data-fig="material">0,50&nbsp;€</span>) = <span data-fig="report-cost">4,99&nbsp;Mio.&nbsp;€</span></td><td class="vc-num"><span data-fig="merge">4,07&nbsp;Mio.&nbsp;€</span></td></tr>
+            <tr><th scope="row">Doppelt gefragt</th><td>Pflichten, deren Daten eine andere Pflicht schon erhebt; insgesamt findet der Agent <span data-fig="duties">745</span> in den <span data-fig="laws">31</span> Gesetzen</td><td class="vc-num"><span data-fig="clustered">203</span> von <span data-fig="duties">745</span></td></tr>
+            <tr><th scope="row">Offene Entlastung pro Jahr</th><td>Was das Zusammenlegen den Betrieben im Jahr spart, bis ein Mensch es freigibt. Eine Meldung kostet <span data-fig="businesses">60.000</span> Betriebe × <span data-fig="per-year">12</span> × (<span data-fig="minutes">10&nbsp;min</span> zu <span data-fig="wage">38,60&nbsp;€</span> die Stunde + <span data-fig="material">0,50&nbsp;€</span>) = <span data-fig="report-cost">4,99&nbsp;Mio.&nbsp;€</span></td><td class="vc-num"><span data-fig="merge">4,07&nbsp;Mio.&nbsp;€</span></td></tr>
             <tr><th scope="row">Gestrichene Meldepflichten</th><td>Meldepflichten, die eine Freigabe streicht, gemessen am Ziel: ein Drittel der <span data-fig="reporting">320</span> in diesen Gesetzen</td><td class="vc-num"><span data-fig="removed">1</span> von <span data-fig="target">107</span></td></tr>
           </tbody>
         </table></div>
@@ -259,10 +261,10 @@
         <h3>In fünf Minuten vorführen</h3>
         <p class="vc-guide__lead">Der Knopf bei „Sie sind dran“ führt zum nächsten Schritt und hält dort, damit Sie erzählen können.</p>
         <ol class="vc-guide__path">
-          <li><strong>Das Ziel: auf die drei Kennzahlen zeigen.</strong> <span class="vc-guide__say">„Das Ziel: ein Drittel weniger Meldepflichten. Wo fangen wir an?“</span> <span class="vc-guide__time">1 min</span></li>
-          <li><strong>Er liest: „Weiter: Er liest“ drücken, Gefundene Pflichten zählt hoch.</strong> <span class="vc-guide__say">„<span data-fig="duties">745</span> Pflichten in <span data-fig="sentences">4.904</span> Sätzen, jede mit Satz und Paragraf.“</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>Das Ziel: auf die drei Kennzahlen zeigen.</strong> <span class="vc-guide__say">„Ein Drittel weniger Meldepflichten. Es geht um <span data-fig="stake">4,07&nbsp;Mio.&nbsp;€</span> im Jahr.“</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>Er liest: „Weiter: Er liest“ drücken, die Gesetze füllen sich.</strong> <span class="vc-guide__say">„<span data-fig="duties">745</span> Pflichten in <span data-fig="sentences">4.904</span> Sätzen, jede mit Satz und Paragraf.“</span> <span class="vc-guide__time">1 min</span></li>
           <li><strong>Doppelt gefragt: auf denselben Satz in zwei Gesetzen zeigen.</strong> <span class="vc-guide__say">„Dieselben Daten, doppelt gefragt: <span data-fig="cases-words">1,44&nbsp;Millionen</span> Meldungen im Jahr.“</span> <span class="vc-guide__time">1 min</span></li>
-          <li><strong>Er bepreist: auf Entlastung pro Jahr zeigen.</strong> <span class="vc-guide__say">„Eine Meldung statt zwei spart <span data-fig="merge">4,07&nbsp;Mio.&nbsp;€</span> im Jahr. Keine Zahl ohne Quelle.“</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>Er bepreist: auf Offene Entlastung pro Jahr zeigen.</strong> <span class="vc-guide__say">„Eine Meldung statt zwei spart <span data-fig="merge">4,07&nbsp;Mio.&nbsp;€</span> im Jahr. Keine Zahl ohne Quelle.“</span> <span class="vc-guide__time">1 min</span></li>
           <li><strong>Sie entscheiden: Zusammenlegen freigeben klicken.</strong> <span class="vc-guide__say">„Nur ein Mensch gibt frei. Gestrichene Meldepflichten: <span data-fig="removed">1</span> von <span data-fig="target">107</span>.“</span> <span class="vc-guide__time">1 min</span></li>
         </ol>
       </section>

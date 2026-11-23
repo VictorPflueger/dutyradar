@@ -146,21 +146,26 @@ try {
     const ctx = await context();
     for (const lang of ["en", "de"]) {
       const p = await tab(ctx, `?guide=0&step=decide${lang === "de" ? "&lang=de" : ""}`);
+      // The tiles answer first, so a row's value is what its tile shows on the first screen (the stake)
+      // or after the merge (one duty cut).
+      const tilesNow = () => p.evaluate(() => [...document.querySelectorAll(".kpi")].map((k) => ({ name: k.querySelector(".vc-stat__label").textContent.replace(/\s+/g, " ").trim(), value: (k.querySelector(".kpi-main").textContent + (k.querySelector(".kpi-of")?.hidden === false ? k.querySelector(".kpi-of").textContent : "")).replace(/\s+/g, " ").trim() })));
+      const firstTiles = await tilesNow();
       await p.click('#decision [data-choice="merge"]');
+      const mergedTiles = await tilesNow();
       const c = await p.evaluate((l) => {
         const d = document.getElementById(`guide-${l}`);
         const flat = (s) => s.replace(/\s+/g, " ").trim();
         return {
-          tiles: [...document.querySelectorAll(".kpi")].map((k) => ({ name: flat(k.querySelector(".vc-stat__label").textContent), value: flat(k.querySelector(".kpi-main").textContent + (k.querySelector(".kpi-of")?.hidden === false ? k.querySelector(".kpi-of").textContent : "")) })),
           rows: [...d.querySelectorAll('[data-vc-chapter="how"] tbody tr')].map((r) => ({ name: flat(r.querySelector("th").textContent), cells: [...r.querySelectorAll("td")].map((td) => flat(td.textContent)) })),
           track: [...d.querySelectorAll('[data-vc-chapter="present"] .vc-guide__path > li > strong')].map((e) => e.textContent.trim())
         };
       }, lang);
+      c.tiles = firstTiles.map((t, i) => ({ ...t, values: [t.value, mergedTiles[i].value] }));
       const off = c.tiles.filter((tile) => {
         const row = c.rows.find((r) => r.name === tile.name);
-        return !row || row.cells.length !== 2 || row.cells[0].length < 20 || row.cells[1] !== tile.value;
+        return !row || row.cells.length !== 2 || row.cells[0].length < 20 || !tile.values.includes(row.cells[1]);
       });
-      check(c.tiles.length === 3 && c.rows.length === 3 && !off.length, `content: the ${lang === "en" ? "English" : "German"} How it works chapter has a row for each key figure, named as on its tile, saying what it measures and the value the tile shows after the merge (${c.tiles.map((x) => `${x.name} ${x.value}`).join(", ")})${off.length ? `; off: ${off.map((x) => x.name).join(", ")}` : ""}`);
+      check(c.tiles.length === 3 && c.rows.length === 3 && !off.length, `content: the ${lang === "en" ? "English" : "German"} How it works chapter has a row for each key figure, named as on its tile, saying what it measures and a value the tile shows, on the first screen or after the merge (${c.tiles.map((x) => `${x.name} ${x.values.join(" / ")}`).join(", ")})${off.length ? `; off: ${off.map((x) => x.name).join(", ")}` : ""}`);
       const labels = S.STEP_IDS.map((id) => W[lang].steps[id].label);
       const wrong = c.track.filter((line, i) => !line.startsWith(`${labels[i]}:`));
       check(c.track.length === 5 && !wrong.length, `content: the ${lang === "en" ? "English" : "German"} talk track has a line per step, each starting with its name (${labels.join(", ")})${wrong.length ? `; off: ${wrong.join(" | ")}` : ""}`);

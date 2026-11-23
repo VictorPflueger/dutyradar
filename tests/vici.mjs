@@ -1,8 +1,10 @@
 // Vici's own rules, checked with Vici's own functions: the How it works guide and its key figures
-// (guideProblems), the byline (bylineProblems) and the Writing guideline's checkable patterns
+// (guideProblems), the byline (bylineProblems), the Writing guideline's checkable patterns
 // (writingProblems: no eyebrow, no numbered middle-dot heading, no bold-label list item, no em dash as
-// punctuation, no stock word), on the page, on every sentence the steps write and on the docs.
-// Node.js only.
+// punctuation, no stock word), the AI notice (aiNoticeProblems: the page starts no live run, so it needs
+// none) and names, not record ids (recordIdProblems, with every id of data/story.js), on the page, on
+// every sentence the steps write and on the docs. tests/showcase.mjs runs the record ids over every
+// rendered screen too. Node.js only.
 //
 // The page carries one guide per language. A Vici that checks one guide per page gets the page once per
 // language: the other language's guide taken out and the key figures named in that language
@@ -37,6 +39,8 @@ const load = async (lib, script, name) => {
 const guideProblems = await load("lib/guide.mjs", "check-guide.mjs", "guideProblems");
 const bylineProblems = await load("lib/byline.mjs", "check-byline.mjs", "bylineProblems");
 const writingProblems = await load("lib/writing.mjs", "check-docs.mjs", "writingProblems");
+const aiNoticeProblems = await load("lib/ai.mjs", "check-ai.mjs", "aiNoticeProblems");
+const recordIdProblems = await load("lib/ids.mjs", "check-ids.mjs", "recordIdProblems");
 console.log = log;
 
 const results = [];
@@ -96,6 +100,18 @@ for (const lang of Object.keys(LANGS)) {
   const p = writingProblems(`<html lang="${lang}"><body>${said.map((t) => `<p>${t}</p>`).join("")}</body></html>`);
   check(!p.length, `writing: the ${said.length} ${LANGS[lang]} sentences and labels the page writes keep the writing rules${p.length ? `: ${p.join("; ")}` : ""}`);
 }
+// ---- the AI notice and the record ids ---------------------------------------------------------------------
+const ai = aiNoticeProblems(html);
+check(!ai.length, `AI notice: the page can start no live run with a model, so it needs no notice${ai.length ? `: ${ai.join("; ")}` : ""}`);
+const { recordIds } = await import(pathToFileURL(path.join(APP_ROOT, "tests/lib/ids.mjs")).href);
+const IDS = recordIds(sandbox.window.DUTY_RADAR);
+for (const lang of Object.keys(LANGS)) {
+  const words = S.words(F, lang);
+  const D = sandbox.window.DUTY_RADAR;
+  const said = [...strings(words.steps), ...strings(words.decided), ...strings(words.ask), ...strings(words.kpi), ...strings(words.evidence), ...D.cluster.members.flatMap((m) => [...words.evidence.chips(m), words.evidence.law(m)]), ...Object.keys(S.REASONS).map(words.evidence.reason), ...Object.values(COPY[lang])];
+  const ids = [...recordIdProblems(said.join("\n"), IDS), ...recordIdProblems(html, IDS)];
+  check(!ids.length, `record ids: none of the ${IDS.length} ids of data/story.js in the ${said.length} ${LANGS[lang]} sentences and labels or in index.html${ids.length ? `: ${ids.join("; ")}` : ""}`);
+}
 for (const doc of ["README.md", "DEMO_SCRIPT.md", "DESIGN.md", "DATA_SOURCES.md"]) {
   const text = readFileSync(path.join(APP_ROOT, doc), "utf8").replace(/```[\s\S]*?```/g, "").replace(/`[^`]*`/g, "");
   const p = writingProblems(`<html lang="en-GB"><body><p>${text.replace(/</g, "&lt;")}</p></body></html>`);
@@ -105,8 +121,10 @@ for (const doc of ["README.md", "DEMO_SCRIPT.md", "DESIGN.md", "DATA_SOURCES.md"
 // ---- the checks can fail ----------------------------------------------------------------------------------
 check(guideProblems(project(html, "en").replace(/<dialog\b[^>]*vc-guide[\s\S]*?<\/dialog>/, "")).length > 0, "control: a page without its guide is caught");
 check(guideProblems(project(html, "de").replace("<div class=\"kpis\"", "<p class=\"vc-stat\" data-vc-kpi=\"Meldungen je Stunde\">48</p><div class=\"kpis\"")).some((p) => /Meldungen je Stunde/.test(p)), "control: a key figure the German guide never names is caught");
-const unnamed = project(html, "en").replace(/<dialog\b[\s\S]*?<\/dialog>/, (d) => d.replace(/Duties found/gi, "Duties seen"));
-check(guideProblems(unnamed).some((p) => /Duties found/.test(p)), "control: an English guide that stops naming Duties found is caught");
+const unnamed = project(html, "en").replace(/<dialog\b[\s\S]*?<\/dialog>/, (d) => d.replace(/Relief at stake a year/gi, "Relief a year"));
+check(guideProblems(unnamed).some((p) => /Relief at stake a year/.test(p)), "control: an English guide that stops naming Relief at stake a year is caught");
+check(aiNoticeProblems(html.replace('<button type="button" class="vc-button play', '<button type="button" data-vc-live class="vc-button play')).length > 0, "control: a control that starts a live run without the AI notice is caught");
+check(recordIdProblems(`${S.words(F, "en").steps.twice.agent} (${sandbox.window.DUTY_RADAR.cluster.id})`, IDS).length > 0 && IDS.length >= 40, `control: the cluster's id planted in the agent's words is caught, among ${IDS.length} ids`);
 check(bylineProblems(html.replace(/href="https:\/\/victorpflueger\.github\.io\/VIP\/index\.html"/, 'href="#"')).length > 0, "control: a byline without the website link is caught");
 check(writingProblems('<html lang="en-GB"><body><p>Fast — and robust.</p></body></html>').length > 0, "control: an em dash and a stock word are caught");
 

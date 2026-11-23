@@ -5,7 +5,7 @@
  *   merlot (--vc-accent)    the person: the ask bar and its button, Approve, the decision, the dossier entry
  *   lilac (--vc-feature-*)  the agent: its words, the phrase it marked, its pick, what it found asked twice
  *   fjord (--vc-info-*)     the law being read
- *   success                 relief approved
+ *   success                 relief approved: the tile and the outcome
  *   ink                     everything else: the laws, their counts, the options' bars
  */
 
@@ -69,7 +69,6 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .kpi-value.vc-stat__value { display: flex; align-items: baseline; gap: 4px; font-size: var(--fs-kpi); line-height: 1.1; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .kpi-of { color: var(--vc-text-muted); font-size: 0.55em; font-weight: var(--vc-weight-medium); }
 .kpi-note.vc-stat__note { color: var(--vc-text-muted); font-size: 0.8125rem; line-height: 1.25; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.kpi[data-state="proposed"] .kpi-note { color: var(--vc-feature-text); }
 .kpi[data-tone="done"] { background: var(--vc-success-bg); border-color: var(--vc-success-border); }
 .kpi[data-tone="done"] .kpi-main { color: var(--vc-success-text); }
 
@@ -88,11 +87,7 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .steps .vc-step__button { min-height: var(--hit); }
 .steps .vc-step__label { font-size: var(--vc-font-size-md); white-space: nowrap; }
 .steps .vc-step__hint { font-size: var(--vc-font-size-sm); font-variant-numeric: tabular-nums; }
-/* Between two steps the rail fills while Play runs (--fill, from js/main.js). */
-.steps .vc-step:not(:last-child)::after {
-  background: linear-gradient(to right, var(--vc-merlot-400) calc(var(--fill, 0) * 100%), var(--vc-border) 0);
-}
-.steps .vc-step--done:not(:last-child)::after { background: var(--vc-merlot-400); }
+/* Between two steps the rail fills while the agent works: Vici's --vc-step-fill, set by js/main.js. */
 /* The step where a person acts says so: its marker is merlot until it is reached. */
 .steps .vc-step[data-person="true"]:not(.vc-step--current):not(.vc-step--done) .vc-step__marker { color: var(--vc-accent-text); }
 .steps .vc-step[data-person="true"]:not(.vc-step--current):not(.vc-step--done) .vc-step__marker::before { background: var(--vc-accent-text); }
@@ -115,7 +110,8 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .stage-head h2 { margin: 0; font-size: 1.5rem; }
 .stage-meta { margin: 0; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); font-variant-numeric: tabular-nums; }
 
-/* The law map: five families, one tile per law: its name, then a bar and the duties found in it. */
+/* The law map: five families, one tile per law: the duties found in it, then a bar. The law's short
+   title shows on hover and to a screen reader only: a wall of abbreviations told the room nothing. */
 /* One grid for all five families (display: contents), so their names share a column: up to 9.5rem,
    never narrower than the longest word, which in German is long (Produktverantwortung). */
 .lawmap { display: grid; grid-template-columns: minmax(min-content, 9.5rem) minmax(0, 1fr); align-items: start; gap: 12px; }
@@ -124,10 +120,8 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .laws { display: grid; grid-template-columns: repeat(auto-fill, minmax(7.6rem, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
 .law {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas: "abbr abbr" "bar count";
-  align-items: center;
-  column-gap: 8px;
+  grid-template-rows: auto auto;
+  align-content: end;
   row-gap: 4px;
   min-width: 0;
   margin: 0; /* Vici spaces prose list items (li + li); these lists are grids. */
@@ -137,9 +131,8 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
   border-radius: var(--vc-radius-sm);
   transition: opacity 0.4s ease, background-color 0.2s ease-out, border-color 0.2s ease-out;
 }
-.law-abbr { grid-area: abbr; font-size: var(--vc-font-size-sm); font-weight: var(--vc-weight-semibold); line-height: 1.25; white-space: nowrap; }
-.law-count { grid-area: count; min-width: 1.6em; text-align: end; font-size: var(--vc-font-size-sm); font-weight: var(--vc-weight-semibold); line-height: 1.1; }
-.law-bar { grid-area: bar; height: 6px; background: var(--vc-bg-subtle); border-radius: 1px; overflow: hidden; }
+.law-count { min-height: 1.25em; font-size: var(--vc-font-size-md); font-weight: var(--vc-weight-semibold); line-height: 1.25; }
+.law-bar { height: 6px; background: var(--vc-bg-subtle); border-radius: 1px; overflow: hidden; }
 .law-fill { display: block; height: 100%; width: calc(var(--p, 0) * 100%); background: var(--vc-neutral-solid); transform-origin: left; transition: transform 0.35s ease-out; }
 .law[data-state="unread"] { background: transparent; border-style: dashed; color: var(--vc-text-muted); }
 .law[data-state="unread"] .law-fill, .law[data-state="reading"] .law-fill { transform: scaleX(0); }
@@ -176,7 +169,8 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .ev-head .ev-label { flex: 1 0 100%; }
 .ev-link { display: inline-flex; align-items: center; gap: 5px; font-weight: var(--vc-weight-semibold); }
 .ev-link .vc-icon { --vc-icon-size: 0.9em; }
-.ev-title { color: var(--vc-text-muted); }
+.ev-law { margin: 0; }
+.ev-gloss { margin: 0; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); }
 .law-text {
   margin: 0;
   padding: 6px 0 6px 14px;
@@ -200,7 +194,7 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .twin { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .twin-law { display: grid; gap: 6px; align-content: start; padding: 10px 12px; background: var(--vc-feature-bg); border: 2px solid var(--vc-feature-solid); border-radius: var(--vc-radius-sm); }
 .twin-law .law-text { font-size: 1.05rem; border-color: var(--vc-feature-border); }
-.twin-meta { margin: 0; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); }
+.twin-law .ev-link { font-size: var(--vc-font-size-sm); }
 .shared { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; }
 .shared-label { margin: 0; font-size: var(--vc-font-size-sm); font-weight: var(--vc-weight-semibold); }
 .ev-total { margin: 0; font-weight: var(--vc-weight-semibold); font-variant-numeric: tabular-nums; }
@@ -212,7 +206,7 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .opt-fill { display: block; height: 100%; width: calc(var(--p, 0) * 100%); background: var(--vc-data-2); border-radius: 2px; transform-origin: left; animation: grow 0.9s ease-out both; }
 @keyframes grow { from { transform: scaleX(0); } }
 .opt-value { min-width: 5.5rem; text-align: end; font-family: var(--vc-font-display); font-size: 1.25rem; font-weight: var(--vc-weight-display); }
-.opt-detail { grid-column: 2 / -1; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); line-height: 1.3; }
+.opt-detail { grid-column: 1 / -1; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); line-height: 1.3; }
 .ev-options[data-compact="true"] .opts { gap: 8px; }
 
 .ev-nothing { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 0 auto; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); }
@@ -221,7 +215,6 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .dossier-item { margin: 0; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; }
 .dossier-reason { color: var(--vc-text-muted); }
 .dossier-gist, .dossier-text { margin: 0; color: var(--vc-text-muted); line-height: 1.45; }
-.dossier-figures { margin: 0; font-weight: var(--vc-weight-semibold); }
 
 /* ---------------------------------------------------------------- the story */
 
@@ -261,18 +254,18 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .ask--decision { flex-direction: column; align-items: stretch; }
 .ask--decision .ask-text { flex: none; }
 .play.vc-button { --_h: var(--hit); flex: none; min-width: 9.5rem; }
-/* After a few idle seconds the button to press pulses: a soft merlot ring that any click, key or scroll
-   calms again (js/main.js sets data-idle). */
-:root[data-idle="true"] .ask .vc-button[data-attention="true"] { animation: ask-attention 2.2s var(--vc-ease-standard) infinite; }
-@keyframes ask-attention {
-  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--vc-accent) 55%, transparent); }
-  70%, 100% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--vc-accent) 0%, transparent); }
-}
-.decision-outcome { margin: 0; padding: 12px 16px; background: var(--vc-accent-soft); color: var(--vc-on-accent-soft); border: 2px solid var(--vc-accent); border-radius: var(--vc-radius-md); line-height: 1.45; text-wrap: pretty; }
-/* Once decided, the outcome comes first and the dossier under it; the agent has nothing left to say. */
-.story[data-decided="true"] .agent { display: none; }
+/* The button to press draws the eye with Vici's vc-attention, which js/main.js sets and clears. Once the
+   story is over the bar says so in ink and offers a new start. */
+.ask[data-state="done"] { border-left-color: var(--vc-border-strong); }
+.ask[data-state="done"] .ask-lead { color: var(--vc-text); }
+/* The outcome in the tone of what was decided: relief approved in success, both kept in plain ink. */
+.decision-outcome { margin: 0; padding: 12px 16px; background: var(--vc-success-bg); color: var(--vc-text); border: 1px solid var(--vc-success-border); border-radius: var(--vc-radius-md); line-height: 1.45; text-wrap: pretty; }
+.story[data-outcome="keep"] .decision-outcome { background: var(--vc-bg-subtle); border-color: var(--vc-border); }
+/* Once decided, the outcome comes first, the dossier under it and the bar last; the agent has nothing left to say. */
+.story[data-decided="true"] .agent, .story[data-decided="true"] .story-text { display: none; }
 .story[data-decided="true"] .decision { order: 1; }
 .story[data-decided="true"] .evidence { order: 2; }
+.story[data-decided="true"] .ask { order: 3; }
 
 /* ---------------------------------------------------------------- the strip under the header, and boot */
 
@@ -307,7 +300,7 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 /* ---------------------------------------------------------------- larger and smaller windows */
 
 @media (min-width: 1700px) {
-  .law-count { font-size: var(--vc-font-size-md); }
+  .law-count { font-size: var(--vc-font-size-lg); }
   .story { gap: 22px; padding: 26px 30px 28px; }
   .story-title { font-size: 2rem; }
   .story-text { font-size: 1.25rem; }
@@ -349,7 +342,6 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
   .strip-note { font-size: 0.8125rem; line-height: 1.3; }
   .stage { padding: 12px 16px 14px; }
   .laws { gap: 5px; }
-  .law-abbr { font-size: 0.8125rem; }
   .opt { grid-template-columns: minmax(8rem, 11rem) minmax(0, 1fr) auto; }
 }
 /* Laptop screens shared at 1280 × 720 or 1366 × 768: everything stays in view. */
@@ -363,13 +355,12 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
   .stage-head h2 { font-size: 1.25rem; }
   .lawmap { gap: 8px; }
   .family-name { padding-top: 4px; font-size: 0.8125rem; }
-  /* The longest name, ProdGewStatG, keeps a few pixels to spare, also where text is set a little wider. */
-  .law { padding: 4px 5px 5px; row-gap: 2px; }
-  .law[data-pick="true"] { padding: 3px 4px 4px; }
+  .law { padding: 4px 8px 6px; row-gap: 3px; }
+  .law[data-pick="true"] { padding: 3px 7px 5px; }
   .law-bar { height: 4px; }
   .laws { gap: 4px; }
   .legend { font-size: 0.8125rem; margin-top: -2px; }
-  .ev { gap: 7px; padding: 10px 12px 11px; }
+  .ev { gap: 6px; padding: 9px 12px 10px; }
   .law-text { font-size: 1rem; padding-block: 3px; }
   .twin-law { padding: 7px 10px; gap: 4px; }
   .twin-law .law-text { font-size: 0.95rem; }
@@ -431,14 +422,12 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 
 @media (prefers-reduced-motion: reduce) {
   .law, .law-fill, .kpi.vc-stat, .boot { transition: none; }
-  /* Still unmissable, without the motion: a still ring. */
-  :root[data-idle="true"] .ask .vc-button[data-attention="true"] { animation: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--vc-accent) 35%, transparent); }
   .ev, .opt-fill { animation: none; }
   .boot-help { animation: none; opacity: 1; visibility: visible; }
 }
 @media (forced-colors: active) {
   .ask { border-color: CanvasText; border-left-color: Highlight; }
-  :root[data-idle="true"] .ask .vc-button[data-attention="true"] { animation: none; outline: 3px solid Highlight; outline-offset: 2px; }
+  .ask .vc-attention, .decision .vc-attention { outline: 3px solid Highlight; outline-offset: 2px; }
   .law-fill, .opt-fill { forced-color-adjust: none; background: CanvasText; }
   .law[data-pick="true"], .twin-law, .ev-dossier { border-color: Highlight; }
 }

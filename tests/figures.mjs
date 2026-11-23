@@ -7,7 +7,8 @@
 //             keeps the lead report and adds the minutes of the data it didn't already ask for; a
 //             register retrieval drops the covered report and costs the administration its minutes
 //   counts    the laws, duties, kinds of duty, clusters and the target add up
-//   steps     the three key figures at every step, before and after each of the three decisions
+//   steps     the three key figures at every step, before and after each of the three decisions: they
+//             answer first, from the first screen, and only the decision moves them
 //   page      every figure written into index.html (both guides, the step buttons, the first state of
 //             the key figures and the story) equals the computed one, in its language
 //   docs      every euro in the four documents is a computed one, the README's table of the key figures
@@ -90,21 +91,21 @@ const r1 = S.readingAt(F, 1);
 check(r0.found === 0 && r0.laws.every((l) => l.state === "unread") && r1.found === t.duties && r1.laws.every((l) => l.state === "read") && rHalf.found > 0 && rHalf.found < t.duties && rHalf.laws.some((l) => l.state === "reading"), `counts: before Play nothing is read; halfway ${rHalf.found} duties in ${rHalf.done} laws; at the end all ${t.duties}`);
 
 // ---- the three key figures, step by step --------------------------------------------------------------
-const k = (index, decision = null, p = 0) => S.kpisAt(F, index, p, decision);
+// Answer first: before anything runs they show what the case puts at stake (203 of 745 asked twice, the
+// merge's relief, 0 of the 107 duties the target asks for); an approval takes the relief at stake off the
+// table and strikes the old value through, keeping both leaves it.
+const k = (index, decision = null) => S.kpisAt(F, index, decision);
+const before = [203, 745, mergeRelief, null, "pending", 0, null, 107];
 const expect = [
-  [k(0), [0, "laws", 0, "none", 0, null]],
-  [k(1), [745, "split", 0, "none", 0, 107]],
-  [k(2), [745, "twice", 0, "none", 0, 107]],
-  [k(3), [745, "twice", 0, "proposed", 0, 107]],
-  [k(4), [745, "twice", 0, "proposed", 0, 107]],
-  [k(4, "merge"), [745, "twice", mergeRelief, "decided_merge", 1, 107]],
-  [k(4, "register_retrieval"), [745, "twice", saved - admin, "decided_register_retrieval", 1, 107]],
-  [k(4, "keep"), [745, "twice", 0, "decided_keep", 0, 107]],
-  // A decision belongs to the last step: back at "It prices" the relief is proposed again.
-  [k(3, "merge"), [745, "twice", 0, "proposed", 0, 107]]
+  [k(0), before], [k(1), before], [k(2), before], [k(3), before], [k(4), before],
+  [k(4, "merge"), [203, 745, 0, mergeRelief, "decided_merge", 1, 0, 107]],
+  [k(4, "register_retrieval"), [203, 745, 0, mergeRelief, "decided_register_retrieval", 1, 0, 107]],
+  [k(4, "keep"), [203, 745, mergeRelief, null, "decided_keep", 0, null, 107]],
+  // A decision belongs to the last step: back at "It prices" the relief is at stake again.
+  [k(3, "merge"), before]
 ];
-const bad = expect.filter(([got, [duties, dNote, relief, rNote, cut, of]]) => got.duties.value !== duties || got.duties.note !== dNote || !close(got.relief.value, relief) || got.relief.note !== rNote || got.cut.value !== cut || got.cut.of !== of);
-check(!bad.length, `steps: the key figures at each step and after each decision${bad.length ? `; wrong: ${bad.map(([g]) => JSON.stringify(g)).join(" | ")}` : ""}`);
+const bad = expect.filter(([got, [twice, of, stake, was, note, cut, cutWas, target]]) => got.twice.value !== twice || got.twice.of !== of || !close(got.stake.value, stake) || (was === null ? got.stake.was !== null : !close(got.stake.was, was)) || got.stake.note !== note || got.cut.value !== cut || got.cut.was !== cutWas || got.cut.of !== target);
+check(!bad.length && F.clustered === 203 && F.duties === 745 && close(F.stake, mergeRelief), `steps: the key figures at each step and after each decision${bad.length ? `; wrong: ${bad.map(([g]) => JSON.stringify(g)).join(" | ")}` : ""}`);
 const o = D.outcomes;
 check(close(o.merge.relief, mergeRelief) && o.merge.reporting.removed === 1 && removed.type === "MELDEPFLICHT" && o.register_retrieval.reporting.removed === 1 && o.keep.relief === 0 && o.keep.kept.length === 2 && o.keep.kept.every((x) => x.reason === "A3"), "steps: 1.0.0's dossier after each decision: a merge or a retrieval removes one reporting duty, keeping both keeps them with A3");
 check(close(D.kpiBefore.pending, mergeRelief), "steps: before the decision 1.0.0 shows the merge's relief as pending");
@@ -119,28 +120,39 @@ for (const lang of ["en", "de"]) {
   const wrong = spans.filter(([, key, value]) => figs[key] !== text(value)).map(([, key, value]) => `${key}: "${text(value)}" ≠ "${figs[key]}"`);
   // The key figures' values in How it works and the talk track's figures must be among them.
   const keys = new Set(spans.map(([, key]) => key));
-  const absent = ["duties", "merge", "removed", "target", "clustered", "report-cost", "sentences", "cases-words"].filter((k) => !keys.has(k));
+  const absent = ["duties", "merge", "stake", "removed", "target", "clustered", "report-cost", "sentences", "cases-words"].filter((k) => !keys.has(k));
   check(spans.length >= 30 && !wrong.length && !absent.length, `page: the ${spans.length} figures in the ${lang === "en" ? "English" : "German"} guide${wrong.length ? `; wrong: ${wrong.join("; ")}` : " equal the computed ones"}${absent.length ? `; missing: ${absent.join(", ")}` : ""}`);
 }
 const en = S.words(F, "en");
 const de = S.words(F, "de");
 const hints = [...html.matchAll(/<li class="vc-step" data-step="([^"]+)"[^>]*>[\s\S]*?<span class="step-name">([^<]+)<\/span><span class="vc-step__hint">([^<]+)<\/span>/g)];
 check(hints.length === 5 && hints.every(([, id, name, hint]) => en.steps[id].label === name && en.steps[id].hint === hint.replace(/&nbsp;/g, " ")), `page: the five step buttons as js/story.js names them (${hints.map((h) => h[3]).join(", ")})`);
-const tile = (id) => { const m = html.match(new RegExp(`id="${id}"[^>]*>[\\s\\S]*?<p class="vc-stat__label">([^<]+)</p>[\\s\\S]*?<span class="kpi-main">([^<]+)</span>[\\s\\S]*?<p class="vc-stat__note kpi-note">([^<]+)</p>`)); return m && m.slice(1).map((x) => x.replace(/&nbsp;/g, " ")); };
-const first = S.kpisAt(F, 0, 0, null);
-const want = [["kpi-duties", en.kpi.duties.label, en.n(first.duties.value), en.kpi.duties.laws], ["kpi-relief", en.kpi.relief.label, en.money(0), en.kpi.relief.none], ["kpi-cut", en.kpi.cut.label, en.n(0), en.kpi.cut.target]];
-check(want.every(([id, ...vals]) => JSON.stringify(tile(id)) === JSON.stringify(vals)), `page: the key figures start as the first step shows them (${want.map((w) => `${w[1]} ${w[2]}`).join(", ")})`);
+// Each tile as index.html writes it before any script runs: label, value (with its "of" part) and note.
+const tile = (id) => {
+  const m = html.match(new RegExp(`id="${id}"[^>]*>([\\s\\S]*?)</div>`));
+  if (!m) return null;
+  const part = (cls) => (m[1].match(new RegExp(`class="${cls}"[^>]*>([^<]*)<`)) || [])[1];
+  return [part("vc-stat__label"), `${part("kpi-main")}${part("kpi-of") || ""}`, part("vc-stat__note kpi-note")].map((x) => (x || "").replace(/&nbsp;/g, " "));
+};
+const first = S.kpisAt(F, 0, null);
+const want = [
+  ["kpi-twice", en.kpi.twice.label, `${en.n(first.twice.value)} ${en.kpi.twice.of} ${en.n(first.twice.of)}`, en.kpi.twice.note],
+  ["kpi-stake", en.kpi.stake.label, en.money(first.stake.value), en.kpi.stake.pending],
+  ["kpi-cut", en.kpi.cut.label, `${en.n(first.cut.value)} ${en.kpi.cut.of} ${en.n(first.cut.of)}`, en.kpi.cut.note]
+];
+check(want.every(([id, ...vals]) => JSON.stringify(tile(id)) === JSON.stringify(vals)), `page: the key figures start as the first step shows them, answering first (${want.map((w) => `${w[1]} ${w[2]}`).join(", ")})`);
+check(want.some(([, , value]) => /[1-9]/.test(value.split(/ of /)[0])), "page: not every key figure starts at zero");
 const kpiNames = [...html.matchAll(/data-vc-kpi="([^"]+)" data-vc-kpi-de="([^"]+)"/g)].map((m) => [m[1], m[2]]);
-check(JSON.stringify(kpiNames) === JSON.stringify([[en.kpi.duties.label, de.kpi.duties.label], [en.kpi.relief.label, de.kpi.relief.label], [en.kpi.cut.label, de.kpi.cut.label]]), `page: the key figures carry their names in both languages (${kpiNames.map((x) => x.join(" / ")).join(", ")})`);
+check(JSON.stringify(kpiNames) === JSON.stringify([[en.kpi.twice.label, de.kpi.twice.label], [en.kpi.stake.label, de.kpi.stake.label], [en.kpi.cut.label, de.kpi.cut.label]]), `page: the key figures carry their names in both languages (${kpiNames.map((x) => x.join(" / ")).join(", ")})`);
 check(html.includes(`<h2 class="story-title" id="story-title">${en.steps.target.title}</h2>`) && html.includes(`<p class="stage-meta" id="stage-meta">${en.evidence.meta}</p>`) && html.includes(`<h2 id="stage-title">${en.evidence.stage}</h2>`), "page: the first step's title and the law map's heading are written in as js/story.js words them");
 
 // Every sentence the steps say, in both languages, is whole: no hole where a figure belongs.
 const strings = (x) => (typeof x === "string" ? [x] : typeof x === "function" ? [] : x && typeof x === "object" ? Object.values(x).flatMap(strings) : []);
 for (const [lang, w] of [["en", en], ["de", de]]) {
-  const all = [...strings(w.steps), ...strings(w.outcome), ...strings(w.kpi), ...strings(w.evidence), ...w.evidence.chips(D.cluster.members[0]), ...D.cluster.members.map(w.evidence.perMember)];
+  const all = [...strings(w.steps), ...strings(w.decided), ...strings(w.ask), ...strings(w.kpi), ...strings(w.evidence), ...w.evidence.chips(D.cluster.members[0]), ...D.cluster.members.map(w.evidence.law), ...Object.keys(S.REASONS).map(w.evidence.reason)];
   const holes = all.filter((s) => /undefined|NaN|null|\[object|\{\{/.test(s));
   const figs = S.figures(F, lang);
-  check(all.length > 60 && !holes.length && w.steps.prices.title.includes(figs.merge) && w.outcome.merge.includes(figs.target) && w.steps.reads.title.includes(figs.sentences), `page: the ${all.length} ${lang === "en" ? "English" : "German"} sentences and labels are whole and carry the computed figures${holes.length ? `; holes: ${holes.slice(0, 3).join(" | ")}` : ""}`);
+  check(all.length > 60 && !holes.length && w.steps.prices.title.includes(figs.merge) && w.decided.merge.title.includes(figs.merge) && w.decided.merge.text.includes(figs.target) && w.steps.reads.title.includes(figs.sentences), `page: the ${all.length} ${lang === "en" ? "English" : "German"} sentences and labels are whole and carry the computed figures${holes.length ? `; holes: ${holes.slice(0, 3).join(" | ")}` : ""}`);
 }
 
 // ---- the docs --------------------------------------------------------------------------------------
@@ -159,7 +171,7 @@ check(amounts >= 20 && !stray.length, `docs: the ${amounts} euro amounts in the 
 const fe = S.figures(F, "en");
 const claims = [
   `${fe.duties} duties in ${fe.laws} laws, ${fe.reporting} of them reporting duties; ${fe.clustered} ask for data another duty already collects`,
-  `Merge ${fe.merge}; register retrieval ${fe.register} net (businesses save ${fe["register-businesses"]}, the administration spends ${fe["register-admin"]}, plus ${fe["one-off"]} once)`,
+  `Merge ${fe.merge}; register lookup ${fe.register} net (businesses save ${fe["register-businesses"]}, the administration spends ${fe["register-admin"]}, plus ${fe["one-off"]} once)`,
   `A third of ${fe.reporting} is ${fe.target}; one approval cuts ${fe.removed}`
 ].map(plain);
 const missing = claims.filter((c) => !doc("README.md").includes(c));
