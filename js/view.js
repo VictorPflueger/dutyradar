@@ -33,31 +33,26 @@ export function drawStepLabels(w) {
 
 // ------------------------------------------------------------------ key figures
 
-/** The three tiles at step `index`, progress p toward the next step, after `decision`. */
-export function drawKpis(F, w, index, p, decision) {
-  const k = kpisAt(F, index, p, decision);
-  // A figure a decision moved keeps its old value, struck through before the new one (vc-stat__was).
-  const tile = (id, label, main, note, was = null) => {
+/** The three tiles at step `index` after `decision`: the stake from the first screen, moved by the decision. */
+export function drawKpis(F, w, index, decision) {
+  const k = kpisAt(F, index, decision);
+  // A figure the decision moved keeps its old value, struck through before the new one (vc-stat__was).
+  const tile = (id, label, main, note, of = null, was = null) => {
     const el = $(id);
     setText(el.querySelector(".vc-stat__label"), label);
     setText(el.querySelector(".kpi-main"), main);
     setText(el.querySelector(".kpi-note"), note);
     const old = el.querySelector(".vc-stat__was");
-    if (old) {
-      old.hidden = was === null;
-      setText(old, was ?? "");
-    }
+    if (old) { old.hidden = was === null; setText(old, was ?? ""); }
+    const tail = el.querySelector(".kpi-of");
+    if (tail) { tail.hidden = of === null; setText(tail, of ?? ""); }
     return el;
   };
-  tile("kpi-duties", w.kpi.duties.label, w.n(k.duties.value), w.kpi.duties[k.duties.note]);
-  const relief = tile("kpi-relief", w.kpi.relief.label, w.money(k.relief.value), w.kpi.relief[k.relief.note], k.relief.was === null ? null : w.money(k.relief.was));
-  if (k.relief.done) relief.dataset.tone = "done";
-  else delete relief.dataset.tone;
-  relief.dataset.state = k.relief.note;
-  const cut = tile("kpi-cut", w.kpi.cut.label, w.n(k.cut.value), k.cut.of === null ? w.kpi.cut.target : w.kpi.cut.ofNote, k.cut.was === null ? null : w.n(k.cut.was));
-  const of = cut.querySelector(".kpi-of");
-  of.hidden = k.cut.of === null;
-  if (k.cut.of !== null) setText(of, ` ${w.kpi.cut.of} ${w.n(k.cut.of)}`);
+  tile("kpi-twice", w.kpi.twice.label, w.n(k.twice.value), w.kpi.twice.note, ` ${w.kpi.twice.of} ${w.n(k.twice.of)}`);
+  const stake = tile("kpi-stake", w.kpi.stake.label, w.money(k.stake.value), w.kpi.stake[k.stake.note], null, k.stake.was === null ? null : w.money(k.stake.was));
+  if (k.stake.done) stake.dataset.tone = "done";
+  else delete stake.dataset.tone;
+  tile("kpi-cut", w.kpi.cut.label, w.n(k.cut.value), w.kpi.cut.note, ` ${w.kpi.cut.of} ${w.n(k.cut.of)}`, k.cut.was === null ? null : w.n(k.cut.was));
 }
 
 // ------------------------------------------------------------------ the law map
@@ -73,7 +68,8 @@ export function createLawMap(F) {
       <p class="family-name" data-en="${esc(familyName(f, "en"))}" data-de="${esc(familyName(f, "de"))}">${esc(f.en)}</p>
       <ul class="laws">${f.norms.map((id) => {
         const n = byId.get(id);
-        return `<li class="law" data-id="${esc(id)}" data-state="unread" title="${esc(n.title)}"><span class="law-abbr">${esc(n.abbr)}</span><span class="law-count vc-tabular"></span><span class="law-bar" aria-hidden="true"><span class="law-fill"></span></span></li>`;
+        // The count comes first; the law's short title shows on hover and to a screen reader, not on the tile.
+        return `<li class="law" data-id="${esc(id)}" data-state="unread" title="${esc(`${n.abbr}: ${n.title}`)}"><span class="vc-visually-hidden">${esc(n.abbr)}</span><span class="law-count vc-tabular"></span><span class="law-bar" aria-hidden="true"><span class="law-fill"></span></span></li>`;
       }).join("")}</ul>
     </div>`).join("");
   const tiles = new Map([...box.querySelectorAll(".law")].map((el) => [el.dataset.id, el]));
@@ -114,7 +110,10 @@ function lawText(sentence, phrase) {
   while (end > start && /\s/.test(sentence[end - 1])) end -= 1;
   return `${esc(sentence.slice(0, start))}<mark>${esc(sentence.slice(start, end))}</mark>${esc(sentence.slice(end))}`;
 }
-const section = (mem, w) => `<a class="ev-link" href="${esc(mem.url)}" target="_blank" rel="noopener" aria-label="${esc(`${mem.section} ${mem.abbr}, ${mem.title} (${w.evidence.newTab})`)}">${esc(legal(`${mem.section} ${mem.abbr} `).trim())}<span class="vc-icon vc-icon--external" aria-hidden="true"></span></a>`;
+/** The law in words with its section, linked to the text: the citation is the evidence, and its short
+ *  title (§ 11 HdlDlStatG) shows on hover. */
+const lawHead = (mem, w) => `<p class="ev-law"><a class="ev-link" href="${esc(mem.url)}" target="_blank" rel="noopener" title="${esc(legal(`${mem.section} ${mem.abbr} `).trim())}" aria-label="${esc(`${w.evidence.law(mem)}, ${mem.section} ${mem.abbr} (${w.evidence.newTab})`)}">${esc(legal(`${w.evidence.law(mem)}, ${mem.section} `).trim())}<span class="vc-icon vc-icon--external" aria-hidden="true"></span></a></p>`;
+const gloss = (text) => (text ? `<p class="ev-gloss">${esc(text)}</p>` : "");
 
 function target(w) {
   const t = w.evidence.target;
@@ -128,8 +127,8 @@ function target(w) {
 function duty(F, w) {
   const mem = F.D.cluster.members[0];
   return `<article class="ev ev-duty">
-    <header class="ev-head"><p class="ev-label">${esc(w.evidence.example)}</p>${section(mem, w)}<span class="ev-title" lang="de">${esc(mem.title)}</span></header>
-    <blockquote class="law-text" lang="de">${lawText(mem.sentence, mem.phrase)}</blockquote>
+    <header class="ev-head"><p class="ev-label">${esc(w.evidence.example)}</p>${lawHead(mem, w)}</header>
+    <blockquote class="law-text" lang="de">${lawText(mem.sentence, mem.phrase)}</blockquote>${gloss(w.evidence.gloss)}
     <ul class="chips">${w.evidence.chips(mem).map((c) => `<li><span class="vc-tag">${esc(c)}</span></li>`).join("")}</ul>
     <p class="ev-note">${esc(w.evidence.official)}</p>
   </article>`;
@@ -139,7 +138,7 @@ function twin(F, w) {
   const c = F.D.cluster;
   return `<article class="ev ev-twin">
     <p class="ev-label">${esc(w.evidence.twin)}</p>
-    <div class="twin">${c.members.map((mem) => `<section class="twin-law">${section(mem, w)}<blockquote class="law-text" lang="de">${lawText(mem.sentence, mem.phrase)}</blockquote><p class="twin-meta">${esc(w.evidence.perMember(mem))}</p></section>`).join("")}</div>
+    <div class="twin">${c.members.map((mem) => `<section class="twin-law">${lawHead(mem, w)}<blockquote class="law-text" lang="de">${lawText(mem.sentence, mem.phrase)}</blockquote></section>`).join("")}</div>${gloss(w.evidence.twinGloss)}
     <div class="shared"><p class="shared-label">${esc(w.evidence.shared)}</p><ul class="chips">${c.shared.map((i) => `<li><span class="vc-tag vc-tag--feature">${esc(w.item(i.id))}</span></li>`).join("")}</ul></div>
     <p class="ev-total">${esc(w.evidence.together)}</p>
   </article>`;
@@ -151,23 +150,23 @@ function options(F, w, compact = false) {
     <p class="ev-label">${esc(w.evidence.options)}</p>
     <ol class="opts">${CHOICES.map((type) => {
       const value = -F.option[type].net;
-      return `<li class="opt" data-type="${type}"><span class="opt-name">${esc(w.evidence.option[type].name)}</span><span class="opt-bar" aria-hidden="true"><span class="opt-fill" data-p="${(value / top).toFixed(4)}"></span></span><span class="opt-value vc-tabular">${esc(w.money(value))}</span>${compact ? "" : `<span class="opt-detail">${esc(w.evidence.option[type].detail)}</span>`}</li>`;
+      return `<li class="opt" data-type="${type}"><span class="opt-name">${esc(w.evidence.option[type].name)}</span><span class="opt-bar" aria-hidden="true"><span class="opt-fill" data-p="${(value / top).toFixed(4)}"></span></span><span class="opt-value vc-tabular">${esc(w.money(value))}</span>${compact || !w.evidence.option[type].detail ? "" : `<span class="opt-detail">${esc(w.evidence.option[type].detail)}</span>`}</li>`;
     }).join("")}</ol>
   </article>`;
 }
 
 function dossier(F, w, decision) {
   const o = F.option[decision];
-  const out = F.outcome[decision];
   const keep = decision === "keep";
-  const reason = `${o.reason.code} ${w.lang === "de" ? o.reason.de : o.reason.en}`;
+  const reason = w.evidence.reason(o.reason.code);
+  // The relief and the duty it cuts are in the title, the outcome and the tiles above; the dossier holds
+  // the decision, its reason and the draft wording.
   const body = keep
     ? `<p class="dossier-text">${esc(w.evidence.keptText)}</p>`
-    : `<blockquote class="law-text" lang="de">${esc(legal(o.wording))}</blockquote>${w.evidence.gist ? `<p class="dossier-gist">${esc(w.evidence.gist + o.gist)}</p>` : ""}
-       <p class="dossier-figures vc-tabular">${esc(`${w.money(out.relief)} ${w.evidence.perYear} · ${w.evidence.dutyFewer} · ${out.dossier.sections.map((x) => legal(`${x} `).trim()).join(", ")}`)}</p>`;
+    : `<blockquote class="law-text" lang="de">${esc(legal(o.wording))}</blockquote>${w.evidence.gist ? `<p class="dossier-gist">${esc(w.evidence.gist + o.gist)}</p>` : ""}`;
   return `<article class="ev ev-dossier">
     <header class="ev-head"><p class="ev-label">${esc(w.evidence.dossier)}</p><p class="ev-nothing"><span class="vc-icon vc-icon--lock" aria-hidden="true"></span>${esc(w.evidence.nothingSent)}</p></header>
-    <p class="dossier-item"><span class="vc-tag vc-tag--accent"><span class="vc-icon vc-icon--check" aria-hidden="true"></span>${esc(keep ? w.evidence.kept : w.evidence.approved)}</span> <strong>${esc(w.evidence.option[decision].name)}</strong> <span class="dossier-reason">${esc(reason)}</span></p>
+    <p class="dossier-item"><span class="vc-tag vc-tag--accent"><span class="vc-icon vc-icon--check" aria-hidden="true"></span>${esc(keep ? w.evidence.kept : w.evidence.approved)}</span> <strong>${esc(w.evidence.entry[decision])}</strong> <span class="dossier-reason">${esc(reason)}</span></p>
     ${body}
   </article>`;
 }
@@ -195,18 +194,20 @@ export function drawEvidence(F, w, index, p, decision) {
 
 // ------------------------------------------------------------------ the story beside it
 
-/** The step's title, words, the agent's sentence and, at the last step, the decision and its outcome. */
+/** The step's title, words, the agent's sentence and, at the last step, the decision and its outcome:
+ *  once decided, the title states the result and the box under it says why. */
 export function drawStory(w, index, decision) {
   const s = w.steps[STEP_IDS[index]];
-  setText($("story-title"), s.title);
+  const done = Boolean(decision) && index === STEP_IDS.length - 1;
+  setText($("story-title"), done ? w.decided[decision].title : s.title);
   setText($("story-text"), s.text);
   setText($("agent-text"), s.agent);
-  $("story").dataset.decided = String(Boolean(decision) && index === STEP_IDS.length - 1);
-  const d = $("decision");
-  d.hidden = index !== STEP_IDS.length - 1;
+  $("story").dataset.decided = String(done);
+  $("story").dataset.outcome = done ? decision : "";
+  $("decision").hidden = index !== STEP_IDS.length - 1;
   // Once decided, the question and its buttons go: the outcome answers them.
   $("decision-bar").hidden = Boolean(decision);
   const out = $("decision-outcome");
   out.hidden = !decision;
-  if (decision) setText(out, w.outcome[decision]);
+  if (decision) setText(out, w.decided[decision].text);
 }

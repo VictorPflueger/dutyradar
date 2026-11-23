@@ -12,8 +12,8 @@ const SUITES = [
   { id: "figures", what: "every euro again from the cost method, the counts, the key figures per step, every figure in the page and the docs; the data is 1.0.0's", file: "tests/figures.mjs", browser: false, legacy: true },
   { id: "files", what: "the page's files, the modules' imports, no lab left, vici/ unchanged", file: "tests/files.mjs", browser: false, vici: true },
   { id: "lean", what: "how small the app stays: modules, lines, buttons, no live-mode code, no connection, short docs", file: "tests/lean.mjs", browser: false },
-  { id: "vici", what: "Vici's own guide, byline and writing checks on the page in both languages, every sentence and the docs", file: "tests/vici.mjs", browser: false, vici: true },
-  { id: "showcase", what: "the five steps by click, key and link, the bar that asks, the three decisions, the language switch, three window sizes, both themes", file: "tests/showcase.mjs", browser: true },
+  { id: "vici", what: "Vici's own guide, byline, writing, AI notice and record id checks on the page in both languages, every sentence and the docs", file: "tests/vici.mjs", browser: false, vici: true },
+  { id: "showcase", what: "the five steps by click, key and link, the bar that asks, the three decisions, no record id on a screen, the language switch, three window sizes, both themes", file: "tests/showcase.mjs", browser: true, vici: true },
   { id: "guide", what: "the guide of the page's language opens once per tab, focus and keys, ?guide=0 and ?guide=present, fits 1280 × 720", file: "tests/guide-behaviour.mjs", browser: true },
   { id: "contrast", what: "every visible text in the five steps and both guides meets WCAG 2.2 AA, light and dark", file: "tests/contrast.mjs", browser: true },
   { id: "hexagon", what: "nothing round in the app's files or the rendered page, light and dark", file: "tests/hexagon.mjs", browser: true }

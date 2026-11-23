@@ -8,30 +8,30 @@ Built by Victor Pflüger: [LinkedIn](https://www.linkedin.com/in/victorpflueger)
 
 ## The case
 
-Under PflichtenLichten, the federal and state governments want at least a third fewer reporting duties and half the documentation duties. Where do you start? Duty Radar shows an agent that reads the law, finds 745 duties, spots two monthly reports that ask 60,000 businesses for the same 4 items, prices three options and hands the decision to a person. Merging the two reports saves businesses €4.07m a year and cuts 1 of the 107 reporting duties the target asks for in these laws.
+PflichtenLichten is the federal and state governments' plan to take duties off businesses: at least a third fewer reporting duties and half the documentation duties. Where do you start? Duty Radar shows an agent that reads the law, finds 745 duties, spots two monthly reports that ask 60,000 businesses for the same 4 items, prices three options and hands the decision to a person. Merging the two reports saves businesses €4.07m a year and cuts 1 of the 107 reporting duties the target asks for in these laws.
 
 ## How to show it
 
-The page opens with How it works, Vici's guide. Its last chapter is the talk track: five steps of a minute each. Close it, and wherever the page waits a bar under the story says “Your turn” and holds the one button, which names where it leads: it runs the agent to the next step and stops there, so you can talk. The steps under the header jump to any step.
+The page opens with How it works, Vici's guide. Its last chapter is the talk track: five steps of a minute each. Close it, and wherever the page waits a bar under the story says “Your turn” and holds the one button, which names where it leads: it runs the agent to the next step and stops there, so you can talk. The steps under the header jump to any step. Once a person has decided, the bar says the story is over and offers Start again.
 
 | Step | The screen | The key figure to point at |
 |---|---|---|
-| 1 The target | The −⅓ and −½ targets; 31 laws, none read yet | All three, at zero |
-| 2 It reads | The laws fill in; one duty with its sentence and section | Duties found counts up to 745 |
-| 3 Asked twice | The same sentence in two laws, the 4 items asked in both | Duties found: 203 asked twice |
-| 4 It prices | Three options, priced with the federal method | Relief a year: €4.07m proposed, €0 until a person approves |
-| 5 You decide | Approve merge, approve register retrieval or keep both; the dossier entry | Relief a year and Reporting duties cut move only now |
+| 1 The target | The −⅓ and −½ targets; 31 laws, none read yet | All three: what is at stake, from the first screen |
+| 2 It reads | The laws fill in with the duties found in each; one duty with its sentence and section | |
+| 3 Asked twice | The same sentence in two laws, named in words, and the 4 items asked in both | Asked twice: 203 of 745 |
+| 4 It prices | Three options, priced with the federal method | Relief at stake a year: €4.07m |
+| 5 You decide | Approve merge, approve register lookup or keep both; the dossier entry | Relief at stake drops to €0 and Reporting duties cut goes to 1 of 107, the old values struck through |
 
 [DEMO_SCRIPT.md](DEMO_SCRIPT.md) has the talk track in both languages and short answers to the usual questions.
 
 ## The three key figures
 
-They sit top right. The guide's How it works chapter explains each in a row of its own, and the talk track points at each. When the decision moves a figure, its tile keeps the old value struck through.
+They sit top right and answer first: from the first screen they show what the case puts at stake, and only the decision moves them. The guide's How it works chapter explains each in a row of its own, and the talk track points at each. When the decision moves a figure, its tile keeps the old value struck through.
 
 | Key figure | What it tells the customer | In this run |
 |---|---|---|
-| Duties found | What the agent detects | 745 duties in 31 laws, 320 of them reporting duties; 203 ask for data another duty already collects |
-| Relief a year | What an approved option saves, by the federal compliance-cost method | Merge €4.07m; register retrieval €3.93m net (businesses save €4.99m, the administration spends €1.07m, plus €250,000 once); keep €0 |
+| Asked twice | How much the law asks twice | 745 duties in 31 laws, 320 of them reporting duties; 203 ask for data another duty already collects |
+| Relief at stake a year | What the merge saves businesses until a person approves it, by the federal compliance-cost method; an approval takes it to €0 | Merge €4.07m; register lookup €3.93m net (businesses save €4.99m, the administration spends €1.07m, plus €250,000 once); keep €0 |
 | Reporting duties cut | How far that gets toward the target | A third of 320 is 107; one approval cuts 1 |
 
 ## What is real, assumed or simulated
@@ -71,7 +71,7 @@ Address options: `?lang=de` German, `?guide=0` without the guide, `?guide=presen
 | `js/` | Seven modules: start-up and controls (`main.js`), drawing (`view.js`), the steps' words and figures (`story.js`), the fixed words (`copy.js`), number formats (`format.js`), the language before start-up (`lang.js`), the theme (`theme.js`) |
 | `css/app.css` | The page around Vici |
 | `data/story.js` | The figures, generated from release 1.0.0 |
-| `vici/` | Vici, Victor's design system, unchanged at commit `12c72d2` |
+| `vici/` | Vici, Victor's design system, unchanged at commit `7150ac4` |
 | `tools/build-story.mjs` | Builds and checks `data/story.js` |
 | `tests/` | The suites |
 | [DEMO_SCRIPT.md](DEMO_SCRIPT.md), [DESIGN.md](DESIGN.md), [DATA_SOURCES.md](DATA_SOURCES.md) | The presenter's guide, the design notes, the sources |
