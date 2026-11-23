@@ -71,7 +71,7 @@ Address options: `?lang=de` German, `?guide=0` without the guide, `?guide=presen
 | `js/` | Seven modules: start-up and controls (`main.js`), drawing (`view.js`), the steps' words and figures (`story.js`), the fixed words (`copy.js`), number formats (`format.js`), the language before start-up (`lang.js`), the theme (`theme.js`) |
 | `css/app.css` | The page around Vici |
 | `data/story.js` | The figures, generated from release 1.0.0 |
-| `vici/` | Vici, Victor's design system, unchanged at commit `7150ac4` |
+| `vici/` | Vici, Victor's design system, unchanged at commit `484b49a` |
 | `tools/build-story.mjs` | Builds and checks `data/story.js` |
 | `tests/` | The suites |
 | [DEMO_SCRIPT.md](DEMO_SCRIPT.md), [DESIGN.md](DESIGN.md), [DATA_SOURCES.md](DATA_SOURCES.md) | The presenter's guide, the design notes, the sources |
