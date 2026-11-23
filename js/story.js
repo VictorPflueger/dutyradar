@@ -194,7 +194,7 @@ export function words(F, lang) {
         ? "Der Agent schlägt vor, ein Mensch entscheidet. Nur eine Freigabe kommt ins Dossier, mit einer Formulierungshilfe. Nichts wird versendet."
         : "The agent proposes, a person decides. Only an approval enters the relief dossier, with draft wording for the law change. Nothing is sent.",
       agent: de ? `Die Optionen für ${reports} liegen zur Entscheidung vor.` : `The options for ${reports} are ready for your decision.`,
-      ask: de ? "Geben Sie eine Option frei oder behalten Sie beide." : "Approve one option or keep both."
+      ask: de ? "Geben Sie eine Option frei, dann entfällt eine Meldepflicht." : "Approve an option and one reporting duty goes."
     }
   };
   // The bar's words: what the page waits for, said where the eye is, and the button that names where it

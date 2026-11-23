@@ -140,7 +140,7 @@ try {
     };
     const NEXT = { en: ["Next: It reads", "Next: Asked twice", "Next: It prices", "Next: You decide"], de: ["Weiter: Er liest", "Weiter: Doppelt gefragt", "Weiter: Er bepreist", "Weiter: Sie entscheiden"] };
     const LEAD = { en: "Your turn:", de: "Sie sind dran:" };
-    const DECISION = { en: "Your turn: Approve one option or keep both.", de: "Sie sind dran: Geben Sie eine Option frei oder behalten Sie beide." };
+    const DECISION = { en: "Your turn: Approve an option and one reporting duty goes.", de: "Sie sind dran: Geben Sie eine Option frei, dann entfällt eine Meldepflicht." };
     for (const lang of ["en", "de"]) {
       const { page, ctx, errors } = await open(`?guide=0&speed=20&lang=${lang}`);
       const visits = [];
