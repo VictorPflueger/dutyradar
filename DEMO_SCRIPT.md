@@ -27,7 +27,7 @@ To close: "47 more clusters are waiting. The agent finds them, people decide."
 
 | Schritt | Tun | Sagen |
 |---|---|---|
-| 1 Das Ziel | Auf die drei Kennzahlen zeigen. | „Das Ziel: ein Drittel weniger Meldepflichten. Möglich sind 4,07 Mio. € im Jahr.“ |
+| 1 Das Ziel | Auf die drei Kennzahlen zeigen. | „Ein Drittel weniger Meldepflichten. Es geht um 4,07 Mio. € im Jahr.“ |
 | 2 Er liest | „Weiter: Er liest“ drücken, die Gesetze füllen sich. | „745 Pflichten in 4.904 Sätzen, jede mit Satz und Paragraf.“ |
 | 3 Doppelt gefragt | Auf denselben Satz in zwei Gesetzen zeigen. | „Dieselben Daten, doppelt gefragt: 1,44 Millionen Meldungen im Jahr.“ |
 | 4 Er bepreist | Auf Offene Entlastung pro Jahr zeigen. | „Eine Meldung statt zwei spart 4,07 Mio. € im Jahr. Keine Zahl ohne Quelle.“ |
