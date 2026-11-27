@@ -23,7 +23,8 @@ import { APP_ROOT, ONLY, launchBrowser, serveStatic, NETWORK_NOISE } from "./lib
 
 const NAME = "Duty Radar";
 
-/** The states to look at: the guide's first and last chapters, the five steps, the decisions, Play. */
+/** The states to look at: the guide's first and last chapters, the five steps, the decisions, the lists
+ *  beside the story, Play. */
 async function hexagonTour(page, visit, lang) {
   await page.waitForFunction(() => document.documentElement.dataset.boot === "ready", null, { timeout: 15000 });
   await page.waitForTimeout(250);
@@ -40,6 +41,15 @@ async function hexagonTour(page, visit, lang) {
     await visit(`decided: ${choice}`);
     await page.click("#restart");
     await page.click('#steps [data-step="decide"] button');
+  }
+  // What opens beside the story: the ladder, a law's duties with its filters, the clusters, the comparison
+  // with its A and B, a derivation with its sensitivity bars.
+  for (const [step, open, name] of [["twice", "#ladder-open", "the ladder"], ["twice", '#lawmap button.law[data-id="preisstatg"]', "a law's duties"], ["twice", '#story-text button.count[data-open="clusters"]', "the clusters"], ["twice", "#compare-open", "the comparison"], ["prices", "#kpi-stake", "the derivation"]]) {
+    await page.click(`#steps [data-step="${step}"] button`);
+    await page.click(open);
+    await page.waitForFunction(() => document.getElementById("panel")?.dataset.ready === "true", null, { timeout: 8000 });
+    await visit(name);
+    await page.keyboard.press("Escape");
   }
   await page.click('#steps [data-step="target"] button');
   await page.click("#play");

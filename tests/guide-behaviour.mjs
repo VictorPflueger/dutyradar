@@ -2,22 +2,25 @@
 // Opening), in each language, checked the way Vici's own scripts/check-guide-render.mjs checks its
 // starters, here over http because the page's modules don't run from a file:
 //   en        in a new tab, a German browser included, the English guide opens by itself with focus on
-//             Next, no live region, Back disabled and "1 of 4"; Enter moves to chapter 2 and focus to
+//             Next, no live region, Back disabled and "1 of 6"; Enter moves to chapter 2 and focus to
 //             its heading; the rail jumps to the talk track, whose button reads Start; Escape closes;
 //             the header button reopens it at chapter 1; Start closes it, gives focus back and leaves
 //             the page on the first step; a reload in the same tab doesn't open it again, and neither
 //             does a reload after switching to German: the two guides are one guide in two languages
-//   de        the same in German (?lang=de): "1 von 4", the rail "Kapitel", Weiter, Zurück, Starten;
+//   de        the same in German (?lang=de): "1 von 6", the rail "Kapitel", Weiter, Zurück, Starten;
 //             the English guide stays closed and its header button hidden; a returning visitor who
 //             chose German gets the German guide in a new tab
 //   address   ?guide=0 keeps it closed; ?guide=present opens the talk track; in either language
 //   content   the How it works chapter explains each key figure in a row of its own: the name as on its
-//             tile, what it measures, and the value the tile shows once a person approves the merge;
-//             and the talk track has one line per step, each starting with that step's name
+//             tile, what it measures, and the value the tile shows once a person approves the merge; two
+//             chapters walk the ladder from law to decision, a sentence per rung with its count; What is
+//             real names each assumption with its reason; and the talk track has one line per step, each
+//             starting with that step's name, which opens a list, the comparison and the derivation and
+//             says where the relief rests on an assumption
 //   fit       at 375 px the guide fills the screen; at 1280 × 720 and 1366 × 768 every chapter of both
 //             guides, the talk track included, fits without scrolling
 // Usage: NODE_PATH="$(npm root -g)" node tests/guide-behaviour.mjs [case …]
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
 import { pathToFileURL } from "node:url";
@@ -28,10 +31,11 @@ vm.createContext(sandbox);
 vm.runInContext(readFileSync(path.join(APP_ROOT, "data/story.js"), "utf8"), sandbox);
 const S = await import(pathToFileURL(path.join(APP_ROOT, "js/story.js")).href);
 const F = S.factsOf(sandbox.window.DUTY_RADAR);
+const X = existsSync(path.join(APP_ROOT, "js/explain.js")) ? await import(pathToFileURL(path.join(APP_ROOT, "js/explain.js")).href) : null;
 const W = { en: S.words(F, "en"), de: S.words(F, "de") };
 const WORDS = {
-  en: { count: "1 of 4", rail: "Chapters", next: "Next", back: "Back", done: "Start", how: "How it works" },
-  de: { count: "1 von 4", rail: "Kapitel", next: "Weiter", back: "Zurück", done: "Starten", how: "So arbeitet er" }
+  en: { count: "1 of 6", rail: "Chapters", next: "Next", back: "Back", done: "Start", how: "How it works" },
+  de: { count: "1 von 6", rail: "Kapitel", next: "Weiter", back: "Zurück", done: "Starten", how: "So arbeitet er" }
 };
 
 const out = await outDir("guide");
@@ -84,7 +88,7 @@ async function walk(lang) {
   const p = await tab(ctx, lang === "de" ? "?lang=de" : "");
   let s = await state(p, lang);
   check(s.open && !s.otherOpen && s.lang === (lang === "de" ? "de" : "en-GB") && s.opener && !s.otherOpener, `${lang}: a new tab${lang === "en" ? " in a German browser" : ""} opens the ${lang === "en" ? "English" : "German"} guide by itself, the other stays closed and only this guide's header button shows`);
-  check(s.shown.join() === "what" && s.active === "next" && s.back && s.count === w.count && s.rail === 4 && s.chapters === 4 && s.railName === w.rail && s.live === 0 && s.backText === w.back && s.next.startsWith(w.next), `${lang}: chapter 1 alone, focus on ${w.next}, ${w.back} disabled, "${s.count}", the rail "${s.railName}" with ${s.rail} chapters, no live region`);
+  check(s.shown.join() === "what" && s.active === "next" && s.back && s.count === w.count && s.rail === 6 && s.chapters === 6 && s.railName === w.rail && s.live === 0 && s.backText === w.back && s.next.startsWith(w.next), `${lang}: chapter 1 alone, focus on ${w.next}, ${w.back} disabled, "${s.count}", the rail "${s.railName}" with ${s.rail} chapters, no live region`);
   await p.screenshot({ path: path.join(out, `${lang}-chapter-1.png`) });
   await p.keyboard.press("Enter");
   await p.waitForTimeout(100);
@@ -102,7 +106,7 @@ async function walk(lang) {
   await p.waitForTimeout(150);
   s = await state(p, lang);
   check(s.open && s.shown.join() === "what", `${lang}: the header button reopens it at chapter 1`);
-  for (let i = 0; i < 4; i++) { await p.click(`#guide-${lang} [data-vc-guide-next]`); await p.waitForTimeout(60); }
+  for (let i = 0; i < 6; i++) { await p.click(`#guide-${lang} [data-vc-guide-next]`); await p.waitForTimeout(60); }
   s = await state(p, lang);
   const after = await p.evaluate(() => ({ focus: document.activeElement && (document.activeElement.hasAttribute("data-vc-guide-open") || document.activeElement.id === "play"), step: new URL(location.href).searchParams.get("step") }));
   check(!s.open && after.focus && after.step === "target", `${lang}: ${w.done} on the last chapter closes it, focus goes back to the page and the page is at the first step (${after.step})`);
@@ -169,6 +173,24 @@ try {
       const labels = S.STEP_IDS.map((id) => W[lang].steps[id].label);
       const wrong = c.track.filter((line, i) => !line.startsWith(`${labels[i]}:`));
       check(c.track.length === 5 && !wrong.length, `content: the ${lang === "en" ? "English" : "German"} talk track has a line per step, each starting with its name (${labels.join(", ")})${wrong.length ? `; off: ${wrong.join(" | ")}` : ""}`);
+      // The ladder rung by rung, What is real, and a script that opens what the review asked to see.
+      const g = await p.evaluate((l) => {
+        const d = document.getElementById(`guide-${l}`);
+        const flat = (s) => s.replace(/\u00ad/g, "").replace(/\s+/g, " ").trim();
+        const rows = (ch) => [...d.querySelectorAll(`[data-vc-chapter="${ch}"] tbody tr`)].map((r) => flat(r.textContent));
+        return { law: rows("law"), decision: rows("decision"), real: rows("real"), path: [...d.querySelectorAll('[data-vc-chapter="present"] .vc-guide__path > li')].map((li) => flat(li.textContent)), chapters: [...d.querySelectorAll(".vc-guide__chapter")].map((ch) => ch.dataset.vcChapter) };
+      }, lang);
+      const rungs = X ? X.explain(F, lang).ladder : [];
+      const ladderRows = [...g.law, ...g.decision];
+      const fmtN = (x) => new Intl.NumberFormat(lang === "de" ? "de-DE" : "en-GB").format(x);
+      const unlisted = rungs.filter((r) => !ladderRows.some((row) => row.includes(fmtN(r.value))));
+      check(g.chapters.join() === "what,how,law,decision,real,present" && rungs.length === 10 && ladderRows.length === 10 && !unlisted.length, `content: the ${lang === "en" ? "English" : "German"} guide walks the ladder from law to decision, a row per rung with its count (${g.chapters.join(", ")})${unlisted.length ? `; missing: ${unlisted.map((r) => r.id).join(", ")}` : ""}`);
+      const assumed = lang === "de" ? /angenommen/i : /assumed/i;
+      const real = g.real.join(" | ");
+      check(assumed.test(real) && real.includes(fmtN(F.businesses)) && /0[.,]50/.test(real) && /250[.,]000/.test(real), `content: the ${lang === "en" ? "English" : "German"} What is real names each assumption with its reason: the businesses filing both, €0.50, 2 minutes, €250,000`);
+      const script = g.path.join(" | ");
+      const opens = lang === "de" ? [/öffnen|aufklappen|anklicken|klicken/i, /Vergleich/i, /Woher kommt/i, /angenommen/i] : [/open|click/i, /Compare/, /Where does/i, /assum/i];
+      check(g.path.length >= 3 && g.path.length <= 7 && opens.every((re) => re.test(script)), `content: the ${lang === "en" ? "English" : "German"} script opens a list, the comparison and the derivation and says where the relief rests on an assumption`);
     }
     await ctx.close();
   }

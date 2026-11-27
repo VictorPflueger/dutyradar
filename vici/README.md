@@ -1,12 +1,12 @@
 # Vici, copied into this prototype
 
 These files come unchanged from Vici, Victor Pflüger's design system
-(<https://victorpflueger.github.io/ViciDesign/index.html>), from its main branch at commit **`484b49a`**
-(23 November 2026), on the way to Vici 2.0. That commit brings the How it works guide (`vc-guide`)
-with one guide per language, the 2.0 byline, the key-figure rule, the struck-through old value of a
-key figure (`vc-stat__was`), the pause icon, `vc-attention` for the button the page waits for and
-`--vc-step-fill` for the stepper's rail; its files still call themselves 1.0.0 until 2.0 is released.
-The prototype loads them from here rather than from a CDN, so every page is served from this site alone.
+(<https://victorpflueger.github.io/ViciDesign/index.html>), from its main branch at commit **`4398d82`**
+(27 November 2026), on the way to Vici 2.0. Since the copy before last (`d04a318`) Vici's stylesheet gained a
+count that opens what it counts (`.vc-count`, and a stat card that is a button), one of the lessons this
+prototype gave back, and since the last (`21d6941`) a line under a key figure that says what the figure leaves
+out (`.vc-stat__also`); its files still call themselves 1.0.0 until 2.0 is released. The prototype loads them from here rather than from a CDN, so every
+page is served from this site alone.
 
 | File here | What it is |
 |---|---|

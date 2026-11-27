@@ -3,7 +3,7 @@
 //   node tools/build-story.mjs --legacy <checkout of 7377619>
 // tests/figures.mjs checks every figure in it against the cost method and the counts against each other.
 window.DUTY_RADAR = {
- "version": "2.0.0",
+ "version": "2.2.0",
  "generatedFrom": {
   "release": "1.0.0",
   "commit": "7377619",
@@ -13,6 +13,8 @@ window.DUTY_RADAR = {
  "slice": {
   "retrieved": "2026-11-19",
   "norms": 31,
+  "acts": 19,
+  "ordinances": 12,
   "paragraphs": 778,
   "sentences": 4904,
   "source": "gesetze-im-internet.de"
@@ -90,6 +92,7 @@ window.DUTY_RADAR = {
    "id": "bstatg_1987",
    "abbr": "BStatG",
    "title": "Gesetz über die Statistik für Bundeszwecke",
+   "kind": "act",
    "family": "statistics",
    "paragraphs": 28,
    "sentences": 167,
@@ -97,6 +100,13 @@ window.DUTY_RADAR = {
    "candidates": 30,
    "duties": 23,
    "clustered": 0,
+   "byType": {
+    "MELDEPFLICHT": 4,
+    "INFORMATIONSPFLICHT": 12,
+    "NACHWEISPFLICHT": 1,
+    "DOKUMENTATIONSPFLICHT": 4,
+    "KONTROLLPFLICHT": 2
+   },
    "readFrom": 14400,
    "readAt": 19950
   },
@@ -104,6 +114,7 @@ window.DUTY_RADAR = {
    "id": "prodgewstatg",
    "abbr": "ProdGewStatG",
    "title": "Gesetz über die Statistik im Produzierenden Gewerbe",
+   "kind": "act",
    "family": "statistics",
    "paragraphs": 13,
    "sentences": 62,
@@ -111,6 +122,9 @@ window.DUTY_RADAR = {
    "candidates": 8,
    "duties": 2,
    "clustered": 1,
+   "byType": {
+    "MELDEPFLICHT": 2
+   },
    "readFrom": 19950,
    "readAt": 23400
   },
@@ -118,6 +132,7 @@ window.DUTY_RADAR = {
    "id": "hdldlstatg",
    "abbr": "HdlDlStatG",
    "title": "Gesetz über die Statistik im Handels- und Dienstleistungsbereich",
+   "kind": "act",
    "family": "statistics",
    "paragraphs": 15,
    "sentences": 68,
@@ -125,6 +140,10 @@ window.DUTY_RADAR = {
    "candidates": 8,
    "duties": 3,
    "clustered": 2,
+   "byType": {
+    "MELDEPFLICHT": 2,
+    "INFORMATIONSPFLICHT": 1
+   },
    "readFrom": 23400,
    "readAt": 26850
   },
@@ -132,6 +151,7 @@ window.DUTY_RADAR = {
    "id": "kostrukstatg",
    "abbr": "KoStrukStatG",
    "title": "Gesetz über Kostenstrukturstatistik",
+   "kind": "act",
    "family": "statistics",
    "paragraphs": 7,
    "sentences": 24,
@@ -139,6 +159,10 @@ window.DUTY_RADAR = {
    "candidates": 6,
    "duties": 2,
    "clustered": 0,
+   "byType": {
+    "MELDEPFLICHT": 1,
+    "INFORMATIONSPFLICHT": 1
+   },
    "readFrom": 26850,
    "readAt": 30300
   },
@@ -146,6 +170,7 @@ window.DUTY_RADAR = {
    "id": "preisstatg",
    "abbr": "PreisStatG",
    "title": "Gesetz über die Preisstatistik",
+   "kind": "act",
    "family": "statistics",
    "paragraphs": 14,
    "sentences": 57,
@@ -153,6 +178,11 @@ window.DUTY_RADAR = {
    "candidates": 13,
    "duties": 9,
    "clustered": 6,
+   "byType": {
+    "MELDEPFLICHT": 2,
+    "INFORMATIONSPFLICHT": 6,
+    "DOKUMENTATIONSPFLICHT": 1
+   },
    "readFrom": 30300,
    "readAt": 33750
   },
@@ -160,6 +190,7 @@ window.DUTY_RADAR = {
    "id": "verdstatg",
    "abbr": "VerdStatG",
    "title": "Gesetz über die Statistik der Verdienste und Arbeitskosten",
+   "kind": "act",
    "family": "statistics",
    "paragraphs": 10,
    "sentences": 44,
@@ -167,6 +198,9 @@ window.DUTY_RADAR = {
    "candidates": 7,
    "duties": 2,
    "clustered": 0,
+   "byType": {
+    "MELDEPFLICHT": 2
+   },
    "readFrom": 33750,
    "readAt": 37200
   },
@@ -174,6 +208,7 @@ window.DUTY_RADAR = {
    "id": "hwstatg_1994",
    "abbr": "HwStatG",
    "title": "Gesetz über Statistiken im Handwerk",
+   "kind": "act",
    "family": "statistics",
    "paragraphs": 6,
    "sentences": 11,
@@ -181,6 +216,9 @@ window.DUTY_RADAR = {
    "candidates": 2,
    "duties": 1,
    "clustered": 0,
+   "byType": {
+    "MELDEPFLICHT": 1
+   },
    "readFrom": 37200,
    "readAt": 40650
   },
@@ -188,6 +226,7 @@ window.DUTY_RADAR = {
    "id": "gwstatg",
    "abbr": "GWStatG",
    "title": "Gesetz über die Statistik zu globalen Wertschöpfungsketten",
+   "kind": "act",
    "family": "statistics",
    "paragraphs": 11,
    "sentences": 27,
@@ -195,6 +234,10 @@ window.DUTY_RADAR = {
    "candidates": 5,
    "duties": 3,
    "clustered": 1,
+   "byType": {
+    "MELDEPFLICHT": 1,
+    "INFORMATIONSPFLICHT": 2
+   },
    "readFrom": 40650,
    "readAt": 44100
   },
@@ -202,6 +245,7 @@ window.DUTY_RADAR = {
    "id": "ahstatg",
    "abbr": "AHStatG",
    "title": "Gesetz über die Statistik des Warenverkehrs mit dem Ausland",
+   "kind": "act",
    "family": "statistics",
    "paragraphs": 19,
    "sentences": 120,
@@ -209,6 +253,12 @@ window.DUTY_RADAR = {
    "candidates": 37,
    "duties": 29,
    "clustered": 11,
+   "byType": {
+    "MELDEPFLICHT": 19,
+    "INFORMATIONSPFLICHT": 8,
+    "NACHWEISPFLICHT": 1,
+    "DOKUMENTATIONSPFLICHT": 1
+   },
    "readFrom": 44100,
    "readAt": 49650
   },
@@ -216,6 +266,7 @@ window.DUTY_RADAR = {
    "id": "ahstatdv_2022",
    "abbr": "AHStatDV",
    "title": "Verordnung zur Durchführung des Gesetzes über die Statistik des Warenverkehrs mit dem Ausland",
+   "kind": "ordinance",
    "family": "statistics",
    "paragraphs": 34,
    "sentences": 231,
@@ -223,6 +274,12 @@ window.DUTY_RADAR = {
    "candidates": 50,
    "duties": 48,
    "clustered": 9,
+   "byType": {
+    "MELDEPFLICHT": 45,
+    "INFORMATIONSPFLICHT": 1,
+    "NACHWEISPFLICHT": 1,
+    "DOKUMENTATIONSPFLICHT": 1
+   },
    "readFrom": 49650,
    "readAt": 55200
   },
@@ -230,6 +287,7 @@ window.DUTY_RADAR = {
    "id": "statregg",
    "abbr": "StatRegG",
    "title": "Gesetz über den Aufbau und die Führung\neines Statistikregisters",
+   "kind": "act",
    "family": "statistics",
    "paragraphs": 12,
    "sentences": 38,
@@ -237,6 +295,10 @@ window.DUTY_RADAR = {
    "candidates": 12,
    "duties": 11,
    "clustered": 3,
+   "byType": {
+    "MELDEPFLICHT": 10,
+    "INFORMATIONSPFLICHT": 1
+   },
    "readFrom": 55200,
    "readAt": 58650
   },
@@ -244,6 +306,7 @@ window.DUTY_RADAR = {
    "id": "vwdvg_2010",
    "abbr": "VwDVG",
    "title": "Gesetz über die Verwendung von Verwaltungsdaten für Zwecke der Wirtschaftsstatistiken",
+   "kind": "act",
    "family": "statistics",
    "paragraphs": 8,
    "sentences": 33,
@@ -251,6 +314,10 @@ window.DUTY_RADAR = {
    "candidates": 15,
    "duties": 12,
    "clustered": 3,
+   "byType": {
+    "MELDEPFLICHT": 10,
+    "INFORMATIONSPFLICHT": 2
+   },
    "readFrom": 58650,
    "readAt": 65850
   },
@@ -258,6 +325,7 @@ window.DUTY_RADAR = {
    "id": "enstatg_2017",
    "abbr": "EnStatG",
    "title": "Energiestatistikgesetz",
+   "kind": "act",
    "family": "energy",
    "paragraphs": 16,
    "sentences": 60,
@@ -265,6 +333,10 @@ window.DUTY_RADAR = {
    "candidates": 11,
    "duties": 7,
    "clustered": 0,
+   "byType": {
+    "MELDEPFLICHT": 4,
+    "INFORMATIONSPFLICHT": 3
+   },
    "readFrom": 65850,
    "readAt": 73050
   },
@@ -272,6 +344,7 @@ window.DUTY_RADAR = {
    "id": "milog",
    "abbr": "MiLoG",
    "title": "Gesetz zur Regelung eines allgemeinen Mindestlohns",
+   "kind": "act",
    "family": "worktime",
    "paragraphs": 23,
    "sentences": 119,
@@ -279,6 +352,14 @@ window.DUTY_RADAR = {
    "candidates": 22,
    "duties": 21,
    "clustered": 14,
+   "byType": {
+    "MELDEPFLICHT": 8,
+    "INFORMATIONSPFLICHT": 3,
+    "NACHWEISPFLICHT": 3,
+    "DOKUMENTATIONSPFLICHT": 3,
+    "KONTROLLPFLICHT": 2,
+    "EVALUIERUNGSPFLICHT": 2
+   },
    "readFrom": 73050,
    "readAt": 76500
   },
@@ -286,6 +367,7 @@ window.DUTY_RADAR = {
    "id": "miloaufzv",
    "abbr": "MiLoAufzV",
    "title": "Verordnung zur Abwandlung der Pflicht zur Arbeitszeitaufzeichnung nach dem Mindestlohngesetz und dem Arbeitnehmer-Entsendegesetz",
+   "kind": "ordinance",
    "family": "worktime",
    "paragraphs": 2,
    "sentences": 7,
@@ -293,6 +375,7 @@ window.DUTY_RADAR = {
    "candidates": 0,
    "duties": 0,
    "clustered": 0,
+   "byType": {},
    "readFrom": 76500,
    "readAt": 77850
   },
@@ -300,6 +383,7 @@ window.DUTY_RADAR = {
    "id": "milodokv_2015",
    "abbr": "MiLoDokV",
    "title": "Verordnung zu den Dokumentationspflichten nach den §§ 16 und 17 des Mindestlohngesetzes und den §§ 18 und 19 des Arbeitnehmer-Entsendegesetzes in Bezug auf bestimmte Arbeitnehmergruppen",
+   "kind": "ordinance",
    "family": "worktime",
    "paragraphs": 2,
    "sentences": 8,
@@ -307,6 +391,7 @@ window.DUTY_RADAR = {
    "candidates": 0,
    "duties": 0,
    "clustered": 0,
+   "byType": {},
    "readFrom": 77850,
    "readAt": 79200
   },
@@ -314,6 +399,7 @@ window.DUTY_RADAR = {
    "id": "milomeldv",
    "abbr": "MiLoMeldV",
    "title": "Verordnung über Meldepflichten nach dem Mindestlohngesetz, dem Arbeitnehmer-Entsendegesetz und dem Arbeitnehmerüberlassungsgesetz",
+   "kind": "ordinance",
    "family": "worktime",
    "paragraphs": 4,
    "sentences": 26,
@@ -321,6 +407,10 @@ window.DUTY_RADAR = {
    "candidates": 6,
    "duties": 6,
    "clustered": 6,
+   "byType": {
+    "MELDEPFLICHT": 4,
+    "NACHWEISPFLICHT": 2
+   },
    "readFrom": 79200,
    "readAt": 82650
   },
@@ -328,6 +418,7 @@ window.DUTY_RADAR = {
    "id": "arbzg",
    "abbr": "ArbZG",
    "title": "Arbeitszeitgesetz",
+   "kind": "act",
    "family": "worktime",
    "paragraphs": 26,
    "sentences": 131,
@@ -335,6 +426,10 @@ window.DUTY_RADAR = {
    "candidates": 6,
    "duties": 6,
    "clustered": 0,
+   "byType": {
+    "DOKUMENTATIONSPFLICHT": 5,
+    "KONTROLLPFLICHT": 1
+   },
    "readFrom": 82650,
    "readAt": 86100
   },
@@ -342,6 +437,7 @@ window.DUTY_RADAR = {
    "id": "aentg_2009",
    "abbr": "AEntG",
    "title": "Gesetz über zwingende Arbeitsbedingungen für grenzüberschreitend entsandte und für regelmäßig im Inland beschäftigte Arbeitnehmer und Arbeitnehmerinnen",
+   "kind": "act",
    "family": "worktime",
    "paragraphs": 49,
    "sentences": 269,
@@ -349,6 +445,14 @@ window.DUTY_RADAR = {
    "candidates": 27,
    "duties": 24,
    "clustered": 15,
+   "byType": {
+    "MELDEPFLICHT": 11,
+    "INFORMATIONSPFLICHT": 5,
+    "NACHWEISPFLICHT": 3,
+    "DOKUMENTATIONSPFLICHT": 3,
+    "KONTROLLPFLICHT": 1,
+    "EVALUIERUNGSPFLICHT": 1
+   },
    "readFrom": 86100,
    "readAt": 95400
   },
@@ -356,6 +460,7 @@ window.DUTY_RADAR = {
    "id": "verpackdg",
    "abbr": "VerpackDG",
    "title": "Gesetz zur Durchführung der Verordnung (EU) 2025/40 betreffend Verpackungen",
+   "kind": "act",
    "family": "products",
    "paragraphs": 69,
    "sentences": 638,
@@ -363,6 +468,13 @@ window.DUTY_RADAR = {
    "candidates": 106,
    "duties": 98,
    "clustered": 19,
+   "byType": {
+    "MELDEPFLICHT": 26,
+    "INFORMATIONSPFLICHT": 33,
+    "NACHWEISPFLICHT": 21,
+    "DOKUMENTATIONSPFLICHT": 12,
+    "KONTROLLPFLICHT": 6
+   },
    "readFrom": 95400,
    "readAt": 107250
   },
@@ -370,6 +482,7 @@ window.DUTY_RADAR = {
    "id": "elektrog_2015",
    "abbr": "ElektroG",
    "title": "Gesetz über das Inverkehrbringen, die Rücknahme und die umweltverträgliche Entsorgung von Elektro- und Elektronikgeräten",
+   "kind": "act",
    "family": "products",
    "paragraphs": 52,
    "sentences": 494,
@@ -377,6 +490,13 @@ window.DUTY_RADAR = {
    "candidates": 90,
    "duties": 85,
    "clustered": 4,
+   "byType": {
+    "MELDEPFLICHT": 45,
+    "INFORMATIONSPFLICHT": 20,
+    "NACHWEISPFLICHT": 13,
+    "DOKUMENTATIONSPFLICHT": 2,
+    "KONTROLLPFLICHT": 5
+   },
    "readFrom": 107250,
    "readAt": 117000
   },
@@ -384,6 +504,7 @@ window.DUTY_RADAR = {
    "id": "battdg",
    "abbr": "BattDG",
    "title": "Gesetz zur Durchführung der Verordnung (EU) 2023/1542 betreffend Batterien und Altbatterien",
+   "kind": "act",
    "family": "products",
    "paragraphs": 64,
    "sentences": 412,
@@ -391,6 +512,12 @@ window.DUTY_RADAR = {
    "candidates": 62,
    "duties": 59,
    "clustered": 0,
+   "byType": {
+    "MELDEPFLICHT": 17,
+    "INFORMATIONSPFLICHT": 20,
+    "NACHWEISPFLICHT": 16,
+    "KONTROLLPFLICHT": 6
+   },
    "readFrom": 117000,
    "readAt": 128400
   },
@@ -398,6 +525,7 @@ window.DUTY_RADAR = {
    "id": "gewo",
    "abbr": "GewO",
    "title": "Gewerbeordnung",
+   "kind": "act",
    "family": "trade",
    "paragraphs": 128,
    "sentences": 979,
@@ -405,6 +533,13 @@ window.DUTY_RADAR = {
    "candidates": 165,
    "duties": 126,
    "clustered": 48,
+   "byType": {
+    "MELDEPFLICHT": 58,
+    "INFORMATIONSPFLICHT": 16,
+    "NACHWEISPFLICHT": 28,
+    "DOKUMENTATIONSPFLICHT": 14,
+    "KONTROLLPFLICHT": 10
+   },
    "readFrom": 128400,
    "readAt": 144450
   },
@@ -412,6 +547,7 @@ window.DUTY_RADAR = {
    "id": "gewo_34cdv",
    "abbr": "MaBV",
    "title": "Verordnung über die Pflichten der Immobilienmakler, Darlehensvermittler, Bauträger, Baubetreuer und Wohnimmobilienverwalter",
+   "kind": "ordinance",
    "family": "trade",
    "paragraphs": 22,
    "sentences": 136,
@@ -419,6 +555,13 @@ window.DUTY_RADAR = {
    "candidates": 31,
    "duties": 30,
    "clustered": 15,
+   "byType": {
+    "MELDEPFLICHT": 9,
+    "INFORMATIONSPFLICHT": 1,
+    "NACHWEISPFLICHT": 7,
+    "DOKUMENTATIONSPFLICHT": 12,
+    "KONTROLLPFLICHT": 1
+   },
    "readFrom": 144450,
    "readAt": 150000
   },
@@ -426,6 +569,7 @@ window.DUTY_RADAR = {
    "id": "finvermv",
    "abbr": "FinVermV",
    "title": "Verordnung über die Finanzanlagenvermittlung",
+   "kind": "ordinance",
    "family": "trade",
    "paragraphs": 29,
    "sentences": 196,
@@ -433,6 +577,13 @@ window.DUTY_RADAR = {
    "candidates": 48,
    "duties": 44,
    "clustered": 14,
+   "byType": {
+    "MELDEPFLICHT": 11,
+    "INFORMATIONSPFLICHT": 8,
+    "NACHWEISPFLICHT": 8,
+    "DOKUMENTATIONSPFLICHT": 13,
+    "KONTROLLPFLICHT": 4
+   },
    "readFrom": 150000,
    "readAt": 155550
   },
@@ -440,6 +591,7 @@ window.DUTY_RADAR = {
    "id": "versvermv_2018",
    "abbr": "VersVermV",
    "title": "Verordnung über die Versicherungsvermittlung und -beratung",
+   "kind": "ordinance",
    "family": "trade",
    "paragraphs": 27,
    "sentences": 147,
@@ -447,6 +599,13 @@ window.DUTY_RADAR = {
    "candidates": 33,
    "duties": 30,
    "clustered": 13,
+   "byType": {
+    "MELDEPFLICHT": 7,
+    "INFORMATIONSPFLICHT": 5,
+    "NACHWEISPFLICHT": 7,
+    "DOKUMENTATIONSPFLICHT": 9,
+    "KONTROLLPFLICHT": 2
+   },
    "readFrom": 155550,
    "readAt": 161100
   },
@@ -454,6 +613,7 @@ window.DUTY_RADAR = {
    "id": "immvermv",
    "abbr": "ImmVermV",
    "title": "Verordnung über Immobiliardarlehensvermittlung",
+   "kind": "ordinance",
    "family": "trade",
    "paragraphs": 19,
    "sentences": 92,
@@ -461,6 +621,13 @@ window.DUTY_RADAR = {
    "candidates": 22,
    "duties": 20,
    "clustered": 9,
+   "byType": {
+    "MELDEPFLICHT": 6,
+    "INFORMATIONSPFLICHT": 2,
+    "NACHWEISPFLICHT": 6,
+    "DOKUMENTATIONSPFLICHT": 5,
+    "KONTROLLPFLICHT": 1
+   },
    "readFrom": 161100,
    "readAt": 164550
   },
@@ -468,6 +635,7 @@ window.DUTY_RADAR = {
    "id": "bewachv_2019",
    "abbr": "BewachV",
    "title": "Verordnung über das Bewachungsgewerbe",
+   "kind": "ordinance",
    "family": "trade",
    "paragraphs": 24,
    "sentences": 109,
@@ -475,6 +643,13 @@ window.DUTY_RADAR = {
    "candidates": 26,
    "duties": 25,
    "clustered": 10,
+   "byType": {
+    "MELDEPFLICHT": 9,
+    "INFORMATIONSPFLICHT": 1,
+    "NACHWEISPFLICHT": 8,
+    "DOKUMENTATIONSPFLICHT": 6,
+    "KONTROLLPFLICHT": 1
+   },
    "readFrom": 164550,
    "readAt": 170100
   },
@@ -482,6 +657,7 @@ window.DUTY_RADAR = {
    "id": "bewachrv",
    "abbr": "BewachRV",
    "title": "Verordnung über das Bewacherregister",
+   "kind": "ordinance",
    "family": "trade",
    "paragraphs": 14,
    "sentences": 66,
@@ -489,6 +665,12 @@ window.DUTY_RADAR = {
    "candidates": 12,
    "duties": 10,
    "clustered": 0,
+   "byType": {
+    "MELDEPFLICHT": 6,
+    "INFORMATIONSPFLICHT": 1,
+    "DOKUMENTATIONSPFLICHT": 2,
+    "KONTROLLPFLICHT": 1
+   },
    "readFrom": 170100,
    "readAt": 173550
   },
@@ -496,6 +678,7 @@ window.DUTY_RADAR = {
    "id": "spielv",
    "abbr": "SpielV",
    "title": "Verordnung über Spielgeräte und andere Spiele mit Gewinnmöglichkeit",
+   "kind": "ordinance",
    "family": "trade",
    "paragraphs": 26,
    "sentences": 125,
@@ -503,6 +686,12 @@ window.DUTY_RADAR = {
    "candidates": 10,
    "duties": 9,
    "clustered": 0,
+   "byType": {
+    "NACHWEISPFLICHT": 5,
+    "DOKUMENTATIONSPFLICHT": 1,
+    "KONTROLLPFLICHT": 2,
+    "EVALUIERUNGSPFLICHT": 1
+   },
    "readFrom": 173550,
    "readAt": 177000
   },
@@ -510,6 +699,7 @@ window.DUTY_RADAR = {
    "id": "schauhv",
    "abbr": "SchauHV",
    "title": "Verordnung über die Haftpflichtversicherung für Schausteller",
+   "kind": "ordinance",
    "family": "trade",
    "paragraphs": 5,
    "sentences": 8,
@@ -517,6 +707,7 @@ window.DUTY_RADAR = {
    "candidates": 0,
    "duties": 0,
    "clustered": 0,
+   "byType": {},
    "readFrom": 177000,
    "readAt": 183000
   }
@@ -557,7 +748,7 @@ window.DUTY_RADAR = {
    "total": 94
   },
   "relief": 0,
-  "pending": 4065600
+  "pending": 1505423.9200000004
  },
  "cluster": {
   "id": "C-046",
@@ -638,8 +829,8 @@ window.DUTY_RADAR = {
       "de": "Branche"
      }
     ],
-    "cases": 720000,
-    "cost": 4992000
+    "cases": 266604,
+    "cost": 1848454.4000000001
    },
    {
     "duty": "D-prodgewstatg-p9-1",
@@ -699,15 +890,16 @@ window.DUTY_RADAR = {
       "de": "Produktion"
      }
     ],
-    "cases": 720000,
-    "cost": 4992000
+    "cases": 266604,
+    "cost": 1848454.4000000001
    }
   ],
   "population": {
    "en": "Businesses in the samples of the business statistics",
    "de": "Unternehmen in den Stichproben der Unternehmensstatistiken",
-   "units": 60000,
-   "assumed": true
+   "units": 22217,
+   "before": 60000,
+   "cap": true
   },
   "register": {
    "id": "reg-unternehmensstammdaten",
@@ -718,13 +910,14 @@ window.DUTY_RADAR = {
     "D-hdldlstatg-p11-1"
    ]
   },
-  "cases": 1440000,
-  "cost": 9984000
+  "cases": 533208,
+  "cost": 3696908.8000000003
  },
  "inputs": {
   "businesses": {
-   "value": 60000,
-   "kind": "assumed",
+   "value": 22217,
+   "kind": "cap",
+   "before": 60000,
    "en": "Businesses in the samples of the business statistics",
    "de": "Unternehmen in den Stichproben der Unternehmensstatistiken"
   },
@@ -749,6 +942,10 @@ window.DUTY_RADAR = {
      "uebermittlung_einfach": 1
     },
     "value": 10
+   },
+   "reason": {
+    "en": "Sum of the simple standard activities: familiarisation 3, obtaining data 2, forms 3, checking 1, transmission 1 minute",
+    "de": "Summe der Standardaktivitäten einfach: Einarbeitung 3, Daten beschaffen 2, Formulare 3, Prüfung 1, Übermittlung 1 Minute"
    }
   },
   "wage": {
@@ -759,15 +956,27 @@ window.DUTY_RADAR = {
     "page": 72,
     "title": "Anhang 6: Lohnkostentabelle Wirtschaft (Stand 2025, Quelle StBA)",
     "value": 38.6
+   },
+   "reason": {
+    "en": "Whole economy, average of all qualification levels",
+    "de": "Gesamtwirtschaft, Durchschnitt aller Qualifikationsniveaus"
    }
   },
   "material": {
    "value": 0.5,
-   "kind": "assumed"
+   "kind": "assumed",
+   "reason": {
+    "en": "Postage and material cost assumed as a flat rate",
+    "de": "Porto- und Sachkosten pauschal angenommen"
+   }
   },
   "adminMinutes": {
    "value": 2,
-   "kind": "assumed"
+   "kind": "assumed",
+   "reason": {
+    "en": "Automated register retrieval, assumed until calibration",
+    "de": "Automatisierter Registerabruf, bis zur Kalibrierung angenommen"
+   }
   },
   "adminWage": {
    "value": 44.4,
@@ -777,6 +986,10 @@ window.DUTY_RADAR = {
     "page": 76,
     "title": "Anhang 8: Lohnkostentabelle Verwaltung (Stand 2025, Quelle StBA)",
     "value": 44.4
+   },
+   "reason": {
+    "en": "Federal level, average of all career groups",
+    "de": "Bund, Durchschnitt aller Laufbahngruppen"
    }
   },
   "mergedMinutes": {
@@ -785,7 +998,11 @@ window.DUTY_RADAR = {
   },
   "oneOff": {
    "value": 250000,
-   "kind": "assumed"
+   "kind": "assumed",
+   "reason": {
+    "en": "Connecting a register, assumed until calibration",
+    "de": "Anbindung eines Registers, bis zur Kalibrierung angenommen"
+   }
   }
  },
  "guide": {
@@ -802,8 +1019,8 @@ window.DUTY_RADAR = {
     "en": "Merge",
     "de": "Zusammenführen"
    },
-   "net": -4065600,
-   "businesses": -4065600,
+   "net": -1505423.9200000004,
+   "businesses": -1505423.9200000004,
    "administration": 0,
    "duties": -1,
    "oneOff": 0,
@@ -826,9 +1043,9 @@ window.DUTY_RADAR = {
     "en": "Register retrieval",
     "de": "Registerabruf"
    },
-   "net": -3926400,
-   "businesses": -4992000,
-   "administration": 1065600,
+   "net": -1453880.4800000002,
+   "businesses": -1848454.4000000001,
+   "administration": 394573.92,
    "duties": -1,
    "oneOff": 250000,
    "removes": [
@@ -871,6 +1088,213 @@ window.DUTY_RADAR = {
    "risk": []
   }
  ],
+ "derivation": {
+  "one": {
+   "reports": 266604,
+   "hours": 44434,
+   "personnel": 1715152.4000000001,
+   "material": 133302,
+   "cost": 1848454.4000000001
+  },
+  "both": 3696908.8000000003,
+  "lead": "D-hdldlstatg-p11-1",
+  "added": {
+   "items": 5,
+   "shared": 4,
+   "contained": 0.8,
+   "minutes": 10
+  },
+  "merged": {
+   "reports": 266604,
+   "hours": 53320.8,
+   "personnel": 2058182.8800000001,
+   "material": 133302,
+   "cost": 2191484.88
+  },
+  "relief": 1505423.9200000004,
+  "admin": {
+   "reports": 266604,
+   "hours": 8886.8,
+   "personnel": 394573.92,
+   "material": 0,
+   "cost": 394573.92
+  },
+  "registerNet": 1453880.4800000002,
+  "oneOff": 250000
+ },
+ "sensitivity": [
+  {
+   "share": 1,
+   "businesses": 22217,
+   "relief": 1505423.9200000004
+  },
+  {
+   "share": 0.5,
+   "businesses": 11109,
+   "relief": 752745.8400000001
+  },
+  {
+   "share": 0.25,
+   "businesses": 5554,
+   "relief": 376339.0399999999
+  },
+  {
+   "share": 0.1,
+   "businesses": 2222,
+   "relief": 150562.71999999997
+  }
+ ],
+ "calibration": {
+  "retrieved": "2026-11-27",
+  "cap": 22217,
+  "production": {
+   "year": 2025,
+   "sites": 22217,
+   "lands": 16,
+   "publisher": "Statistische Ämter des Bundes und der Länder",
+   "title": "Beschäftigte und Umsatz der Betriebe im Verarbeitenden Gewerbe",
+   "url": "https://www.statistikportal.de/en/node/410"
+  },
+  "trade": {
+   "year": 2025,
+   "count": 41300,
+   "approx": true,
+   "publisher": "Statistisches Bundesamt (Destatis)",
+   "title": "Qualitätsbericht Konjunkturstatistiken im Handel und Dienstleistungsbereich 2025",
+   "published": "2025-10-15",
+   "page": 12,
+   "url": "https://www.destatis.de/DE/Methoden/Qualitaet/Qualitaetsberichte/Gross-Einzelhandel/konjunkturstatistik-handel-dienstleistung-2025.pdf?__blob=publicationFile&v=2"
+  },
+  "before": {
+   "businesses": 60000,
+   "merge": 4065600,
+   "register": 3926400
+  }
+ },
+ "compare": {
+  "hdldlstatg": {
+   "who": [
+    {
+     "id": "a-units",
+     "paragraph": "hdldlstatg-p3",
+     "section": "§ 3",
+     "abbr": "HdlDlStatG",
+     "url": "https://www.gesetze-im-internet.de/hdldlstatg/__3.html",
+     "text": "(1) Erhebungseinheiten sind rechtliche Einheiten, sofern es sich um Marktproduzenten handelt."
+    },
+    {
+     "id": "a-scope",
+     "paragraph": "hdldlstatg-p3",
+     "section": "§ 3",
+     "abbr": "HdlDlStatG",
+     "url": "https://www.gesetze-im-internet.de/hdldlstatg/__3.html",
+     "text": "(2) Die Erhebungen erstrecken sich auf Erhebungseinheiten der folgenden Wirtschaftszweige: 1. für konjunkturstatistische Erhebungen: a) Abschnitt G − Handel; Instandhaltung und Reparatur von Kraftfahrzeugen"
+    },
+    {
+     "id": "a-sample",
+     "paragraph": "hdldlstatg-p5",
+     "section": "§ 5",
+     "abbr": "HdlDlStatG",
+     "url": "https://www.gesetze-im-internet.de/hdldlstatg/__5.html",
+     "text": "(2) Die Erhebungen werden bei höchstens 45 Prozent der in § 3 Absatz 2 Nummer 1 genannten Erhebungseinheiten durchgeführt."
+    }
+   ],
+   "what": [
+    {
+     "id": "a-items",
+     "paragraph": "hdldlstatg-p6",
+     "section": "§ 6",
+     "abbr": "HdlDlStatG",
+     "url": "https://www.gesetze-im-internet.de/hdldlstatg/__6.html",
+     "text": "Erhebungsmerkmale für konjunkturstatistische Erhebungen sind: 1. Umsatz der Erhebungseinheit im Berichtsmonat insgesamt sowie im Handels- und Dienstleistungsbereich gegliedert nach Bundesländern, 2. Zahl der in der Erhebungseinheit tätigen Personen insgesamt sowie Zahl der in der Erhebungseinheit im Handels- und Dienstleistungsbereich tätigen Personen gegliedert nach Bundesländern, jeweils zum Ende des Berichtsmonats, 3. Bezeichnung und Wirtschaftszweignummer der wirtschaftlichen Tätigkeit der Erhebungseinheit gemäß der Klassifikation der Wirtschaftszweige."
+    },
+    {
+     "id": "a-aux",
+     "paragraph": "hdldlstatg-p10",
+     "section": "§ 10",
+     "abbr": "HdlDlStatG",
+     "url": "https://www.gesetze-im-internet.de/hdldlstatg/__10.html",
+     "text": "Hilfsmerkmale sind: 1. Name und Anschrift der Erhebungseinheit"
+    }
+   ],
+   "when": [
+    {
+     "id": "a-monthly",
+     "paragraph": "hdldlstatg-p4",
+     "section": "§ 4",
+     "abbr": "HdlDlStatG",
+     "url": "https://www.gesetze-im-internet.de/hdldlstatg/__4.html",
+     "text": "(1) Die konjunkturstatistischen Erhebungen werden monatlich durchgeführt.\n(2) Berichtszeitraum für die Erhebungen ist der Kalendermonat."
+    }
+   ],
+   "whom": [
+    {
+     "id": "a-whom",
+     "paragraph": "hdldlstatg-p15",
+     "section": "§ 15",
+     "abbr": "HdlDlStatG",
+     "url": "https://www.gesetze-im-internet.de/hdldlstatg/__15.html",
+     "text": "Die Angaben zu den konjunktur- und strukturstatistischen Erhebungen im Wirtschaftszweig 46 werden vom Statistischen Bundesamt erhoben und aufbereitet."
+    }
+   ],
+   "duty": {
+    "id": "a-duty",
+    "paragraph": "hdldlstatg-p11",
+    "section": "§ 11",
+    "abbr": "HdlDlStatG",
+    "url": "https://www.gesetze-im-internet.de/hdldlstatg/__11.html",
+    "text": "(1) Für die Erhebungen besteht Auskunftspflicht. Auskunftspflichtig sind die Inhaber und Inhaberinnen oder Leiter und Leiterinnen der Erhebungseinheiten."
+   }
+  },
+  "prodgewstatg": {
+   "who": [
+    {
+     "id": "b-scope",
+     "paragraph": "prodgewstatg-p1",
+     "section": "§ 1",
+     "abbr": "ProdGewStatG",
+     "url": "https://www.gesetze-im-internet.de/prodgewstatg/__1.html",
+     "text": "Im Produzierenden Gewerbe, das Bergbau und Gewinnung von Steinen und Erden, Verarbeitendes Gewerbe, Energieversorgung, Wasserversorgung, Abwasser- und Abfallentsorgung und Beseitigung von Umweltverschmutzungen sowie Baugewerbe umfasst, werden statistische Erhebungen als Bundesstatistik durchgeführt."
+    },
+    {
+     "id": "b-sites",
+     "paragraph": "prodgewstatg-p2",
+     "section": "§ 2",
+     "abbr": "ProdGewStatG",
+     "url": "https://www.gesetze-im-internet.de/prodgewstatg/__2.html",
+     "text": "Die Erhebungen werden durchgeführt bei den produzierenden Betrieben von höchstens 68 000 Unternehmen des Bergbaus und der Gewinnung von Steinen und Erden, des Verarbeitenden Gewerbes sowie bei den produzierenden Betrieben der Unternehmen anderer Wirtschaftszweige, jeweils ohne Baubetriebe und Betriebe der Energieversorgung, Wasserversorgung, Abwasser- und Abfallentsorgung und Beseitigung von Umweltverschmutzungen."
+    }
+   ],
+   "what": [
+    {
+     "id": "b-items",
+     "paragraph": "prodgewstatg-p2",
+     "section": "§ 2",
+     "abbr": "ProdGewStatG",
+     "url": "https://www.gesetze-im-internet.de/prodgewstatg/__2.html",
+     "text": "A. bei Betrieben mit 50 und mehr tätigen Personen I. monatlich 1. die tätigen Personen, 2. die Arbeitsstunden, 3. die Lohn- und Gehaltssummen, 4. den Umsatz, 5. den Auftragseingang, 6. den Auftragsbestand, 7. die gesamte Produktion, 8. die Reparatur-, Montage- und Lohnveredelungsarbeiten"
+    },
+    {
+     "id": "b-aux",
+     "paragraph": "prodgewstatg-p7",
+     "section": "§ 7",
+     "abbr": "ProdGewStatG",
+     "url": "https://www.gesetze-im-internet.de/prodgewstatg/__7.html",
+     "text": "(2) Hilfsmerkmale der Erhebungen sind: 1. Name und Anschrift des Unternehmens und des Betriebs"
+    }
+   ],
+   "when": [],
+   "whom": [],
+   "duty": {
+    "id": "b-duty",
+    "paragraph": "prodgewstatg-p9",
+    "section": "§ 9",
+    "abbr": "ProdGewStatG",
+    "url": "https://www.gesetze-im-internet.de/prodgewstatg/__9.html",
+    "text": "(1) Für die Erhebungen besteht Auskunftspflicht. Auskunftspflichtig ist der Inhaber, die Inhaberin, der Leiter oder die Leiterin der in den §§ 2 bis 6a bezeichneten Betriebe und Unternehmen sowie der in § 7 Abs. 2 Nr. 4 bezeichneten Einheiten."
+   }
+  }
+ },
  "check": {
   "blocked": "§ 9 ProdGewStatG Absatz 1 wird aufgehoben; die Angaben werden binnen 10 Tagen nach Monatsende mit der Meldung nach § 11 HdlDlStatG Absatz 1 übermittelt. [Entwurf, rechtlich zu prüfen]",
   "tokens": [
@@ -881,7 +1305,7 @@ window.DUTY_RADAR = {
  "outcomes": {
   "merge": {
    "option": "O-C-046-merge",
-   "relief": 4065600,
+   "relief": 1505423.9200000004,
    "reporting": {
     "removed": 1,
     "total": 320
@@ -902,7 +1326,7 @@ window.DUTY_RADAR = {
   },
   "register_retrieval": {
    "option": "O-C-046-register_retrieval",
-   "relief": 3926400,
+   "relief": 1453880.4800000002,
    "reporting": {
     "removed": 1,
     "total": 320

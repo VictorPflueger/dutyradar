@@ -8,7 +8,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="Duty Radar: an AI agent reads 31 federal laws, finds where two laws ask businesses for the same data and prices the relief with the federal compliance-cost method. A person approves every cut. In English and German.">
+  <meta name="description" content="Duty Radar: an AI agent reads 31 laws, finds where two of them ask businesses for the same items and prices the relief with the federal compliance-cost method. Every count opens what it counts. A person approves every cut. In English and German.">
   <title>Duty Radar · bureaucracy relief prototype</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="vici/dist/vici.min.css">
@@ -30,7 +30,7 @@
     <div class="header-actions">
       <span class="vc-tooltip-anchor">
         <span class="vc-tag vc-tag--lg sim-tag" tabindex="0" aria-describedby="tip-sim">SIMULATION</span>
-        <span class="vc-tooltip vc-tooltip--bottom" role="tooltip" id="tip-sim" data-i18n="sim.tip">A replay of the agent's run on 31 real federal laws. Engines compute every figure; case numbers are assumed. A prototype, not an official government service.</span>
+        <span class="vc-tooltip vc-tooltip--bottom" role="tooltip" id="tip-sim" data-i18n="sim.tip">A replay of the agent's run on 31 real laws. Engines compute every figure; case numbers are assumed. Prototype, not an official federal government service.</span>
       </span>
       <!-- One guide per language, each with its own button; js/lang.js shows the page's. -->
       <button type="button" class="vc-button vc-button--secondary guide-open" data-vc-guide-open="guide-en" lang="en"><span class="vc-icon vc-icon--info" aria-hidden="true"></span>How it works</button>
@@ -48,29 +48,30 @@
     <!-- The three key figures answer first: from the first screen they show what the case puts at stake,
          and only the decision moves them. data-vc-kpi names each in English, data-vc-kpi-de in German;
          each guide explains them in a row of its How it works chapter, and the talk track points at them.
-         When the decision moves a figure, its tile keeps the old value struck through (vc-stat__was). -->
+         When the decision moves a figure, its tile keeps the old value struck through (vc-stat__was). Each
+         tile opens what it counts (data-open): the clusters, the relief's derivation, the reporting duties. -->
     <div class="kpis" role="group" aria-label="Key figures" data-i18n-attr="aria-label:kpis.label">
-      <div class="kpi vc-stat" id="kpi-twice" data-vc-kpi="Asked twice" data-vc-kpi-de="Doppelt gefragt">
-        <p class="vc-stat__label">Asked twice</p>
-        <p class="vc-stat__value kpi-value"><span class="kpi-main">203</span><span class="kpi-of"> of 745</span></p>
-        <p class="vc-stat__note kpi-note">duties in 31 laws</p>
-      </div>
-      <div class="kpi vc-stat" id="kpi-stake" data-vc-kpi="Relief at stake a year" data-vc-kpi-de="Offene Entlastung pro Jahr">
-        <p class="vc-stat__label">Relief at stake a year</p>
-        <p class="vc-stat__value kpi-value"><s class="vc-stat__was" hidden></s><span class="kpi-main">€4.07m</span></p>
-        <p class="vc-stat__note kpi-note">if a person approves the merge</p>
-      </div>
-      <div class="kpi vc-stat" id="kpi-cut" data-vc-kpi="Reporting duties cut" data-vc-kpi-de="Gestrichene Meldepflichten">
-        <p class="vc-stat__label">Reporting duties cut</p>
-        <p class="vc-stat__value kpi-value"><s class="vc-stat__was" hidden></s><span class="kpi-main">0</span><span class="kpi-of"> of 107</span></p>
-        <p class="vc-stat__note kpi-note">target: a third of 320</p>
-      </div>
+      <button type="button" class="kpi vc-stat" id="kpi-twice" aria-haspopup="dialog" aria-controls="panel" data-open="clusters" data-vc-kpi="Asked twice" data-vc-kpi-de="Doppelt gefragt">
+        <span class="vc-stat__label">Asked twice</span>
+        <span class="vc-stat__value kpi-value"><span class="kpi-main">203</span><span class="kpi-of"> of 745</span></span>
+        <span class="vc-stat__note kpi-note">duties in clusters</span>
+      </button>
+      <button type="button" class="kpi vc-stat" id="kpi-stake" aria-haspopup="dialog" aria-controls="panel" data-open="derive:merge" data-vc-kpi="Relief at stake a year" data-vc-kpi-de="Offene Entlastung pro Jahr">
+        <span class="vc-stat__label">Relief at stake a year</span>
+        <span class="vc-stat__value kpi-value"><s class="vc-stat__was" hidden></s><span class="kpi-pre">up to</span> <span class="kpi-main">€1.51m</span></span>
+        <span class="vc-stat__note kpi-note">assumed: 22,217 file both</span>
+      </button>
+      <button type="button" class="kpi vc-stat" id="kpi-cut" aria-haspopup="dialog" aria-controls="panel" data-open="duties:MELDEPFLICHT" data-vc-kpi="Reporting duties cut" data-vc-kpi-de="Gestrichene Meldepflichten">
+        <span class="vc-stat__label">Reporting duties cut</span>
+        <span class="vc-stat__value kpi-value"><s class="vc-stat__was" hidden></s><span class="kpi-main">0</span><span class="kpi-of"> of 107</span></span>
+        <span class="vc-stat__note kpi-note">target: a third of 320</span>
+      </button>
     </div>
   </header>
 
   <!-- What the prototype does and how real its data is, in one sentence, with the byline beside it. -->
   <div class="app-strip">
-    <p class="strip-note" data-i18n="strip.note">Finds where two federal laws ask businesses for the same data and prices the relief. Real federal law, a replayed agent run, assumed case numbers.</p>
+    <p class="strip-note" data-i18n="strip.note">Finds where two laws ask businesses for the same items and prices the relief. Real law texts, a replayed agent run, assumed case numbers.</p>
     <p class="vc-byline">
       <span class="vc-byline__label" data-i18n="byline.label">Built by</span>
       <a class="vc-byline__person" href="https://www.linkedin.com/in/victorpflueger" rel="author noopener" target="_blank">
@@ -88,12 +89,14 @@
 
   <nav class="player" aria-label="Talk track" data-i18n-attr="aria-label:player.label">
     <ol class="vc-stepper steps" id="steps">
-      <li class="vc-step" data-step="target"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">1</span><span class="vc-step__label"><span class="step-name">The target</span><span class="vc-step__hint">31 laws</span></span></button></li>
-      <li class="vc-step" data-step="reads"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">2</span><span class="vc-step__label"><span class="step-name">It reads</span><span class="vc-step__hint">745 duties</span></span></button></li>
-      <li class="vc-step" data-step="twice"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">3</span><span class="vc-step__label"><span class="step-name">Asked twice</span><span class="vc-step__hint">48 clusters</span></span></button></li>
-      <li class="vc-step" data-step="prices"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">4</span><span class="vc-step__label"><span class="step-name">It prices</span><span class="vc-step__hint">€4.07m a year</span></span></button></li>
-      <li class="vc-step" data-step="decide" data-person="true"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">5</span><span class="vc-step__label"><span class="step-name">You decide</span><span class="vc-step__hint">the dossier</span></span></button></li>
+      <li class="vc-step" data-step="target"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">1</span><span class="vc-step__label"><span class="step-name">The target</span><span class="vc-step__hint">31 laws · 4,904 sentences</span></span></button></li>
+      <li class="vc-step" data-step="reads"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">2</span><span class="vc-step__label"><span class="step-name">It reads</span><span class="vc-step__hint">870 flagged · 745 duties</span></span></button></li>
+      <li class="vc-step" data-step="twice"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">3</span><span class="vc-step__label"><span class="step-name">Asked twice</span><span class="vc-step__hint">203 duties in 48 clusters</span></span></button></li>
+      <li class="vc-step" data-step="prices"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">4</span><span class="vc-step__label"><span class="step-name">It prices</span><span class="vc-step__hint">1 cluster · 3 options</span></span></button></li>
+      <li class="vc-step" data-step="decide" data-person="true"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">5</span><span class="vc-step__label"><span class="step-name">You decide</span><span class="vc-step__hint">1 decision</span></span></button></li>
     </ol>
+    <!-- The ladder from law to relief (DR-01): every term with its count and a one-line definition. -->
+    <button type="button" class="vc-button vc-button--secondary ladder-open" id="ladder-open" aria-haspopup="dialog" aria-controls="panel" data-open="ladder"><span class="vc-icon vc-icon--list" aria-hidden="true"></span><span data-i18n="ladder.open">What each number counts</span></button>
     <span class="vc-tooltip-anchor">
       <button type="button" class="vc-icon-button restart" id="restart" aria-labelledby="tip-restart"><span class="vc-icon vc-icon--refresh" aria-hidden="true"></span></button>
       <span class="vc-tooltip vc-tooltip--bottom" role="tooltip" id="tip-restart" data-i18n="restart.tip">Back to the start</span>
@@ -105,9 +108,10 @@
   <main class="workspace">
     <section class="stage" aria-labelledby="stage-title">
       <div class="stage-head">
-        <h2 id="stage-title">31 federal laws</h2>
-        <p class="stage-meta" id="stage-meta">778 paragraphs, 4,904 sentences, as of 19 November 2026</p>
+        <h2 id="stage-title">31 laws</h2>
+        <p class="stage-meta" id="stage-meta">19 acts and 12 ordinances · 778 sections · as of 19 November 2026</p>
       </div>
+      <!-- Every law named in words, with its duties and how many sit in clusters; each opens its list. -->
       <div class="lawmap" id="lawmap"></div>
       <ul class="legend" id="legend"></ul>
     </section>
@@ -115,10 +119,12 @@
     <section class="story" id="story" aria-labelledby="story-title" tabindex="-1">
       <h2 class="story-title" id="story-title">31 laws, one target: a third fewer reporting duties</h2>
       <p class="story-text" id="story-text"></p>
+      <p class="law-line" id="law-line" hidden></p>
       <figure class="agent" id="agent">
-        <figcaption><span class="vc-tag vc-tag--feature vc-tag--sm"><span class="vc-icon vc-icon--sparkle" aria-hidden="true"></span><span data-i18n="agent.tag">Agent</span></span></figcaption>
+        <figcaption><span class="vc-tag vc-tag--feature"><span class="vc-icon vc-icon--sparkle" aria-hidden="true"></span><span data-i18n="agent.tag">Agent</span></span></figcaption>
         <blockquote id="agent-text"></blockquote>
       </figure>
+      <p class="who-line" id="who-line" hidden></p>
       <div class="evidence" id="evidence" hidden></div>
       <!-- What the page waits for, asked where the eye is (Vici, Presenting step by step): one sentence and
            the one primary action, right under the step and in view however long it grows. Its button runs
@@ -153,53 +159,82 @@
     </header>
     <div class="vc-guide__chapters">
       <section class="vc-guide__chapter" data-vc-chapter="what" data-vc-nav="What it does">
-        <h3>An AI agent finds the duties that ask businesses twice</h3>
-        <p class="vc-guide__lead">The federal and state governments want at least a third fewer reporting duties and half the documentation duties. Duty Radar shows how an AI agent finds where to start, in <span data-fig="laws">31</span> federal laws.</p>
+        <h3>An AI agent finds duties that ask businesses twice</h3>
+        <p class="vc-guide__lead">The federal and state governments want at least a third fewer reporting duties. Duty Radar shows how an AI agent finds where to start, in <span data-fig="laws">31</span> laws chosen by hand for this demo from five topic areas.</p>
         <div class="vc-table-wrap"><table class="vc-table vc-table--compact">
-          <caption>One run on <span data-fig="laws">31</span> federal laws</caption>
+          <caption>One run on <span data-fig="laws">31</span> laws</caption>
           <tbody>
-            <tr><th scope="row">Read</th><td><span data-fig="laws">31</span> laws, <span data-fig="paragraphs">778</span> paragraphs, <span data-fig="sentences">4,904</span> sentences</td></tr>
+            <tr><th scope="row">Read</th><td><span data-fig="laws">31</span> laws, <span data-fig="paragraphs">778</span> sections, <span data-fig="sentences">4,904</span> sentences</td></tr>
             <tr><th scope="row">Found</th><td><span data-fig="duties">745</span> duties, <span data-fig="reporting">320</span> of them reporting duties</td></tr>
             <tr><th scope="row">Asked twice</th><td><span data-fig="clustered">203</span> duties in <span data-fig="clusters">48</span> clusters</td></tr>
-            <tr><th scope="row">Priced</th><td>The most promising cluster: <span data-fig="cluster-cost">€9.98m</span> a year for businesses</td></tr>
+            <tr><th scope="row">Priced</th><td>Two monthly reports, up to <span data-fig="cases-words">0.53&nbsp;million</span> a year: up to <span data-fig="cluster-cost">€3.70m</span> a year for businesses</td></tr>
             <tr><th scope="row">Decided</th><td>By a person, with a reason. Nothing is sent.</td></tr>
           </tbody>
         </table></div>
       </section>
       <section class="vc-guide__chapter" data-vc-chapter="how" data-vc-nav="How it works">
         <h3>The agent reads and drafts, engines compute every figure</h3>
-        <p class="vc-guide__lead">A language model sorts the duties and drafts the options but never writes a number. Engines compute every figure and a fact checker blocks any without a source. The three figures at the top show the result.</p>
+        <p class="vc-guide__lead">A language model sorts the duties and drafts the options but never writes a number. Engines compute every figure with the federal method, and a fact checker blocks any without a source. Press any count to see what it counts.</p>
         <div class="vc-table-wrap"><table class="vc-table vc-table--compact">
           <caption>Key figures</caption>
           <thead><tr><th scope="col">Figure</th><th scope="col">What it measures</th><th scope="col" class="vc-num">In this run</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Asked twice</th><td>Duties that ask for data another duty already collects, of the <span data-fig="duties">745</span> the agent finds in the <span data-fig="laws">31</span> laws</td><td class="vc-num"><span data-fig="clustered">203</span> of <span data-fig="duties">745</span></td></tr>
-            <tr><th scope="row">Relief at stake a year</th><td>What the merge saves businesses a year, until a person approves it. One report costs <span data-fig="businesses">60,000</span> businesses × <span data-fig="per-year">12</span> × (<span data-fig="minutes">10&nbsp;min</span> at <span data-fig="wage">€38.60</span> an hour + <span data-fig="material">€0.50</span>) = <span data-fig="report-cost">€4.99m</span></td><td class="vc-num"><span data-fig="merge">€4.07m</span></td></tr>
+            <tr><th scope="row">Asked twice</th><td>Duties in clusters: they ask for items another duty already asks for, of the <span data-fig="duties">745</span> the agent finds</td><td class="vc-num"><span data-fig="clustered">203</span> of <span data-fig="duties">745</span></td></tr>
+            <tr><th scope="row">Relief at stake a year</th><td>Up to what merging the two reports saves businesses. One report costs <span data-fig="businesses">22,217</span> × <span data-fig="per-year">12</span> × (<span data-fig="minutes">10&nbsp;min</span> at <span data-fig="wage">€38.60</span> an hour + <span data-fig="material">€0.50</span>) = <span data-fig="report-cost">€1.85m</span>. It assumes all <span data-fig="businesses">22,217</span> file both</td><td class="vc-num"><span data-fig="merge">€1.51m</span></td></tr>
             <tr><th scope="row">Reporting duties cut</th><td>Reporting duties an approval removes, against the target: a third of the <span data-fig="reporting">320</span> in these laws</td><td class="vc-num"><span data-fig="removed">1</span> of <span data-fig="target">107</span></td></tr>
           </tbody>
         </table></div>
       </section>
+      <section class="vc-guide__chapter" data-vc-chapter="law" data-vc-nav="From law to duty">
+        <h3>From law to duty: what the first counts count</h3>
+        <p class="vc-guide__lead">Each count counts part of the one above it. Press a count on the page, or What each number counts beside the steps, to list it.</p>
+        <div class="vc-table-wrap"><table class="vc-table vc-table--compact">
+          <caption>The first five rungs</caption>
+          <tbody>
+            <tr><th scope="row"><span data-fig="laws">31</span> laws</th><td><span data-fig="acts">19</span> acts and <span data-fig="ordinances">12</span> ordinances, chosen by hand for this demo from five topic areas full of business reporting.</td></tr>
+            <tr><th scope="row"><span data-fig="paragraphs">778</span> sections</th><td>The numbered sections (§) of those laws.</td></tr>
+            <tr><th scope="row"><span data-fig="sentences">4,904</span> sentences</th><td>Every sentence of those sections. The agent reads each one.</td></tr>
+            <tr><th scope="row"><span data-fig="candidates">870</span> flagged</th><td>A pattern finds a duty word and a marker such as “muss” or “verpflichtet” in the same sentence.</td></tr>
+            <tr><th scope="row"><span data-fig="duties">745</span> duties</th><td>Flagged sentences the agent confirms: a law makes someone do something. It discards <span data-fig="rejected">125</span>.</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+      <section class="vc-guide__chapter" data-vc-chapter="decision" data-vc-nav="From duty to decision">
+        <h3>From duty to decision: what the later counts count</h3>
+        <p class="vc-guide__lead">A reporting duty is one type of duty, the one the target cuts. A cluster holds duties that ask the same addressees for overlapping items.</p>
+        <div class="vc-table-wrap"><table class="vc-table vc-table--compact">
+          <caption>The last five rungs</caption>
+          <tbody>
+            <tr><th scope="row"><span data-fig="reporting">320</span> reporting duties</th><td>One type of duty: report something to an authority. The target cuts them by a third.</td></tr>
+            <tr><th scope="row"><span data-fig="clusters">48</span> clusters</th><td>Compared only with the same addressee and the same population, whatever the type; <span data-fig="clustered">203</span> duties sit in them.</td></tr>
+            <tr><th scope="row"><span data-fig="priced">1</span> cluster priced</th><td>The most promising: two monthly reports, trade and services statistics § 11 and production statistics § 9.</td></tr>
+            <tr><th scope="row"><span data-fig="options">3</span> options</th><td>Merge the reports, take the data from the register, or keep both, each priced by the federal method.</td></tr>
+            <tr><th scope="row">1 decision</th><td>A person approves one option or keeps both, with a reason. Nothing is sent.</td></tr>
+          </tbody>
+        </table></div>
+      </section>
       <section class="vc-guide__chapter" data-vc-chapter="real" data-vc-nav="What is real">
-        <h3>Real law and a federal method, assumed case numbers</h3>
-        <p class="vc-guide__lead">The <span data-fig="laws">31</span> laws are real, as gesetze-im-internet.de published them on <span data-fig="retrieved">19 November 2026</span>: consolidated texts, not the official version. The agent's run is a replay, and the case numbers are assumed until calibrated.</p>
+        <h3>Real law and a federal method, some numbers assumed</h3>
+        <p class="vc-guide__lead">The <span data-fig="laws">31</span> laws are real, as gesetze-im-internet.de published them on <span data-fig="retrieved">19 November 2026</span>: consolidated texts, not the official version. The agent's run is a replay.</p>
         <div class="vc-table-wrap"><table class="vc-table vc-table--compact">
           <caption>Where the figures come from</caption>
           <tbody>
             <tr><th scope="row">Real</th><td>The law texts and § citations, and the monthly reports under § 4 HdlDlStatG.</td></tr>
-            <tr><th scope="row">Sourced</th><td><span data-fig="wage">€38.60</span> an hour for businesses, <span data-fig="admin-wage">€44.40</span> for the federal administration and <span data-fig="minutes">10&nbsp;min</span> per report, from the Destatis guide on compliance cost (February 2026).</td></tr>
-            <tr><th scope="row">Assumed</th><td><span data-fig="businesses">60,000</span> businesses per survey, <span data-fig="material">€0.50</span> per report, <span data-fig="admin-minutes">2&nbsp;min</span> per register retrieval and <span data-fig="one-off">€250,000</span> to connect the register.</td></tr>
-            <tr><th scope="row">Simulated</th><td>The agent's run, a replay of release 1.0.0's run R1 in which no model is called, and the business register.</td></tr>
+            <tr><th scope="row">Sourced</th><td><span data-fig="wage">€38.60</span> an hour for businesses, <span data-fig="admin-wage">€44.40</span> for the federal administration and <span data-fig="minutes">10&nbsp;min</span> a report, from the Destatis guide on compliance cost (February 2026).</td></tr>
+            <tr><th scope="row">Counted</th><td>At most <span data-fig="businesses">22,217</span> can file both: the sites the production survey asks (2025). The replayed run had assumed <span data-fig="before-businesses">60,000</span>.</td></tr>
+            <tr><th scope="row">Assumed</th><td>That all <span data-fig="businesses">22,217</span> file both, as the law doesn't say how many do; <span data-fig="material">€0.50</span> a report for postage; <span data-fig="admin-minutes">2&nbsp;min</span> a register lookup; <span data-fig="one-off">€250,000</span> to connect the register.</td></tr>
+            <tr><th scope="row">Simulated</th><td>The agent's run, replayed from release 1.0.0 with no model called, and the business register.</td></tr>
           </tbody>
         </table></div>
       </section>
       <section class="vc-guide__chapter" data-vc-chapter="present" data-vc-nav="How to present">
         <h3>Show it in five minutes</h3>
-        <p class="vc-guide__lead">The button by “Your turn” runs to the next step and stops there, so you can talk.</p>
+        <p class="vc-guide__lead">The button by “Your turn” runs to the next step and stops there.</p>
         <ol class="vc-guide__path">
-          <li><strong>The target: point at the three figures.</strong> <span class="vc-guide__say">“The target: a third fewer reporting duties. At stake: <span data-fig="stake">€4.07m</span> a year.”</span> <span class="vc-guide__time">1 min</span></li>
-          <li><strong>It reads: press “Next: It reads”, the laws fill in.</strong> <span class="vc-guide__say">“<span data-fig="duties">745</span> duties in <span data-fig="sentences">4,904</span> sentences, each with its sentence and section.”</span> <span class="vc-guide__time">1 min</span></li>
-          <li><strong>Asked twice: point at the same sentence in two laws.</strong> <span class="vc-guide__say">“The same data, asked twice: <span data-fig="cases-words">1.44&nbsp;million</span> reports a year.”</span> <span class="vc-guide__time">1 min</span></li>
-          <li><strong>It prices: point at Relief at stake a year.</strong> <span class="vc-guide__say">“One report instead of two saves <span data-fig="merge">€4.07m</span> a year. No figure without a source.”</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>The target: point at the three figures.</strong> <span class="vc-guide__say">“The target: a third fewer reporting duties. At stake: up to <span data-fig="stake">€1.51m</span> a year.”</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>It reads: press Next, then open “<span data-fig="duties">745</span> duties”.</strong> <span class="vc-guide__say">“Each count opens what it counts: here every duty, with its sentence.”</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>Asked twice: open “Compare”.</strong> <span class="vc-guide__say">“The same items in both reports; the same businesses are assumed.”</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>It prices: press “Where does this figure come from?”.</strong> <span class="vc-guide__say">“The federal method, step by step. Assumed: all <span data-fig="businesses">22,217</span> file both.”</span> <span class="vc-guide__time">1 min</span></li>
           <li><strong>You decide: click Approve merge.</strong> <span class="vc-guide__say">“Only a person approves. Reporting duties cut: <span data-fig="removed">1</span> of <span data-fig="target">107</span>.”</span> <span class="vc-guide__time">1 min</span></li>
         </ol>
       </section>
@@ -219,52 +254,81 @@
     <div class="vc-guide__chapters">
       <section class="vc-guide__chapter" data-vc-chapter="what" data-vc-nav="Was er tut">
         <h3>Ein KI-Agent findet Pflichten, die Betriebe doppelt fragen</h3>
-        <p class="vc-guide__lead">Bund und Länder wollen mindestens ein Drittel weniger Meldepflichten und die Hälfte weniger Dokumentationspflichten. Der Pflichten-Radar zeigt, wie ein KI-Agent in <span data-fig="laws">31</span> Bundesgesetzen findet, wo man anfängt.</p>
+        <p class="vc-guide__lead">Bund und Länder wollen mindestens ein Drittel weniger Meldepflichten. Der Pflichten-Radar zeigt, wie ein KI-Agent findet, wo man anfängt: in <span data-fig="laws">31</span> Vorschriften, für diese Demo von Hand gewählt aus fünf Themen.</p>
         <div class="vc-table-wrap"><table class="vc-table vc-table--compact">
-          <caption>Ein Lauf auf <span data-fig="laws">31</span> Bundesgesetzen</caption>
+          <caption>Ein Lauf auf <span data-fig="laws">31</span> Vorschriften</caption>
           <tbody>
-            <tr><th scope="row">Gelesen</th><td><span data-fig="laws">31</span> Gesetze, <span data-fig="paragraphs">778</span> Paragrafen, <span data-fig="sentences">4.904</span> Sätze</td></tr>
+            <tr><th scope="row">Gelesen</th><td><span data-fig="laws">31</span> Vorschriften, <span data-fig="paragraphs">778</span> Paragrafen, <span data-fig="sentences">4.904</span> Sätze</td></tr>
             <tr><th scope="row">Gefunden</th><td><span data-fig="duties">745</span> Pflichten, davon <span data-fig="reporting">320</span> Meldepflichten</td></tr>
             <tr><th scope="row">Doppelt gefragt</th><td><span data-fig="clustered">203</span> Pflichten in <span data-fig="clusters">48</span> Bündeln</td></tr>
-            <tr><th scope="row">Bepreist</th><td>Das vielversprechendste Bündel: <span data-fig="cluster-cost">9,98&nbsp;Mio.&nbsp;€</span> im Jahr für die Betriebe</td></tr>
+            <tr><th scope="row">Bepreist</th><td>Zwei Monatsmeldungen, bis zu <span data-fig="cases-words">0,53&nbsp;Millionen</span> im Jahr: bis zu <span data-fig="cluster-cost">3,70&nbsp;Mio.&nbsp;€</span> im Jahr für die Unternehmen</td></tr>
             <tr><th scope="row">Entschieden</th><td>Von einem Menschen, mit Begründung. Nichts wird versendet.</td></tr>
           </tbody>
         </table></div>
       </section>
       <section class="vc-guide__chapter" data-vc-chapter="how" data-vc-nav="So arbeitet er">
         <h3>Der Agent entwirft, Rechenmodule ermitteln jede Zahl</h3>
-        <p class="vc-guide__lead">Ein Sprachmodell ordnet die Pflichten und entwirft die Optionen, schreibt aber nie eine Zahl. Rechenmodule ermitteln jede Zahl, ein Faktenprüfer blockiert jede ohne Quelle. Die drei Kennzahlen oben zeigen das Ergebnis.</p>
+        <p class="vc-guide__lead">Ein Sprachmodell ordnet die Pflichten und entwirft die Optionen, schreibt aber nie eine Zahl. Rechenmodule ermitteln jede Zahl nach der Methode des Bundes, ein Faktenprüfer blockiert jede ohne Quelle.</p>
         <div class="vc-table-wrap"><table class="vc-table vc-table--compact">
           <caption>Kennzahlen</caption>
           <thead><tr><th scope="col">Kennzahl</th><th scope="col">Was sie misst</th><th scope="col" class="vc-num">In diesem Lauf</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Doppelt gefragt</th><td>Pflichten, deren Daten eine andere Pflicht schon erhebt; insgesamt findet der Agent <span data-fig="duties">745</span> in den <span data-fig="laws">31</span> Gesetzen</td><td class="vc-num"><span data-fig="clustered">203</span> von <span data-fig="duties">745</span></td></tr>
-            <tr><th scope="row">Offene Entlastung pro Jahr</th><td>Was das Zusammenlegen den Betrieben im Jahr spart, bis ein Mensch es freigibt. Eine Meldung kostet <span data-fig="businesses">60.000</span> Betriebe × <span data-fig="per-year">12</span> × (<span data-fig="minutes">10&nbsp;min</span> zu <span data-fig="wage">38,60&nbsp;€</span> die Stunde + <span data-fig="material">0,50&nbsp;€</span>) = <span data-fig="report-cost">4,99&nbsp;Mio.&nbsp;€</span></td><td class="vc-num"><span data-fig="merge">4,07&nbsp;Mio.&nbsp;€</span></td></tr>
-            <tr><th scope="row">Gestrichene Meldepflichten</th><td>Meldepflichten, die eine Freigabe streicht, gemessen am Ziel: ein Drittel der <span data-fig="reporting">320</span> in diesen Gesetzen</td><td class="vc-num"><span data-fig="removed">1</span> von <span data-fig="target">107</span></td></tr>
+            <tr><th scope="row">Doppelt gefragt</th><td>Pflichten in Bündeln: Sie fragen Angaben ab, die eine andere Pflicht schon erhebt; insgesamt findet der Agent <span data-fig="duties">745</span></td><td class="vc-num"><span data-fig="clustered">203</span> von <span data-fig="duties">745</span></td></tr>
+            <tr><th scope="row">Offene Entlastung pro Jahr</th><td>Bis zu dem, was das Zusammenlegen den Unternehmen spart. Eine Meldung kostet <span data-fig="businesses">22.217</span> × <span data-fig="per-year">12</span> × (<span data-fig="minutes">10&nbsp;min</span> zu <span data-fig="wage">38,60&nbsp;€</span> die Stunde + <span data-fig="material">0,50&nbsp;€</span>) = <span data-fig="report-cost">1,85&nbsp;Mio.&nbsp;€</span>. Angenommen ist, dass alle <span data-fig="businesses">22.217</span> doppelt melden</td><td class="vc-num"><span data-fig="merge">1,51&nbsp;Mio.&nbsp;€</span></td></tr>
+            <tr><th scope="row">Gestrichene Meldepflichten</th><td>Meldepflichten, die eine Freigabe streicht, gemessen am Ziel: ein Drittel der <span data-fig="reporting">320</span> in diesen Vorschriften</td><td class="vc-num"><span data-fig="removed">1</span> von <span data-fig="target">107</span></td></tr>
+          </tbody>
+        </table></div>
+      </section>
+      <section class="vc-guide__chapter" data-vc-chapter="law" data-vc-nav="Von Vorschrift zu Pflicht">
+        <h3>Von der Vorschrift zur Pflicht: was die ersten Zahlen zählen</h3>
+        <p class="vc-guide__lead">Jede Zahl zählt einen Teil der Zahl darüber. Drücken Sie eine Zahl auf der Seite oder „Was jede Zahl zählt“ neben den Schritten, um sie aufzulisten.</p>
+        <div class="vc-table-wrap"><table class="vc-table vc-table--compact">
+          <caption>Die ersten fünf Stufen</caption>
+          <tbody>
+            <tr><th scope="row"><span data-fig="laws">31</span> Vorschriften</th><td><span data-fig="acts">19</span> Gesetze und <span data-fig="ordinances">12</span> Verordnungen, für diese Demo von Hand gewählt aus fünf Themen mit vielen Meldungen der Wirtschaft.</td></tr>
+            <tr><th scope="row"><span data-fig="paragraphs">778</span> Paragrafen</th><td>Die nummerierten Paragrafen (§) dieser Vorschriften.</td></tr>
+            <tr><th scope="row"><span data-fig="sentences">4.904</span> Sätze</th><td>Jeder Satz dieser Paragrafen. Der Agent liest jeden.</td></tr>
+            <tr><th scope="row"><span data-fig="candidates">870</span> markiert</th><td>Ein Muster findet im selben Satz ein Pflichtwort und ein Signal wie „muss“ oder „verpflichtet“.</td></tr>
+            <tr><th scope="row"><span data-fig="duties">745</span> Pflichten</th><td>Markierte Sätze, die der Agent bestätigt: Eine Vorschrift verlangt von jemandem etwas. <span data-fig="rejected">125</span> verwirft er.</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+      <section class="vc-guide__chapter" data-vc-chapter="decision" data-vc-nav="Von Pflicht zu Entscheidung">
+        <h3>Von der Pflicht zur Entscheidung: was die übrigen zählen</h3>
+        <p class="vc-guide__lead">Eine Meldepflicht ist die Art von Pflicht, die das Ziel kürzt. Ein Bündel hält Pflichten, die dieselben Adressaten nach überlappenden Angaben fragen.</p>
+        <div class="vc-table-wrap"><table class="vc-table vc-table--compact">
+          <caption>Die letzten fünf Stufen</caption>
+          <tbody>
+            <tr><th scope="row"><span data-fig="reporting">320</span> Meldepflichten</th><td>Eine Art von Pflicht: einer Behörde etwas melden. Das Ziel kürzt sie um ein Drittel.</td></tr>
+            <tr><th scope="row"><span data-fig="clusters">48</span> Bündel</th><td>Verglichen nur bei gleichem Adressaten und gleicher Grundgesamtheit, gleich welcher Art; <span data-fig="clustered">203</span> Pflichten.</td></tr>
+            <tr><th scope="row"><span data-fig="priced">1</span> Bündel bepreist</th><td>Zwei Monatsmeldungen: Handels- und Dienstleistungsstatistik § 11, Produktionsstatistik § 9.</td></tr>
+            <tr><th scope="row"><span data-fig="options">3</span> Optionen</th><td>Zusammenlegen, aus dem Register abrufen oder beide behalten, jede nach der Methode des Bundes bepreist.</td></tr>
+            <tr><th scope="row">1 Entscheidung</th><td>Ein Mensch gibt eine Option frei oder behält beide, mit Begründung. Nichts wird versendet.</td></tr>
           </tbody>
         </table></div>
       </section>
       <section class="vc-guide__chapter" data-vc-chapter="real" data-vc-nav="Was echt ist">
-        <h3>Echtes Recht und Methode des Bundes, Fallzahlen angenommen</h3>
-        <p class="vc-guide__lead">Die <span data-fig="laws">31</span> Gesetze sind echt, Stand gesetze-im-internet.de vom <span data-fig="retrieved">19. November 2026</span>: konsolidierte Fassungen, nicht amtlich. Der Agentenlauf ist nachgespielt, die Fallzahlen sind bis zur Kalibrierung angenommen.</p>
+        <h3>Echtes Recht, Methode des Bundes, manches angenommen</h3>
+        <p class="vc-guide__lead">Die <span data-fig="laws">31</span> Vorschriften sind echt, Stand gesetze-im-internet.de vom <span data-fig="retrieved">19. November 2026</span>: konsolidierte Fassungen, nicht amtlich. Der Agentenlauf ist nachgespielt.</p>
         <div class="vc-table-wrap"><table class="vc-table vc-table--compact">
           <caption>Woher die Zahlen kommen</caption>
           <tbody>
-            <tr><th scope="row">Echt</th><td>Die Gesetzestexte und §-Zitate und die monatlichen Meldungen nach § 4 HdlDlStatG.</td></tr>
-            <tr><th scope="row">Mit Quelle</th><td><span data-fig="wage">38,60&nbsp;€</span> je Stunde in der Wirtschaft, <span data-fig="admin-wage">44,40&nbsp;€</span> in der Bundesverwaltung, <span data-fig="minutes">10&nbsp;min</span> je Meldung: Leitfaden zum Erfüllungsaufwand, Destatis, Februar 2026.</td></tr>
-            <tr><th scope="row">Angenommen</th><td><span data-fig="businesses">60.000</span> Betriebe je Erhebung, <span data-fig="material">0,50&nbsp;€</span> je Meldung, <span data-fig="admin-minutes">2&nbsp;min</span> je Registerabruf und <span data-fig="one-off">250.000&nbsp;€</span> für die Anbindung des Registers.</td></tr>
-            <tr><th scope="row">Simuliert</th><td>Der Agentenlauf, nachgespielt aus Lauf R1 von Release 1.0.0 ohne Modellaufruf, und das Unternehmensregister.</td></tr>
+            <tr><th scope="row">Echt</th><td>Die Gesetzestexte, die §-Zitate, die monatlichen Meldungen nach § 4 HdlDlStatG.</td></tr>
+            <tr><th scope="row">Mit Quelle</th><td><span data-fig="wage">38,60&nbsp;€</span> je Stunde in der Wirtschaft, <span data-fig="admin-wage">44,40&nbsp;€</span> in der Bundesverwaltung, <span data-fig="minutes">10&nbsp;min</span> je Meldung, aus dem Leitfaden von Destatis.</td></tr>
+            <tr><th scope="row">Gezählt</th><td>Höchstens <span data-fig="businesses">22.217</span> können doppelt melden, so viele Betriebe fragt die Produktionserhebung (2025). Der nachgespielte Lauf nahm <span data-fig="before-businesses">60.000</span> an.</td></tr>
+            <tr><th scope="row">Angenommen</th><td>Dass alle <span data-fig="businesses">22.217</span> doppelt melden, da das Gesetz es nicht sagt; <span data-fig="material">0,50&nbsp;€</span> Porto je Meldung; <span data-fig="admin-minutes">2&nbsp;min</span> je Registerabruf; <span data-fig="one-off">250.000&nbsp;€</span> für die Anbindung.</td></tr>
+            <tr><th scope="row">Simuliert</th><td>Der Agentenlauf, nachgespielt aus Release 1.0.0 ohne Modellaufruf, und das Register.</td></tr>
           </tbody>
         </table></div>
       </section>
       <section class="vc-guide__chapter" data-vc-chapter="present" data-vc-nav="So führen Sie vor">
         <h3>In fünf Minuten vorführen</h3>
-        <p class="vc-guide__lead">Der Knopf bei „Sie sind dran“ führt zum nächsten Schritt und hält dort, damit Sie erzählen können.</p>
+        <p class="vc-guide__lead">Der Knopf bei „Sie sind dran“ führt zum nächsten Schritt und hält dort.</p>
         <ol class="vc-guide__path">
-          <li><strong>Das Ziel: auf die drei Kennzahlen zeigen.</strong> <span class="vc-guide__say">„Ein Drittel weniger Meldepflichten. Es geht um <span data-fig="stake">4,07&nbsp;Mio.&nbsp;€</span> im Jahr.“</span> <span class="vc-guide__time">1 min</span></li>
-          <li><strong>Er liest: „Weiter: Er liest“ drücken, die Gesetze füllen sich.</strong> <span class="vc-guide__say">„<span data-fig="duties">745</span> Pflichten in <span data-fig="sentences">4.904</span> Sätzen, jede mit Satz und Paragraf.“</span> <span class="vc-guide__time">1 min</span></li>
-          <li><strong>Doppelt gefragt: auf denselben Satz in zwei Gesetzen zeigen.</strong> <span class="vc-guide__say">„Dieselben Daten, doppelt gefragt: <span data-fig="cases-words">1,44&nbsp;Millionen</span> Meldungen im Jahr.“</span> <span class="vc-guide__time">1 min</span></li>
-          <li><strong>Er bepreist: auf Offene Entlastung pro Jahr zeigen.</strong> <span class="vc-guide__say">„Eine Meldung statt zwei spart <span data-fig="merge">4,07&nbsp;Mio.&nbsp;€</span> im Jahr. Keine Zahl ohne Quelle.“</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>Das Ziel: auf die drei Kennzahlen zeigen.</strong> <span class="vc-guide__say">„Ein Drittel weniger Meldepflichten. Es geht um bis zu <span data-fig="stake">1,51&nbsp;Mio.&nbsp;€</span> im Jahr.“</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>Er liest: Weiter drücken, dann „<span data-fig="duties">745</span> Pflichten“ öffnen.</strong> <span class="vc-guide__say">„Jede Zahl öffnet, was sie zählt: hier jede Pflicht mit ihrem Satz.“</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>Doppelt gefragt: „Vergleich“ öffnen.</strong> <span class="vc-guide__say">„Gleiche Angaben, beide Meldungen; dieselben Unternehmen sind angenommen.“</span> <span class="vc-guide__time">1 min</span></li>
+          <li><strong>Er bepreist: „Woher kommt diese Zahl?“ drücken.</strong> <span class="vc-guide__say">„Die Methode des Bundes. Angenommen: Alle <span data-fig="businesses">22.217</span> melden doppelt.“</span> <span class="vc-guide__time">1 min</span></li>
           <li><strong>Sie entscheiden: Zusammenlegen freigeben klicken.</strong> <span class="vc-guide__say">„Nur ein Mensch gibt frei. Gestrichene Meldepflichten: <span data-fig="removed">1</span> von <span data-fig="target">107</span>.“</span> <span class="vc-guide__time">1 min</span></li>
         </ol>
       </section>
@@ -274,6 +338,20 @@
       <button type="button" class="vc-button vc-button--ghost" data-vc-guide-back><span class="vc-icon vc-icon--chevron-left" aria-hidden="true"></span>Zurück</button>
       <button type="button" class="vc-button" data-vc-guide-next data-vc-guide-done="Starten">Weiter<span class="vc-icon vc-icon--chevron-right" aria-hidden="true"></span></button>
     </footer>
+  </dialog>
+
+  <!-- What a count counts, the ladder, the comparison and the derivation open here, beside the story and
+       over it, leaving the law map and the key figures in view. Not modal: Esc or the close button closes
+       it and focus returns to the count that opened it (js/panel.js). -->
+  <dialog class="vc-dialog vc-dialog--drawer panel" id="panel" aria-labelledby="panel-title">
+    <header class="vc-dialog__header panel-head">
+      <div class="panel-titles">
+        <h2 class="vc-dialog__title" id="panel-title" tabindex="-1"></h2>
+        <p class="panel-sub" id="panel-sub"></p>
+      </div>
+      <button type="button" class="vc-icon-button" id="panel-close" aria-label="Close the list" data-i18n-attr="aria-label:panel.close"><span class="vc-icon vc-icon--close" aria-hidden="true"></span></button>
+    </header>
+    <div class="panel-body" id="panel-body"></div>
   </dialog>
 
   <!-- Boot screen: removed by js/main.js once the page is drawn. Opened from disk (file://), where

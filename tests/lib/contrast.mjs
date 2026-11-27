@@ -56,13 +56,16 @@ export const contrastShortfalls = (page) => page.evaluate(() => {
     const box = el.getBoundingClientRect();
     if (box.width === 0 || box.height === 0 || box.bottom <= 0 || box.right <= 0 || box.top >= innerHeight || box.left >= innerWidth) continue;
     const cs = getComputedStyle(el);
-    if (cs.visibility !== "visible" || el.closest('[hidden], [aria-hidden="true"], [disabled], [aria-disabled="true"]')) continue;
+    // Text hidden from screen readers still has to be read by eye (the A and B marks): only hidden and disabled text is exempt.
+    if (cs.visibility !== "visible" || el.closest('[hidden], [disabled], [aria-disabled="true"]')) continue;
     let opacity = 1;
     for (let e = el; e; e = e.parentElement) opacity *= Number(getComputedStyle(e).opacity);
     if (opacity === 0) continue;
     if (fadingIn(el)) { fading += 1; continue; }
     const bg = background(el);
     const ink = parse(cs.color);
+    // Text drawn in a transparent colour shows nothing to read (a done step's number under its tick).
+    if (ink.a === 0) continue;
     const fg = over({ ...ink, a: ink.a * opacity }, bg);
     const [hi, lo] = [lum(fg), lum(bg)].sort((a, b) => b - a);
     const ratio = (hi + 0.05) / (lo + 0.05);
