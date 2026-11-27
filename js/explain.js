@@ -59,6 +59,7 @@ export function explain(F, lang) {
     cluster: (x, size) => (de ? `${n(size)} Pflichten · gemeinsam: ${x} · Sicherheit` : `${n(size)} duties · shared: ${x} · confidence`),
     priced: de ? "bepreist" : "priced",
     notPriced: de ? "in diesem Lauf nicht bepreist" : "not priced in this run",
+    confidence: de ? "Sicherheit, von 0 bis 1: der Anteil der Angaben, den alle Pflichten eines Bündels fragen, mal die Sicherheit des Agenten bei der unsichersten." : "Confidence, from 0 to 1: the share of items all of a cluster's duties ask for, times how sure the agent was of the least certain one.",
     lawItem: (l) => (de
       ? `${l.kind === "act" ? "Gesetz" : "Verordnung"} · ${n(l.paragraphs)} Paragrafen · ${n(l.sentences)} Sätze · ${n(l.flagged)} markiert · ${n(l.duties)} Pflichten`
       : `${l.kind === "act" ? "Act" : "Ordinance"} · ${n(l.paragraphs)} sections · ${n(l.sentences)} sentences · ${n(l.flagged)} flagged · ${n(l.duties)} duties`),
@@ -83,7 +84,7 @@ export function explain(F, lang) {
     discarded: [de ? `${n(F.rejected)} verworfene Sätze` : `${n(F.rejected)} sentences discarded`, de ? "Markiert, aber laut Agent keine eigene Pflicht." : "Flagged, but in the agent's reading not a duty of its own."],
     clusters: [de ? `${n(F.clusters)} Bündel mit ${n(F.clustered)} Pflichten` : `${n(F.clusters)} clusters holding ${n(F.clustered)} duties`, de ? "Das bepreiste zuerst, dann nach Größe. Jedes fragt dieselben Adressaten nach sich überschneidenden Angaben." : "The priced one first, then by size. Each asks the same addressees for overlapping items."],
     options: [de ? `${n(F.options)} Optionen für ${pricedName}` : `${n(F.options)} options for ${pricedName}`, de ? "Jede nach der Methode des Bundes bepreist; ein Mensch entscheidet." : "Each priced by the federal method; a person decides."],
-    compare: [de ? "Fragen beide Meldungen dieselben Unternehmen?" : "Do the two reports ask the same businesses?", de ? `${law(A.norm)} ${A.section} und ${law(B.norm)} ${B.section}: erst der Gesetzestext, dann die Lesart des Agenten` : `${law(A.norm)} ${A.section} and ${law(B.norm)} ${B.section}: the law's text, then the agent's reading`],
+    compare: [de ? "Fragen beide Meldungen dieselben Unternehmen?" : "Do the two reports ask the same businesses?", de ? `${law(A.norm)} ${A.section} und ${law(B.norm)} ${B.section}: erst die Antwort und die Lesart des Agenten, dann der Gesetzestext` : `${law(A.norm)} ${A.section} and ${law(B.norm)} ${B.section}: the answer and the agent's reading first, then the law's text`],
     derive: (type) => [de ? `Woher kommen ${type === "merge" ? "bis zu " : ""}${m(-F.option[type].net)}?` : `Where does ${type === "merge" ? "up to " : ""}${m(-F.option[type].net)} come from?`, de ? `Entlastung im Jahr durch ${type === "merge" ? "das Zusammenlegen beider Meldungen" : "den Registerabruf"}, nach der Methode des Bundes zum Erfüllungsaufwand (${D.guide.publisher}, ${D.guide.edition.replace(/^.*?,\s*/, "")})` : `Relief a year from ${type === "merge" ? "merging the two reports" : "the register lookup"}, by the federal compliance-cost method (${D.guide.publisher}, guide of ${D.guide.edition.replace(/^.*?,\s*/, "").replace("Februar", "February")})`]
   };
   const option = {
@@ -119,17 +120,17 @@ export function explain(F, lang) {
     title: title.compare,
     pair: { A: law(A.norm), B: law(B.norm) },
     rows: [
-      row("who", de ? "Wer melden muss" : "Who must report", [{ quotes: qa.who.map(quote) }, { quotes: qb.who.map(quote) }]),
-      row("what", de ? "Was gefragt wird" : "What is asked", [{ quotes: qa.what.map(quote) }, { quotes: qb.what.map(quote) }]),
-      row("when", de ? "Wie oft" : "How often", [{ quotes: qa.when.map(quote) }, { text: de ? "Monatlich, wie die Liste in § 2 oben sagt (A. I.)." : "Monthly, as the list in § 2 above says (A. I.)." }]),
-      row("whom", de ? "An wen" : "To whom", [{ quotes: qa.whom.map(quote), text: de ? `Sonst ${recipientName(A.recipient.de, lang).replace(/^an /, "")}, wie Lauf R1 es las.` : `Otherwise ${A.recipient.en}, as run R1 read it.` }, { text: de ? `${recipientName(B.recipient.de, lang).replace(/^an /, "").replace(/^./, (x) => x.toUpperCase())}, wie Lauf R1 es las.` : `${B.recipient.en.replace(/^./, (x) => x.toUpperCase())}, as run R1 read it.` }]),
-      row("duty", de ? "Die Pflicht" : "The duty", [{ quotes: [quote(qa.duty)] }, { quotes: [quote(qb.duty)] }]),
-      row("agent", de ? "Lesart des Agenten" : "The agent's reading", [{ text: de
-        ? `Für beide dieselben Adressaten und dieselbe Grundgesamtheit: Unternehmen in den Stichproben der Unternehmensstatistiken, bis zu ${n(c.population.units)}. ${n(shared.length)} von ${n(B.items.length)} Angaben gemeinsam: ${shared.join(", ")}; ${onlyB.join(", ")} nur in B. Sicherheit ${num(c.confidence, lang, 2)}.`
-        : `The same addressees and the same population for both: businesses in the samples of the business statistics, up to ${n(c.population.units)}. ${n(shared.length)} of ${n(B.items.length)} items shared: ${shared.join(", ").toLowerCase()}; ${onlyB.join(", ").toLowerCase()} only in B. Confidence ${num(c.confidence, lang, 2)}.` }], true),
       row("law", de ? "Was der Gesetzestext zeigt" : "What the law text shows", [{ text: de
         ? `Dieselben Unternehmen sind angenommen, nicht belegt. A fragt Unternehmen in Handel und Dienstleistungen über Größenschwellen, B produzierende Betriebe ab 50 tätigen Personen. Beide treffen dasselbe Unternehmen nur, wo ein Handels- oder Dienstleistungsunternehmen einen solchen Betrieb hat. Wie viele das sind, sagt das Gesetz nicht; amtliche Zählungen begrenzen sie auf ${n(cal.cap)}.`
         : `The same businesses are assumed, not shown. A asks businesses in trade and services above size thresholds, B asks producing sites with 50 or more persons. Both reach the same business only where a trade or services business runs such a site. The law doesn't say how many do; public counts cap them at ${n(cal.cap)}.` }], true),
+      row("agent", de ? "Lesart des Agenten" : "The agent's reading", [{ text: de
+        ? `Für beide dieselben Adressaten und dieselbe Grundgesamtheit: Unternehmen in den Stichproben der Unternehmensstatistiken, bis zu ${n(c.population.units)}. ${n(shared.length)} von ${n(B.items.length)} Angaben gemeinsam: ${shared.join(", ")}; ${onlyB.join(", ")} nur in B. Sicherheit ${num(c.confidence, lang, 2)}.`
+        : `The same addressees and the same population for both: businesses in the samples of the business statistics, up to ${n(c.population.units)}. ${n(shared.length)} of ${n(B.items.length)} items shared: ${shared.join(", ").toLowerCase()}; ${onlyB.join(", ").toLowerCase()} only in B. Confidence ${num(c.confidence, lang, 2)}.` }], true),
+      row("who", de ? "Wer melden muss" : "Who must report", [{ quotes: qa.who.map(quote) }, { quotes: qb.who.map(quote) }]),
+      row("what", de ? "Was gefragt wird" : "What is asked", [{ quotes: qa.what.map(quote) }, { quotes: qb.what.map(quote) }]),
+      row("when", de ? "Wie oft" : "How often", [{ quotes: qa.when.map(quote) }, { text: de ? "Monatlich, wie die Liste in § 2 oben sagt (A. I.)." : "Monthly, as the list in § 2 above says (A. I.)." }]),
+      row("whom", de ? "An wen" : "To whom", [{ quotes: qa.whom.map(quote), text: de ? `Sonst ${recipientName(A.recipient.de, lang).replace(/^an /, "")}, wie der nachgespielte Lauf es las.` : `Otherwise ${A.recipient.en}, as the replayed run read it.` }, { text: de ? `${recipientName(B.recipient.de, lang).replace(/^an /, "").replace(/^./, (x) => x.toUpperCase())}, wie der nachgespielte Lauf es las.` : `${B.recipient.en.replace(/^./, (x) => x.toUpperCase())}, as the replayed run read it.` }]),
+      row("duty", de ? "Die Pflicht" : "The duty", [{ quotes: [quote(qa.duty)] }, { quotes: [quote(qb.duty)] }]),
       row("check", de ? "Vor dem Zusammenlegen prüfen" : "Before a merge, check", [{ text: de
         ? "Die Unternehmen zählen, die in beiden Stichproben stehen; prüfen, ob die gemeinsamen Angaben dasselbe meinen und denselben Monat abdecken; prüfen, was das Recht der EU von jeder Erhebung verlangt."
         : "Count the businesses that sit in both samples; check that the shared items mean the same and cover the same month; check what EU law requires of each survey." }], true)
@@ -150,7 +151,7 @@ export function explain(F, lang) {
   const dv = D.derivation;
   const reports = dv.one.reports;
   const inputs = {
-    businesses: input("businesses", de ? "Unternehmen, die beide Meldungen abgeben" : "Businesses that file both reports", n(I.businesses.value), "cap", de ? `höchstens so viele: ${n(cal.production.sites)} Betriebe fragt die Produktionserhebung (2025), rund ${n(cal.trade.count)} Unternehmen die Handelserhebung. Dass alle doppelt melden, ist angenommen; Lauf R1 nahm ${n(cal.before.businesses)} an.` : `at most this many: the production survey asks ${n(cal.production.sites)} sites (2025), the trade survey about ${n(cal.trade.count)} businesses. That all of them file both is assumed; run R1 assumed ${n(cal.before.businesses)}.`, cal.production.url),
+    businesses: input("businesses", de ? "Unternehmen, die beide Meldungen abgeben" : "Businesses that file both reports", n(I.businesses.value), "cap", de ? `höchstens so viele: ${n(cal.production.sites)} Betriebe fragt die Produktionserhebung (2025), rund ${n(cal.trade.count)} Unternehmen die Handelserhebung. Dass alle doppelt melden, ist angenommen; der nachgespielte Lauf nahm ${n(cal.before.businesses)} an.` : `at most this many: the production survey asks ${n(cal.production.sites)} sites (2025), the trade survey about ${n(cal.trade.count)} businesses. That all of them file both is assumed; the replayed run had assumed ${n(cal.before.businesses)}.`, cal.production.url),
     perYear: input("perYear", de ? "Meldungen im Jahr" : "Reports a year", n(I.perYear.value), "law", de ? "§ 4 HdlDlStatG: monatlich" : "§ 4 HdlDlStatG: monthly", qa.when[0]?.url),
     minutes: input("minutes", de ? "Minuten je Meldung" : "Minutes a report", minutes(I.minutes.value, lang), "sourced", de ? `${annex(I.minutes)}: fünf einfache Standardaktivitäten` : `${annex(I.minutes)}: five simple standard activities`, g.url),
     wage: input("wage", de ? "Lohnkosten der Wirtschaft je Stunde" : "Wage a business pays an hour", euros(I.wage.value, lang, 2), "sourced", `${annex(I.wage)}: ${reason(I.wage)}`, g.url),
@@ -181,11 +182,11 @@ export function explain(F, lang) {
         ? [`Meldungen im Jahr: ${n(I.businesses.value)} Unternehmen × ${n(I.perYear.value)} = ${n(reports)}`,
           `Die Unternehmen sparen eine Meldung: ${eur(dv.one.cost)}, wie beim Zusammenlegen gerechnet`,
           `Die Verwaltung ruft ab: ${n(reports)} × ${minutes(I.adminMinutes.value, lang)} = ${h(dv.admin.hours)} Stunden × ${euros(I.adminWage.value, lang, 2)} = ${eur(dv.admin.cost)}`,
-          `Netto: ${eur(dv.one.cost)} − ${eur(dv.admin.cost)} = ${eur(net)} im Jahr, dazu einmalig ${euros(dv.oneOff, lang)}`]
+          `Netto: ${eur(dv.one.cost)} − ${eur(dv.admin.cost)} = ${eur(net)} im Jahr; dazu einmalig ${euros(dv.oneOff, lang)}, die die Jahreszahl nicht enthält`]
         : [`Reports a year: ${n(I.businesses.value)} businesses × ${n(I.perYear.value)} = ${n(reports)}`,
           `Businesses save one report: ${eur(dv.one.cost)}, priced as for the merge`,
           `The administration looks the data up: ${n(reports)} × ${minutes(I.adminMinutes.value, lang)} = ${h(dv.admin.hours)} hours × ${euros(I.adminWage.value, lang, 2)} = ${eur(dv.admin.cost)}`,
-          `Net: ${eur(dv.one.cost)} − ${eur(dv.admin.cost)} = ${eur(net)} a year, plus ${euros(dv.oneOff, lang)} once`]);
+          `Net: ${eur(dv.one.cost)} − ${eur(dv.admin.cost)} = ${eur(net)} a year; ${euros(dv.oneOff, lang)} once on top, which the yearly figure leaves out`]);
     const ids = merge ? ["businesses", "perYear", "minutes", "wage", "material", "mergedMinutes"] : ["businesses", "perYear", "minutes", "wage", "material", "adminMinutes", "adminWage", "oneOff"];
     return {
       title: title.derive(type),
@@ -197,14 +198,19 @@ export function explain(F, lang) {
       merged: de
         ? `Die zusammengelegte Meldung dauert ${minutes(I.mergedMinutes.value, lang)}: die ${minutes(I.minutes.value, lang)} einer Meldung plus den Anteil der Angaben, den die zweite hinzufügt. ${law(B.norm)} fragt ${n(dv.added.items)} Angaben, ${n(dv.added.shared)} davon fragt ${law(A.norm)} schon; es kommt ${n(dv.added.items - dv.added.shared)} von ${n(dv.added.items)} hinzu.`
         : `A merged report takes ${minutes(I.mergedMinutes.value, lang)}: the ${minutes(I.minutes.value, lang)} of one report plus the share of items the second adds. ${law(B.norm)} asks for ${n(dv.added.items)} items, ${n(dv.added.shared)} of which ${law(A.norm).toLowerCase()} already asks for, so it adds ${n(dv.added.items - dv.added.shared)} of ${n(dv.added.items)}.`,
+      assumed: merge
+        ? (de ? `Angenommen: dass alle ${n(I.businesses.value)} Unternehmen beide Meldungen abgeben, so viele, wie amtliche Zählungen höchstens zulassen, und ${euros(I.material.value, lang, 2)} Sachkosten je Meldung.` : `Assumed: that all ${n(I.businesses.value)} businesses file both reports, the most public counts allow, and ${euros(I.material.value, lang, 2)} material a report.`)
+        : (de ? `Angenommen: ${n(I.businesses.value)} Unternehmen, so viele, wie amtliche Zählungen höchstens zulassen, ${euros(I.material.value, lang, 2)} Sachkosten je Meldung, ${minutes(I.adminMinutes.value, lang)} je Registerabruf und ${euros(I.oneOff.value, lang)} für die Anbindung. Das Register ist simuliert.` : `Assumed: ${n(I.businesses.value)} businesses, the most public counts allow, ${euros(I.material.value, lang, 2)} material a report, ${minutes(I.adminMinutes.value, lang)} a register lookup and ${euros(I.oneOff.value, lang)} to connect the register. The register is simulated.`),
       steps,
-      rounding: de ? `Die Seite rundet auf zwei Stellen in Millionen: ${eur(net)} erscheint als ${m(net)}.` : `The page rounds to two decimals in millions: ${eur(net)} shows as ${m(net)}.`,
+      rounding: merge
+        ? (de ? `Die Seite rundet auf zwei Stellen in Millionen: ${eur(net)} erscheint als ${m(net)}.` : `The page rounds to two decimals in millions: ${eur(net)} shows as ${m(net)}.`)
+        : (de ? `Die Seite rundet auf zwei Stellen in Millionen: ${eur(net)} erscheint als ${m(net)}. Jeder Teil rundet für sich (${m(dv.one.cost)} und ${m(dv.admin.cost)}), darum ergeben die gerundeten Teile ${m(dv.one.cost)} − ${m(dv.admin.cost)} nicht genau ${m(net)}.` : `The page rounds to two decimals in millions: ${eur(net)} shows as ${m(net)}. Each part rounds on its own (${m(dv.one.cost)} and ${m(dv.admin.cost)}), so the rounded parts don't subtract to exactly ${m(net)}.`),
       sensTitle: de ? "Wenn weniger doppelt melden" : "If fewer file both",
       sensNote: de ? "Der Gesetzestext sagt nicht, wie viele beide Meldungen abgeben." : "The law text doesn't say how many file both reports.",
       sensitivity: merge ? D.sensitivity.map((r) => ({ share: r.share, label: de ? `${r.share === 1 ? "Alle" : r.share === 0.5 ? "Die Hälfte" : r.share === 0.25 ? "Ein Viertel" : "Jedes zehnte"}, ${n(r.businesses)}` : `${r.share === 1 ? "All" : r.share === 0.5 ? "Half" : r.share === 0.25 ? "A quarter" : "One in ten"}, ${n(r.businesses)}`, value: m(r.relief) })) : [],
       calibration: de
-        ? `Lauf R1 nahm für jede Unternehmensstatistik ${n(cal.before.businesses)} Unternehmen an; damit wären es ${m(merge ? cal.before.merge : cal.before.register)}. Amtliche Zählungen, gelesen am ${longDate(cal.retrieved, lang)}, begrenzen sie auf ${n(cal.cap)}.`
-        : `Run R1 assumed ${n(cal.before.businesses)} businesses for every business statistic, which gave ${m(merge ? cal.before.merge : cal.before.register)}. Public counts, read on ${longDate(cal.retrieved, lang)}, cap them at ${n(cal.cap)}.`,
+        ? `Der nachgespielte Lauf nahm für jede Unternehmensstatistik ${n(cal.before.businesses)} Unternehmen an; damit wären es ${m(merge ? cal.before.merge : cal.before.register)}. Amtliche Zählungen, gelesen am ${longDate(cal.retrieved, lang)}, begrenzen sie auf ${n(cal.cap)}.`
+        : `The replayed run assumed ${n(cal.before.businesses)} businesses for every business statistic, which gave ${m(merge ? cal.before.merge : cal.before.register)}. Public counts, read on ${longDate(cal.retrieved, lang)}, cap them at ${n(cal.cap)}.`,
       sources: [
         { text: de ? `${cal.production.publisher}: ${cal.production.title}, ${cal.production.year}, ${n(cal.production.lands)} Länder addiert` : `${cal.production.publisher}: ${cal.production.title}, ${cal.production.year}, the ${n(cal.production.lands)} Länder added up`, url: cal.production.url },
         { text: `${cal.trade.publisher}: ${cal.trade.title}, ${de ? "S." : "p."} ${cal.trade.page}`, url: cal.trade.url },

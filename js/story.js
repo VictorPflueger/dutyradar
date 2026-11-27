@@ -367,8 +367,8 @@ export function words(F, lang) {
       label: de ? "Offene Entlastung pro Jahr" : "Relief at stake a year",
       upTo: de ? "bis zu" : "up to",
       pending: de ? `angenommen: ${n(F.businesses)} melden doppelt` : `assumed: ${n(F.businesses)} file both`,
-      decided_merge: de ? "Zusammenlegen freigegeben" : "merge approved",
-      decided_register_retrieval: de ? "Registerabruf freigegeben" : "register lookup approved",
+      decided_merge: de ? `bis zu ${m(o.merge.relief)} freigegeben` : `up to ${m(o.merge.relief)} approved`,
+      decided_register_retrieval: de ? `${m(o.register_retrieval.relief)} freigegeben` : `${m(o.register_retrieval.relief)} approved`,
       decided_keep: de ? "beibehalten, keine Entlastung" : "kept, no relief"
     },
     cut: { label: de ? "Gestrichene Meldepflichten" : "Reporting duties cut", of: de ? "von" : "of", note: de ? `Ziel: ein Drittel von ${n(F.reporting)}` : `target: a third of ${n(F.reporting)}` }
@@ -425,7 +425,7 @@ export function words(F, lang) {
     where: de ? "Woher kommt diese Zahl?" : "Where does this figure come from?",
     option: {
       merge: { name: de ? "Zusammenlegen" : "Merge the two reports", detail: de ? `bis zu; eine Meldung mit ${minutes(F.mergedMinutes, lang)} ersetzt zwei mit ${minutes(F.minutes, lang)}` : `up to; one report of ${minutes(F.mergedMinutes, lang)} replaces two of ${minutes(F.minutes, lang)}` },
-      register_retrieval: { name: de ? "Registerabruf" : "Take the data from the register", detail: de ? `Unternehmen ${m(F.registerBusinesses)}, Verwaltung −${m(F.registerAdmin)}, einmalig ${euros(F.oneOff, lang)}; simuliert` : `businesses ${m(F.registerBusinesses)}, administration −${m(F.registerAdmin)}, ${euros(F.oneOff, lang)} once; simulated` },
+      register_retrieval: { name: de ? "Registerabruf" : "Take the data from the register", detail: de ? `Unternehmen ${m(F.registerBusinesses)}, Verwaltung −${m(F.registerAdmin)}, je gerundet; einmalig ${euros(F.oneOff, lang)}; simuliert` : `businesses ${m(F.registerBusinesses)}, administration −${m(F.registerAdmin)}, each rounded; ${euros(F.oneOff, lang)} once; simulated` },
       keep: { name: de ? "Beide behalten" : "Keep both", detail: null }
     },
     dossier: de ? "Entlastungsdossier (Entwurf)" : "Relief dossier (draft)",

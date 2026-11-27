@@ -38,13 +38,14 @@ function deriveHtml(x, type) {
   const d = x.derive(type);
   return `<div class="derive">
     <p class="formula">${esc(d.formula)}</p>
+    <p class="assumed">${esc(d.assumed)}</p>
+    <ol class="steps">${d.steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol>
+    ${type === "merge" ? `<p class="merged">${esc(d.merged)}</p>` : ""}
     <div class="vc-table-wrap"><table class="vc-table vc-table--compact inputs"><thead><tr>${d.heads.map((h, i) => `<th scope="col"${i === 1 ? ' class="vc-num"' : ""}>${esc(h)}</th>`).join("")}</tr></thead><tbody>
       ${d.inputs.map((i) => `<tr data-input="${i.id}"><th scope="row">${esc(i.name)}</th><td class="vc-num">${esc(i.value)}</td><td><span class="kind" data-kind="${i.kind}">${esc(i.kindLabel)}</span></td><td class="input-source">${i.link ? link(i.link, i.source) : esc(i.source)}</td></tr>`).join("")}
     </tbody></table></div>
     <p class="derive-h">${esc(d.partsTitle)}</p>
     <ol class="parts">${d.parts.map((p) => `<li>${esc(p.name)}: ${esc(String(p.minutes))} min</li>`).join("")}</ol>
-    ${type === "merge" ? `<p class="merged">${esc(d.merged)}</p>` : ""}
-    <ol class="steps">${d.steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol>
     <p class="rounding">${esc(d.rounding)}</p>
     ${d.sensitivity.length ? `<p class="derive-h" id="sensitivity">${esc(d.sensTitle)}</p><p class="sens-note">${esc(d.sensNote)}</p>
     <table class="sensitivity"><tbody>${d.sensitivity.map((r) => `<tr data-share="${r.share}"><th scope="row">${esc(r.label)}</th><td class="vc-num">${esc(r.value)}</td><td class="sens-cell"><span class="sens-bar" data-p="${r.share}"></span></td></tr>`).join("")}</tbody></table>` : ""}

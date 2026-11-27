@@ -32,7 +32,8 @@ const FACTS = {
   q2: { en: [/reporting dut/i, /cluster/i, /type/i], de: [/Meldepflicht/, /Bündel/, /Art/] },
   q3: { en: [new RegExp(n(F.laws, "en")), new RegExp(n(F.duties, "en")), new RegExp(`\\b${n(F.clusters, "en")}\\b`)], de: [new RegExp(n(F.laws, "de")), new RegExp(n(F.duties, "de").replace(".", "\\.")), new RegExp(`\\b${n(F.clusters, "de")}\\b`)] },
   q4: { en: [/§\s*11/, /§\s*9/, /assum|not (shown|certain|known)/i], de: [/§\s*11/, /§\s*9/, /angenommen|nicht (belegt|sicher|bekannt)/i] },
-  q5: { en: [/10 min/i, /38\.60/, /0\.50/, /assum/i, new RegExp(n(F.businesses, "en"))], de: [/10 min/i, /38,60/, /0,50/, /angenommen/i, new RegExp(n(F.businesses, "de").replace(".", "\\."))] },
+  // "10 min", "10-minute" and "10-min-Meldung" all state the minutes.
+  q5: { en: [/10[\s-]min/i, /38\.60/, /0\.50/, /assum/i, new RegExp(n(F.businesses, "en"))], de: [/10[\s-]min/i, /38,60/, /0,50/, /angenommen/i, new RegExp(n(F.businesses, "de").replace(".", "\\."))] },
   q6: { en: [new RegExp(n(F.businesses, "en")), /assum|at most|up to|not known/i, /business/i], de: [new RegExp(n(F.businesses, "de").replace(".", "\\.")), /angenommen|höchstens|bis zu|nicht bekannt/i, /Unternehmen|Betriebe/] },
   q7: { en: [/approv/i, new RegExp(n(F.target, "en")), /nothing is sent|not sent|dossier/i], de: [/freig/i, new RegExp(n(F.target, "de")), /nichts wird versendet|nicht versendet|Dossier/i] },
   q8: { en: [/real/i, /assum/i, /simulat|replay/i], de: [/echt/i, /angenommen/i, /simul|nachgespielt/i] },
@@ -58,8 +59,9 @@ for (const id of want.filter((x) => QUESTIONS.includes(x))) {
     const missing = facts.filter((re) => !re.test(r.given) || !re.test(r.expected));
     if (missing.length) off.push(`${lang}: the answers don't state ${missing.map((re) => re.source).join(", ")}`);
     if (id === "price") {
-      const named = new Set([...r.given.matchAll(/§\s*(\d+[a-z]?)/g)].map((m) => `§ ${m[1]}`).filter((sec) => price.includes(sec)));
-      if (named.size < 2) off.push(`${lang}: names ${named.size} duties of the price statistics law`);
+      // Two duties may share a section (three of the law's nine are in § 3), so each mention counts.
+      const named = [...r.given.matchAll(/§\s*(\d+[a-z]?)/g)].map((m) => `§ ${m[1]}`).filter((sec) => price.includes(sec));
+      if (named.length < 2) off.push(`${lang}: names ${named.length} duties of the price statistics law`);
     }
   }
   check(!off.length, `${id}: "${s.question}" answered from the screens as expected, in English and German${off.length ? `; ${off.join("; ")}` : ""}`);

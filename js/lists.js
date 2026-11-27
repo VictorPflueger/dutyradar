@@ -92,8 +92,8 @@ export async function drawDuties(body, inv, x, lang, { law = null, flagged = fal
       ${whos.length > 1 ? `<span class="filter-label">${esc(L.filters.who)}</span>${whos.map((a) => chip(`addressee:${a}`, L.who(a), count("addressee", a))).join("")}` : ""}
       ${law ? "" : `<label class="filter-label" for="filter-law">${esc(L.filters.law)}</label><select id="filter-law" class="filter-law vc-select"><option value="">${esc(L.filters.allLaws)}</option>${inv.laws.map((l) => `<option value="${l.id}">${esc(L.law(l.id))}</option>`).join("")}</select>`}
     </div>
-    <ol class="duties-list"></ol>
-    <p class="panel-note">${esc(L.note)}</p>`;
+    <p class="panel-note">${esc(L.note)}</p>
+    <ol class="duties-list"></ol>`;
   const ol = body.querySelector(".duties-list");
   await fill(ol, [...duties.map((d) => ["d", d]), ...gone.map((d) => ["g", d])], ([k, d]) => (k === "d" ? dutyCard(inv, x, d, lang) : discardedCard(x, d, lang)));
   // Filters: one pressed per group at most; pressing the pressed one shows all again.
@@ -121,7 +121,7 @@ export async function drawDuties(body, inv, x, lang, { law = null, flagged = fal
 
 /** The discarded sentences alone. */
 export async function drawDiscarded(body, inv, x, lang) {
-  body.innerHTML = `<ol class="duties-list"></ol><p class="panel-note">${esc(x.lists.note)}</p>`;
+  body.innerHTML = `<p class="panel-note">${esc(x.lists.note)}</p><ol class="duties-list"></ol>`;
   await fill(body.querySelector(".duties-list"), inv.discarded, (d) => discardedCard(x, d, lang));
 }
 
@@ -129,7 +129,7 @@ export async function drawDiscarded(body, inv, x, lang) {
 export async function drawClusters(body, inv, x, lang) {
   const L = x.lists;
   const duty = new Map(inv.duties.map((d) => [d.id, d]));
-  body.innerHTML = `<ol class="clusters-list"></ol><p class="panel-note">${esc(L.note)}</p>`;
+  body.innerHTML = `<p class="panel-note">${esc(L.note)} ${esc(L.confidence)}</p><ol class="clusters-list"></ol>`;
   await fill(body.querySelector(".clusters-list"), inv.clusters, (c) => `<li class="cluster" data-priced="${c.priced}">
     <p class="cluster-head"><strong>${esc(L.and(c.laws.map(L.law)))}</strong> <span class="vc-tag vc-tag--sm ${c.priced ? "vc-tag--feature" : ""}">${esc(c.priced ? L.priced : L.notPriced)}</span></p>
     <p class="cluster-facts">${esc(L.cluster(c.shared.map(L.item).join(", "), c.duties.length))} ${new Intl.NumberFormat(lang === "de" ? "de-DE" : "en-GB", { minimumFractionDigits: 2 }).format(c.confidence)}</p>
@@ -144,5 +144,5 @@ export function drawLaws(body, inv, x, families) {
   body.innerHTML = `${families.map((f) => `<section class="laws-topic"><h3>${esc(f.name)}</h3><ol class="laws-list">${f.norms.map((id) => law.get(id)).map((l) => `<li class="law-item" data-id="${l.id}">
     <p><strong>${esc(L.law(l.id))}</strong> <span class="law-item-abbr">${esc(l.abbr)}</span> · ${link(l.url, l.title)}</p>
     <p class="law-facts">${esc(L.lawItem(l).split(" · ").slice(0, -1).join(" · "))} · <button type="button" class="count" aria-haspopup="dialog" aria-controls="panel" data-open="law:${l.id}">${esc(L.lawItem(l).split(" · ").pop())}</button></p>
-  </li>`).join("")}</ol></section>`).join("")}<p class="panel-note">${esc(x.title.laws[1])}</p>`;
+  </li>`).join("")}</ol></section>`).join("")}`;
 }
