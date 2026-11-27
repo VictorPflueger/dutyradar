@@ -307,7 +307,7 @@ try {
       const { page, ctx, errors } = await open(lang);
       const w = W[lang];
       const upTo = lang === "de" ? "bis zu" : "up to";
-      const assumed = lang === "de" ? /angenommen/ : /assumed/;
+      const assumed = lang === "de" ? /angenommen|Annahme/ : /assumed/;
       const off = [];
       const tile = () => page.evaluate(() => { const t = document.getElementById("kpi-stake"); const pre = t.querySelector(".kpi-pre"); return { pre: pre && pre.getClientRects().length ? pre.textContent.trim() : "", main: t.querySelector(".kpi-main").textContent, note: t.querySelector(".kpi-note").textContent.replace(/\s+/g, " ").trim() }; });
       for (const [step, decision] of [[0, null], [1, null], [2, null], [3, null], [4, null], [4, "keep"], [4, "merge"], [4, "register_retrieval"]]) {

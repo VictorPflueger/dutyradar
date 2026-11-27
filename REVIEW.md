@@ -192,3 +192,12 @@ Method: two separate agents, one reviewing the design from the screenshots and t
 The detector's 32 findings in the page's markup came mostly from Vici's own stylesheet: its hexagon clip paths, table wrappers and the guide's line height. Its findings on the served steps that held were the A and B marks' contrast, the agent's tag at 10.3 px and a phone's step names; all three are fixed. The ask bar's side stripe and the card inside a card at step 3 stay, as 2.1.0 has them.
 
 Questions skipped: part of a build run; the fixes are in this release.
+
+## After the reviews
+
+CI's Chromium sets German text a little wider than the Chrome the reviews used, and at 1280 × 720 the law map and the story then ran over. These changes made the room. No fact or figure changed:
+
+- The line that says who carries the duty is shorter: "Who: up to 22,217 sites, as many as the production survey asks; that all of them file both is assumed. Together up to 0.53 million reports a year." The German line names the Betriebe of the production survey in the same way.
+- The relief tile's German note reads "Annahme: 22.217 melden doppelt", and three items of the legend are shorter.
+- At laptop sizes the law rows sit edge to edge, the line beside the map's heading is a size smaller, and the three decision buttons share one row, the first without its check.
+- The German guide's How it works lead lost its last sentence; its talk track still says that every count opens what it counts.

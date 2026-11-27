@@ -366,7 +366,7 @@ export function words(F, lang) {
     stake: {
       label: de ? "Offene Entlastung pro Jahr" : "Relief at stake a year",
       upTo: de ? "bis zu" : "up to",
-      pending: de ? `angenommen: ${n(F.businesses)} melden doppelt` : `assumed: ${n(F.businesses)} file both`,
+      pending: de ? `Annahme: ${n(F.businesses)} melden doppelt` : `assumed: ${n(F.businesses)} file both`,
       decided_merge: de ? `bis zu ${m(o.merge.relief)} freigegeben` : `up to ${m(o.merge.relief)} approved`,
       decided_register_retrieval: de ? `bis zu ${m(o.register_retrieval.relief)} freigegeben` : `up to ${m(o.register_retrieval.relief)} approved`,
       decided_keep: de ? "beibehalten, keine Entlastung" : "kept, no relief"
@@ -392,12 +392,12 @@ export function words(F, lang) {
     // The map's encodings in words (DR-02): the unit, the bar, the second column and each state.
     legend: {
       unit: de ? "Pflichten: in jeder Vorschrift gefunden" : "Duties: found in each law",
-      bar: de ? `Balken: Pflichten gemessen an der größten Vorschrift (${n(Math.max(...F.D.norms.map((x) => x.duties)))})` : `bar: duties against the largest law (${n(Math.max(...F.D.norms.map((x) => x.duties)))})`,
-      twice: de ? "in Bündeln: ihre Pflichten in einem Bündel" : "in clusters: its duties in a cluster",
+      bar: de ? `Balken: gemessen an der größten Vorschrift (${n(Math.max(...F.D.norms.map((x) => x.duties)))})` : `bar: duties against the largest law (${n(Math.max(...F.D.norms.map((x) => x.duties)))})`,
+      twice: de ? "in Bündeln: Pflichten in einem Bündel" : "in clusters: duties in a cluster",
       unread: de ? "gestrichelt: noch nicht gelesen" : "dashed: not read yet",
       reading: de ? "blau: wird gelesen" : "blue: being read",
       dim: de ? "blass: keine in einem Bündel" : "pale: none in a cluster",
-      pick: de ? "A, B: die zwei Vorschriften, die der Agent wählt" : "A, B: the two laws the agent picks",
+      pick: de ? "A, B: das gewählte Paar" : "A, B: the pair picked",
       hl: de ? "lila: was die gewählte Zahl zählt" : "lilac: what the chosen count counts",
       selected: de ? "weinrot: die gewählte Vorschrift" : "merlot: the law you picked"
     },
@@ -419,8 +419,8 @@ export function words(F, lang) {
     shared: de ? "In beiden gefragt" : "Asked in both",
     // Who carries the duty and how many (DR-07): the line a presenter reads out at steps 3 to 5.
     who: de
-      ? parts`Wer: Unternehmen in beiden Erhebungen, bis zu ${c1(n(c.population.units), "derive:businesses")}: so viele Betriebe fragt die Produktionserhebung. Dass alle doppelt melden, ist angenommen. Monatlich, bis zu ${millionsWord(c.cases, lang)} Meldungen im Jahr, beide zusammen.`
-      : parts`Who: businesses in both surveys, up to ${c1(n(c.population.units), "derive:businesses")}: the sites the production survey asks. That all of them file both is assumed. Monthly, up to ${millionsWord(c.cases, lang)} reports a year, both together.`,
+      ? parts`Wer: die bis zu ${c1(n(c.population.units), "derive:businesses")} Betriebe der Produktionserhebung; dass alle doppelt melden, ist angenommen. Zusammen bis zu ${millionsWord(c.cases, lang)} Meldungen im Jahr.`
+      : parts`Who: up to ${c1(n(c.population.units), "derive:businesses")} sites, as many as the production survey asks; that all of them file both is assumed. Together up to ${millionsWord(c.cases, lang)} reports a year.`,
     options: de ? "Entlastung pro Jahr, je Option" : "Relief a year, by option",
     where: de ? "Woher kommt diese Zahl?" : "Where does this figure come from?",
     option: {
