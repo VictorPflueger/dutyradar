@@ -1,7 +1,8 @@
 // Contrast: every visible text meets WCAG 2.2 AA (4.5:1, large text 3:1) against what is painted
-// behind it, in English and German, light and dark, at 1920 × 1080 and 1280 × 720, in eleven states:
-// the guide's first chapter and its talk track, the five steps, the three decisions and the agent at
-// work, with the bar that asks. The measure is tests/lib/contrast.mjs; it first proves itself on a
+// behind it, in English and German, light and dark, at 1920 × 1080 and 1280 × 720, in seventeen states:
+// the guide's first chapter and its talk track, the five steps, the three decisions, the agent at work
+// with the bar that asks, and what opens beside the story: the ladder, a law's duties, the clusters, the
+// comparison and both derivations, with a law selected and the counts of the story highlighted. The measure is tests/lib/contrast.mjs; it first proves itself on a
 // planted page.
 // Usage: NODE_PATH="$(npm root -g)" node tests/contrast.mjs
 import { APP_ROOT, launchBrowser, serveStatic, NETWORK_NOISE } from "./lib/harness.mjs";
@@ -66,7 +67,16 @@ try {
         await page.waitForTimeout(3000);
         await measure("the agent reading");
         await page.click("#play");
-        check(states === 11 && measured > 600 && !below.length && !errors.length, `${width} × ${height}, ${lang.toUpperCase()}, ${theme}: ${measured} texts measured in ${states} states${below.length ? `; below AA: ${[...new Set(below)].slice(0, 8).join(" | ")}` : ", all at AA or better"}${errors.length ? `; errors: ${errors.join("; ")}` : ""}`);
+        // What opens beside the story, each over the step it belongs to.
+        const panels = [["twice", "#ladder-open", "the ladder"], ["twice", '#lawmap button.law[data-id="preisstatg"]', "a law's duties"], ["twice", '#story-text button.count[data-open="clusters"]', "the clusters"], ["twice", "#compare-open", "the comparison"], ["prices", '#evidence .opt[data-type="merge"] button[data-open]', "the merge's derivation"], ["prices", '#evidence .opt[data-type="register_retrieval"] button[data-open]', "the register's derivation"]];
+        for (const [step, open, name] of panels) {
+          await page.click(`#steps [data-step="${step}"] button`);
+          await page.click(open);
+          await page.waitForFunction(() => document.getElementById("panel")?.dataset.ready === "true", null, { timeout: 8000 });
+          await measure(name);
+          await page.keyboard.press("Escape");
+        }
+        check(states === 17 && measured > 600 && !below.length && !errors.length, `${width} × ${height}, ${lang.toUpperCase()}, ${theme}: ${measured} texts measured in ${states} states${below.length ? `; below AA: ${[...new Set(below)].slice(0, 8).join(" | ")}` : ", all at AA or better"}${errors.length ? `; errors: ${errors.join("; ")}` : ""}`);
         await ctx.close();
       }
     }

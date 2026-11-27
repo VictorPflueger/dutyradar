@@ -17,13 +17,16 @@
 //             the key figures, the dossier (the reports named in words, the reason in words, the draft
 //             wording); the bar says the story is over and Start again starts it over; the decision stays
 //             when the presenter steps back and forth, and Back to the start clears it
-//   ids       no record id of data/story.js on any screen, every step and every decision, both languages
+//   ids       no record id of data/story.js or data/inventory.js on any screen, every step and every
+//             decision and the lists, the comparison and the derivation, both languages; the browser keeps
+//             only the keys Vici allows (the language and the theme, the guide's note for the tab)
 //   language  EN | DE switches every visible word without a reload, also while the agent works; the address
 //             and the browser keep the choice; ?lang= wins over the stored choice
 //   layout    at 1920 × 1080, 1366 × 768 and 1280 × 720, in English and German, light and dark, in
 //             all five steps and after a decision: nothing scrolls or overflows, no count leaves its tile,
 //             the bar that asks and the decision's buttons are in view, every option shows in full above
-//             the decision's bar, the header keeps one row; at 375 px the page reflows without sideways
+//             the decision's bar, the header keeps one row; a list opened beside the story fits the screen
+//             below the steps and leaves the law map in view; at 375 px the page reflows without sideways
 //             scrolling and the bar keeps to the bottom of the screen without covering the end of the step
 // Usage: NODE_PATH="$(npm root -g)" node tests/showcase.mjs [case …]
 import { readFileSync, existsSync } from "node:fs";
@@ -39,7 +42,8 @@ const S = await import(pathToFileURL(path.join(APP_ROOT, "js/story.js")).href);
 const { COPY } = await import(pathToFileURL(path.join(APP_ROOT, "js/copy.js")).href);
 const F = S.factsOf(sandbox.window.DUTY_RADAR);
 const { recordIds } = await import(pathToFileURL(path.join(APP_ROOT, "tests/lib/ids.mjs")).href);
-const IDS_OF_DATA = recordIds(sandbox.window.DUTY_RADAR);
+const INV = (() => { const sb = { window: {} }; vm.createContext(sb); vm.runInContext(readFileSync(path.join(APP_ROOT, "data/inventory.js"), "utf8"), sb); return sb.window.DUTY_RADAR_INVENTORY; })();
+const IDS_OF_DATA = [...new Set([...recordIds(sandbox.window.DUTY_RADAR), ...INV.duties.map((d) => d.id), ...INV.discarded.map((d) => d.id), ...INV.clusters.map((c) => c.id), ...Object.keys(INV.populations)])];
 const W = { en: S.words(F, "en"), de: S.words(F, "de") };
 const IDS = S.STEP_IDS;
 
@@ -70,7 +74,7 @@ const view = (page) => page.evaluate(() => {
       const bar = document.getElementById("ask");
       return { hidden: bar.hidden, state: bar.dataset.state, lead: document.getElementById("ask-lead").textContent, what: document.getElementById("ask-what").textContent, attention: document.getElementById("play").classList.contains("vc-attention") };
     })(),
-    read: document.querySelectorAll('.law[data-state="read"]').length,
+    read: document.querySelectorAll('#lawmap button.law[data-state="read"]').length,
     decisionAsk: document.getElementById("decision-bar").getClientRects().length ? document.getElementById("decision-ask").textContent.replace(/\s+/g, " ").trim() : null,
     focus: document.activeElement && document.activeElement.id
   };
@@ -306,10 +310,15 @@ try {
       const dir = [process.env.VICI_DIR, path.resolve(APP_ROOT, "..", "ViciDesign")].filter(Boolean).find((d) => existsSync(path.join(d, "scripts", "lib", "ids.mjs")));
       return dir ? (await import(pathToFileURL(path.join(dir, "scripts", "lib", "ids.mjs")).href)).recordIdProblems : null;
     })();
+    const storedKeyProblems = await (async () => {
+      const dir = [process.env.VICI_DIR, path.resolve(APP_ROOT, "..", "ViciDesign")].filter(Boolean).find((d) => existsSync(path.join(d, "scripts", "lib", "storage.mjs")));
+      return dir ? (await import(pathToFileURL(path.join(dir, "scripts", "lib", "storage.mjs")).href)).storedKeyProblems : () => [];
+    })();
     if (!recordIdProblems) {
       check(!process.argv.includes("--require-vici"), "ids: (skipped) no ViciDesign checkout with scripts/lib/ids.mjs at ../ViciDesign or in VICI_DIR");
     } else {
       const found = [];
+      const stored = [];
       let screens = 0;
       for (const lang of ["en", "de"]) {
         const { page, ctx } = await open(`?guide=0&lang=${lang}`);
@@ -321,10 +330,22 @@ try {
           screens += 1;
           for (const p of recordIdProblems(await page.evaluate(() => document.body.innerText), IDS_OF_DATA)) found.push(`${lang} ${name}: ${p}`);
         }
+        // What opens beside the story: the ladder, a law's duties, all duties, the clusters, the comparison, a derivation.
+        for (const [step, open] of [[0, "#ladder-open"], [2, '#lawmap button.law[data-id="gewo"]'], [1, '#story-text button.count[data-open="flagged"]'], [2, '#story-text button.count[data-open="clusters"]'], [2, "#compare-open"], [3, "#kpi-stake"]]) {
+          await page.evaluate((n) => { window.dutyRadar.closePanel?.(); window.dutyRadar.goTo(n); }, step);
+          await page.click(open);
+          await page.waitForFunction(() => document.getElementById("panel")?.dataset.ready === "true", null, { timeout: 8000 });
+          screens += 1;
+          for (const p of recordIdProblems(await page.evaluate(() => document.body.innerText), IDS_OF_DATA)) found.push(`${lang} ${open}: ${p}`);
+          await page.keyboard.press("Escape");
+        }
+        // The browser keeps only what Vici allows: the language, the theme and the guide's note for the tab.
+        stored.push(...storedKeyProblems(await page.evaluate(() => ({ local: Object.keys(localStorage), session: Object.keys(sessionStorage) })), { prefix: "dr" }));
         await ctx.close();
       }
       const planted = recordIdProblems(`${W.en.steps.decide.agent} ${F.D.cluster.id}`, IDS_OF_DATA).length > 0;
-      check(planted && screens === 16 && !found.length, `ids: none of the ${IDS_OF_DATA.length} ids of data/story.js on ${screens} screens, every step and every decision in both languages, after a planted id is caught${found.length ? `; found: ${found.slice(0, 4).join(" | ")}` : ""}`);
+      check(planted && screens === 28 && !found.length, `ids: none of the ${IDS_OF_DATA.length} ids of data/story.js and data/inventory.js on ${screens} screens, every step, every decision and six lists in both languages, after a planted id is caught${found.length ? `; found: ${found.slice(0, 4).join(" | ")}` : ""}`);
+      check(!stored.length, `ids: the browser keeps only the keys Vici allows${stored.length ? `; ${[...new Set(stored)].join("; ")}` : ""}`);
     }
   }
 
@@ -333,8 +354,8 @@ try {
     const measure = (page) => page.evaluate(() => {
       const se = document.scrollingElement;
       const over = (el) => el && (el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1);
-      const cut = [...document.querySelectorAll(".law-count, .kpi .vc-stat__label, .kpi-value, .kpi-note, .vc-step__label, .opt-name, .opt-value, .brand-name")].filter((el) => el.getClientRects().length && el.scrollWidth > el.clientWidth + 1).map((el) => el.textContent.trim().slice(0, 24));
-      const lawOut = [...document.querySelectorAll(".law")].filter((li) => { const r = li.getBoundingClientRect(); const a = li.querySelector(".law-count").getBoundingClientRect(); return a.right > r.right + 0.5 || a.bottom > r.bottom + 0.5; }).map((li) => li.dataset.id);
+      const cut = [...document.querySelectorAll(".law-name, .law-duties, .law-twice, .topic-name, .kpi .vc-stat__label, .kpi-value, .kpi-note, .vc-step__label, .opt-name, .opt-value, .brand-name")].filter((el) => el.getClientRects().length && el.scrollWidth > el.clientWidth + 1).map((el) => el.textContent.trim().slice(0, 24));
+      const lawOut = [...document.querySelectorAll("#lawmap button.law")].filter((li) => { const r = li.getBoundingClientRect(); const a = li.querySelector(".law-duties").getBoundingClientRect(); return a.right > r.right + 0.5 || a.bottom > r.bottom + 0.5; }).map((li) => li.dataset.id);
       const story = document.getElementById("story").getBoundingClientRect();
       const buttons = [...document.querySelectorAll("#decision [data-choice]")].filter((b) => b.offsetParent !== null).map((b) => b.getBoundingClientRect());
       const hidden = buttons.filter((r) => r.bottom > story.bottom + 0.5 || r.top < story.top).length;
@@ -376,6 +397,23 @@ try {
             if (decision) await page.click(`#decision [data-choice="${decision}"]`);
             await page.waitForTimeout(950);
             const m = await measure(page);
+            if (name === "twice") {
+              // A list opened beside the story: inside the screen, below the steps, the law map still in view.
+              await page.click('#story-text button.count[data-open="clusters"]');
+              await page.waitForFunction(() => document.getElementById("panel")?.dataset.ready === "true", null, { timeout: 8000 });
+              const fit = await page.evaluate(() => {
+                const p = document.getElementById("panel").getBoundingClientRect();
+                const steps = document.querySelector(".player").getBoundingClientRect();
+                const map = document.querySelector(".stage").getBoundingClientRect();
+                const se = document.scrollingElement;
+                return { inside: p.top >= steps.bottom - 0.5 && p.bottom <= innerHeight + 0.5 && p.right <= innerWidth + 0.5 && p.left >= 0, mapInView: p.left >= map.right - 1, page: se.scrollHeight > innerHeight + 1 || se.scrollWidth > innerWidth + 1 };
+              });
+              if (!fit.inside) problems.push("the list leaves the screen or covers the steps");
+              if (!fit.mapInView) problems.push("the list covers the law map");
+              if (fit.page) problems.push("the page scrolls with a list open");
+              if (theme === "light" && !wider) await page.screenshot({ path: path.join(out, `${width}x${height}-${lang}-list.png`) });
+              await page.keyboard.press("Escape");
+            }
             if (m.page) problems.push(`${name}: the page scrolls`);
             if (m.stage) problems.push(`${name}: the law map overflows`);
             if (m.story) problems.push(`${name}: the story overflows`);

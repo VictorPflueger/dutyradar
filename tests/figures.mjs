@@ -6,7 +6,8 @@
 //             a report costs businesses × reports a year × (minutes / 60 × wage + material); merging
 //             keeps the lead report and adds the minutes of the data it didn't already ask for; a
 //             register retrieval drops the covered report and costs the administration its minutes
-//   counts    the laws, duties, kinds of duty, clusters and the target add up
+//   counts    the laws, duties, kinds of duty, clusters and the target add up, and the inventory behind the
+//             lists (data/inventory.js) counts what the ladder counts
 //   steps     the three key figures at every step, before and after each of the three decisions: they
 //             answer first, from the first screen, and only the decision moves them
 //   page      every figure written into index.html (both guides, the step buttons, the first state of
@@ -49,7 +50,7 @@ const reportCost = (cases, minutes) => cases * ((minutes / 60) * I.wage + I.mate
 const casesEach = I.businesses * I.perYear;
 const one = reportCost(casesEach, I.minutes);
 const [m0, m1] = D.cluster.members;
-check(casesEach === 720000 && m0.cases === casesEach && m1.cases === casesEach, `method: ${I.businesses} businesses × ${I.perYear} reports a year = ${casesEach} reports per law`);
+check(I.businesses === D.calibration.cap && m0.cases === casesEach && m1.cases === casesEach, `method: ${I.businesses} businesses (the cap of the public counts) × ${I.perYear} reports a year = ${casesEach} reports per law`);
 check(close(m0.cost, one) && close(m1.cost, one) && close(F.reportCost, one), `method: one report costs ${one} € a year (${I.minutes} min at ${I.wage} € an hour + ${I.material} €), as 1.0.0 priced both`);
 check(D.cluster.cases === 2 * casesEach && close(D.cluster.cost, 2 * one), `method: the two reports, ${D.cluster.cases} a year, cost ${D.cluster.cost} €`);
 check(I.minutes === Object.values(D.inputs.minutes.source.parts).reduce((a, b) => a + b, 0) && I.wage === D.inputs.wage.source.value && I.adminWage === D.inputs.adminWage.source.value, "method: the minutes and both wage rates are the Destatis guide's table values");
@@ -90,6 +91,14 @@ const rHalf = S.readingAt(F, 0.5);
 const r1 = S.readingAt(F, 1);
 check(r0.found === 0 && r0.laws.every((l) => l.state === "unread") && r1.found === t.duties && r1.laws.every((l) => l.state === "read") && rHalf.found > 0 && rHalf.found < t.duties && rHalf.laws.some((l) => l.state === "reading"), `counts: before Play nothing is read; halfway ${rHalf.found} duties in ${rHalf.done} laws; at the end all ${t.duties}`);
 
+// The inventory behind the lists counts what the ladder counts (DR-03).
+const inv = (() => { const sb = { window: {} }; vm.createContext(sb); vm.runInContext(readFileSync(path.join(APP_ROOT, "data/inventory.js"), "utf8"), sb); return sb.window.DUTY_RADAR_INVENTORY; })();
+const X = existsSync(path.join(APP_ROOT, "js/explain.js")) ? await import(pathToFileURL(path.join(APP_ROOT, "js/explain.js")).href) : null;
+const ladder = X ? Object.fromEntries(X.explain(F, "en").ladder.flatMap((r) => [[r.id, r.value], ...(r.sub || []).map((x) => [x.open, x.value])])) : {};
+const invCounts = { laws: inv.laws.length, sections: sum(inv.laws.map((l) => l.paragraphs)), sentences: sum(inv.laws.map((l) => l.sentences)), flagged: inv.duties.length + inv.discarded.length, duties: inv.duties.length, discarded: inv.discarded.length, clusters: inv.clusters.length, "clusters:duties": sum(inv.clusters.map((c) => c.duties.length)), ...Object.fromEntries(Object.keys(t.byType).map((type) => [`duties:${type}`, inv.duties.filter((d) => d.type === type).length])) };
+const offLadder = Object.entries(invCounts).filter(([k, v]) => ladder[k] !== v);
+check(X && !offLadder.length, `counts: the inventory counts what the ladder counts (${Object.entries(invCounts).map(([k, v]) => `${k} ${v}`).join(", ")})${offLadder.length ? `; off: ${offLadder.map(([k, v]) => `${k} ${v} ≠ ${ladder[k]}`).join(", ")}` : ""}`);
+
 // ---- the three key figures, step by step --------------------------------------------------------------
 // Answer first: before anything runs they show what the case puts at stake (203 of 745 asked twice, the
 // merge's relief, 0 of the 107 duties the target asks for); an approval takes the relief at stake off the
@@ -129,27 +138,27 @@ const hints = [...html.matchAll(/<li class="vc-step" data-step="([^"]+)"[^>]*>[\
 check(hints.length === 5 && hints.every(([, id, name, hint]) => en.steps[id].label === name && en.steps[id].hint === hint.replace(/&nbsp;/g, " ")), `page: the five step buttons as js/story.js names them (${hints.map((h) => h[3]).join(", ")})`);
 // Each tile as index.html writes it before any script runs: label, value (with its "of" part) and note.
 const tile = (id) => {
-  const m = html.match(new RegExp(`id="${id}"[^>]*>([\\s\\S]*?)</div>`));
+  const m = html.match(new RegExp(`<button\\b[^>]*id="${id}"[^>]*>([\\s\\S]*?)</button>`));
   if (!m) return null;
   const part = (cls) => (m[1].match(new RegExp(`class="${cls}"[^>]*>([^<]*)<`)) || [])[1];
-  return [part("vc-stat__label"), `${part("kpi-main")}${part("kpi-of") || ""}`, part("vc-stat__note kpi-note")].map((x) => (x || "").replace(/&nbsp;/g, " "));
+  return [part("vc-stat__label"), `${part("kpi-pre") ? `${part("kpi-pre")} ` : ""}${part("kpi-main")}${part("kpi-of") || ""}`, part("vc-stat__note kpi-note")].map((x) => (x || "").replace(/&nbsp;/g, " "));
 };
 const first = S.kpisAt(F, 0, null);
 const want = [
   ["kpi-twice", en.kpi.twice.label, `${en.n(first.twice.value)} ${en.kpi.twice.of} ${en.n(first.twice.of)}`, en.kpi.twice.note],
-  ["kpi-stake", en.kpi.stake.label, en.money(first.stake.value), en.kpi.stake.pending],
+  ["kpi-stake", en.kpi.stake.label, `${en.kpi.stake.upTo} ${en.money(first.stake.value)}`, en.kpi.stake.pending],
   ["kpi-cut", en.kpi.cut.label, `${en.n(first.cut.value)} ${en.kpi.cut.of} ${en.n(first.cut.of)}`, en.kpi.cut.note]
 ];
 check(want.every(([id, ...vals]) => JSON.stringify(tile(id)) === JSON.stringify(vals)), `page: the key figures start as the first step shows them, answering first (${want.map((w) => `${w[1]} ${w[2]}`).join(", ")})`);
 check(want.some(([, , value]) => /[1-9]/.test(value.split(/ of /)[0])), "page: not every key figure starts at zero");
 const kpiNames = [...html.matchAll(/data-vc-kpi="([^"]+)" data-vc-kpi-de="([^"]+)"/g)].map((m) => [m[1], m[2]]);
 check(JSON.stringify(kpiNames) === JSON.stringify([[en.kpi.twice.label, de.kpi.twice.label], [en.kpi.stake.label, de.kpi.stake.label], [en.kpi.cut.label, de.kpi.cut.label]]), `page: the key figures carry their names in both languages (${kpiNames.map((x) => x.join(" / ")).join(", ")})`);
-check(html.includes(`<h2 class="story-title" id="story-title">${en.steps.target.title}</h2>`) && html.includes(`<p class="stage-meta" id="stage-meta">${en.evidence.meta}</p>`) && html.includes(`<h2 id="stage-title">${en.evidence.stage}</h2>`), "page: the first step's title and the law map's heading are written in as js/story.js words them");
+check(html.includes(`<h2 class="story-title" id="story-title">${en.steps.target.title}</h2>`) && html.includes(`<p class="stage-meta" id="stage-meta">${S.asText(en.evidence.meta)}</p>`) && html.includes(`<h2 id="stage-title">${S.asText(en.evidence.stage)}</h2>`), "page: the first step's title and the law map's heading are written in as js/story.js words them");
 
 // Every sentence the steps say, in both languages, is whole: no hole where a figure belongs.
 const strings = (x) => (typeof x === "string" ? [x] : typeof x === "function" ? [] : x && typeof x === "object" ? Object.values(x).flatMap(strings) : []);
 for (const [lang, w] of [["en", en], ["de", de]]) {
-  const all = [...strings(w.steps), ...strings(w.decided), ...strings(w.ask), ...strings(w.kpi), ...strings(w.evidence), ...w.evidence.chips(D.cluster.members[0]), ...D.cluster.members.map(w.evidence.law), ...Object.keys(S.REASONS).map(w.evidence.reason)];
+  const all = [...strings(w.steps), ...strings(w.decided), ...strings(w.ask), ...strings(w.kpi), ...strings(w.evidence), ...w.evidence.chips(D.cluster.members[0]), ...D.cluster.members.map(w.evidence.law), ...Object.keys(S.REASONS).map(w.evidence.reason), ...D.norms.flatMap((n) => [0, 1, 2, 3, 4].map((i) => w.relation(n, i)))].map(S.asText);
   const holes = all.filter((s) => /undefined|NaN|null|\[object|\{\{/.test(s));
   const figs = S.figures(F, lang);
   check(all.length > 60 && !holes.length && w.steps.prices.title.includes(figs.merge) && w.decided.merge.title.includes(figs.merge) && w.decided.merge.text.includes(figs.target) && w.steps.reads.title.includes(figs.sentences), `page: the ${all.length} ${lang === "en" ? "English" : "German"} sentences and labels are whole and carry the computed figures${holes.length ? `; holes: ${holes.slice(0, 3).join(" | ")}` : ""}`);
@@ -170,8 +179,8 @@ const amounts = DOCS.reduce((n, f) => n + moneyIn(doc(f)).length, 0);
 check(amounts >= 20 && !stray.length, `docs: the ${amounts} euro amounts in the four documents are all computed ones${stray.length ? `; not computed: ${stray.join(", ")}` : ""}`);
 const fe = S.figures(F, "en");
 const claims = [
-  `${fe.duties} duties in ${fe.laws} laws, ${fe.reporting} of them reporting duties; ${fe.clustered} ask for data another duty already collects`,
-  `Merge ${fe.merge}; register lookup ${fe.register} net (businesses save ${fe["register-businesses"]}, the administration spends ${fe["register-admin"]}, plus ${fe["one-off"]} once)`,
+  `${fe.clustered} of ${fe.duties} duties in ${fe.laws} laws sit in ${fe.clusters} clusters`,
+  `Merge up to ${fe.merge}; register lookup ${fe.register} net (businesses save ${fe["register-businesses"]}, the administration spends ${fe["register-admin"]}, plus ${fe["one-off"]} once)`,
   `A third of ${fe.reporting} is ${fe.target}; one approval cuts ${fe.removed}`
 ].map(plain);
 const missing = claims.filter((c) => !doc("README.md").includes(c));
