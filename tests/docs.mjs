@@ -1,5 +1,5 @@
 // The documents describe 2.2.0 (DR-09). Node.js only.
-//   questions   DEMO_SCRIPT.md answers the six questions the domain review raised, in English and German,
+//   questions   DEMO_SCRIPT.md answers the six questions a first look at 2.1.0 raised, in English and German,
 //               each with a short answer that carries the figures js/story.js computes
 //   readme      README.md names version 2.2.0 and what it adds: the ladder, the law map in words, the lists
 //               behind every count, the comparison, the derivation, the calibration
@@ -37,7 +37,7 @@ const QUESTIONS = {
     [/Ist das eine KI-Schätzung\?/, [/\bnein\b/i, /Methode|Leitfaden/i]]
   ]
 };
-for (const [lang, heading] of [["en", "## Questions from the review"], ["de", "## Fragen aus dem Review"]]) {
+for (const [lang, heading] of [["en", "## Questions a first look raises"], ["de", "## Fragen beim ersten Hinsehen"]]) {
   const part = script.split(heading)[1]?.split("\n## ")[0] || "";
   const off = [];
   for (const [q, facts] of QUESTIONS[lang]) {
@@ -46,7 +46,7 @@ for (const [lang, heading] of [["en", "## Questions from the review"], ["de", "#
     const missing = facts.filter((re) => !re.test(m[1]));
     if (missing.length || norm(m[1]).split(" ").length > 80) off.push(`"${q.source.replace(/\\/g, "").slice(0, 40)}": ${missing.length ? `doesn't say ${missing.map((re) => re.source).join(", ")}` : "longer than 80 words"}`);
   }
-  check(part && !off.length, `questions: DEMO_SCRIPT.md answers the six questions from the review in ${lang === "en" ? "English" : "German"}, each in short${off.length ? `; ${off.join("; ")}` : ""}`);
+  check(part && !off.length, `questions: DEMO_SCRIPT.md answers the six questions a first look raises in ${lang === "en" ? "English" : "German"}, each in short${off.length ? `; ${off.join("; ")}` : ""}`);
 }
 const flat = (x) => String(x).replace(/\u00a0/g, " ");
 check(flat(script).includes(flat(W.en.money(F.merge))) && flat(script).includes(flat(W.de.money(F.merge))), `questions: the script states the relief at stake as the page does (${flat(W.en.money(F.merge))}, ${flat(W.de.money(F.merge))})`);

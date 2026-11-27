@@ -17,7 +17,7 @@ const SUITES = [
   { id: "inventory", what: "the inventory behind every count: 745 duties, 125 discarded sentences, 48 clusters, by law, type and addressee, each phrase the exact slice of its sentence", file: "tests/inventory.mjs", browser: false },
   { id: "quotes", what: "every law quote on the comparison verbatim in 1.0.0's corpus text of its section", file: "tests/quotes.mjs", browser: false, legacy: true },
   { id: "derivation", what: "the derivation again from its inputs, R1's figures before the calibration, the cap, the sensitivity against 1.0.0's engines", file: "tests/derivation.mjs", browser: false, legacy: true },
-  { id: "docs", what: "the six questions from the review in DEMO_SCRIPT.md in both languages; README, DESIGN and DATA_SOURCES describe 2.2.0", file: "tests/docs.mjs", browser: false },
+  { id: "docs", what: "the six questions a first look raises in DEMO_SCRIPT.md in both languages; README, DESIGN and DATA_SOURCES describe 2.2.0", file: "tests/docs.mjs", browser: false },
   { id: "review", what: "the cold read and the partner review recorded in REVIEW.md, naming no one", file: "tests/review.mjs", browser: false, args: [] },
   { id: "partner", what: "the partner review's verdict, One Thing, cut, fix and keep lists", file: "tests/review.mjs", browser: false, args: ["partner"] },
   { id: "showcase", what: "the five steps by click, key and link, the bar that asks, the three decisions, no record id on a screen, the language switch, three window sizes, both themes", file: "tests/showcase.mjs", browser: true, vici: true },

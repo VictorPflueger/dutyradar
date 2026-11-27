@@ -188,8 +188,10 @@ check(!missing.length, `docs: the README's table of the three key figures carrie
 const unquote = (s) => plain(s).replace(/[“”„"]/g, "").replace(/\s+/g, " ").trim();
 for (const [lang, heading] of [["en", "## Talk track"], ["de", "## Gesprächsleitfaden"]]) {
   const figs = S.figures(F, lang);
-  const fromGuide = [...guide(lang).matchAll(/<li><strong>([^<]+)<\/strong> <span class="vc-guide__say">([\s\S]*?)<\/span> <span class="vc-guide__time">/g)]
-    .map(([, strong, say]) => ({ strong: unquote(strong), say: unquote(text(say.replace(/<span data-fig="([^"]+)">[\s\S]*?<\/span>/g, (_, key) => figs[key]))) }));
+  // A line may carry a figure in its action too ("open “745 duties”"): the figures go in first.
+  const filled = guide(lang).replace(/<span data-fig="([^"]+)">[^<]*<\/span>/g, (_, key) => figs[key]);
+  const fromGuide = [...filled.matchAll(/<li><strong>([^<]+)<\/strong> <span class="vc-guide__say">([^<]*)<\/span> <span class="vc-guide__time">/g)]
+    .map(([, strong, say]) => ({ strong: unquote(text(strong)), say: unquote(text(say)) }));
   const section = doc("DEMO_SCRIPT.md").split(heading)[1].split("\n## ")[0];
   const rows = [...section.matchAll(/^\| (\d) ([^|]+?) \| ([^|]+?) \| ([^|]+?) \|$/gm)].map(([, , name, act, say]) => ({ strong: unquote(`${name}: ${act}`), say: unquote(say) }));
   const off = fromGuide.map((g, i) => [g, rows[i]]).filter(([g, r]) => !r || g.strong.toLowerCase() !== r.strong.toLowerCase() || g.say !== r.say).map(([g, r]) => `guide "${g.strong} ${g.say}" ≠ script "${r ? `${r.strong} ${r.say}` : "nothing"}"`);

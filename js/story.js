@@ -306,8 +306,8 @@ export function words(F, lang) {
       hint: de ? `${n(F.clustered)} Pflichten in ${n(F.clusters)} Bündeln` : `${n(F.clustered)} duties in ${n(F.clusters)} clusters`,
       title: de ? `Zwei Monatsmeldungen fragen dieselben ${n(F.sharedCount)} Angaben ab` : `Two monthly reports ask for the same ${n(F.sharedCount)} items`,
       text: de
-        ? parts`${c1(`${n(F.clustered)} Pflichten`, "clusters:duties")} fragen Angaben ab, die eine andere schon erhebt. Sie bilden ${c1(`${n(F.clusters)} Bündel`, "clusters")}: Pflichten aus zwei Vorschriften, die dieselben Adressaten nach überlappenden Angaben fragen. Der Agent nimmt das vielversprechendste.`
-        : parts`${c1(`${n(F.clustered)} duties`, "clusters:duties")} ask for items another duty already asks for. They form ${c1(`${n(F.clusters)} clusters`, "clusters")}: duties in two laws that ask the same addressees for overlapping items. The agent takes the most promising.`,
+        ? parts`${c1(`${n(F.clustered)} Pflichten`, "clusters:duties")} fragen Angaben ab, die eine andere schon erhebt. Sie bilden ${c1(`${n(F.clusters)} Bündel`, "clusters")}: Pflichten, die dieselben Adressaten nach überlappenden Angaben fragen. Der Agent nimmt das vielversprechendste.`
+        : parts`${c1(`${n(F.clustered)} duties`, "clusters:duties")} ask for items another duty already asks for. They form ${c1(`${n(F.clusters)} clusters`, "clusters")}: duties that ask the same addressees for overlapping items. The agent takes the most promising.`,
       // The cluster's name opens the comparison and marks its two laws on the map (DR-04).
       agent: de
         ? parts`${c1(cap(reports), "compare")} fragen dieselben ${n(F.sharedCount)} Angaben ab.`
