@@ -8,6 +8,7 @@
 //   names       the record names no one
 // Usage: node tests/review.mjs [q1 … q8 tile price partner]
 import { readFileSync, existsSync } from "node:fs";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { APP_ROOT } from "./lib/harness.mjs";
 import { D, I, F, checks } from "./lib/app.mjs";
@@ -63,8 +64,18 @@ for (const id of want.filter((x) => QUESTIONS.includes(x))) {
   }
   check(!off.length, `${id}: "${s.question}" answered from the screens as expected, in English and German${off.length ? `; ${off.join("; ")}` : ""}`);
 }
-const anyone = text.match(/\b(Victor|Pflüger|Pflueger|Detecon|Telekom)\b|@[\w.-]+\.\w+/);
-check(!anyone, `names: REVIEW.md names no one${anyone ? `; found "${anyone[0]}"` : ""}`);
+// The names the record must not hold are kept as SHA-256 hashes of the lower-case word, so this file names
+// no one either. The last hash is a made-up word, planted below to prove the check catches a name.
+const NAMES = new Set([
+  "99bde068af2d49ed7fc8b8fa79abe13a6059e0db320bb73459fd96624bb4b33f", "cc8b16c658c641b07b57fde347e3809852b2d11198a95d7ee28c3dc75ee2c78e",
+  "562f1a5e120b7136ea45002ef474983dc44977b676c3631590f1185c297aa7dd", "5a1fb158140f45023cb0b6bc651cd6af1e1a7b6f6b60fe8651739b713a6be89c",
+  "ecddf9a511a725f5f825c3862aecdaf89ae4da175ff834fe0a7e2ac8fe01efa0", "006a0769fd309a0df754ccd7b4e48e5b658406aec03b6db72fdf487a6d016e8c"
+]);
+const namesIn = (s) => [...new Set(s.normalize("NFC").match(/\p{L}[\p{L}\p{M}]*/gu) || [])].filter((w) => NAMES.has(createHash("sha256").update(w.toLowerCase()).digest("hex")));
+const handles = (s) => s.match(/@[\w.-]+\.\w+/g) || [];
+check(namesIn("Read by Zyxwvut, then by the team.").length === 1 && !namesIn("Read by the agent, then by the team.").length && handles("mail a@b.de").length === 1, "names: control: a planted name and a planted address are caught, an ordinary sentence passes");
+const anyone = [...namesIn(text), ...handles(text)];
+check(!anyone.length, `names: REVIEW.md names no one${anyone.length ? `; found ${anyone.length} name(s) or address(es)` : ""}`);
 if (want.length) finish(`COLD READ MATCHES (${want.join(", ")})`);
 if (args.includes("partner")) {
   const p = (text.match(/^## Partner review$([\s\S]*?)(?=^## |(?![\s\S]))/m) || [])[1] || "";
