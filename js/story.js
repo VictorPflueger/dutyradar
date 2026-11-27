@@ -397,7 +397,7 @@ export function words(F, lang) {
       unread: de ? "gestrichelt: noch nicht gelesen" : "dashed: not read yet",
       reading: de ? "blau: wird gelesen" : "blue: being read",
       dim: de ? "blass: keine in einem Bündel" : "pale: none in a cluster",
-      pick: de ? "A, B: die zwei bepreisten Vorschriften" : "A, B: the two laws priced",
+      pick: de ? "A, B: die zwei Vorschriften, die der Agent wählt" : "A, B: the two laws the agent picks",
       hl: de ? "lila: was die gewählte Zahl zählt" : "lilac: what the chosen count counts",
       selected: de ? "weinrot: die gewählte Vorschrift" : "merlot: the law you picked"
     },
@@ -414,7 +414,7 @@ export function words(F, lang) {
     twinGloss: de ? null : "In English, both say: businesses must answer these surveys.",
     official: de ? "Konsolidierte Fassung von gesetze-im-internet.de, nicht amtlich." : "Consolidated text from gesetze-im-internet.de, not the official version.",
     newTab: de ? "öffnet in einem neuen Tab" : "opens in a new tab",
-    twin: de ? "Derselbe Satz in zwei Vorschriften" : "The same sentence in two laws",
+    twin: de ? "Die Pflicht in jeder Vorschrift" : "The duty in each law",
     compare: de ? "Vergleich: wer, was, wie oft" : "Compare: who, what, how often",
     shared: de ? "In beiden gefragt" : "Asked in both",
     // Who carries the duty and how many (DR-07): the line a presenter reads out at steps 3 to 5.
@@ -424,7 +424,7 @@ export function words(F, lang) {
     options: de ? "Entlastung pro Jahr, je Option" : "Relief a year, by option",
     where: de ? "Woher kommt diese Zahl?" : "Where does this figure come from?",
     option: {
-      merge: { name: de ? "Zusammenlegen" : "Merge the two reports", detail: de ? `bis zu; eine Meldung mit ${minutes(F.mergedMinutes, lang)} ersetzt zwei mit ${minutes(F.minutes, lang)}` : `up to; one report of ${minutes(F.mergedMinutes, lang)} replaces two of ${minutes(F.minutes, lang)}` },
+      merge: { name: de ? "Zusammenlegen" : "Merge the two reports", detail: de ? `eine Meldung mit ${minutes(F.mergedMinutes, lang)} ersetzt zwei mit ${minutes(F.minutes, lang)}` : `one report of ${minutes(F.mergedMinutes, lang)} replaces two of ${minutes(F.minutes, lang)}` },
       register_retrieval: { name: de ? "Registerabruf" : "Take the data from the register", detail: de ? `Unternehmen ${m(F.registerBusinesses)}, Verwaltung −${m(F.registerAdmin)}, je gerundet; einmalig ${euros(F.oneOff, lang)}; simuliert` : `businesses ${m(F.registerBusinesses)}, administration −${m(F.registerAdmin)}, each rounded; ${euros(F.oneOff, lang)} once; simulated` },
       keep: { name: de ? "Beide behalten" : "Keep both", detail: null }
     },

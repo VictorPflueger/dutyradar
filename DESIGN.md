@@ -31,7 +31,8 @@ Vici's semantic tokens only, so both themes work without a colour of the app's o
 | Fjord (info) | The law being read; an input from the law |
 | Warning | What is assumed: the line on who files both, an assumed input and the public count that caps it |
 | Success | Relief approved: the tile and the outcome |
-| Ink | Everything else: the laws, their counts, the options' bars |
+| Teal (data colour 2) | The options' bars, the one chart on the page |
+| Ink | Everything else: the laws, their counts and bars |
 
 ## Key figures
 

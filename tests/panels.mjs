@@ -325,6 +325,10 @@ try {
       if (!merge.includes(upTo)) off.push(`the merge option doesn't say ${upTo}`);
       const title = norm(await page.textContent("#story-title"));
       if (!title.includes(upTo)) off.push(`step 4's title doesn't say ${upTo}`);
+      // At the decision too, where the options are drawn compact.
+      await atStep(page, 4);
+      const atDecision = norm(await page.textContent('#evidence .opt[data-type="merge"]'));
+      if (!atDecision.includes(upTo)) off.push(`at the decision the merge option doesn't say ${upTo}`);
       check(!off.length, `kpis: ${NAME[lang]}: "${upTo}" stands before the relief at stake while the overlap is assumed, the tile's note marks the assumption, and the merge and step 4 say "${upTo}" too${off.length ? `; off: ${off.join("; ")}` : ""}`);
       errorsSeen.push(...errors);
       await ctx.close();

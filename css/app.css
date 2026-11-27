@@ -162,7 +162,7 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .law-twice { grid-column: 4; text-align: end; color: var(--vc-feature-text); font-weight: var(--vc-weight-semibold); font-variant-numeric: tabular-nums; }
 .law-pair { grid-column: 5; justify-self: end; }
 /* A and B: the two laws the agent priced, as in the story and the comparison (DR-04). */
-.law-pair:not(:empty), .pair-mark { display: inline-grid; place-items: center; width: 1.25rem; height: 1.1rem; clip-path: var(--vc-hex); background: var(--vc-feature-solid); color: var(--vc-feature-on); font-size: 0.6875rem; font-weight: var(--vc-weight-bold, 700); line-height: 1; }
+.law-pair:not(:empty), .pair-mark { display: inline-grid; place-items: center; width: 1.25rem; height: 1.1rem; clip-path: var(--vc-hex); background: var(--vc-feature-solid); color: var(--vc-feature-on-solid); font-size: 0.6875rem; font-weight: var(--vc-weight-bold, 700); line-height: 1; }
 .law[data-state="unread"] { background: transparent; color: var(--vc-text-muted); border-bottom-style: dashed; }
 .law[data-state="unread"] .law-fill, .law[data-state="reading"] .law-fill { transform: scaleX(0); }
 .law[data-state="reading"] { background: var(--vc-info-bg); box-shadow: inset 3px 0 0 var(--vc-info-solid); }
@@ -332,8 +332,11 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .panel-note { margin: 0 0 10px; color: var(--vc-text-muted); font-size: 0.8125rem; }
 
 /* Filters: Vici's chips, one pressed per group. */
-.filters { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 4px; margin: 0 0 10px; }
-.filter-label { margin-inline: 6px 2px; color: var(--vc-text-muted); font-size: 0.75rem; font-weight: var(--vc-weight-semibold); }
+/* One row per filter group: its label in a column of its own, its chips beside it. */
+.filters { display: grid; grid-template-columns: max-content minmax(0, 1fr); align-items: center; gap: 6px 10px; margin: 0 0 10px; }
+.filter-row { display: contents; }
+.filter-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.filter-label { color: var(--vc-text-muted); font-size: 0.75rem; font-weight: var(--vc-weight-semibold); }
 .filter-count { font-variant-numeric: tabular-nums; }
 .filter-law.vc-select { max-width: 15rem; font-size: var(--vc-font-size-sm); }
 
@@ -390,6 +393,7 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .inputs th[scope="row"] { font-weight: var(--vc-weight-medium); }
 .inputs .input-source { color: var(--vc-text-muted); }
 .inputs tr[data-current="true"] > * { background: var(--vc-feature-bg); }
+.opt-pre { color: var(--vc-text-muted); font-size: 0.75em; font-weight: var(--vc-weight-medium); }
 .kind { display: inline-block; padding: 0 6px; border: 1px solid var(--vc-border); font-size: 0.75rem; font-weight: var(--vc-weight-semibold); white-space: nowrap; }
 .kind[data-kind="assumed"], .kind[data-kind="cap"] { background: var(--vc-warning-bg); border-color: var(--vc-warning-border); color: var(--vc-warning-text); }
 .kind[data-kind="law"] { background: var(--vc-info-bg); border-color: var(--vc-info-border); color: var(--vc-info-text); }
@@ -546,7 +550,7 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
   /* Five steps and Back to the start in one row: a long word may reach a few pixels past its column. */
   .player { gap: 6px; padding: 8px 6px 8px 8px; }
   .steps.vc-stepper { --_m: 1.5rem; }
-  .steps .vc-step__label { white-space: normal; text-wrap: balance; font-size: 0.6875rem; }
+  .steps .vc-step__label { white-space: normal; text-wrap: balance; font-size: 0.75rem; }
   .restart.vc-icon-button { width: var(--hit); padding: 0; }
   .play.vc-button { flex: 1 1 auto; }
   .ask-text { flex-basis: 100%; font-size: 0.9375rem; }

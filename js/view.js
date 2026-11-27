@@ -138,7 +138,11 @@ export function createLawMap(F) {
     /** Marks the laws a count counts (DR-04); an empty list clears the marks. */
     mark(ids) { marked = new Set(ids); redraw(); },
     /** Selects one law (null for none). */
-    select(id) { selected = id; redraw(); },
+    select(id) {
+      selected = id;
+      redraw();
+      for (const b of box.querySelectorAll("button.law")) { if (b.dataset.id === id) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); }
+    },
     get selected() { return selected; }
   };
 }
@@ -205,7 +209,7 @@ function options(F, w, compact = false) {
       const value = -F.option[type].net;
       const derive = type === "keep" ? "" : `derive:${type}`;
       // Every euro opens where it comes from (DR-06): the value itself, and in full a line that says so.
-      const shown = derive ? `<button type="button" class="opt-value count" aria-haspopup="dialog" aria-controls="panel" data-open="${derive}">${esc(w.money(value))}</button>` : `<span class="opt-value">${esc(w.money(value))}</span>`;
+      const shown = derive ? `<button type="button" class="opt-value count" aria-haspopup="dialog" aria-controls="panel" data-open="${derive}">${type === "merge" ? `<span class="opt-pre">${esc(w.kpi.stake.upTo)}</span> ` : ""}${esc(w.money(value))}</button>` : `<span class="opt-value">${esc(w.money(value))}</span>`;
       const detail = compact || !w.evidence.option[type].detail ? "" : `<span class="opt-detail">${esc(w.evidence.option[type].detail)}${derive ? ` <button type="button" class="opt-where" aria-haspopup="dialog" aria-controls="panel" data-open="${derive}">${esc(w.evidence.where)}</button>` : ""}</span>`;
       return `<li class="opt" data-type="${type}"><span class="opt-name">${esc(w.evidence.option[type].name)}</span><span class="opt-bar" aria-hidden="true"><span class="opt-fill" data-p="${(value / top).toFixed(4)}"></span></span>${shown}${detail}</li>`;
     }).join("")}</ol>

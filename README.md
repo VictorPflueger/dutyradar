@@ -29,7 +29,7 @@ The page opens with How it works, Vici's guide; its last chapter is the talk tra
 |---|---|---|
 | 1 The target | The −⅓ and −½ targets; 31 laws, none read yet | The three key figures, at stake from the first screen |
 | 2 It reads | The laws fill in with their duties; one duty with its sentence and section | "745 duties": every duty with its sentence |
-| 3 Asked twice | The same sentence in two laws, A and B, and who carries the duty | "Compare": who, what, how often, and what is assumed |
+| 3 Asked twice | The duty in each law, A and B, the 4 items asked in both, and who carries the duty | "Compare": who, what, how often, and what is assumed |
 | 4 It prices | Three options, priced with the federal method | "Where does this figure come from?" |
 | 5 You decide | Approve merge, approve register lookup or keep both | The dossier entry and the key figures that move |
 

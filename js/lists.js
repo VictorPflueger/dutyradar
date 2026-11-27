@@ -88,11 +88,12 @@ export async function drawDuties(body, inv, x, lang, { law = null, flagged = fal
   const chip = (id, label, n) => `<button type="button" class="filter vc-chip vc-chip--sm" data-filter="${id}" data-count="${n}" aria-pressed="${pressed === id}">${esc(label)} <span class="filter-count">${n}</span></button>`;
   const types = TYPE_ORDER.filter((t) => count("type", t));
   const whos = ["wirtschaft", "verwaltung"].filter((a) => count("addressee", a));
+  const row = (label, controls) => `<div class="filter-row"><span class="filter-label">${esc(label)}</span><span class="filter-chips">${controls}</span></div>`;
   body.innerHTML = `<div class="filters" role="group" aria-label="Filter">
-      ${flagged ? `<span class="filter-label">${esc(L.filters.status)}</span>${chip("status:kept", L.filters.kept, duties.length)}${chip("status:discarded", L.filters.gone, gone.length)}` : ""}
-      <span class="filter-label">${esc(L.filters.type)}</span>${types.map((t) => chip(`type:${t}`, L.type(t, true), count("type", t))).join("")}
-      ${whos.length > 1 ? `<span class="filter-label">${esc(L.filters.who)}</span>${whos.map((a) => chip(`addressee:${a}`, L.who(a), count("addressee", a))).join("")}` : ""}
-      ${law ? "" : `<label class="filter-label" for="filter-law">${esc(L.filters.law)}</label><select id="filter-law" class="filter-law vc-select"><option value="">${esc(L.filters.allLaws)}</option>${inv.laws.map((l) => `<option value="${l.id}">${esc(L.law(l.id))}</option>`).join("")}</select>`}
+      ${flagged ? row(L.filters.status, `${chip("status:kept", L.filters.kept, duties.length)}${chip("status:discarded", L.filters.gone, gone.length)}`) : ""}
+      ${row(L.filters.type, types.map((t) => chip(`type:${t}`, L.type(t, true), count("type", t))).join(""))}
+      ${whos.length > 1 ? row(L.filters.who, whos.map((a) => chip(`addressee:${a}`, L.who(a), count("addressee", a))).join("")) : ""}
+      ${law ? "" : `<div class="filter-row"><label class="filter-label" for="filter-law">${esc(L.filters.law)}</label><span class="filter-chips"><select id="filter-law" class="filter-law vc-select"><option value="">${esc(L.filters.allLaws)}</option>${inv.laws.map((l) => `<option value="${l.id}">${esc(L.law(l.id))}</option>`).join("")}</select></span></div>`}
     </div>
     <p class="panel-note">${esc(L.note)}</p>
     <ol class="duties-list"></ol>`;
