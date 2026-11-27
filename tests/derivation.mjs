@@ -94,7 +94,7 @@ else {
     }
     const m = X.explain(F, lang).derive("merge");
     check(m.parts.length === 5 && m.parts.map((p) => p.minutes).join("+") === "3+2+3+1+1" && m.parts.every((p) => p.name.length > 3) && norm(m.merged).includes(fmt(12)), `words: ${NAME[lang]}: the five standard activities behind the 10 minutes, by name, and why the merged report takes 12`);
-    check(m.sensitivity.length === 4 && m.sensitivity.every((r, i) => norm(r.value) === norm(w.money(rows[i].relief))), `words: ${NAME[lang]}: the sensitivity table shows the four reliefs (${m.sensitivity.map((r) => norm(r.value)).join(", ")})`);
+    check(m.sensitivity.length === 4 && m.sensitivity.every((r, i) => norm(r.value) === norm(w.m(rows[i].relief))), `words: ${NAME[lang]}: the sensitivity table shows the four reliefs (${m.sensitivity.map((r) => norm(r.value)).join(", ")})`);
   }
 }
 finish("DERIVATION OK");

@@ -106,7 +106,7 @@ async function walk(lang) {
   await p.waitForTimeout(150);
   s = await state(p, lang);
   check(s.open && s.shown.join() === "what", `${lang}: the header button reopens it at chapter 1`);
-  for (let i = 0; i < 4; i++) { await p.click(`#guide-${lang} [data-vc-guide-next]`); await p.waitForTimeout(60); }
+  for (let i = 0; i < 6; i++) { await p.click(`#guide-${lang} [data-vc-guide-next]`); await p.waitForTimeout(60); }
   s = await state(p, lang);
   const after = await p.evaluate(() => ({ focus: document.activeElement && (document.activeElement.hasAttribute("data-vc-guide-open") || document.activeElement.id === "play"), step: new URL(location.href).searchParams.get("step") }));
   check(!s.open && after.focus && after.step === "target", `${lang}: ${w.done} on the last chapter closes it, focus goes back to the page and the page is at the first step (${after.step})`);

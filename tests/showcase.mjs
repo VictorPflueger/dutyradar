@@ -139,8 +139,8 @@ try {
   if (wanted("play")) {
     // What the bar asks at each step, as the brief words it; the button is named after the next step.
     const ASKS = {
-      en: [`Let the agent read the ${F.laws} laws.`, "See which duties ask for the same data twice.", "Let the agent price the options.", "Decide what goes into the dossier."],
-      de: [`Lassen Sie den Agenten die ${F.laws} Gesetze lesen.`, "Sehen Sie, welche Pflichten dieselben Daten doppelt abfragen.", "Lassen Sie den Agenten die Optionen bepreisen.", "Entscheiden Sie, was ins Dossier kommt."]
+      en: [`Let the agent read the ${F.laws} laws.`, "See which duties ask for the same items twice.", "Let the agent price the options.", "Decide what goes into the dossier."],
+      de: [`Lassen Sie den Agenten die ${F.laws} Vorschriften lesen.`, "Sehen Sie, welche Pflichten dieselben Angaben doppelt abfragen.", "Lassen Sie den Agenten die Optionen bepreisen.", "Entscheiden Sie, was ins Dossier kommt."]
     };
     const NEXT = { en: ["Next: It reads", "Next: Asked twice", "Next: It prices", "Next: You decide"], de: ["Weiter: Er liest", "Weiter: Doppelt gefragt", "Weiter: Er bepreist", "Weiter: Sie entscheiden"] };
     const LEAD = { en: "Your turn:", de: "Sie sind dran:" };
@@ -281,7 +281,7 @@ try {
     const de = await view(page);
     const text = await page.evaluate(() => document.body.innerText);
     const english = Object.entries(COPY.en).filter(([k, v]) => k !== "doc.title" && v !== COPY.de[k] && v.length > 3).map(([, v]) => v.trim()).filter((v) => text.includes(v));
-    const german = [W.de.steps.twice.title, W.de.steps.twice.text, W.de.kpi.twice.label, W.de.kpi.stake.label, W.de.evidence.stage, W.de.evidence.shared, COPY.de["strip.note"], COPY.de["byline.label"]].filter((v) => !text.includes(v));
+    const german = [W.de.steps.twice.title, W.de.steps.twice.text, W.de.kpi.twice.label, W.de.kpi.stake.label, W.de.evidence.stage, W.de.evidence.shared, COPY.de["strip.note"], COPY.de["byline.label"]].map(S.asText).filter((v) => !text.includes(v));
     const state = await page.evaluate(() => ({ url: new URL(location.href).searchParams.get("lang"), stored: localStorage.getItem("dr.lang"), title: document.title, guideDe: !document.querySelector('[data-vc-guide-open="guide-de"]').hidden, guideEn: !document.querySelector('[data-vc-guide-open="guide-en"]').hidden, pressed: document.querySelector('.lang-option[data-lang="de"]').getAttribute("aria-pressed") }));
     check(de.lang === "de" && de.index === 2 && tilesMatch(de, expected("de", 2)) && !english.length && !german.length, `language: DE switches every word in place, at the same step${english.length ? `; still English: ${english.join(" | ")}` : ""}${german.length ? `; missing German: ${german.join(" | ")}` : ""}`);
     check(state.url === "de" && state.stored === "de" && state.title === COPY.de["doc.title"] && state.guideDe && !state.guideEn && state.pressed === "true", "language: the address says ?lang=de, the browser remembers it, the tab title and the guide's button are German");
@@ -299,7 +299,7 @@ try {
     const mid = await view(page);
     await page.waitForFunction(() => window.dutyRadar.state.index === 1 && !window.dutyRadar.state.playing, null, { timeout: 15000 });
     const arrived = await view(page);
-    check(mid.playing && mid.twice.label === W.de.kpi.twice.label && mid.ask.lead === "Der Agent arbeitet." && mid.play === "Pause" && arrived.title === W.de.steps.reads.title && arrived.ask.what === "Sehen Sie, welche Pflichten dieselben Daten doppelt abfragen." && tilesMatch(arrived, expected("de", 1)), "language: switching to German while the agent reads keeps it working, the bar says so in German, and it arrives in German");
+    check(mid.playing && mid.twice.label === W.de.kpi.twice.label && mid.ask.lead === "Der Agent arbeitet." && mid.play === "Pause" && arrived.title === W.de.steps.reads.title && arrived.ask.what === "Sehen Sie, welche Pflichten dieselben Angaben doppelt abfragen." && tilesMatch(arrived, expected("de", 1)), "language: switching to German while the agent reads keeps it working, the bar says so in German, and it arrives in German");
     check(!errors.length, `language: no console error${errors.length ? `; ${errors.join("; ")}` : ""}`);
     await ctx.close();
   }

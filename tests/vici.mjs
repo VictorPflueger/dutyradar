@@ -104,7 +104,16 @@ check(Boolean(X), "writing: js/explain.js words the ladder, the lists, the compa
 const explained = (lang) => {
   if (!X) return [];
   const e = X.explain(F, lang);
-  return [...strings(e), ...e.ladder.flatMap((r) => [r.term, r.def, ...(r.sub || []).map((x) => x.text)]), ...strings(e.compare), ...["merge", "register_retrieval"].flatMap((t) => strings(e.derive(t)))].map(S.asText);
+  const own = (o) => Object.values(o).filter((v) => typeof v === "string");
+  const derived = ["merge", "register_retrieval"].map((t) => e.derive(t)).flatMap((d) => [...d.title, d.formula, ...d.heads, ...d.inputs.flatMap((i) => [i.name, i.value, i.kindLabel, i.source]), d.partsTitle, ...d.parts.map((p) => p.name), d.merged, ...d.steps, d.rounding, d.sensTitle, d.sensNote, ...d.sensitivity.flatMap((r) => [r.label, r.value]), d.calibration, ...d.sources.map((x) => x.text), d.engines]);
+  return [
+    ...Object.values(e.title).filter(Array.isArray).flat(), ...e.title.derive("merge"),
+    ...e.ladder.flatMap((r) => [r.count, r.term, r.def, ...(r.sub || []).map((x) => x.text), ...(r.note ? [r.note.word, r.note.text] : [])]),
+    ...own(e.lists), ...own(e.lists.filters), ...own(e.option),
+    ...e.compare.title, ...Object.values(e.compare.pair), e.compare.voice, e.compare.official, e.compare.cut,
+    ...e.compare.rows.flatMap((r) => [r.label, ...r.cells.flatMap((c) => [c.text, ...(c.quotes || []).map((q) => q.en)])]),
+    ...derived
+  ].filter(Boolean).map(S.asText);
 };
 for (const lang of Object.keys(LANGS)) {
   const words = S.words(F, lang);

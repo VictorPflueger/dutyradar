@@ -2,9 +2,12 @@
  *
  * Vici sits in cascade layers, so these unlayered rules refine it without !important. They use
  * Vici's semantic tokens only, which switch with the theme. What each colour means (DESIGN.md):
- *   merlot (--vc-accent)    the person: the ask bar and its button, Approve, the decision, the dossier entry
- *   lilac (--vc-feature-*)  the agent: its words, the phrase it marked, its pick, what it found asked twice
- *   fjord (--vc-info-*)     the law being read
+ *   merlot (--vc-accent)    the person: the ask bar and its button, Approve, the decision, the dossier
+ *                           entry, the law the person picked on the map
+ *   lilac (--vc-feature-*)  the agent: its words, the phrase it marked, its pick (A and B), what it found
+ *                           asked twice, and the laws a count in the story counts
+ *   fjord (--vc-info-*)     the law being read; an input from the law
+ *   warning                 an assumption, where it is used
  *   success                 relief approved: the tile and the outcome
  *   ink                     everything else: the laws, their counts, the options' bars
  */
@@ -64,8 +67,14 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .lang-switch .vc-button { --_h: 40px; --_px: 12px; min-width: 2.9rem; justify-content: center; font-weight: var(--vc-weight-semibold); }
 
 .kpis { display: flex; align-items: stretch; gap: 8px; }
-.kpi.vc-stat { justify-content: center; gap: 0; padding: 6px 16px 7px; min-width: 9.5rem; transition: background-color 0.3s ease, border-color 0.3s ease; }
+/* Each tile is a button that opens what it counts (DR-03): ink on paper, a lilac edge when pointed at. */
+.kpi.vc-stat { justify-content: center; gap: 0; padding: 6px 16px 7px; min-width: 9.5rem; font: inherit; color: var(--vc-text); text-align: start; cursor: pointer; transition: background-color 0.3s ease, border-color 0.3s ease; }
+.kpi.vc-stat:hover { border-color: var(--vc-feature-border); }
+.kpi.vc-stat:focus-visible { outline: 2px solid var(--vc-focus); outline-offset: 2px; }
+.kpi > span { display: block; }
 .kpi .vc-stat__label { white-space: nowrap; }
+.kpi-pre { align-self: baseline; color: var(--vc-text-muted); font-size: 0.5em; font-weight: var(--vc-weight-medium); white-space: nowrap; }
+.kpi-pre[hidden] { display: none; }
 .kpi-value.vc-stat__value { display: flex; align-items: baseline; gap: 4px; font-size: var(--fs-kpi); line-height: 1.1; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .kpi-of { color: var(--vc-text-muted); font-size: 0.55em; font-weight: var(--vc-weight-medium); }
 .kpi-note.vc-stat__note { color: var(--vc-text-muted); font-size: 0.8125rem; line-height: 1.25; white-space: nowrap; font-variant-numeric: tabular-nums; }
@@ -83,6 +92,7 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
   border-bottom: 1px solid var(--vc-border-subtle);
 }
 .restart.vc-icon-button { --_h: var(--hit); }
+.ladder-open.vc-button { --_h: 40px; flex: none; white-space: nowrap; }
 .steps.vc-stepper { flex: 1 1 auto; min-width: 0; --_m: 1.9rem; }
 .steps .vc-step__button { min-height: var(--hit); }
 .steps .vc-step__label { font-size: var(--vc-font-size-md); white-space: nowrap; }
@@ -110,47 +120,79 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .stage-head h2 { margin: 0; font-size: 1.5rem; }
 .stage-meta { margin: 0; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); font-variant-numeric: tabular-nums; }
 
-/* The law map: five families, one tile per law: the duties found in it, then a bar. The law's short
-   title shows on hover and to a screen reader only: a wall of abbreviations told the room nothing. */
-/* One grid for all five families (display: contents), so their names share a column: up to 9.5rem,
-   never narrower than the longest word, which in German is long (Produktverantwortung). */
-.lawmap { display: grid; grid-template-columns: minmax(min-content, 9.5rem) minmax(0, 1fr); align-items: start; gap: 12px; }
-.family { display: contents; }
-.family-name { margin: 0; padding-top: 6px; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); font-weight: var(--vc-weight-semibold); line-height: 1.25; text-wrap: balance; }
-.laws { display: grid; grid-template-columns: repeat(auto-fill, minmax(7.6rem, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
+/* The law map (DR-02): two columns of laws by topic, each law named in words with its duties and how many
+   sit in clusters. A row is one button that opens the law's duties; the bar behind the count compares it
+   with the largest law. Hover adds nothing the row doesn't say. */
+.lawmap { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 0 14px; }
+.lawmap-col { display: grid; gap: 2px; min-width: 0; }
+.lawmap-head, .law { display: grid; grid-template-columns: minmax(0, 1fr) auto 3.6rem 2.8rem 1.25rem; align-items: center; column-gap: 6px; }
+.lawmap-head { margin: 0; padding: 0 6px 2px; border-bottom: 1px solid var(--vc-border); color: var(--vc-text-muted); font-size: 0.75rem; font-weight: var(--vc-weight-semibold); line-height: 1.1; }
+.lawmap-head .h-law { grid-column: 1 / 3; }
+.lawmap-head .h-duties { grid-column: 3; }
+.lawmap-head .h-twice { grid-column: 4; }
+.lawmap-head .h-duties, .lawmap-head .h-twice { text-align: end; }
+.topic { display: grid; gap: 1px; }
+.topic-name { margin: 6px 0 1px; padding: 0 6px; color: var(--vc-text-muted); font-size: 0.75rem; font-weight: var(--vc-weight-semibold); line-height: 1.2; }
+.laws { display: grid; gap: 1px; margin: 0; padding: 0; list-style: none; }
+.laws > li { margin: 0; }
 .law {
-  display: grid;
-  grid-template-rows: auto auto;
-  align-content: end;
-  row-gap: 4px;
-  min-width: 0;
-  margin: 0; /* Vici spaces prose list items (li + li); these lists are grids. */
-  padding: 7px 10px 8px;
+  width: 100%;
+  min-height: 1.6rem;
+  padding: 1px 6px;
+  font: inherit;
+  font-size: var(--vc-font-size-sm);
+  line-height: 1.2;
+  text-align: start;
+  color: var(--vc-text);
   background: var(--vc-surface);
-  border: 1px solid var(--vc-border-subtle);
-  border-radius: var(--vc-radius-sm);
-  transition: opacity 0.4s ease, background-color 0.2s ease-out, border-color 0.2s ease-out;
+  border: 0;
+  border-bottom: 1px solid var(--vc-border-subtle);
+  cursor: pointer;
+  transition: background-color 0.2s ease-out, opacity 0.4s ease;
 }
-.law-count { min-height: 1.25em; font-size: var(--vc-font-size-md); font-weight: var(--vc-weight-semibold); line-height: 1.25; }
-.law-bar { height: 6px; background: var(--vc-bg-subtle); border-radius: 1px; overflow: hidden; }
-.law-fill { display: block; height: 100%; width: calc(var(--p, 0) * 100%); background: var(--vc-neutral-solid); transform-origin: left; transition: transform 0.35s ease-out; }
-.law[data-state="unread"] { background: transparent; border-style: dashed; color: var(--vc-text-muted); }
+.law:hover { background: var(--vc-bg-subtle); }
+.law:focus-visible { outline: 2px solid var(--vc-focus); outline-offset: -2px; }
+.law-name { grid-column: 1; min-width: 0; font-weight: var(--vc-weight-semibold); overflow-wrap: break-word; hyphens: manual; }
+.law-abbr { grid-column: 2; color: var(--vc-text-muted); font-size: 0.75rem; }
+/* The count sits at the end of its cell, the bar under it from the start: duties against the largest law. */
+.law-duties { grid-column: 3; position: relative; display: block; padding-bottom: 2px; text-align: end; font-variant-numeric: tabular-nums; }
+.law-bar { position: absolute; inset: auto 0 0 0; height: 3px; }
+.law-fill { display: block; height: 100%; width: calc(var(--p, 0) * 100%); background: var(--vc-neutral-solid); opacity: 0.6; transform-origin: left; transition: transform 0.35s ease-out; }
+.law-n { position: relative; }
+.law-twice { grid-column: 4; text-align: end; color: var(--vc-feature-text); font-weight: var(--vc-weight-semibold); font-variant-numeric: tabular-nums; }
+.law-pair { grid-column: 5; justify-self: end; }
+/* A and B: the two laws the agent priced, as in the story and the comparison (DR-04). */
+.law-pair:not(:empty), .pair-mark { display: inline-grid; place-items: center; width: 1.25rem; height: 1.1rem; clip-path: var(--vc-hex); background: var(--vc-feature-solid); color: var(--vc-feature-on); font-size: 0.6875rem; font-weight: var(--vc-weight-bold, 700); line-height: 1; }
+.law[data-state="unread"] { background: transparent; color: var(--vc-text-muted); border-bottom-style: dashed; }
 .law[data-state="unread"] .law-fill, .law[data-state="reading"] .law-fill { transform: scaleX(0); }
-.law[data-state="reading"] { background: var(--vc-info-bg); border-color: var(--vc-info-solid); }
-/* Laws with nothing asked twice step back: no fill, muted text that still meets AA. */
-.law[data-dim="true"] { background: transparent; border-color: var(--vc-border-subtle); color: var(--vc-text-muted); }
-.law[data-dim="true"] .law-fill { background: var(--vc-border-strong); }
-.law[data-pick="true"] { background: var(--vc-feature-bg); border: 2px solid var(--vc-feature-solid); padding: 6px 9px 7px; }
-.law[data-pick="true"] .law-fill { background: var(--vc-feature-solid); }
+.law[data-state="reading"] { background: var(--vc-info-bg); box-shadow: inset 3px 0 0 var(--vc-info-solid); }
+/* Laws with nothing in a cluster step back: no fill, muted text that still meets AA. */
+.law[data-dim="true"] { background: transparent; color: var(--vc-text-muted); }
+.law[data-dim="true"] .law-twice { color: var(--vc-text-muted); font-weight: var(--vc-weight-regular); }
+.law[data-pick]:not([data-pick=""]) { background: var(--vc-feature-bg); box-shadow: inset 3px 0 0 var(--vc-feature-solid); }
+/* What a count in the story counts, and the law the person picked (DR-04). */
+.law[data-hl="true"] { background: var(--vc-feature-bg); box-shadow: inset 3px 0 0 var(--vc-feature-border); color: var(--vc-text); }
+.law[data-selected="true"] { background: var(--vc-accent-soft); box-shadow: inset 3px 0 0 var(--vc-accent); color: var(--vc-on-accent-soft); }
 
-.legend { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: -4px 0 0; padding: 0; list-style: none; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); }
-.legend li { display: inline-flex; align-items: center; gap: 7px; margin: 0; }
-.legend-mark { width: 18px; height: 12px; border: 1px solid var(--vc-border-subtle); border-radius: 2px; background: var(--vc-surface); }
+.legend { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 0; padding: 0; list-style: none; color: var(--vc-text-muted); font-size: 0.8125rem; line-height: 1.3; }
+.legend li { display: inline-flex; align-items: center; gap: 6px; margin: 0; }
+.legend-mark { width: 16px; height: 10px; border: 1px solid var(--vc-border-subtle); background: var(--vc-surface); }
+.legend [data-item="unit"] .legend-mark { display: none; }
 .legend [data-item="unread"] .legend-mark { background: transparent; border-style: dashed; border-color: var(--vc-border-strong); }
 .legend [data-item="reading"] .legend-mark { background: var(--vc-info-bg); border-color: var(--vc-info-solid); }
-.legend [data-item="read"] .legend-mark { background: linear-gradient(to top, var(--vc-neutral-solid) 0 3px, var(--vc-surface) 3px); border-color: var(--vc-border); }
+.legend [data-item="bar"] .legend-mark { height: 3px; border: 0; background: var(--vc-neutral-solid); opacity: 0.55; }
+.legend [data-item="twice"] .legend-mark { border: 0; background: none; width: auto; height: auto; }
+.legend [data-item="twice"] .legend-mark::before { content: "6"; color: var(--vc-feature-text); font-weight: var(--vc-weight-semibold); }
 .legend [data-item="dim"] .legend-mark { background: transparent; border-color: var(--vc-border); }
-.legend [data-item="pick"] .legend-mark { background: var(--vc-feature-bg); border: 2px solid var(--vc-feature-solid); }
+.legend [data-item="pick"] .legend-mark { background: var(--vc-feature-bg); box-shadow: inset 3px 0 0 var(--vc-feature-solid); }
+.legend [data-item="hl"] .legend-mark { background: var(--vc-feature-bg); box-shadow: inset 3px 0 0 var(--vc-feature-border); }
+.legend [data-item="selected"] .legend-mark { background: var(--vc-accent-soft); box-shadow: inset 3px 0 0 var(--vc-accent); }
+
+/* A count in a sentence is a button that reads like a link: it opens what it counts (DR-03). */
+.count { display: inline; padding: 0; margin: 0; border: 0; background: none; font: inherit; font-weight: var(--vc-weight-semibold); color: inherit; text-align: inherit; text-decoration: underline; text-decoration-color: var(--vc-feature-border); text-decoration-thickness: 2px; text-underline-offset: 3px; cursor: pointer; }
+.count:hover { text-decoration-color: var(--vc-feature-solid); background: var(--vc-feature-bg); }
+.count:focus-visible { outline: 2px solid var(--vc-focus); outline-offset: 2px; }
+.stage-head h2 .count { text-decoration-thickness: 3px; }
 
 /* ---------------------------------------------------------------- the evidence under the map */
 
@@ -197,7 +239,12 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .twin-law .ev-link { font-size: var(--vc-font-size-sm); }
 .shared { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; }
 .shared-label { margin: 0; font-size: var(--vc-font-size-sm); font-weight: var(--vc-weight-semibold); }
-.ev-total { margin: 0; font-weight: var(--vc-weight-semibold); font-variant-numeric: tabular-nums; }
+.ev-head--row { align-items: center; justify-content: space-between; }
+.ev-head--row .ev-label { flex: 1 1 auto; }
+.compare-open.vc-button { --_h: 34px; flex: none; font-size: var(--vc-font-size-sm); }
+.twin-law .ev-law { display: flex; align-items: center; gap: 6px; }
+.opt-where { display: inline; padding: 0; border: 0; background: none; font: inherit; color: var(--vc-text-link); font-weight: var(--vc-weight-semibold); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.opt-value.count { justify-self: end; }
 
 .opts { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .opt { display: grid; grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr) auto; align-items: center; column-gap: 12px; row-gap: 2px; margin: 0; }
@@ -222,6 +269,10 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .story:focus { outline: none; }
 .story-title { margin: 0; font-size: 1.75rem; line-height: 1.15; text-wrap: balance; }
 .story-text { margin: 0; max-width: 62ch; font-size: 1.125rem; line-height: 1.5; text-wrap: pretty; }
+.law-line { margin: 0; padding: 6px 12px; background: var(--vc-accent-soft); color: var(--vc-on-accent-soft); border-inline-start: 3px solid var(--vc-accent); font-size: var(--vc-font-size-sm); line-height: 1.4; }
+.law-line[hidden], .who-line[hidden] { display: none; }
+/* Who carries the duty and how many: one line a presenter reads out (DR-07); the assumption is said. */
+.who-line { margin: 0; padding: 6px 12px; background: var(--vc-bg-subtle); border-inline-start: 3px solid var(--vc-warning-border); font-size: var(--vc-font-size-sm); line-height: 1.4; text-wrap: pretty; }
 .agent { margin: 0; padding: 12px 16px 14px; background: var(--vc-feature-bg); border: 1px solid var(--vc-feature-border); border-radius: var(--vc-radius-md); }
 .agent figcaption { margin-bottom: 6px; }
 .agent blockquote { margin: 0; padding: 0; border: 0; color: var(--vc-text); font-size: 1.05rem; line-height: 1.45; text-wrap: pretty; }
@@ -267,6 +318,92 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .story[data-decided="true"] .evidence { order: 2; }
 .story[data-decided="true"] .ask { order: 3; }
 
+/* ---------------------------------------------------------------- the panel beside the story */
+
+/* What a count counts opens over the story column, below the steps, so the law map and the key figures
+   stay in view (DR-03, DR-04); the comparison takes more room (js/panel.js sets both edges). Not modal. */
+.panel.vc-dialog { position: fixed; inset: var(--panel-top, 0) 0 0 var(--panel-left, auto); z-index: 40; width: auto; height: auto; max-width: none; max-height: none; margin: 0; border-width: 0 0 0 1px; border-color: var(--vc-border); border-radius: 0; background: var(--vc-surface); box-shadow: -12px 0 32px -16px var(--vc-shadow-color); }
+.panel-head.vc-dialog__header { padding: 10px 12px 8px 18px; border-bottom: 1px solid var(--vc-border-subtle); }
+.panel-titles { min-width: 0; }
+.panel .vc-dialog__title { font-size: 1.15rem; line-height: 1.25; }
+.panel .vc-dialog__title:focus { outline: none; }
+.panel-sub { margin: 3px 0 0; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); line-height: 1.35; }
+.panel-body { flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 10px 18px 16px; font-size: var(--vc-font-size-sm); line-height: 1.4; }
+.panel-note { margin: 12px 0 0; color: var(--vc-text-muted); font-size: 0.8125rem; }
+
+/* Filters: Vici's chips, one pressed per group. */
+.filters { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 4px; margin: 0 0 10px; }
+.filter-label { margin-inline: 6px 2px; color: var(--vc-text-muted); font-size: 0.75rem; font-weight: var(--vc-weight-semibold); }
+.filter-count { font-variant-numeric: tabular-nums; }
+.filter-law.vc-select { max-width: 15rem; font-size: var(--vc-font-size-sm); }
+
+/* A duty: its law and section, what it is, the sentence with the marked phrase, the agent's reading. */
+.duties-list, .clusters-list, .laws-list, .options-list, .cluster-members { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.duty, .discarded, .cluster, .law-item, .option { margin: 0; padding: 8px 12px 9px; background: var(--vc-bg); border: 1px solid var(--vc-border-subtle); content-visibility: auto; contain-intrinsic-size: auto 9rem; }
+.duty > p, .discarded > p, .cluster > p, .law-item > p, .option > p { margin: 0 0 3px; }
+.duty-head, .cluster-head, .option-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
+.duty-section, .section-link { display: inline-flex; align-items: center; gap: 3px; font-weight: var(--vc-weight-semibold); white-space: nowrap; }
+.panel a .vc-icon { --vc-icon-size: 0.85em; }
+.duty-type { color: var(--vc-text-muted); }
+.duty-facts, .duty-population, .duty-cluster, .cluster-facts, .law-facts { color: var(--vc-text-muted); font-size: 0.8125rem; }
+.panel .law-text { margin: 4px 0 6px; padding: 2px 0 2px 10px; font-size: var(--vc-font-size-sm); line-height: 1.45; }
+.duty-agent, .duty-asks { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 6px; font-size: 0.8125rem; }
+.discarded { background: transparent; border-style: dashed; }
+.cluster[data-priced="true"] { background: var(--vc-feature-bg); border-color: var(--vc-feature-border); }
+.cluster-members { gap: 2px; margin-top: 4px; font-size: 0.8125rem; content-visibility: visible; }
+.member { margin: 0; }
+.laws-topic h3 { margin: 10px 0 6px; color: var(--vc-text-muted); font-size: var(--vc-font-size-sm); }
+.law-item-abbr { color: var(--vc-text-muted); }
+
+/* The ladder: a count, the term it counts and its definition, rung by rung; this step's rungs in merlot. */
+.ladder { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.rung { display: grid; grid-template-columns: 4.2rem minmax(0, 1fr); gap: 12px; align-items: baseline; margin: 0; padding: 5px 10px 6px; border-inline-start: 3px solid var(--vc-border-subtle); }
+.rung[data-current="true"] { background: var(--vc-accent-soft); border-inline-start-color: var(--vc-accent); color: var(--vc-on-accent-soft); }
+.rung-count { font-family: var(--vc-font-display); font-size: 1.15rem; font-weight: var(--vc-weight-display); text-align: end; font-variant-numeric: tabular-nums; }
+.rung-term, .rung-def, .rung-sub { margin: 0; }
+.rung-term { font-weight: var(--vc-weight-semibold); }
+.rung dfn { font-style: normal; font-weight: var(--vc-weight-semibold); }
+.rung-def { color: var(--vc-text-muted); font-size: 0.8125rem; line-height: 1.35; }
+.rung[data-current="true"] .rung-def { color: inherit; }
+.rung-sub { display: flex; flex-wrap: wrap; gap: 2px 12px; margin-top: 2px; font-size: 0.8125rem; }
+
+/* The comparison: the law's text in ink, the agent's reading in lilac, this page's reading in grey. */
+.compare { width: 100%; border-collapse: collapse; font-size: 0.8125rem; line-height: 1.35; }
+.compare th, .compare td { padding: 6px 8px; text-align: start; vertical-align: top; border-bottom: 1px solid var(--vc-border-subtle); }
+.compare thead th { font-size: var(--vc-font-size-sm); }
+.compare thead th[data-pair] { white-space: nowrap; }
+.compare tbody th { width: 8.5rem; color: var(--vc-text-muted); font-weight: var(--vc-weight-semibold); }
+.compare .quote { margin: 0; padding: 0 0 0 8px; border-inline-start: 3px solid var(--vc-border-strong); font-family: inherit; font-size: inherit; font-style: normal; line-height: 1.4; color: var(--vc-text); }
+.panel .vc-table th, .panel .vc-table td { padding: 4px 8px; vertical-align: top; }
+.panel .vc-table thead th { font-size: 0.75rem; }
+.inputs .input-source a { font-weight: var(--vc-weight-regular); }
+.compare .quote-en + .quote, .compare .quote + .quote { margin-top: 6px; }
+.quote-en, .cell-text { margin: 2px 0 0; }
+.quote-en { color: var(--vc-text-muted); }
+.compare tr[data-row="agent"] > * { background: var(--vc-feature-bg); }
+.compare tr[data-row="law"] > *, .compare tr[data-row="check"] > * { background: var(--vc-bg-sunken); }
+
+/* The derivation: the formula, the inputs with their kind, the arithmetic, the rounding, the sensitivity. */
+.derive > * { margin: 0 0 10px; }
+.formula { padding: 6px 10px; background: var(--vc-bg-sunken); font-weight: var(--vc-weight-semibold); }
+.inputs th[scope="row"] { font-weight: var(--vc-weight-medium); }
+.inputs .input-source { color: var(--vc-text-muted); }
+.kind { display: inline-block; padding: 0 6px; border: 1px solid var(--vc-border); font-size: 0.75rem; font-weight: var(--vc-weight-semibold); white-space: nowrap; }
+.kind[data-kind="assumed"], .kind[data-kind="cap"] { background: var(--vc-warning-bg); border-color: var(--vc-warning-border); color: var(--vc-warning-text); }
+.kind[data-kind="law"] { background: var(--vc-info-bg); border-color: var(--vc-info-border); color: var(--vc-info-text); }
+.kind[data-kind="sourced"] { background: var(--vc-bg-sunken); }
+.derive-h { font-weight: var(--vc-weight-semibold); }
+.derive .parts { display: flex; flex-wrap: wrap; gap: 4px 18px; padding-inline-start: 1.2rem; }
+.derive .parts li, .derive .steps li { margin: 0; }
+.derive .steps { display: grid; gap: 4px; padding-inline-start: 1.3rem; font-variant-numeric: tabular-nums; }
+.rounding, .calibration, .sens-note { color: var(--vc-text-muted); }
+.sensitivity { width: 100%; border-collapse: collapse; }
+.sensitivity th, .sensitivity td { padding: 3px 8px 3px 0; text-align: start; font-weight: var(--vc-weight-regular); border-bottom: 1px solid var(--vc-border-subtle); }
+.sensitivity .vc-num { text-align: end; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sens-cell { width: 45%; }
+.sens-bar { display: block; height: 8px; width: calc(var(--p) * 100%); background: var(--vc-data-2); }
+.sources { display: grid; gap: 2px; padding-inline-start: 1.1rem; }
+
 /* ---------------------------------------------------------------- the strip under the header, and boot */
 
 /* One sentence on what the prototype does and how real its data is, with the byline beside it: the page
@@ -300,7 +437,8 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 /* ---------------------------------------------------------------- larger and smaller windows */
 
 @media (min-width: 1700px) {
-  .law-count { font-size: var(--vc-font-size-lg); }
+  .law { font-size: var(--vc-font-size-md); min-height: 1.75rem; }
+  .topic-name, .lawmap-head { font-size: var(--vc-font-size-sm); }
   .story { gap: 22px; padding: 26px 30px 28px; }
   .story-title { font-size: 2rem; }
   .story-text { font-size: 1.25rem; }
@@ -309,11 +447,10 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 }
 /* A 1080p projector: the laws get room to breathe. */
 @media (min-width: 1700px) and (min-height: 1000px) {
-  .lawmap { gap: 16px; }
-  .laws { gap: 8px; }
-  .law { padding: 10px 12px 11px; row-gap: 7px; }
-  .law[data-pick="true"] { padding: 9px 11px 10px; }
-  .law-bar { height: 8px; }
+  .lawmap { gap: 0 24px; }
+  .law { min-height: 1.85rem; padding-block: 2px; }
+  .topic-name { margin-top: 10px; }
+  .law-bar { height: 4px; }
 }
 @media (max-width: 1700px) {
   :root { --fs-kpi: 1.75rem; }
@@ -321,8 +458,7 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 @media (max-width: 1440px) {
   .kpi.vc-stat { min-width: 0; padding: 6px 12px 7px; }
   .steps .vc-step__label { font-size: var(--vc-font-size-sm); }
-  .lawmap { grid-template-columns: minmax(min-content, 7.5rem) minmax(0, 1fr); }
-  .laws { grid-template-columns: repeat(auto-fill, minmax(6.9rem, 1fr)); }
+  .law-abbr { display: none; }
   .story { padding: 18px 20px 20px; gap: 14px; }
   .story-title { font-size: 1.5rem; }
   .story-text { font-size: 1.05rem; }
@@ -341,7 +477,6 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
   .app-strip { min-height: 40px; }
   .strip-note { font-size: 0.8125rem; line-height: 1.3; }
   .stage { padding: 12px 16px 14px; }
-  .laws { gap: 5px; }
   .opt { grid-template-columns: minmax(8rem, 11rem) minmax(0, 1fr) auto; }
 }
 /* Laptop screens shared at 1280 × 720 or 1366 × 768: everything stays in view. */
@@ -353,22 +488,23 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
   .steps .vc-step__button { min-height: 40px; }
   .stage { gap: 8px; padding: 10px 16px 12px; }
   .stage-head h2 { font-size: 1.25rem; }
-  .lawmap { gap: 8px; }
-  .family-name { padding-top: 4px; font-size: 0.8125rem; }
-  .law { padding: 4px 8px 6px; row-gap: 3px; }
-  .law[data-pick="true"] { padding: 3px 7px 5px; }
-  .law-bar { height: 4px; }
-  .laws { gap: 4px; }
+  .law { min-height: 1.25rem; padding-block: 0; font-size: 0.8125rem; line-height: 1.15; }
+  .topic-name { margin-top: 3px; font-size: 0.75rem; }
+  .legend { gap: 0 12px; font-size: 0.75rem; line-height: 1.25; }
+  .lawmap-head { font-size: 0.6875rem; }
+  .who-line, .law-line { padding: 3px 10px; font-size: 0.8125rem; line-height: 1.3; }
+  .compare-open.vc-button { --_h: 30px; }
   .legend { font-size: 0.8125rem; margin-top: -2px; }
   .ev { gap: 6px; padding: 9px 12px 10px; }
   .law-text { font-size: 1rem; padding-block: 3px; }
-  .twin-law { padding: 7px 10px; gap: 4px; }
-  .twin-law .law-text { font-size: 0.95rem; }
+  .twin-law { padding: 5px 8px; gap: 3px; }
+  .twin-law .law-text { font-size: 0.9rem; }
+  .ev-gloss, .opt-detail { font-size: 0.8125rem; }
   .opts { gap: 6px; }
   .target { padding: 6px 12px 8px; }
   .target-share { font-size: 1.9rem; }
   .opt-value { font-size: 1.1rem; }
-  .story { gap: 10px; padding: 12px 18px; }
+  .story { gap: 8px; padding: 10px 16px; }
   .story-title { font-size: 1.35rem; }
   .story-text { font-size: 1rem; }
   .agent { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: baseline; column-gap: 10px; padding: 8px 12px 10px; }
@@ -395,8 +531,9 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
   .app-shell { padding-bottom: var(--ask-room, 0px); }
   .ask { position: fixed; inset: auto 0 0 0; z-index: 20; border-radius: 0; border-width: 1px 0 0 0; border-top: 3px solid var(--vc-accent); padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); box-shadow: 0 -8px 18px -10px var(--vc-shadow-color); }
   .steps .vc-step__hint { display: none; }
-  .lawmap { grid-template-columns: minmax(0, 1fr); gap: 6px; }
-  .family-name { padding-top: 6px; }
+  .panel.vc-dialog { inset: 0; border-width: 0; }
+  .lawmap { grid-template-columns: minmax(0, 1fr); }
+  .law-abbr { display: inline; }
 }
 @media (max-width: 640px) {
   .app-header { grid-template-columns: minmax(0, 1fr); padding: 10px 12px; }
@@ -429,5 +566,6 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
   .ask { border-color: CanvasText; border-left-color: Highlight; }
   .ask .vc-attention, .decision .vc-attention { outline: 3px solid Highlight; outline-offset: 2px; }
   .law-fill, .opt-fill { forced-color-adjust: none; background: CanvasText; }
-  .law[data-pick="true"], .twin-law, .ev-dossier { border-color: Highlight; }
+  .twin-law, .ev-dossier { border-color: Highlight; }
+  .law[data-hl="true"], .law[data-selected="true"], .law[data-pick]:not([data-pick=""]) { outline: 2px solid Highlight; outline-offset: -2px; }
 }

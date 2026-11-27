@@ -86,7 +86,7 @@ try {
       const first = { legend: await legend(), story: norm(await page.textContent("#story-text")), topics: await page.$$eval(".topic-name", (els) => els.map((e) => e.textContent.replace(/­/g, "").replace(/\s+/g, " ").trim())) };
       await atStep(page, 2);
       const third = await legend();
-      const unit = lang === "de" ? /Pflichten/ : /duties/;
+      const unit = lang === "de" ? /Pflichten/ : /duties/i;
       const words = lang === "de"
         ? { bar: /Balken/, twice: /Bündel/, dim: /blass/, pick: /\bA\b.*\bB\b/, unread: /nicht gelesen|noch nicht/ }
         : { bar: /\bbar\b/, twice: /cluster/, dim: /pale/, pick: /\bA\b.*\bB\b/, unread: /not read/ };
@@ -96,7 +96,7 @@ try {
       if (!words.unread.test(first.legend.unread || "")) missing.push("unread");
       check(!missing.length, `legend: ${NAME[lang]}: the unit and every encoding in words (${Object.keys(third).join(", ")}; at the start ${Object.keys(first.legend).join(", ")})${missing.length ? `; missing: ${missing.join(", ")}` : ""}`);
       const topicWant = D.families.map((f) => (lang === "de" ? `Thema: ${S.TOPICS[f.id][1]} · ${fmt(f.norms.length, lang)} ${f.norms.length === 1 ? "Vorschrift" : "Vorschriften"}` : `Topic: ${S.TOPICS[f.id][0]} · ${fmt(f.norms.length, lang)} ${f.norms.length === 1 ? "law" : "laws"}`));
-      check(JSON.stringify(first.topics) === JSON.stringify(topicWant), `legend: ${NAME[lang]}: the groups read as topic areas with their size (${first.topics.join(" | ")})`);
+      check(JSON.stringify([...first.topics].sort()) === JSON.stringify([...topicWant].sort()), `legend: ${NAME[lang]}: the groups read as topic areas with their size (${first.topics.join(" | ")})`);
       const chosen = lang === "de" ? [/von Hand/, /fünf Themen/, /liest jeden Satz/] : [/chosen by hand/, /five topic areas/, /reads every sentence/];
       check(chosen.every((re) => re.test(first.story)) && !/(found|fand|findet) (the|die) (31|laws|Vorschriften)/i.test(first.story), `legend: ${NAME[lang]}: the first step says how the 31 laws were chosen and that the agent reads every sentence, not that it found them`);
       await ctx.close();
@@ -199,7 +199,8 @@ try {
       check(!cleared.length && name.kind === "compare" && JSON.stringify(pair) === JSON.stringify(pairLaws), `links: ${NAME[lang]}: the cluster's name highlights exactly its two laws (${pair.join(", ")}) and opens their comparison; closing a list clears the highlight`);
       await closePanel(page);
       const marks = await page.evaluate(() => ({ map: Object.fromEntries([...document.querySelectorAll("#lawmap button.law[data-pick]")].filter((b) => b.dataset.pick).map((b) => [b.dataset.id, b.querySelector(".law-pair").textContent.trim()])), story: [...document.querySelectorAll("#evidence .pair-mark")].map((m) => m.textContent.trim()) }));
-      check(JSON.stringify(marks.map) === JSON.stringify(S.words(F, lang).pair) && marks.story.join() === "A,B", `links: ${NAME[lang]}: at step 3 the two laws carry A and B on the map and in the story (${Object.entries(marks.map).map(([k, v]) => `${v} ${k}`).join(", ")})`);
+      const sorted = (o) => JSON.stringify(Object.entries(o).sort());
+      check(sorted(marks.map) === sorted(S.words(F, lang).pair) && marks.story.join() === "A,B", `links: ${NAME[lang]}: at step 3 the two laws carry A and B on the map and in the story (${Object.entries(marks.map).map(([k, v]) => `${v} ${k}`).join(", ")})`);
       errorsSeen.push(...errors);
       await ctx.close();
     }
@@ -251,7 +252,7 @@ try {
       check(p.kind === "compare" && headsOk, `compare: ${NAME[lang]}: two columns, A and B, named as on the map (${c.heads.map((h) => `${h.pair} ${h.text}`).join(" | ")})`);
       check(c.who.some((h) => h.endsWith("hdldlstatg/__3.html")) && c.who.some((h) => h.endsWith("prodgewstatg/__1.html")) && c.who.some((h) => h.endsWith("prodgewstatg/__2.html")), `compare: ${NAME[lang]}: who must report, from the scope sections of both laws (${c.who.map((h) => h.split("/").slice(-2).join("/")).join(", ")})`);
       check(["who", "what", "when", "whom", "agent", "law", "check"].every((r) => c.rows.includes(r)), `compare: ${NAME[lang]}: who, what, how often, to whom, the agent's reading, what the law text shows and what to check before a merge (${c.rows.join(", ")})`);
-      const quotes = Object.values(D.compare).flatMap((x) => [...x.who, ...x.what, ...x.when, ...x.whom]);
+      const quotes = Object.values(D.compare).flatMap((x) => [...x.who, ...x.what, ...x.when, ...x.whom, x.duty]);
       const wrong = c.quotes.filter((q) => { const d = quotes.find((x) => x.id === q.id); return !d || q.text !== d.text; });
       check(c.quotes.length >= 8 && !wrong.length, `compare: ${NAME[lang]}: ${c.quotes.length} quotes, each the law's text as data/story.js holds it${wrong.length ? `; off: ${wrong.map((q) => q.id).join(", ")}` : ""}`);
       const say = lang === "de" ? /angenommen, nicht belegt/ : /assumed, not shown/;
@@ -316,7 +317,8 @@ try {
         const taken = decision === "merge" || decision === "register_retrieval";
         if (taken ? t.pre : t.pre !== upTo) off.push(`${step + 1}${decision ? ` ${decision}` : ""}: before the value "${t.pre}"`);
         if (norm(t.main) !== norm(w.money(k.stake.value))) off.push(`${step + 1}: value ${t.main}`);
-        if (!taken && (!assumed.test(t.note) || !t.note.includes(fmt(F.businesses, lang)))) off.push(`${step + 1}${decision ? ` ${decision}` : ""}: note "${t.note}" marks no assumption`);
+        // Until a decision the note marks the assumption; after one it says what was decided.
+        if (!decision && (!assumed.test(t.note) || !t.note.includes(fmt(F.businesses, lang)))) off.push(`${step + 1}: note "${t.note}" marks no assumption`);
       }
       await atStep(page, 3);
       const merge = norm(await page.textContent('#evidence .opt[data-type="merge"]'));

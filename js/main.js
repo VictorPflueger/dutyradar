@@ -2,12 +2,14 @@
 // steps by click, key or address (?step=reads). Under each step a bar says what the page waits for and
 // holds the one button that plays the agent's work up to the next step, which stops there so the room
 // can talk; the decision at the last step is taken once, by the person at the screen, and then the bar
-// offers a new start. EN | DE in the header switches every word without a reload, and the address keeps
-// the choice (?lang=de).
+// offers a new start. Every count opens what it counts beside the story and marks its laws on the map;
+// a law picked on the map says in the story how it relates to the step. EN | DE in the header switches
+// every word without a reload, and the address keeps the choice (?lang=de).
 
 import { STEP_IDS, CHOICES, factsOf, words } from "./story.js";
 import { t, applyCopy } from "./copy.js";
-import { fillFigures, drawStepLabels, drawKpis, createLawMap, drawEvidence, drawStory } from "./view.js";
+import { fillFigures, drawStepLabels, drawKpis, createLawMap, drawEvidence, drawStory, lawsOf } from "./view.js";
+import { createPanel } from "./panel.js";
 
 /** Real milliseconds Play takes from each step to the next; the last step comes at once. ?speed=2 to 20
  *  plays faster, for rehearsals and the tests. */
@@ -24,7 +26,7 @@ async function boot() {
   const D = window.DUTY_RADAR;
   if (!D) throw new Error("data/story.js did not load. Deploy it next to index.html and reload.");
   const F = factsOf(D);
-  const drawMap = createLawMap(F);
+  const map = createLawMap(F);
   fillFigures(F);
 
   const ui = {
@@ -41,9 +43,9 @@ async function boot() {
 
   function draw({ story = false } = {}) {
     drawKpis(F, w, state.index, state.decision);
-    drawMap(state.index, state.p, w);
+    map.draw(state.index, state.p, w);
     drawEvidence(F, w, state.index, state.p, state.decision);
-    if (story) drawStory(w, state.index, state.decision);
+    if (story) drawStory(F, w, state.index, state.decision, map.selected);
     ui.steps.forEach((b, i) => {
       b.li.classList.toggle("vc-step--current", i === state.index);
       b.li.classList.toggle("vc-step--done", i < state.index);
@@ -105,6 +107,7 @@ async function boot() {
 
   function goTo(index, { quiet = false } = {}) {
     stop();
+    panel.close();
     const hadFocus = document.activeElement === ui.play;
     state.index = Math.max(0, Math.min(LAST, index));
     state.p = 0;
@@ -125,6 +128,7 @@ async function boot() {
 
   function restart() {
     state.decision = null;
+    map.select(null);
     goTo(0);
   }
 
@@ -178,11 +182,35 @@ async function boot() {
     for (const b of document.querySelectorAll("[data-vc-guide-open]")) b.hidden = b.dataset.vcGuideOpen !== `guide-${lang}`;
     draw({ story: true });
     drawAsk();
+    panel.redraw();
     if (remember) {
       try { window.localStorage.setItem("dr.lang", lang); } catch { /* storage blocked: the address keeps it */ }
       address({ lang });
     }
   }
+
+  // ---- what a count counts, beside the story
+
+  const panel = createPanel({
+    F,
+    getState: () => ({ lang: state.lang, index: state.index, w }),
+    onMark: (kind) => map.mark(kind ? lawsOf(F, kind) : []),
+    onSelect: (id) => { map.select(id); drawStory(F, w, state.index, state.decision, id); },
+    onGo: (index) => goTo(index)
+  });
+  // A count opens what it counts; while nothing is open, pointing at it or focusing it marks its laws.
+  document.addEventListener("click", (e) => {
+    const el = e.target instanceof Element ? e.target.closest("[data-open]") : null;
+    if (!el || document.querySelector("dialog.vc-guide[open]")) return;
+    e.preventDefault();
+    stop();
+    panel.open(el.dataset.open, el);
+  });
+  const preview = (e, on) => {
+    const el = e.target instanceof Element ? e.target.closest("button.count[data-open], button.kpi[data-open]") : null;
+    if (el && !panel.isOpen()) map.mark(on ? lawsOf(F, el.dataset.open) : []);
+  };
+  for (const [type, on] of [["pointerover", true], ["focusin", true], ["pointerout", false], ["focusout", false]]) document.addEventListener(type, (e) => preview(e, on));
 
   // ---- wiring
 
@@ -193,9 +221,11 @@ async function boot() {
   for (const b of ui.langs) b.addEventListener("click", () => setLang(b.dataset.lang));
   document.addEventListener("keydown", (e) => {
     if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
-    if (document.querySelector("dialog[open]")) return;
+    if (document.querySelector("dialog.vc-guide[open]")) return;
     const target = e.target;
-    if (target instanceof HTMLElement && target.closest("input, textarea, select, [contenteditable]")) return;
+    if (panel.isOpen() && e.key === "Escape") { e.preventDefault(); panel.close(); return; }
+    // Inside the panel the keys belong to the list: its buttons, filters and links.
+    if (target instanceof HTMLElement && target.closest("#panel, input, textarea, select, [contenteditable]")) return;
     const onControl = target instanceof HTMLElement && target.closest("button, a");
     // Space plays or pauses; at the last step it does nothing, so it can neither decide nor start over.
     if (e.key === " " && !onControl) { e.preventDefault(); if (state.index < LAST) togglePlay(); }
@@ -219,7 +249,7 @@ async function boot() {
   const asked = STEP_IDS.indexOf(new URL(window.location.href).searchParams.get("step"));
   goTo(Math.max(0, asked), { quiet: true });
   document.documentElement.dataset.boot = "ready";
-  window.dutyRadar = { F, state, goTo, play, stop, decide, setLang, restart };
+  window.dutyRadar = { F, state, goTo, play, stop, decide, setLang, restart, openPanel: (kind) => panel.open(kind), closePanel: () => panel.close() };
   hideBoot();
 }
 
