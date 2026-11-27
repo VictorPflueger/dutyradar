@@ -1,10 +1,11 @@
 # Vici, copied into this prototype
 
 These files come unchanged from Vici, Victor Pflüger's design system
-(<https://victorpflueger.github.io/ViciDesign/index.html>), from its main branch at commit **`21d6941`**
-(27 November 2026), on the way to Vici 2.0. Since the last copy (`d04a318`) Vici's stylesheet gained a count
-that opens what it counts (`.vc-count`, and a stat card that is a button), one of the lessons this prototype
-gave back; its files still call themselves 1.0.0 until 2.0 is released. The prototype loads them from here rather than from a CDN, so every
+(<https://victorpflueger.github.io/ViciDesign/index.html>), from its main branch at commit **`4398d82`**
+(27 November 2026), on the way to Vici 2.0. Since the copy before last (`d04a318`) Vici's stylesheet gained a
+count that opens what it counts (`.vc-count`, and a stat card that is a button), one of the lessons this
+prototype gave back, and since the last (`21d6941`) a line under a key figure that says what the figure leaves
+out (`.vc-stat__also`); its files still call themselves 1.0.0 until 2.0 is released. The prototype loads them from here rather than from a CDN, so every
 page is served from this site alone.
 
 | File here | What it is |
