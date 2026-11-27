@@ -1,12 +1,12 @@
 # Vici, copied into this prototype
 
 These files come unchanged from Vici, Victor Pflüger's design system
-(<https://victorpflueger.github.io/ViciDesign/index.html>), from its main branch at commit **`484b49a`**
-(23 November 2026), on the way to Vici 2.0. That commit brings the How it works guide (`vc-guide`)
-with one guide per language, the 2.0 byline, the key-figure rule, the struck-through old value of a
-key figure (`vc-stat__was`), the pause icon, `vc-attention` for the button the page waits for and
-`--vc-step-fill` for the stepper's rail; its files still call themselves 1.0.0 until 2.0 is released.
-The prototype loads them from here rather than from a CDN, so every page is served from this site alone.
+(<https://victorpflueger.github.io/ViciDesign/index.html>), from its main branch at commit **`d04a318`**
+(25 November 2026), on the way to Vici 2.0. Since the last copy (`484b49a`) Vici's stylesheet and script
+gained the live-run dialog, the report and the drop zone, 40 px targets for every control, a still backdrop
+under reduced motion and a focus ring that shows inside a scrolling dialog body; its files still call
+themselves 1.0.0 until 2.0 is released. The prototype loads them from here rather than from a CDN, so every
+page is served from this site alone.
 
 | File here | What it is |
 |---|---|
