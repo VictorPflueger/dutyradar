@@ -201,3 +201,5 @@ CI's Chromium sets German text a little wider than the Chrome the reviews used, 
 - The relief tile's German note reads "Annahme: 22.217 melden doppelt", and three items of the legend are shorter.
 - At laptop sizes the law rows sit edge to edge, the line beside the map's heading is a size smaller, and the three decision buttons share one row, the first without its check.
 - The German guide's How it works lead lost its last sentence; its talk track still says that every count opens what it counts.
+
+Impeccable's detector, run again on steps 3 to 5 at 1280 × 720 in English and German, finds five items on each: the contrast it measures on two of Vici's hexagon step markers, the ask bar's side stripe, Vici's typeface and Vici's paper colour. None comes from these changes, and the contrast suite still passes every visible text.
