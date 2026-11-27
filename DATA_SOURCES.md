@@ -31,7 +31,7 @@ The smaller count, 22,217, is the cap. The two count different things, sites and
 
 OnDEA (<https://www.ondea.de/>), the Destatis database of compliance cost: not probed. It answered with an error on 27 November 2026, so its case numbers for these two reports remain unread.
 
-What changed: with R1's 60,000 businesses the merge saved €4.07m a year (€4,065,600) and the register lookup €3.93m net (€3,926,400). At 22,217 the merge saves up to €1.51m a year (€1,505,423.92) and the register lookup €1.45m net (€1,453,880.48). If only half, a quarter or a tenth of them file both, the merge saves €0.75m, €0.38m or €0.15m; the page shows these four shares beside the derivation.
+What changed: with R1's 60,000 businesses the merge saved €4.07m a year (€4,065,600) and the register lookup €3.93m net (€3,926,400). At 22,217 the merge saves up to €1.51m a year (€1,505,423.92) and the register lookup up to €1.45m net (€1,453,880.48). If only half, a quarter or a tenth of them file both, the merge saves €0.75m, €0.38m or €0.15m; the page shows these four shares beside the derivation.
 
 ## Targets
 

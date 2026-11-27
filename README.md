@@ -42,7 +42,7 @@ They sit top right and answer first; only the decision moves them. Each opens wh
 | Key figure | What it tells the customer | In this run |
 |---|---|---|
 | Asked twice | How much the law asks twice | 203 of 745 duties in 31 laws sit in 48 clusters |
-| Relief at stake a year | Up to what the merge saves businesses, by the federal compliance-cost method, until a person approves it | Merge up to €1.51m; register lookup €1.45m net (businesses save €1.85m, the administration spends €0.39m, plus €250,000 once); keep €0 |
+| Relief at stake a year | Up to what the merge saves businesses, by the federal compliance-cost method, until a person approves it | Merge up to €1.51m; register lookup up to €1.45m net (businesses save €1.85m, the administration spends €0.39m, plus €250,000 once); keep €0 |
 | Reporting duties cut | How far that gets toward the target | A third of 320 is 107; one approval cuts 1 |
 
 ## What is real, counted, assumed or simulated

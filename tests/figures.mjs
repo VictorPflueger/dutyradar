@@ -180,7 +180,7 @@ check(amounts >= 20 && !stray.length, `docs: the ${amounts} euro amounts in the 
 const fe = S.figures(F, "en");
 const claims = [
   `${fe.clustered} of ${fe.duties} duties in ${fe.laws} laws sit in ${fe.clusters} clusters`,
-  `Merge up to ${fe.merge}; register lookup ${fe.register} net (businesses save ${fe["register-businesses"]}, the administration spends ${fe["register-admin"]}, plus ${fe["one-off"]} once)`,
+  `Merge up to ${fe.merge}; register lookup up to ${fe.register} net (businesses save ${fe["register-businesses"]}, the administration spends ${fe["register-admin"]}, plus ${fe["one-off"]} once)`,
   `A third of ${fe.reporting} is ${fe.target}; one approval cuts ${fe.removed}`
 ].map(plain);
 const missing = claims.filter((c) => !doc("README.md").includes(c));

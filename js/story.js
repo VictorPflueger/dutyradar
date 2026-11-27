@@ -351,7 +351,7 @@ export function words(F, lang) {
       text: de ? `Aus zwei Meldungen wird eine, ${REASONS.Z1.de}. ${cut(o.merge.reporting.removed)}` : `The two reports become one, ${REASONS.Z1.en}. ${cut(o.merge.reporting.removed)}`
     },
     register_retrieval: {
-      title: de ? `Freigegeben: netto ${m(o.register_retrieval.relief)} Entlastung im Jahr` : `Approved: ${m(o.register_retrieval.relief)} a year of relief, net`,
+      title: de ? `Freigegeben: netto bis zu ${m(o.register_retrieval.relief)} Entlastung im Jahr` : `Approved: up to ${m(o.register_retrieval.relief)} a year of relief, net`,
       text: de
         ? `Das Register liefert die Daten: Die Betriebe sparen ${m(F.registerBusinesses)} im Jahr, die Verwaltung wendet ${m(F.registerAdmin)} auf, dazu einmalig ${euros(F.oneOff, lang)}. ${cut(o.register_retrieval.reporting.removed)}`
         : `The register supplies the data: businesses save ${m(F.registerBusinesses)} a year, the administration spends ${m(F.registerAdmin)}, plus ${euros(F.oneOff, lang)} once. ${cut(o.register_retrieval.reporting.removed)}`
@@ -368,7 +368,7 @@ export function words(F, lang) {
       upTo: de ? "bis zu" : "up to",
       pending: de ? `angenommen: ${n(F.businesses)} melden doppelt` : `assumed: ${n(F.businesses)} file both`,
       decided_merge: de ? `bis zu ${m(o.merge.relief)} freigegeben` : `up to ${m(o.merge.relief)} approved`,
-      decided_register_retrieval: de ? `${m(o.register_retrieval.relief)} freigegeben` : `${m(o.register_retrieval.relief)} approved`,
+      decided_register_retrieval: de ? `bis zu ${m(o.register_retrieval.relief)} freigegeben` : `up to ${m(o.register_retrieval.relief)} approved`,
       decided_keep: de ? "beibehalten, keine Entlastung" : "kept, no relief"
     },
     cut: { label: de ? "Gestrichene Meldepflichten" : "Reporting duties cut", of: de ? "von" : "of", note: de ? `Ziel: ein Drittel von ${n(F.reporting)}` : `target: a third of ${n(F.reporting)}` }
@@ -419,8 +419,8 @@ export function words(F, lang) {
     shared: de ? "In beiden gefragt" : "Asked in both",
     // Who carries the duty and how many (DR-07): the line a presenter reads out at steps 3 to 5.
     who: de
-      ? parts`Wer: Unternehmen in beiden Erhebungen, bis zu ${c1(n(c.population.units), "derive:businesses")}: so viele Betriebe fragt die Produktionserhebung. Dass alle doppelt melden, ist angenommen. Monatlich, bis zu ${millionsWord(c.cases, lang)} Meldungen im Jahr.`
-      : parts`Who: businesses in both surveys, up to ${c1(n(c.population.units), "derive:businesses")}: the sites the production survey asks. That all of them file both is assumed. Monthly, up to ${millionsWord(c.cases, lang)} reports a year.`,
+      ? parts`Wer: Unternehmen in beiden Erhebungen, bis zu ${c1(n(c.population.units), "derive:businesses")}: so viele Betriebe fragt die Produktionserhebung. Dass alle doppelt melden, ist angenommen. Monatlich, bis zu ${millionsWord(c.cases, lang)} Meldungen im Jahr, beide zusammen.`
+      : parts`Who: businesses in both surveys, up to ${c1(n(c.population.units), "derive:businesses")}: the sites the production survey asks. That all of them file both is assumed. Monthly, up to ${millionsWord(c.cases, lang)} reports a year, both together.`,
     options: de ? "Entlastung pro Jahr, je Option" : "Relief a year, by option",
     where: de ? "Woher kommt diese Zahl?" : "Where does this figure come from?",
     option: {
