@@ -748,7 +748,7 @@ window.DUTY_RADAR = {
    "total": 94
   },
   "relief": 0,
-  "pending": 4065600
+  "pending": 1505423.9200000004
  },
  "cluster": {
   "id": "C-046",
@@ -829,8 +829,8 @@ window.DUTY_RADAR = {
       "de": "Branche"
      }
     ],
-    "cases": 720000,
-    "cost": 4992000
+    "cases": 266604,
+    "cost": 1848454.4000000001
    },
    {
     "duty": "D-prodgewstatg-p9-1",
@@ -890,15 +890,16 @@ window.DUTY_RADAR = {
       "de": "Produktion"
      }
     ],
-    "cases": 720000,
-    "cost": 4992000
+    "cases": 266604,
+    "cost": 1848454.4000000001
    }
   ],
   "population": {
    "en": "Businesses in the samples of the business statistics",
    "de": "Unternehmen in den Stichproben der Unternehmensstatistiken",
-   "units": 60000,
-   "assumed": true
+   "units": 22217,
+   "before": 60000,
+   "cap": true
   },
   "register": {
    "id": "reg-unternehmensstammdaten",
@@ -909,19 +910,16 @@ window.DUTY_RADAR = {
     "D-hdldlstatg-p11-1"
    ]
   },
-  "cases": 1440000,
-  "cost": 9984000
+  "cases": 533208,
+  "cost": 3696908.8000000003
  },
  "inputs": {
   "businesses": {
-   "value": 60000,
-   "kind": "assumed",
+   "value": 22217,
+   "kind": "cap",
+   "before": 60000,
    "en": "Businesses in the samples of the business statistics",
-   "de": "Unternehmen in den Stichproben der Unternehmensstatistiken",
-   "reason": {
-    "en": "Assumed until calibration (OnDEA not reachable)",
-    "de": "Bis zur Kalibrierung angenommen (OnDEA nicht erreichbar)"
-   }
+   "de": "Unternehmen in den Stichproben der Unternehmensstatistiken"
   },
   "perYear": {
    "value": 12,
@@ -1021,8 +1019,8 @@ window.DUTY_RADAR = {
     "en": "Merge",
     "de": "Zusammenführen"
    },
-   "net": -4065600,
-   "businesses": -4065600,
+   "net": -1505423.9200000004,
+   "businesses": -1505423.9200000004,
    "administration": 0,
    "duties": -1,
    "oneOff": 0,
@@ -1045,9 +1043,9 @@ window.DUTY_RADAR = {
     "en": "Register retrieval",
     "de": "Registerabruf"
    },
-   "net": -3926400,
-   "businesses": -4992000,
-   "administration": 1065600,
+   "net": -1453880.4800000002,
+   "businesses": -1848454.4000000001,
+   "administration": 394573.92,
    "duties": -1,
    "oneOff": 250000,
    "removes": [
@@ -1092,13 +1090,13 @@ window.DUTY_RADAR = {
  ],
  "derivation": {
   "one": {
-   "reports": 720000,
-   "hours": 120000,
-   "personnel": 4632000,
-   "material": 360000,
-   "cost": 4992000
+   "reports": 266604,
+   "hours": 44434,
+   "personnel": 1715152.4000000001,
+   "material": 133302,
+   "cost": 1848454.4000000001
   },
-  "both": 9984000,
+  "both": 3696908.8000000003,
   "lead": "D-hdldlstatg-p11-1",
   "added": {
    "items": 5,
@@ -1107,45 +1105,72 @@ window.DUTY_RADAR = {
    "minutes": 10
   },
   "merged": {
-   "reports": 720000,
-   "hours": 144000,
-   "personnel": 5558400,
-   "material": 360000,
-   "cost": 5918400
+   "reports": 266604,
+   "hours": 53320.8,
+   "personnel": 2058182.8800000001,
+   "material": 133302,
+   "cost": 2191484.88
   },
-  "relief": 4065600,
+  "relief": 1505423.9200000004,
   "admin": {
-   "reports": 720000,
-   "hours": 24000,
-   "personnel": 1065600,
+   "reports": 266604,
+   "hours": 8886.8,
+   "personnel": 394573.92,
    "material": 0,
-   "cost": 1065600
+   "cost": 394573.92
   },
-  "registerNet": 3926400,
+  "registerNet": 1453880.4800000002,
   "oneOff": 250000
  },
  "sensitivity": [
   {
    "share": 1,
-   "businesses": 60000,
-   "relief": 4065600
+   "businesses": 22217,
+   "relief": 1505423.9200000004
   },
   {
    "share": 0.5,
-   "businesses": 30000,
-   "relief": 2032800
+   "businesses": 11109,
+   "relief": 752745.8400000001
   },
   {
    "share": 0.25,
-   "businesses": 15000,
-   "relief": 1016400
+   "businesses": 5554,
+   "relief": 376339.0399999999
   },
   {
    "share": 0.1,
-   "businesses": 6000,
-   "relief": 406560
+   "businesses": 2222,
+   "relief": 150562.71999999997
   }
  ],
+ "calibration": {
+  "retrieved": "2026-11-27",
+  "cap": 22217,
+  "production": {
+   "year": 2025,
+   "sites": 22217,
+   "lands": 16,
+   "publisher": "Statistische Ämter des Bundes und der Länder",
+   "title": "Beschäftigte und Umsatz der Betriebe im Verarbeitenden Gewerbe",
+   "url": "https://www.statistikportal.de/en/node/410"
+  },
+  "trade": {
+   "year": 2025,
+   "count": 41300,
+   "approx": true,
+   "publisher": "Statistisches Bundesamt (Destatis)",
+   "title": "Qualitätsbericht Konjunkturstatistiken im Handel und Dienstleistungsbereich 2025",
+   "published": "2025-10-15",
+   "page": 12,
+   "url": "https://www.destatis.de/DE/Methoden/Qualitaet/Qualitaetsberichte/Gross-Einzelhandel/konjunkturstatistik-handel-dienstleistung-2025.pdf?__blob=publicationFile&v=2"
+  },
+  "before": {
+   "businesses": 60000,
+   "merge": 4065600,
+   "register": 3926400
+  }
+ },
  "compare": {
   "hdldlstatg": {
    "who": [
@@ -1280,7 +1305,7 @@ window.DUTY_RADAR = {
  "outcomes": {
   "merge": {
    "option": "O-C-046-merge",
-   "relief": 4065600,
+   "relief": 1505423.9200000004,
    "reporting": {
     "removed": 1,
     "total": 320
@@ -1301,7 +1326,7 @@ window.DUTY_RADAR = {
   },
   "register_retrieval": {
    "option": "O-C-046-register_retrieval",
-   "relief": 3926400,
+   "relief": 1453880.4800000002,
    "reporting": {
     "removed": 1,
     "total": 320

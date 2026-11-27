@@ -1,7 +1,8 @@
 // Writes data/story.js and data/inventory.js: every figure and law text the showcase shows, computed by
 // release 1.0.0's own engines. It replays 1.0.0's run R1 headless once for each decision a presenter can
 // take (merge, register retrieval, keep), with the modules of a checkout of commit 7377619, and keeps what
-// the five steps need (data/story.js). The whole inventory behind the counts (745 duties, the 125
+// the five steps need (data/story.js). Before the decision it caps the businesses of the priced cluster at
+// the public counts in CALIBRATION, with 1.0.0's own assumption editor (DR-06). The whole inventory behind the counts (745 duties, the 125
 // flagged sentences the agent discarded, 48 clusters) goes into data/inventory.js, which the page loads
 // the first time a list opens. The page itself runs no engine; it plays these results.
 //
@@ -56,10 +57,42 @@ const DECISIONS = {
   keep: { option_id: "O-C-046-keep", decision: "approved", reason_code: "A3" }
 };
 const CLUSTER = "C-046";
-/** The shares of the assumed businesses that file both reports, for the sensitivity of the merge (D4). */
+/** The shares of the businesses that can file both reports, for the sensitivity of the merge (D4). */
 const SHARES = [1, 0.5, 0.25, 0.1];
 
-async function replay(choice) {
+// ---- calibration (DR-06): how many businesses can file both reports, from public counts -------------------------
+// R1 assumed 60,000 businesses for every business statistic. Public counts give the size of both surveys, and a
+// business can file both reports only if it is in both: the smaller survey caps the businesses a merge can
+// relieve. 1.0.0's assumption editor sets the cluster's population to that cap before the decision, and its
+// engines price the options again. How many of them really file both stays unknown, so the page says "up to".
+// Each count was read on the date below; tools/build-story.mjs keeps the figures as published.
+export const CALIBRATION = {
+  retrieved: "2026-11-27",
+  production: {
+    // The production survey's monthly report (§ 2 ProdGewStatG): sites with 50 or more persons, yearly result
+    // of the monthly reporting group, 2025, as published for each Land (the page shows no total for Germany).
+    year: 2025,
+    byLand: { "Baden-Württemberg": 4397, Bayern: 3914, Berlin: 334, Brandenburg: 424, Bremen: 130, Hamburg: 227, Hessen: 1306, "Mecklenburg-Vorpommern": 280, Niedersachsen: 1916, "Nordrhein-Westfalen": 4860, "Rheinland-Pfalz": 1034, Saarland: 207, Sachsen: 1262, "Sachsen-Anhalt": 595, "Schleswig-Holstein": 557, Thüringen: 774 },
+    publisher: "Statistische Ämter des Bundes und der Länder",
+    title: "Beschäftigte und Umsatz der Betriebe im Verarbeitenden Gewerbe",
+    url: "https://www.statistikportal.de/en/node/410"
+  },
+  trade: {
+    // The monthly surveys under the HdlDlStatG: legal units in the reporting group, about 41,300 (2025).
+    year: 2025,
+    count: 41300,
+    approx: true,
+    publisher: "Statistisches Bundesamt (Destatis)",
+    title: "Qualitätsbericht Konjunkturstatistiken im Handel und Dienstleistungsbereich 2025",
+    published: "2025-10-15",
+    page: 12,
+    url: "https://www.destatis.de/DE/Methoden/Qualitaet/Qualitaetsberichte/Gross-Einzelhandel/konjunkturstatistik-handel-dienstleistung-2025.pdf?__blob=publicationFile&v=2"
+  }
+};
+const SITES = Object.values(CALIBRATION.production.byLand).reduce((a, b) => a + b, 0);
+const CAP = Math.min(SITES, CALIBRATION.trade.count);
+
+async function replay(choice, { calibrate = true } = {}) {
   const state = createRunState({ data, lang: "en", runId: "R1", mode: "simulation", now: () => new Date("2026-11-20T09:00:00Z") });
   let request = null;
   let before = null;
@@ -67,6 +100,13 @@ async function replay(choice) {
     run, data, state, lang: "en",
     awaitDecision: async (req) => {
       request = req;
+      if (calibrate) {
+        // The first edit leaves the two members with different populations, so 1.0.0 retires the merge's
+        // figures until the second edit makes them equal again and drafts the options anew.
+        const changes = state.clusters.get(CLUSTER).duty_ids.map((id) => state.editParam(id, "population_units", CAP));
+        const live = (o) => o && o.status !== "withdrawn" && Object.values(o.facts).every((f) => !state.facts.get(f).retired);
+        if (changes.some((c) => !c || c.lapsed.length) || !Object.values(DECISIONS).every((d) => live(state.options.get(d.option_id)))) throw new Error(`Calibrating ${CLUSTER} did not reprice its options cleanly`);
+      }
       before = JSON.parse(JSON.stringify(state.kpis()));
       return state.decide(DECISIONS[choice]);
     }
@@ -78,6 +118,8 @@ async function replay(choice) {
 const runs = {};
 for (const choice of Object.keys(DECISIONS)) runs[choice] = await replay(choice);
 const S = runs.merge.state;
+// R1 as recorded, before the calibration: what the page showed up to 2.1.0.
+const R1 = (await replay("keep", { calibrate: false })).state;
 
 // ---- the slice and the reading -------------------------------------------------------------------
 const confirmed = S.confirmedDuties();
@@ -186,8 +228,11 @@ const SIMPLE = ["einarbeitung_einfach", "daten_beschaffen_einfach", "formulare_e
 const times = table("leitfaden-2026:zeitwerte-wirtschaft");
 const minutesSource = { table: times.key, page: times.page, title: times.title, parts: Object.fromEntries(SIMPLE.map((k) => [k, times.values[k]])), value: SIMPLE.reduce((s, k) => s + times.values[k], 0) };
 const oneOff = data.oneOff.find((o) => o.option_type === "register_retrieval");
+// The businesses: R1's assumption, capped by the public counts above; how many file both is still assumed.
+const r1Units = R1.paramsFor(cluster.duty_ids[0]).population_units;
+if (r1Units !== pop.units || lead.population_units !== CAP || CAP >= r1Units) throw new Error("The calibration did not set the cluster's businesses to the cap below R1's assumption");
 const inputs = {
-  businesses: { value: lead.population_units, kind: "assumed", en: pop.label_en, de: pop.label, reason: { en: pop.rationale_en, de: pop.rationale } },
+  businesses: { value: lead.population_units, kind: "cap", before: r1Units, en: pop.label_en, de: pop.label },
   perYear: { value: lead.frequency_per_year, kind: "law", en: "monthly, § 4 HdlDlStatG", de: "monatlich, § 4 HdlDlStatG" },
   minutes: { value: lead.minutes_per_case, kind: "sourced", source: minutesSource, reason: why("minutes_per_case") },
   wage: { value: lead.wage_eur_per_hour, kind: "sourced", source: sourced("leitfaden-2026:lohnkosten-wirtschaft", "gesamtwirtschaft_durchschnitt"), reason: why("wage_eur_per_hour") },
@@ -250,9 +295,9 @@ const derivation = {
 };
 if (derivation.merged.cost !== md.ea_merged_eur || derivation.relief !== -factValue(merge, "net_delta") || derivation.admin.cost !== rd.admin_annual_eur || derivation.registerNet !== -factValue(S.options.get(DECISIONS.register_retrieval.option_id), "net_delta")) throw new Error("The derivation differs from the options' figures");
 
-// ---- how far the merge's relief rests on the assumed businesses (D4) --------------------------------------------
+// ---- how far the merge's relief rests on the businesses that file both (D4) -------------------------------------
 // Only businesses that file both reports gain from merging them. 1.0.0's assumption editor sets both members'
-// population to a share of the assumed businesses, and its engines price the options again.
+// population to a share of the cap, and its engines price the options again.
 const sensitivity = [];
 for (const share of SHARES) {
   const { state } = await replay("keep");
@@ -263,6 +308,16 @@ for (const share of SHARES) {
   sensitivity.push({ share, businesses: units, relief: -state.facts.get(m.facts.net_delta).value });
 }
 if (sensitivity[0].relief !== -factValue(merge, "net_delta")) throw new Error("The sensitivity at 100 % differs from the merge's relief");
+
+// What the calibration changed: R1's own figures at its assumed 60,000 businesses, by the same engines.
+const r1Net = (type) => { const o = R1.options.get(DECISIONS[type].option_id); return -R1.facts.get(o.facts.net_delta).value; };
+const calibration = {
+  retrieved: CALIBRATION.retrieved,
+  cap: CAP,
+  production: { year: CALIBRATION.production.year, sites: SITES, lands: Object.keys(CALIBRATION.production.byLand).length, publisher: CALIBRATION.production.publisher, title: CALIBRATION.production.title, url: CALIBRATION.production.url },
+  trade: { year: CALIBRATION.trade.year, count: CALIBRATION.trade.count, approx: CALIBRATION.trade.approx, publisher: CALIBRATION.trade.publisher, title: CALIBRATION.trade.title, published: CALIBRATION.trade.published, page: CALIBRATION.trade.page, url: CALIBRATION.trade.url },
+  before: { businesses: r1Units, merge: r1Net("merge"), register: r1Net("register_retrieval") }
+};
 
 // ---- the two laws side by side: quotes cut from the corpus, never retyped (DR-05) --------------------------------
 // Each quote is the exact text of its section between two anchors; a space in an anchor matches any run of
@@ -360,7 +415,7 @@ const story = {
     confidence: cluster.confidence,
     shared: cluster.shared_items.map(vocab),
     members,
-    population: { en: pop.label_en, de: pop.label, units: pop.units, assumed: Boolean(pop.assumption) },
+    population: { en: pop.label_en, de: pop.label, units: lead.population_units, before: pop.units, cap: true },
     register: { id: reg.id, en: reg.label_en, de: reg.label, availability: reg.availability, covers: cluster.register_candidate.covers_duty_ids },
     cases: S.facts.get(est.fallzahl).value,
     cost: S.facts.get(est.ea_annual_eur).value
@@ -370,6 +425,7 @@ const story = {
   options,
   derivation,
   sensitivity,
+  calibration,
   compare,
   check,
   outcomes,
@@ -387,7 +443,7 @@ const dutyRow = (d) => {
   return {
     id: d.id, law: d.norm_id, section: p.enbez, title: p.title || "", url: p.html_url, sentence: ph.sentence, phrase: [ph.start, ph.end],
     type: d.type, addressee: d.addressee, trigger: d.trigger, frequency: d.frequency_term, perYear: d.frequency_per_year, recipient: d.recipient,
-    items: d.data_items, population: d.population_id, cluster: clusterOf.get(d.id) || null, confidence: d.classification?.confidence ?? null,
+    items: d.data_items, population: d.population_id, units: d.population_id ? S.paramsFor(d.id).population_units : null, cluster: clusterOf.get(d.id) || null, confidence: d.classification?.confidence ?? null,
     reading: readingOf(d.id)
   };
 };
@@ -419,6 +475,9 @@ const inventory = {
 // The inventory must add up to the figures the story shows.
 if (inventory.duties.length !== story.totals.duties || inventory.discarded.length !== story.totals.rejected) throw new Error("The inventory's duties differ from the story's totals");
 if (inventory.clusters.length !== story.totals.clusters || inventory.clusters.reduce((s, c) => s + c.duties.length, 0) !== story.totals.clustered) throw new Error("The inventory's clusters differ from the story's totals");
+// Every duty keeps its population's size, but for the two the calibration capped.
+const offSize = inventory.duties.filter((d) => d.population && d.units !== inventory.populations[d.population].units);
+if (offSize.map((d) => d.id).sort().join() !== [...cluster.duty_ids].sort().join() || offSize.some((d) => d.units !== CAP)) throw new Error("A duty's size differs from its population other than by the calibration");
 
 const header = (what) => `// Generated by tools/build-story.mjs from Duty Radar ${story.generatedFrom.release} (commit ${LEGACY_COMMIT}), run R1:
 // ${what} Don't edit by hand; run
