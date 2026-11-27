@@ -16,9 +16,9 @@ const link = (url, text) => `<a href="${esc(url)}" target="_blank" rel="noopener
 /** The ladder: one rung per term, its count opening what it counts, the rungs of this step marked. */
 function ladderHtml(x, index) {
   return `<ol class="ladder">${x.ladder.map((r) => `<li class="rung" data-rung="${r.id}" data-current="${r.steps.includes(index)}">
-    <span class="rung-count"><button type="button" class="count" data-open="${r.open}">${esc(r.count)}</button></span>
+    <span class="rung-count"><button type="button" class="count" aria-haspopup="dialog" aria-controls="panel" data-open="${r.open}">${esc(r.count)}</button></span>
     <div class="rung-words"><p class="rung-term">${r.dfn ? `<dfn data-term="${r.dfn}">${esc(r.term)}</dfn>` : esc(r.term)}</p><p class="rung-def">${esc(r.def)}</p>
-      ${r.sub ? `<p class="rung-sub">${r.sub.map((s) => `<button type="button" class="count" data-open="${s.open}">${esc(s.text)}</button>`).join(" ")}</p>` : ""}
+      ${r.sub ? `<p class="rung-sub">${r.sub.map((s) => `<button type="button" class="count" aria-haspopup="dialog" aria-controls="panel" data-open="${s.open}">${esc(s.text)}</button>`).join(" ")}</p>` : ""}
       ${r.note ? `<p class="rung-def"><dfn data-term="${r.note.term}">${esc(r.note.word)}</dfn>: ${esc(r.note.text)}</p>` : ""}</div>
   </li>`).join("")}</ol>`;
 }
@@ -57,7 +57,7 @@ function deriveHtml(x, type) {
 /** The three options with what each does and the draft wording; each euro opens its derivation. */
 function optionsHtml(F, x, w) {
   return `<ol class="options-list">${F.D.options.map((o) => `<li class="option" data-type="${o.type}">
-    <p class="option-head"><strong>${esc(w.evidence.option[o.type].name)}</strong> ${o.type === "keep" ? `<span>${esc(w.money(0))}</span>` : `<button type="button" class="count" data-open="derive:${o.type}">${esc(`${o.type === "merge" ? `${w.kpi.stake.upTo} ` : ""}${w.money(-o.net)}`)}</button>`}</p>
+    <p class="option-head"><strong>${esc(w.evidence.option[o.type].name)}</strong> ${o.type === "keep" ? `<span>${esc(w.money(0))}</span>` : `<button type="button" class="count" aria-haspopup="dialog" aria-controls="panel" data-open="derive:${o.type}">${esc(`${o.type === "merge" ? `${w.kpi.stake.upTo} ` : ""}${w.money(-o.net)}`)}</button>`}</p>
     <p>${esc(x.option[o.type])}</p>
     ${o.wording ? `<blockquote class="law-text" lang="de">${esc(x.legal(o.wording))}</blockquote>` : ""}
   </li>`).join("")}</ol>`;

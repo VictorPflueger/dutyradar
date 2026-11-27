@@ -51,17 +51,17 @@
          When the decision moves a figure, its tile keeps the old value struck through (vc-stat__was). Each
          tile opens what it counts (data-open): the clusters, the relief's derivation, the reporting duties. -->
     <div class="kpis" role="group" aria-label="Key figures" data-i18n-attr="aria-label:kpis.label">
-      <button type="button" class="kpi vc-stat" id="kpi-twice" data-open="clusters" data-vc-kpi="Asked twice" data-vc-kpi-de="Doppelt gefragt">
+      <button type="button" class="kpi vc-stat" id="kpi-twice" aria-haspopup="dialog" aria-controls="panel" data-open="clusters" data-vc-kpi="Asked twice" data-vc-kpi-de="Doppelt gefragt">
         <span class="vc-stat__label">Asked twice</span>
         <span class="vc-stat__value kpi-value"><span class="kpi-main">203</span><span class="kpi-of"> of 745</span></span>
         <span class="vc-stat__note kpi-note">duties in clusters</span>
       </button>
-      <button type="button" class="kpi vc-stat" id="kpi-stake" data-open="derive:merge" data-vc-kpi="Relief at stake a year" data-vc-kpi-de="Offene Entlastung pro Jahr">
+      <button type="button" class="kpi vc-stat" id="kpi-stake" aria-haspopup="dialog" aria-controls="panel" data-open="derive:merge" data-vc-kpi="Relief at stake a year" data-vc-kpi-de="Offene Entlastung pro Jahr">
         <span class="vc-stat__label">Relief at stake a year</span>
         <span class="vc-stat__value kpi-value"><s class="vc-stat__was" hidden></s><span class="kpi-pre">up to</span> <span class="kpi-main">€1.51m</span></span>
         <span class="vc-stat__note kpi-note">assumed: 22,217 file both</span>
       </button>
-      <button type="button" class="kpi vc-stat" id="kpi-cut" data-open="duties:MELDEPFLICHT" data-vc-kpi="Reporting duties cut" data-vc-kpi-de="Gestrichene Meldepflichten">
+      <button type="button" class="kpi vc-stat" id="kpi-cut" aria-haspopup="dialog" aria-controls="panel" data-open="duties:MELDEPFLICHT" data-vc-kpi="Reporting duties cut" data-vc-kpi-de="Gestrichene Meldepflichten">
         <span class="vc-stat__label">Reporting duties cut</span>
         <span class="vc-stat__value kpi-value"><s class="vc-stat__was" hidden></s><span class="kpi-main">0</span><span class="kpi-of"> of 107</span></span>
         <span class="vc-stat__note kpi-note">target: a third of 320</span>
@@ -96,7 +96,7 @@
       <li class="vc-step" data-step="decide" data-person="true"><button type="button" class="vc-step__button"><span class="vc-step__marker" aria-hidden="true">5</span><span class="vc-step__label"><span class="step-name">You decide</span><span class="vc-step__hint">1 decision</span></span></button></li>
     </ol>
     <!-- The ladder from law to relief (DR-01): every term with its count and a one-line definition. -->
-    <button type="button" class="vc-button vc-button--secondary ladder-open" id="ladder-open" data-open="ladder"><span class="vc-icon vc-icon--list" aria-hidden="true"></span><span data-i18n="ladder.open">What each number counts</span></button>
+    <button type="button" class="vc-button vc-button--secondary ladder-open" id="ladder-open" aria-haspopup="dialog" aria-controls="panel" data-open="ladder"><span class="vc-icon vc-icon--list" aria-hidden="true"></span><span data-i18n="ladder.open">What each number counts</span></button>
     <span class="vc-tooltip-anchor">
       <button type="button" class="vc-icon-button restart" id="restart" aria-labelledby="tip-restart"><span class="vc-icon vc-icon--refresh" aria-hidden="true"></span></button>
       <span class="vc-tooltip vc-tooltip--bottom" role="tooltip" id="tip-restart" data-i18n="restart.tip">Back to the start</span>

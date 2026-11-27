@@ -143,6 +143,6 @@ export function drawLaws(body, inv, x, families) {
   const law = new Map(inv.laws.map((l) => [l.id, l]));
   body.innerHTML = `${families.map((f) => `<section class="laws-topic"><h3>${esc(f.name)}</h3><ol class="laws-list">${f.norms.map((id) => law.get(id)).map((l) => `<li class="law-item" data-id="${l.id}">
     <p><strong>${esc(L.law(l.id))}</strong> <span class="law-item-abbr">${esc(l.abbr)}</span> · ${link(l.url, l.title)}</p>
-    <p class="law-facts">${esc(L.lawItem(l).split(" · ").slice(0, -1).join(" · "))} · <button type="button" class="count" data-open="law:${l.id}">${esc(L.lawItem(l).split(" · ").pop())}</button></p>
+    <p class="law-facts">${esc(L.lawItem(l).split(" · ").slice(0, -1).join(" · "))} · <button type="button" class="count" aria-haspopup="dialog" aria-controls="panel" data-open="law:${l.id}">${esc(L.lawItem(l).split(" · ").pop())}</button></p>
   </li>`).join("")}</ol></section>`).join("")}<p class="panel-note">${esc(x.title.laws[1])}</p>`;
 }

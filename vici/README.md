@@ -1,11 +1,10 @@
 # Vici, copied into this prototype
 
 These files come unchanged from Vici, Victor Pflüger's design system
-(<https://victorpflueger.github.io/ViciDesign/index.html>), from its main branch at commit **`d04a318`**
-(25 November 2026), on the way to Vici 2.0. Since the last copy (`484b49a`) Vici's stylesheet and script
-gained the live-run dialog, the report and the drop zone, 40 px targets for every control, a still backdrop
-under reduced motion and a focus ring that shows inside a scrolling dialog body; its files still call
-themselves 1.0.0 until 2.0 is released. The prototype loads them from here rather than from a CDN, so every
+(<https://victorpflueger.github.io/ViciDesign/index.html>), from its main branch at commit **`21d6941`**
+(27 November 2026), on the way to Vici 2.0. Since the last copy (`d04a318`) Vici's stylesheet gained a count
+that opens what it counts (`.vc-count`, and a stat card that is a button), one of the lessons this prototype
+gave back; its files still call themselves 1.0.0 until 2.0 is released. The prototype loads them from here rather than from a CDN, so every
 page is served from this site alone.
 
 | File here | What it is |

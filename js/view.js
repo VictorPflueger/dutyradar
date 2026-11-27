@@ -12,7 +12,7 @@ const setText = (el, text) => { if (el.textContent !== text) el.textContent = te
 export const setBars = (root) => { for (const el of root.querySelectorAll("[data-p]")) el.style.setProperty("--p", el.dataset.p); };
 
 /** A sentence whose counts are buttons: strings stay text, { text, open } become a count (DR-03, DR-04). */
-export const partsHtml = (parts) => (Array.isArray(parts) ? parts : [parts]).map((x) => (typeof x === "string" ? esc(x) : `<button type="button" class="count" data-open="${esc(x.open)}">${esc(x.text)}</button>`)).join("");
+export const partsHtml = (parts) => (Array.isArray(parts) ? parts : [parts]).map((x) => (typeof x === "string" ? esc(x) : `<button type="button" class="count" aria-haspopup="dialog" aria-controls="panel" data-open="${esc(x.open)}">${esc(x.text)}</button>`)).join("");
 /** Writes parts into an element, only when they changed, so a count keeps its focus while the page redraws. */
 export function setParts(el, parts) {
   const html = partsHtml(parts);
@@ -84,7 +84,7 @@ export function createLawMap(F) {
   box.innerHTML = COLUMNS.map((col) => `<div class="lawmap-col">${head}${col.map((fid) => `
     <section class="topic" data-topic="${esc(fid)}" aria-labelledby="topic-${esc(fid)}">
       <h3 class="topic-name" id="topic-${esc(fid)}"></h3>
-      <ol class="laws">${families.get(fid).norms.map((id) => `<li><button type="button" class="law" data-id="${esc(id)}" data-open="law:${esc(id)}" data-state="unread" data-dim="false" data-pick="" data-hl="false" data-selected="false"><span class="law-name"></span><span class="law-abbr">${esc(byId.get(id).abbr)}</span><span class="law-duties"><span class="law-bar" aria-hidden="true"><span class="law-fill" data-p="${(byId.get(id).duties / max).toFixed(4)}"></span></span><span class="law-n"></span><span class="vc-visually-hidden law-unit"></span></span><span class="law-twice"><span class="law-k"></span><span class="vc-visually-hidden law-unit2"></span></span><span class="law-pair" aria-hidden="true"></span></button></li>`).join("")}</ol>
+      <ol class="laws">${families.get(fid).norms.map((id) => `<li><button type="button" class="law" data-id="${esc(id)}" aria-haspopup="dialog" aria-controls="panel" data-open="law:${esc(id)}" data-state="unread" data-dim="false" data-pick="" data-hl="false" data-selected="false"><span class="law-name"></span><span class="law-abbr">${esc(byId.get(id).abbr)}</span><span class="law-duties"><span class="law-bar" aria-hidden="true"><span class="law-fill" data-p="${(byId.get(id).duties / max).toFixed(4)}"></span></span><span class="law-n"></span><span class="vc-visually-hidden law-unit"></span></span><span class="law-twice"><span class="law-k"></span><span class="vc-visually-hidden law-unit2"></span></span><span class="law-pair" aria-hidden="true"></span></button></li>`).join("")}</ol>
     </section>`).join("")}</div>`).join("");
   setBars(box);
   const rows = new Map([...box.querySelectorAll("button.law")].map((el) => [el.dataset.id, el]));
@@ -191,7 +191,7 @@ function duty(F, w) {
 function twin(F, w) {
   const c = F.D.cluster;
   return `<article class="ev ev-twin">
-    <header class="ev-head ev-head--row"><p class="ev-label">${esc(w.evidence.twin)}</p><button type="button" class="vc-button vc-button--outline compare-open" id="compare-open" data-open="compare">${esc(w.evidence.compare)}</button></header>
+    <header class="ev-head ev-head--row"><p class="ev-label">${esc(w.evidence.twin)}</p><button type="button" class="vc-button vc-button--outline compare-open" id="compare-open" aria-haspopup="dialog" aria-controls="panel" data-open="compare">${esc(w.evidence.compare)}</button></header>
     <div class="twin">${c.members.map((mem, i) => `<section class="twin-law">${lawHead(mem, w, "AB"[i])}<blockquote class="law-text" lang="de">${lawText(mem.sentence, mem.phrase.start, mem.phrase.end)}</blockquote></section>`).join("")}</div>${gloss(w.evidence.twinGloss)}
     <div class="shared"><p class="shared-label">${esc(w.evidence.shared)}</p><ul class="chips">${c.shared.map((i) => `<li><span class="vc-tag vc-tag--feature">${esc(w.item(i.id))}</span></li>`).join("")}</ul></div>
   </article>`;
@@ -205,8 +205,8 @@ function options(F, w, compact = false) {
       const value = -F.option[type].net;
       const derive = type === "keep" ? "" : `derive:${type}`;
       // Every euro opens where it comes from (DR-06): the value itself, and in full a line that says so.
-      const shown = derive ? `<button type="button" class="opt-value count" data-open="${derive}">${esc(w.money(value))}</button>` : `<span class="opt-value">${esc(w.money(value))}</span>`;
-      const detail = compact || !w.evidence.option[type].detail ? "" : `<span class="opt-detail">${esc(w.evidence.option[type].detail)}${derive ? ` <button type="button" class="opt-where" data-open="${derive}">${esc(w.evidence.where)}</button>` : ""}</span>`;
+      const shown = derive ? `<button type="button" class="opt-value count" aria-haspopup="dialog" aria-controls="panel" data-open="${derive}">${esc(w.money(value))}</button>` : `<span class="opt-value">${esc(w.money(value))}</span>`;
+      const detail = compact || !w.evidence.option[type].detail ? "" : `<span class="opt-detail">${esc(w.evidence.option[type].detail)}${derive ? ` <button type="button" class="opt-where" aria-haspopup="dialog" aria-controls="panel" data-open="${derive}">${esc(w.evidence.where)}</button>` : ""}</span>`;
       return `<li class="opt" data-type="${type}"><span class="opt-name">${esc(w.evidence.option[type].name)}</span><span class="opt-bar" aria-hidden="true"><span class="opt-fill" data-p="${(value / top).toFixed(4)}"></span></span>${shown}${detail}</li>`;
     }).join("")}</ol>
   </article>`;

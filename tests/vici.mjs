@@ -3,7 +3,8 @@
 // (writingProblems: no eyebrow, no numbered middle-dot heading, no bold-label list item, no em dash as
 // punctuation, no stock word), the AI notice (aiNoticeProblems: the page starts no live run, so it needs
 // none), the security policy (policyProblems), the session-only data rule (storageProblems: only the
-// language and theme modules touch web storage) and names, not record ids (recordIdProblems, with every
+// language and theme modules touch web storage), counts that open what they count (countProblems: the key
+// figures) and names, not record ids (recordIdProblems, with every
 // id of data/story.js and data/inventory.js), on the page, on every sentence the steps, the ladder, the
 // lists, the comparison and the derivation write, and on the docs. tests/showcase.mjs runs the record ids
 // and the stored keys over the rendered screens too. Node.js only.
@@ -45,6 +46,7 @@ const aiNoticeProblems = await load("lib/ai.mjs", "check-ai.mjs", "aiNoticeProbl
 const recordIdProblems = await load("lib/ids.mjs", "check-ids.mjs", "recordIdProblems");
 const policyProblems = await load("lib/policy.mjs", "check-policy.mjs", "policyProblems");
 const storageProblems = await load("lib/storage.mjs", "check-storage.mjs", "storageProblems");
+const countProblems = await load("lib/counts.mjs", "check-counts.mjs", "countProblems");
 console.log = log;
 
 const results = [];
@@ -141,6 +143,14 @@ for (const doc of ["README.md", "DEMO_SCRIPT.md", "DESIGN.md", "DATA_SOURCES.md"
   const p = writingProblems(`<html lang="en-GB"><body><p>${text.replace(/</g, "&lt;")}</p></body></html>`);
   check(!p.length, `writing: ${doc} keeps the writing rules${p.length ? `: ${p.join("; ")}` : ""}`);
 }
+
+// ---- the counts ---------------------------------------------------------------------------------------------
+// A count opens what it counts (Vici's Data display): the key figures are stat cards that are buttons, each with
+// its number, opening the panel beside the story. The story's own counts are drawn by js/view.js and carry the
+// same aria-controls; tests/panels.mjs opens them.
+const counted = countProblems(html);
+check(!counted.length, `counts: the three key figures are buttons with their number that open the panel on the page${counted.length ? `: ${counted.join("; ")}` : ""}`);
+check(countProblems(html.replace('aria-controls="panel"', 'aria-controls="nowhere"')).length > 0, "control: a key figure that opens what isn't on the page is caught");
 
 // ---- the policy and the stores -------------------------------------------------------------------------------
 const pol = policyProblems(html);
