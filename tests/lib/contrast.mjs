@@ -64,6 +64,8 @@ export const contrastShortfalls = (page) => page.evaluate(() => {
     if (fadingIn(el)) { fading += 1; continue; }
     const bg = background(el);
     const ink = parse(cs.color);
+    // Text drawn in a transparent colour shows nothing to read (a done step's number under its tick).
+    if (ink.a === 0) continue;
     const fg = over({ ...ink, a: ink.a * opacity }, bg);
     const [hi, lo] = [lum(fg), lum(bg)].sort((a, b) => b - a);
     const ratio = (hi + 0.05) / (lo + 0.05);
