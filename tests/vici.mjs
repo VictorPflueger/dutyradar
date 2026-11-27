@@ -138,7 +138,7 @@ for (const lang of Object.keys(LANGS)) {
   const ids = [...recordIdProblems(said.join("\n"), IDS), ...recordIdProblems(html, IDS)];
   check(!ids.length, `record ids: none of the ${IDS.length} ids of data/story.js in the ${said.length} ${LANGS[lang]} sentences and labels or in index.html${ids.length ? `: ${ids.join("; ")}` : ""}`);
 }
-for (const doc of ["README.md", "DEMO_SCRIPT.md", "DESIGN.md", "DATA_SOURCES.md"]) {
+for (const doc of ["README.md", "DEMO_SCRIPT.md", "DESIGN.md", "DATA_SOURCES.md", "REVIEW.md"]) {
   const text = readFileSync(path.join(APP_ROOT, doc), "utf8").replace(/```[\s\S]*?```/g, "").replace(/`[^`]*`/g, "");
   const p = writingProblems(`<html lang="en-GB"><body><p>${text.replace(/</g, "&lt;")}</p></body></html>`);
   check(!p.length, `writing: ${doc} keeps the writing rules${p.length ? `: ${p.join("; ")}` : ""}`);
