@@ -80,7 +80,9 @@ function fill(ol, items, render) {
  */
 export async function drawDuties(body, inv, x, lang, { law = null, flagged = false, pressed = null } = {}) {
   const L = x.lists;
-  const duties = inv.duties.filter((d) => !law || d.law === law);
+  // The list opens where the story is: the two duties of the priced cluster first, then the rest in the map's order.
+  const pair = new Set(inv.clusters.find((c) => c.priced)?.duties || []);
+  const duties = inv.duties.filter((d) => !law || d.law === law).sort((a, b) => pair.has(b.id) - pair.has(a.id));
   const gone = flagged ? inv.discarded : [];
   const count = (key, val) => duties.filter((d) => d[key] === val).length;
   const chip = (id, label, n) => `<button type="button" class="filter vc-chip vc-chip--sm" data-filter="${id}" data-count="${n}" aria-pressed="${pressed === id}">${esc(label)} <span class="filter-count">${n}</span></button>`;

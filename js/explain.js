@@ -49,7 +49,7 @@ export function explain(F, lang) {
     agent: (d) => (de ? `${typeName(d.type, lang)} der ${d.addressee === "verwaltung" ? "Verwaltung" : "Wirtschaft"}, ${dueName(d, lang)}` : `${typeName(d.type, lang)} of ${addresseeName(d.addressee, lang)}, ${dueName(d, lang)}`),
     discardedReading: de ? "Eine Befugnis oder ein Verweis, keine eigene Pflicht." : "A power or a cross-reference, not a duty of its own.",
     asks: de ? "Fragt nach" : "Asks for",
-    population: (p, units, capped) => `${de ? "Betroffen" : "Who carries it"}: ${(de ? p.de : p.en).replace(/^./, (ch) => (de ? ch : ch.toLowerCase()))}, ${capped ? (de ? `höchstens ${n(units)} nach amtlichen Zählungen` : `at most ${n(units)} by public counts`) : `${n(units)}, ${de ? "angenommen" : "assumed"}`}`,
+    population: (p, units, capped) => `${de ? "Betroffen" : "Who carries it"}: ${(de ? p.de : p.en).replace(/^./, (ch) => (de ? ch : ch.toLowerCase()))}, ${capped ? (de ? `höchstens ${n(units)} nach amtlichen Zählungen` : `at most ${n(units)} by public counts`) : `${n(units)}, ${de ? "vom nachgespielten Lauf angenommen" : "as the replayed run assumed"}`}`,
     inCluster: (size, laws, priced) => (de
       ? `Im Bündel mit ${n(size)} Pflichten aus ${laws}${priced ? ", dem bepreisten" : ", in diesem Lauf nicht bepreist"}`
       : `In a cluster of ${n(size)} duties from ${laws}${priced ? ", the one priced" : ", not priced in this run"}`),
