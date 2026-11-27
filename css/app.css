@@ -389,6 +389,7 @@ html { font-size: clamp(93.75%, 0.48vw + 50%, 112.5%); }
 .derive .assumed { margin: 0; padding: 6px 10px; background: var(--vc-warning-bg); border-inline-start: 3px solid var(--vc-warning-border); color: var(--vc-text); }
 .inputs th[scope="row"] { font-weight: var(--vc-weight-medium); }
 .inputs .input-source { color: var(--vc-text-muted); }
+.inputs tr[data-current="true"] > * { background: var(--vc-feature-bg); }
 .kind { display: inline-block; padding: 0 6px; border: 1px solid var(--vc-border); font-size: 0.75rem; font-weight: var(--vc-weight-semibold); white-space: nowrap; }
 .kind[data-kind="assumed"], .kind[data-kind="cap"] { background: var(--vc-warning-bg); border-color: var(--vc-warning-border); color: var(--vc-warning-text); }
 .kind[data-kind="law"] { background: var(--vc-info-bg); border-color: var(--vc-info-border); color: var(--vc-info-text); }

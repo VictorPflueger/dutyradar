@@ -85,13 +85,27 @@ export function createPanel({ F, getState, onMark, onSelect, onGo }) {
     const x = explain(F, lang);
     const [k, arg] = kind.split(":");
     const body = $("panel-body");
+    // A count opens its list at the top, never where the last list was left.
+    body.scrollTop = 0;
     dlg.dataset.kind = kind;
     dlg.dataset.ready = "false";
     let title = [];
     const set = ([t, sub]) => { $("panel-title").textContent = t; $("panel-sub").innerHTML = sub ? partsHtml(sub) : ""; };
-    if (k === "ladder") { title = x.title.ladder; body.innerHTML = ladderHtml(x, index); }
+    if (k === "ladder") {
+      title = x.title.ladder;
+      body.innerHTML = ladderHtml(x, index);
+      // From step 3 on, the ladder opens at the current step's rungs, which sit below the first screenful.
+      const rung = index >= 2 ? body.querySelector('.rung[data-current="true"]') : null;
+      if (rung) body.scrollTop = Math.max(0, rung.getBoundingClientRect().top - body.getBoundingClientRect().top - 12);
+    }
     else if (k === "compare") { title = x.compare.title; body.innerHTML = compareHtml(x); }
-    else if (k === "derive") { title = x.title.derive(arg === "businesses" ? "merge" : arg); body.innerHTML = deriveHtml(x, arg === "businesses" ? "merge" : arg); }
+    else if (k === "derive") {
+      title = x.title.derive(arg === "businesses" ? "merge" : arg);
+      body.innerHTML = deriveHtml(x, arg === "businesses" ? "merge" : arg);
+      // The count of businesses opens the derivation at its own row, marked as the chosen count's.
+      const row = arg === "businesses" ? body.querySelector('[data-input="businesses"]') : null;
+      if (row) { row.dataset.current = "true"; body.scrollTop = Math.max(0, row.getBoundingClientRect().top - body.getBoundingClientRect().top - 12); }
+    }
     else if (k === "options") { title = x.title.options; body.innerHTML = optionsHtml(F, x, w); }
     else {
       body.innerHTML = `<p class="panel-note">${esc(x.lists.loading)}</p>`;
@@ -113,7 +127,6 @@ export function createPanel({ F, getState, onMark, onSelect, onGo }) {
     }
     set(title);
     setBars(body);
-    if (kind === "derive:businesses") $("panel-body").querySelector('tr[data-input="businesses"]')?.scrollIntoView({ block: "center" });
     // Ready once the list is in and the panel has slid in.
     await settled;
     if (mine === token) dlg.dataset.ready = "true";

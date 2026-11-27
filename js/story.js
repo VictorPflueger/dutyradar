@@ -68,7 +68,7 @@ export function nameOf(id, lang) {
 }
 /** 1.0.0's reason codes as the screen says them: the reason, never the code. */
 export const REASONS = {
-  Z1: { en: "because both ask for the same data", de: "weil beide dieselben Daten abfragen" },
+  Z1: { en: "because both ask for the same items", de: "weil beide dieselben Angaben abfragen" },
   Z2: { en: "because the register holds the data", de: "weil das Register die Daten führt" },
   A3: { en: "because the department needs both", de: "weil das Fachressort beide braucht" }
 };
