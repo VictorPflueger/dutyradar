@@ -1090,6 +1090,40 @@ window.DUTY_RADAR = {
    "risk": []
   }
  ],
+ "derivation": {
+  "one": {
+   "reports": 720000,
+   "hours": 120000,
+   "personnel": 4632000,
+   "material": 360000,
+   "cost": 4992000
+  },
+  "both": 9984000,
+  "lead": "D-hdldlstatg-p11-1",
+  "added": {
+   "items": 5,
+   "shared": 4,
+   "contained": 0.8,
+   "minutes": 10
+  },
+  "merged": {
+   "reports": 720000,
+   "hours": 144000,
+   "personnel": 5558400,
+   "material": 360000,
+   "cost": 5918400
+  },
+  "relief": 4065600,
+  "admin": {
+   "reports": 720000,
+   "hours": 24000,
+   "personnel": 1065600,
+   "material": 0,
+   "cost": 1065600
+  },
+  "registerNet": 3926400,
+  "oneOff": 250000
+ },
  "sensitivity": [
   {
    "share": 1,

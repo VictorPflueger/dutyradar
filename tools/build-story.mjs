@@ -38,6 +38,7 @@ const { loadI18n } = await load("js/i18n.js");
 const { createRunState } = await load("js/state.js");
 const { replayRun } = await load("js/simulation.js");
 const { auditText } = await load("js/engine/auditor.js");
+const { dutyCost, registerDelta, mergeDelta, shareContained } = await load("js/engine/cost.js");
 const { loadBundled } = await load("tests/lib/data-node.mjs");
 await loadI18n(async (p) => new Response(readFileSync(path.join(LEGACY, p))));
 const json = (...p) => JSON.parse(readFileSync(path.join(LEGACY, ...p), "utf8"));
@@ -227,6 +228,28 @@ if (verdict.pass) throw new Error("1.0.0's fact auditor no longer blocks the fir
 const check = { blocked: resolve(blocked.wording), tokens: verdict.violations.map((v) => v.token), redraft: resolve(drafts.find((d) => d !== blocked).wording) };
 if (auditText(drafts.find((d) => d !== blocked).wording, { ...S.auditContext(), lang: "de" }).pass !== true) throw new Error("1.0.0's fact auditor blocks the redraft");
 
+// ---- every step of the arithmetic, by 1.0.0's cost engine (DR-06) ------------------------------------------------
+// The derivation shows the method's arithmetic step by step; each figure in it is an output of 1.0.0's cost
+// functions for the inputs above, so the page prints them and computes none.
+const costOf = (p) => { const c = dutyCost(p); return { reports: c.fallzahl, hours: c.hours_per_year, personnel: c.personnel_eur, material: c.material_eur, cost: c.ea_annual_eur }; };
+const mergeMembers = cluster.duty_ids.map((id) => ({ duty_id: id, params: S.paramsFor(id), items: S.duties.get(id).data_items }));
+const md = mergeDelta(mergeMembers);
+const other = mergeMembers.find((m) => m.duty_id !== md.lead);
+const leadItems = mergeMembers.find((m) => m.duty_id === md.lead).items;
+const rd = registerDelta(lead, { one_off_eur: oneOff.eur });
+const derivation = {
+  one: costOf(lead),
+  both: md.sum_before_eur,
+  lead: md.lead,
+  added: { items: other.items.length, shared: other.items.filter((i) => leadItems.includes(i)).length, contained: shareContained(other.items, leadItems), minutes: S.paramsFor(other.duty_id).minutes_per_case },
+  merged: costOf({ ...lead, minutes_per_case: md.merged_minutes, material_eur_per_case: md.merged_material_eur_per_case }),
+  relief: -md.delta_ea_eur,
+  admin: costOf({ ...lead, minutes_per_case: lead.admin_minutes_per_case, wage_eur_per_hour: lead.admin_wage_eur_per_hour, material_eur_per_case: 0 }),
+  registerNet: -rd.delta_ea_eur,
+  oneOff: rd.one_off_eur
+};
+if (derivation.merged.cost !== md.ea_merged_eur || derivation.relief !== -factValue(merge, "net_delta") || derivation.admin.cost !== rd.admin_annual_eur || derivation.registerNet !== -factValue(S.options.get(DECISIONS.register_retrieval.option_id), "net_delta")) throw new Error("The derivation differs from the options' figures");
+
 // ---- how far the merge's relief rests on the assumed businesses (D4) --------------------------------------------
 // Only businesses that file both reports gain from merging them. 1.0.0's assumption editor sets both members'
 // population to a share of the assumed businesses, and its engines price the options again.
@@ -345,6 +368,7 @@ const story = {
   inputs,
   guide,
   options,
+  derivation,
   sensitivity,
   compare,
   check,
